@@ -13,5 +13,6 @@ The releases can be found at the [release tab of this repository](https://github
 If any issue is found or question is needed feel free to open a ticket at the [issues of this repository](https://github.com/OriolCS2/CometEngine/issues) and a response will be made as soon as possible.
 
 ## Teaser
-Youtube video of how Comet Engine was at 2022 (3 years before 1.0 was released). A new video with all the 1.0 features will be released soon, but at least it show how Comet works.
+[Youtube video](https://www.youtube.com/watch?v=zLf-vsr-gkk) of how Comet Engine was at 2022 (3 years before 1.0 was released). A new video with all the 1.0 features will be released soon, but at least it show how Comet works.
+
 [![Alt text](https://img.youtube.com/vi/zLf-vsr-gkk/0.jpg)](https://www.youtube.com/watch?v=zLf-vsr-gkk)

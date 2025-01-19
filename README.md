@@ -9,12 +9,24 @@
 
 # Getting the engine
 ## Before downloading
-It is needed to have some dependencies in order to run scripting system of CometEngine.
+It is needed to have some dependencies in order to run CometEngine.
 ### Windows dependencies
-- Dotnet: [.NET 9.0](https://dotnet.microsoft.com/en-us/download)
+- [.NET 9.0](https://dotnet.microsoft.com/en-us/download)
 - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
 - [.NET Core3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1)
 - Microsoft Visual C++ 2015-2022 Redistributable
+### Linux dependencies (Debian 10 Example)
+- Mono Devel: ```sudo apt install mono-devel```
+- Microsoft Packages:
+  ```
+  wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  sudo dpkg -i packages-microsoft-prod.deb
+  rm packages-microsoft-prod.deb
+  sudo apt-get update
+  ```
+- Dotnet: ```sudo apt-get install -y dotnet-sdk-6.0```
+- Devil: ```sudo apt-get install libdevil-dev```
+
 
 ## Downloading
 The releases can be found at the [release tab of this repository](https://github.com/OriolCS2/CometEngine/releases). It is recommended to download/install the last release available. In order to execute Comet Engine it is just needed to open the main executable named as CometEngine as well.

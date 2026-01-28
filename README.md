@@ -1,39 +1,20 @@
 # Comet Engine
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/39681be9-84a4-4f76-a429-67d1b4a5199e" alt="Alt Text" width="120" height="120">
+  <img src="https://github.com/user-attachments/assets/f4d0e433-f46c-4c75-8e03-526a7f3bfbf4" alt="Alt Text" width="120" height="120">
 </p>
 
-[Comet Engine](https://github.com/OriolCS2/CometEngine) is a 2D game engine made with C++ and C# scripting system (soon it will be [Angelscript](https://github.com/anjo76/angelscript)). It is being developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 but its code is still private.
+[Comet Engine](https://github.com/OriolCS2/CometEngine) is a cross platform (Windows, Linux, Web and Android-under development-) 2D game engine made with C++ and [Angelscript](https://github.com/anjo76/angelscript) for scripting system. It is being developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 but its code is still private.
 
 ![image](https://github.com/user-attachments/assets/d2f836b4-9cd4-4a5d-868c-e1c055b70c26)
 
 # Getting the engine
-## Before downloading
-It is needed to have some dependencies in order to run CometEngine.
-### Windows dependencies
-- [.NET 9.0](https://dotnet.microsoft.com/en-us/download)
-- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
-- [.NET Core3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1)
-- Microsoft Visual C++ 2015-2022 Redistributable
-### Linux dependencies (Debian 10 Example)
-- Mono Devel: ```sudo apt install mono-devel```
-- Microsoft Packages:
-  ```
-  wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  sudo dpkg -i packages-microsoft-prod.deb
-  rm packages-microsoft-prod.deb
-  sudo apt-get update
-  ```
-- Dotnet: ```sudo apt-get install -y dotnet-sdk-6.0```
-- Devil: ```sudo apt-get install libdevil-dev```
-
-
 ## Downloading
 The releases can be found at the [release tab of this repository](https://github.com/OriolCS2/CometEngine/releases). It is recommended to download/install the last release available. In order to execute Comet Engine it is just needed to open the main executable named as CometEngine as well.
 
 If any issue is found or question is needed feel free to open a ticket at the [issues of this repository](https://github.com/OriolCS2/CometEngine/issues) and a response will be made as soon as possible.
 
 ## Teaser
-[Youtube video](https://www.youtube.com/watch?v=zLf-vsr-gkk) of how Comet Engine was at 2022 (3 years before 1.0 was released). A new video with all the 1.0 features will be released soon, but at least it shows how Comet works.
+
+[Youtube video](https://www.youtube.com/watch?v=zLf-vsr-gkk) of how Comet Engine was at 2022, 3 years before 1.0 was released and before switching C# Scripting to AngelScript. A new video with the 2.0 will be released this year as a lot of changes and upgrades have been made!
 
 [![Alt text](https://img.youtube.com/vi/zLf-vsr-gkk/0.jpg)](https://www.youtube.com/watch?v=zLf-vsr-gkk)

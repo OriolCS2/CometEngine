@@ -15,6 +15,6 @@ If any issue is found or question is needed feel free to open a ticket at the [i
 
 ## Teaser
 
-[Youtube video](https://www.youtube.com/watch?v=zLf-vsr-gkk) of how Comet Engine was at 2022, 3 years before 1.0 was released and before switching C# Scripting to AngelScript. A new video with the 2.0 will be released this year as a lot of changes and upgrades have been made!
+[Youtube video](https://www.youtube.com/watch?v=zLf-vsr-gkk) of how Comet Engine was at 2022, 3 years before 1.0 was released and before switching C# Scripting to AngelScript. A new video with the 2.0 will be released during 2026 as a lot of changes and upgrades have been made!
 
 [![Alt text](https://img.youtube.com/vi/zLf-vsr-gkk/0.jpg)](https://www.youtube.com/watch?v=zLf-vsr-gkk)

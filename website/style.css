@@ -367,11 +367,19 @@ h2 {
 .markdown-content p {
   margin-bottom: 1rem;
 }
-.markdown-content ul, .markdown-content ol {
-  margin-left: 1.5rem;
+.markdown-content ul {
+  list-style: disc;
+  margin-left: 2rem;
   margin-bottom: 1rem;
 }
-.markdown-content li {
+.markdown-content ol {
+  list-style: decimal;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+.markdown-content ul li,
+.markdown-content ol li {
+  list-style: inherit;
   margin-bottom: 0.25rem;
 }
 .markdown-content code {

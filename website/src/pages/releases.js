@@ -120,11 +120,15 @@ function createFeaturedCard(release, label) {
       <h3 style="font-size: 1.8rem;"><a href="#releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
       <div style="color: var(--text-dim); font-size: 0.9rem;">${new Date(release.published_at).toLocaleDateString()}</div>
     </div>
-    <div class="markdown-content" style="margin: 1.5rem 0; color: var(--text-dim); font-size: 0.95rem; height: 300px; overflow-y: auto; padding-right: 1rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+    <div class="markdown-content" style="
+      ul { list-style: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+      ol { list-style: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
+      li { margin-bottom: 0.25rem; }
+      height: 300px; overflow-y: auto; padding-right: 1rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
       ${mdContent}
     </div>
-    <div style="margin-top: auto;">
-      <a href="#releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center;">Download</a>
+    <div style="margin-top: auto; padding-top: 1.5rem;">
+      <a href="#releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center; display: flex; align-items: center;">Download</a>
     </div>
   `;
   return div;
@@ -158,15 +162,15 @@ async function renderReleaseDetail(container, tagName) {
           <a href="#releases" style="color: var(--accent-color); margin-bottom: 2rem; display: inline-block;">
             <i class="fas fa-arrow-left"></i> Back to All Releases
           </a>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-            <div>
-              <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem; line-height: 1.2;">${release.name || release.tag_name}</h1>
-              <div style="display: flex; gap: 1rem; align-items: center;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem; gap: 2rem;">
+            <div style="flex: 1;">
+              <h1 style="font-size: 3.5rem; margin: 0; line-height: 1.1;">${release.name || release.tag_name}</h1>
+              <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
                 <span class="tag ${release.prerelease ? 'tag-rc' : 'tag-stable'}">${release.prerelease ? 'Pre-release' : 'Stable'}</span>
                 <span style="color: var(--text-dim);">${new Date(release.published_at).toLocaleDateString()}</span>
               </div>
             </div>
-            <a href="${release.html_url}" target="_blank" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); height: fit-content;">
+            <a href="${release.html_url}" target="_blank" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); flex-shrink: 0; padding: 0.75rem 1.5rem; font-size: 1rem;">
               <i class="fab fa-github"></i> View on GitHub
             </a>
           </div>

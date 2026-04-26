@@ -107,6 +107,9 @@ async function loadApiData() {
               default: p.getAttribute('default'),
             }));
 
+            const rType = member.getAttribute('return');
+            const fType = member.getAttribute('type');
+
             current._members.push({
               type: typePrefix,
               fullName,
@@ -114,7 +117,9 @@ async function loadApiData() {
               sigTypes,       // raw types from the signature
               summary: member.getElementsByTagName('summary')[0]?.textContent?.trim() || '',
               params,
-              returns: member.getElementsByTagName('returns')[0]?.textContent?.trim() || '',
+              returnType: rType || null,
+              returnDesc: member.getElementsByTagName('return')[0]?.textContent?.trim() || member.getElementsByTagName('returns')[0]?.textContent?.trim() || '',
+              fieldType: fType || null
             });
           } else {
             if (!current[part]) current[part] = {};
@@ -149,8 +154,8 @@ function renderTree(container, data, autoOpen = false) {
       <div class="tree-node ${isActive ? 'active' : ''}" data-path="${nodePath}">
         <span class="tree-toggle" style="width:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
           ${hasChildren
-            ? `<i class="fas ${isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'}" style="font-size:0.75rem;"></i>`
-            : `<i class="fas fa-cube" style="font-size:0.7rem;color:var(--text-dim);"></i>`}
+        ? `<i class="fas ${isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'}" style="font-size:0.75rem;"></i>`
+        : `<i class="fas fa-cube" style="font-size:0.7rem;color:var(--text-dim);"></i>`}
         </span>
         <span class="tree-label" style="cursor:pointer;">${name}</span>
       </div>
@@ -203,9 +208,9 @@ function renderDetail(path) {
 
   const members = current._members || [];
   const classDoc = members.find(m => m.type === 'T');
-  const methods   = members.filter(m => m.type === 'M');
+  const methods = members.filter(m => m.type === 'M');
   const properties = members.filter(m => m.type === 'P');
-  const fields    = members.filter(m => m.type === 'F');
+  const fields = members.filter(m => m.type === 'F');
 
   const childClasses = Object.keys(current).filter(k => k !== '_members').map(k => ({
     name: k,
@@ -214,8 +219,8 @@ function renderDetail(path) {
 
   return `
     <div class="api-member">
-      <div style="color:var(--accent-color);font-weight:600;margin-bottom:0.25rem;font-size:0.9rem;">${parts.slice(0,-1).join('::') || 'Global'}</div>
-      <h1 style="font-size:2.5rem;margin:0 0 1rem;">${parts[parts.length-1]}</h1>
+      <div style="color:var(--accent-color);font-weight:600;margin-bottom:0.25rem;font-size:0.9rem;">${parts.slice(0, -1).join('::') || 'Global'}</div>
+      <h1 style="font-size:2.5rem;margin:0 0 1rem;">${parts[parts.length - 1]}</h1>
       ${classDoc ? `<p style="font-size:1.1rem;color:var(--text-dim);margin-bottom:2rem;">${classDoc.summary}</p>` : ''}
 
       ${childClasses.length > 0 ? `
@@ -249,21 +254,28 @@ function renderDetail(path) {
       ${fields.length > 0 ? `
         <div class="api-section">
           <h3>Fields & Enums</h3>
-          ${fields.map(f => `
-            <div class="api-item">
-              <div class="api-item-name">${f.name}</div>
-              <p style="color:var(--text-dim);">${f.summary}</p>
-            </div>
-          `).join('')}
+          ${fields.map(f => renderFieldItem(f)).join('')}
         </div>
       ` : ''}
     </div>
   `;
 }
 
+function renderFieldItem(f) {
+  const type = f.fieldType || '';
+  return `
+    <div class="api-item">
+      <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
+        ${type ? `<span style="color:#61afef;">${linkType(type)}</span>` : ''}
+        <span style="font-weight:700;color:#fff;">${f.name}</span>
+      </div>
+      <p style="color:var(--text-dim);">${f.summary}</p>
+    </div>
+  `;
+}
+
 function renderPropertyItem(p) {
-  // Type comes from the first sigType or returns field
-  const type = p.sigTypes?.[0] || '';
+  const type = p.fieldType || p.sigTypes?.[0] || '';
   return `
     <div class="api-item">
       <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
@@ -276,7 +288,7 @@ function renderPropertyItem(p) {
 }
 
 function renderMethodItem(m) {
-  const returnType = m.returns ? m.returns.split(/\s/)[0] : 'void';
+  const returnType = m.returnType || 'void';
 
   const paramsDecl = m.params.map(p =>
     `<span style="color:#61afef;">${p.type ? linkType(p.type) : ''}</span>${p.type ? ' ' : ''}<span style="color:#fff;">${p.name || ''}</span>`
@@ -289,9 +301,9 @@ function renderMethodItem(m) {
         <span style="font-weight:700;color:#fff;margin-left:0.4rem;">${m.name}</span>
         <span style="color:var(--text-dim);">(</span>${paramsDecl}<span style="color:var(--text-dim);">)</span>
       </div>
-      <p style="color:var(--text-dim);margin-bottom:${m.params.length > 0 ? '1rem' : '0'};">${m.summary}</p>
+      <p style="color:var(--text-dim);margin-bottom:${(m.params.length > 0 || m.returnDesc) ? '1rem' : '0'};">${m.summary}</p>
       ${m.params.length > 0 ? `
-        <div>
+        <div style="margin-bottom: 1rem;">
           <div style="font-size:0.8rem;text-transform:uppercase;color:var(--accent-color);font-weight:600;margin-bottom:0.5rem;">Parameters</div>
           ${m.params.map(p => `
             <div style="display:flex;gap:1rem;font-size:0.9rem;background:rgba(0,0,0,0.2);padding:0.5rem 1rem;border-radius:4px;margin-bottom:0.25rem;align-items:baseline;flex-wrap:wrap;">
@@ -303,18 +315,38 @@ function renderMethodItem(m) {
           `).join('')}
         </div>
       ` : ''}
+      ${m.returnDesc ? `
+        <div>
+          <div style="font-size:0.8rem;text-transform:uppercase;color:var(--accent-color);font-weight:600;margin-bottom:0.5rem;">Returns</div>
+          <div style="font-size:0.9rem;background:rgba(0,0,0,0.2);padding:0.5rem 1rem;border-radius:4px;color:var(--text-dim); display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap;">
+            ${m.returnType ? `<span style="font-family:monospace;color:#61afef;">${linkType(m.returnType)}</span> <span style="color:var(--text-dim);">— </span> ` : ''}
+            <span>${m.returnDesc}</span>
+          </div>
+        </div>
+      ` : ''}
     </div>
   `;
 }
 
 function linkType(type) {
   if (!type) return '';
-  const clean = type.replace(/[?*&]/g, '').trim();
+  // Unescape common XML entities
+  let unescaped = type.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+  // Handle array<Type> specifically
+  const arrayMatch = unescaped.match(/^array<(.+)>$/);
+  if (arrayMatch) {
+    const innerType = arrayMatch[1];
+    // Recursive call for the inner type
+    return `<span style="color:#61afef;">array&lt;${linkType(innerType)}&gt;</span>`;
+  }
+
+  const clean = unescaped.replace(/[?*&]/g, '').trim();
   const found = allPaths.find(p => p === clean || p.endsWith(`::${clean}`));
   if (found) {
-    return `<a href="#docs/${found}" style="color:#61afef;text-decoration:underline;">${type}</a>`;
+    return `<a href="#docs/${found}" style="color:#61afef;text-decoration:underline;">${unescaped}</a>`;
   }
-  return `<span style="color:#61afef;">${type}</span>`;
+  return `<span style="color:#61afef;">${unescaped}</span>`;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

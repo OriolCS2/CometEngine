@@ -233,7 +233,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           </div>
           <span style="font-size: 0.8rem; color: var(--text-dim);">${(e.size/1024/1024).toFixed(1)} MB</span>
         </a>
-      `).join(``)||`<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">No downloads found for ${e}.</div>`};f(l),d.forEach(e=>{e.addEventListener(`click`,()=>{d.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),f(e.getAttribute(`data-platform`))})})}catch(t){e.innerHTML=`<div class="container" style="padding: 100px 2rem;"><h2>Error loading release details</h2><p>${t.message}</p></div>`}}function Ke(){let e=window.navigator.platform.toLowerCase();return e.includes(`win`)?`windows`:e.includes(`linux`)?`linux`:e.includes(`mac`)?`mac`:`windows`}var q=null,J=[],Y=new Set;async function qe(e,t){let n=!q;n&&(e.innerHTML=`<div class="loading">Parsing documentation...</div>`,q=await Ye(),J=$e(q));let r=decodeURIComponent(t.replace(`#docs`,``).substring(1));if(r){let e=r.split(`::`),t=``;e.forEach(e=>{t=t?`${t}::${e}`:e,Y.add(t)})}n||!document.getElementById(`docs-tree`)?(e.innerHTML=`
+      `).join(``)||`<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">No downloads found for ${e}.</div>`};f(l),d.forEach(e=>{e.addEventListener(`click`,()=>{d.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),f(e.getAttribute(`data-platform`))})})}catch(t){e.innerHTML=`<div class="container" style="padding: 100px 2rem;"><h2>Error loading release details</h2><p>${t.message}</p></div>`}}function Ke(){let e=window.navigator.platform.toLowerCase();return e.includes(`win`)?`windows`:e.includes(`linux`)?`linux`:e.includes(`mac`)?`mac`:`windows`}var q=null,qe=[],J=new Set;async function Je(e,t){let n=!q;n&&(e.innerHTML=`<div class="loading">Parsing documentation...</div>`,q=await Ye(),qe=et(q));let r=decodeURIComponent(t.replace(`#docs`,``).substring(1));if(r){let e=r.split(`::`),t=``;e.forEach(e=>{t=t?`${t}::${e}`:e,J.add(t)})}n||!document.getElementById(`docs-tree`)?(e.innerHTML=`
       <div class="docs-layout">
         <div class="docs-sidebar">
           <div class="docs-sidebar-search">
@@ -242,10 +242,10 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           <div class="docs-sidebar-tree" id="docs-tree"></div>
         </div>
         <div class="docs-content" id="docs-detail">
-          ${r?Xe(r):tt()}
+          ${r?Xe(r):nt()}
         </div>
       </div>
-    `,X(document.getElementById(`docs-tree`),q),Je()):(document.getElementById(`docs-detail`).innerHTML=r?Xe(r):tt(),X(document.getElementById(`docs-tree`),q),document.getElementById(`docs-search`)?.value&&Je())}function Je(){let e=document.getElementById(`docs-search`);e&&e.addEventListener(`input`,e=>{let t=e.target.value.toLowerCase(),n=document.getElementById(`docs-tree`);t.length>0?X(n,et(q,t),!0):X(n,q)})}async function Ye(){let e=[`./docs/CometEngine.xml`,`./docs/CometEngineAdditionals.xml`,`./docs/CometEngineGlobals.xml`],t={};for(let n of e)try{let e=await(await fetch(n)).text(),r=new DOMParser().parseFromString(e,`text/xml`).getElementsByTagName(`member`);for(let e of r){let n=e.getAttribute(`name`),r=n[0],i=n.substring(2),a=i.match(/\(([^)]*)\)/),o=a&&a[1]?a[1].split(`,`).map(e=>e.trim()).filter(Boolean):[],s=i.split(`(`)[0].split(`::`),c=t;for(let t=0;t<s.length;t++){let i=s[t];if(t===s.length-1){c._members||=[];let t=Array.from(e.getElementsByTagName(`param`)).map((e,t)=>({name:e.getAttribute(`name`),type:o[t]||null,desc:e.textContent.trim(),default:e.getAttribute(`default`)}));c._members.push({type:r,fullName:n,name:i,sigTypes:o,summary:e.getElementsByTagName(`summary`)[0]?.textContent?.trim()||``,params:t,returns:e.getElementsByTagName(`returns`)[0]?.textContent?.trim()||``})}else c[i]||(c[i]={}),c=c[i]}}}catch(e){console.error(`Error parsing XML:`,e)}return t}function X(e,t,n=!1){e.innerHTML=``;let r=decodeURIComponent(window.location.hash.replace(`#docs`,``).substring(1)),i=(e,t,a=``)=>{let o=document.createElement(`div`);o.className=`tree-item`;let s=a?`${a}::${e}`:e,c=Object.keys(t).filter(e=>e!==`_members`).length>0,l=n||Y.has(s);o.innerHTML=`
+    `,X(document.getElementById(`docs-tree`),q),Y()):(document.getElementById(`docs-detail`).innerHTML=r?Xe(r):nt(),X(document.getElementById(`docs-tree`),q),document.getElementById(`docs-search`)?.value&&Y())}function Y(){let e=document.getElementById(`docs-search`);e&&e.addEventListener(`input`,e=>{let t=e.target.value.toLowerCase(),n=document.getElementById(`docs-tree`);t.length>0?X(n,tt(q,t),!0):X(n,q)})}async function Ye(){let e=[`./docs/CometEngine.xml`,`./docs/CometEngineAdditionals.xml`,`./docs/CometEngineGlobals.xml`],t={};for(let n of e)try{let e=await(await fetch(n)).text(),r=new DOMParser().parseFromString(e,`text/xml`).getElementsByTagName(`member`);for(let e of r){let n=e.getAttribute(`name`),r=n[0],i=n.substring(2),a=i.match(/\(([^)]*)\)/),o=a&&a[1]?a[1].split(`,`).map(e=>e.trim()).filter(Boolean):[],s=i.split(`(`)[0].split(`::`),c=t;for(let t=0;t<s.length;t++){let i=s[t];if(t===s.length-1){c._members||=[];let t=Array.from(e.getElementsByTagName(`param`)).map((e,t)=>({name:e.getAttribute(`name`),type:o[t]||null,desc:e.textContent.trim(),default:e.getAttribute(`default`)})),a=e.getAttribute(`return`),s=e.getAttribute(`type`);c._members.push({type:r,fullName:n,name:i,sigTypes:o,summary:e.getElementsByTagName(`summary`)[0]?.textContent?.trim()||``,params:t,returnType:a||null,returnDesc:e.getElementsByTagName(`return`)[0]?.textContent?.trim()||e.getElementsByTagName(`returns`)[0]?.textContent?.trim()||``,fieldType:s||null})}else c[i]||(c[i]={}),c=c[i]}}}catch(e){console.error(`Error parsing XML:`,e)}return t}function X(e,t,n=!1){e.innerHTML=``;let r=decodeURIComponent(window.location.hash.replace(`#docs`,``).substring(1)),i=(e,t,a=``)=>{let o=document.createElement(`div`);o.className=`tree-item`;let s=a?`${a}::${e}`:e,c=Object.keys(t).filter(e=>e!==`_members`).length>0,l=n||J.has(s);o.innerHTML=`
       <div class="tree-node ${r===s?`active`:``}" data-path="${s}">
         <span class="tree-toggle" style="width:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
           ${c?`<i class="fas ${l?`fa-chevron-down`:`fa-chevron-right`}" style="font-size:0.75rem;"></i>`:`<i class="fas fa-cube" style="font-size:0.7rem;color:var(--text-dim);"></i>`}
@@ -254,7 +254,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       </div>
       <div class="tree-children" style="display:${l?`block`:`none`};">
       </div>
-    `;let u=o.querySelector(`.tree-toggle`),d=o.querySelector(`.tree-label`),f=o.querySelector(`.tree-children`),p=u.querySelector(`i`);return u.addEventListener(`click`,e=>{if(e.stopPropagation(),!c)return;let t=f.style.display===`block`;f.style.display=t?`none`:`block`,p&&(p.className=`fas ${t?`fa-chevron-right`:`fa-chevron-down`}`),t?Y.delete(s):Y.add(s)}),d.addEventListener(`click`,e=>{e.stopPropagation(),window.location.hash=`#docs/${s}`}),Object.keys(t).filter(e=>e!==`_members`).sort().forEach(e=>{f.appendChild(i(e,t[e],s))}),o};Object.keys(t).sort().forEach(n=>{e.appendChild(i(n,t[n]))})}function Xe(e){let t=e.split(`::`),n=q;for(let e of t)n=n?.[e];if(!n)return`<h2>Element not found</h2>`;let r=n._members||[],i=r.find(e=>e.type===`T`),a=r.filter(e=>e.type===`M`),o=r.filter(e=>e.type===`P`),s=r.filter(e=>e.type===`F`),c=Object.keys(n).filter(e=>e!==`_members`).map(e=>({name:e,summary:n[e]._members?.find(e=>e.type===`T`)?.summary||``}));return`
+    `;let u=o.querySelector(`.tree-toggle`),d=o.querySelector(`.tree-label`),f=o.querySelector(`.tree-children`),p=u.querySelector(`i`);return u.addEventListener(`click`,e=>{if(e.stopPropagation(),!c)return;let t=f.style.display===`block`;f.style.display=t?`none`:`block`,p&&(p.className=`fas ${t?`fa-chevron-right`:`fa-chevron-down`}`),t?J.delete(s):J.add(s)}),d.addEventListener(`click`,e=>{e.stopPropagation(),window.location.hash=`#docs/${s}`}),Object.keys(t).filter(e=>e!==`_members`).sort().forEach(e=>{f.appendChild(i(e,t[e],s))}),o};Object.keys(t).sort().forEach(n=>{e.appendChild(i(n,t[n]))})}function Xe(e){let t=e.split(`::`),n=q;for(let e of t)n=n?.[e];if(!n)return`<h2>Element not found</h2>`;let r=n._members||[],i=r.find(e=>e.type===`T`),a=r.filter(e=>e.type===`M`),o=r.filter(e=>e.type===`P`),s=r.filter(e=>e.type===`F`),c=Object.keys(n).filter(e=>e!==`_members`).map(e=>({name:e,summary:n[e]._members?.find(e=>e.type===`T`)?.summary||``}));return`
     <div class="api-member">
       <div style="color:var(--accent-color);font-weight:600;margin-bottom:0.25rem;font-size:0.9rem;">${t.slice(0,-1).join(`::`)||`Global`}</div>
       <h1 style="font-size:2.5rem;margin:0 0 1rem;">${t[t.length-1]}</h1>
@@ -277,30 +277,25 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       ${o.length>0?`
         <div class="api-section">
           <h3>Properties</h3>
-          ${o.map(e=>Ze(e)).join(``)}
+          ${o.map(e=>Qe(e)).join(``)}
         </div>
       `:``}
 
       ${a.length>0?`
         <div class="api-section">
           <h3>Methods</h3>
-          ${a.map(e=>Qe(e)).join(``)}
+          ${a.map(e=>$e(e)).join(``)}
         </div>
       `:``}
 
       ${s.length>0?`
         <div class="api-section">
           <h3>Fields & Enums</h3>
-          ${s.map(e=>`
-            <div class="api-item">
-              <div class="api-item-name">${e.name}</div>
-              <p style="color:var(--text-dim);">${e.summary}</p>
-            </div>
-          `).join(``)}
+          ${s.map(e=>Ze(e)).join(``)}
         </div>
       `:``}
     </div>
-  `}function Ze(e){let t=e.sigTypes?.[0]||``;return`
+  `}function Ze(e){let t=e.fieldType||``;return`
     <div class="api-item">
       <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
         ${t?`<span style="color:#61afef;">${Z(t)}</span>`:``}
@@ -308,16 +303,24 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       </div>
       <p style="color:var(--text-dim);">${e.summary}</p>
     </div>
-  `}function Qe(e){let t=e.returns?e.returns.split(/\s/)[0]:`void`,n=e.params.map(e=>`<span style="color:#61afef;">${e.type?Z(e.type):``}</span>${e.type?` `:``}<span style="color:#fff;">${e.name||``}</span>`).join(`<span style="color:var(--text-dim);">, </span>`);return`
+  `}function Qe(e){let t=e.fieldType||e.sigTypes?.[0]||``;return`
+    <div class="api-item">
+      <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
+        ${t?`<span style="color:#61afef;">${Z(t)}</span>`:``}
+        <span style="font-weight:700;color:#fff;">${e.name}</span>
+      </div>
+      <p style="color:var(--text-dim);">${e.summary}</p>
+    </div>
+  `}function $e(e){let t=e.returnType||`void`,n=e.params.map(e=>`<span style="color:#61afef;">${e.type?Z(e.type):``}</span>${e.type?` `:``}<span style="color:#fff;">${e.name||``}</span>`).join(`<span style="color:var(--text-dim);">, </span>`);return`
     <div class="api-item">
       <div style="font-family:monospace;font-size:1rem;margin-bottom:0.75rem;display:flex;flex-wrap:wrap;align-items:baseline;gap:0.25rem;">
         <span style="color:#61afef;">${Z(t)}</span>
         <span style="font-weight:700;color:#fff;margin-left:0.4rem;">${e.name}</span>
         <span style="color:var(--text-dim);">(</span>${n}<span style="color:var(--text-dim);">)</span>
       </div>
-      <p style="color:var(--text-dim);margin-bottom:${e.params.length>0?`1rem`:`0`};">${e.summary}</p>
+      <p style="color:var(--text-dim);margin-bottom:${e.params.length>0||e.returnDesc?`1rem`:`0`};">${e.summary}</p>
       ${e.params.length>0?`
-        <div>
+        <div style="margin-bottom: 1rem;">
           <div style="font-size:0.8rem;text-transform:uppercase;color:var(--accent-color);font-weight:600;margin-bottom:0.5rem;">Parameters</div>
           ${e.params.map(e=>`
             <div style="display:flex;gap:1rem;font-size:0.9rem;background:rgba(0,0,0,0.2);padding:0.5rem 1rem;border-radius:4px;margin-bottom:0.25rem;align-items:baseline;flex-wrap:wrap;">
@@ -329,8 +332,17 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           `).join(``)}
         </div>
       `:``}
+      ${e.returnDesc?`
+        <div>
+          <div style="font-size:0.8rem;text-transform:uppercase;color:var(--accent-color);font-weight:600;margin-bottom:0.5rem;">Returns</div>
+          <div style="font-size:0.9rem;background:rgba(0,0,0,0.2);padding:0.5rem 1rem;border-radius:4px;color:var(--text-dim); display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap;">
+            ${e.returnType?`<span style="font-family:monospace;color:#61afef;">${Z(e.returnType)}</span> <span style="color:var(--text-dim);">— </span> `:``}
+            <span>${e.returnDesc}</span>
+          </div>
+        </div>
+      `:``}
     </div>
-  `}function Z(e){if(!e)return``;let t=e.replace(/[?*&]/g,``).trim(),n=J.find(e=>e===t||e.endsWith(`::${t}`));return n?`<a href="#docs/${n}" style="color:#61afef;text-decoration:underline;">${e}</a>`:`<span style="color:#61afef;">${e}</span>`}function $e(e,t=``){let n=[];return Object.keys(e).forEach(r=>{if(r===`_members`)return;let i=t?`${t}::${r}`:r;n.push(i),n=n.concat($e(e[r],i))}),n}function et(e,t){let n={},r=(e,n)=>{let i=!1;return Object.keys(e).forEach(a=>{if(a===`_members`){let r=e._members.filter(e=>e.name.toLowerCase().includes(t)||e.summary.toLowerCase().includes(t));r.length>0&&(n._members=r,i=!0)}else{let o={};(r(e[a],o)||a.toLowerCase().includes(t))&&(n[a]=o,i=!0)}}),i};return r(e,n),n}function tt(){return`
+  `}function Z(e){if(!e)return``;let t=e.replace(/&lt;/g,`<`).replace(/&gt;/g,`>`),n=t.match(/^array<(.+)>$/);if(n){let e=n[1];return`<span style="color:#61afef;">array&lt;${Z(e)}&gt;</span>`}let r=t.replace(/[?*&]/g,``).trim(),i=qe.find(e=>e===r||e.endsWith(`::${r}`));return i?`<a href="#docs/${i}" style="color:#61afef;text-decoration:underline;">${t}</a>`:`<span style="color:#61afef;">${t}</span>`}function et(e,t=``){let n=[];return Object.keys(e).forEach(r=>{if(r===`_members`)return;let i=t?`${t}::${r}`:r;n.push(i),n=n.concat(et(e[r],i))}),n}function tt(e,t){let n={},r=(e,n)=>{let i=!1;return Object.keys(e).forEach(a=>{if(a===`_members`){let r=e._members.filter(e=>e.name.toLowerCase().includes(t)||e.summary.toLowerCase().includes(t));r.length>0&&(n._members=r,i=!0)}else{let o={};(r(e[a],o)||a.toLowerCase().includes(t))&&(n[a]=o,i=!0)}}),i};return r(e,n),n}function nt(){return`
     <div style="text-align:center;padding-top:5rem;">
       <i class="fas fa-book" style="font-size:5rem;color:var(--accent-color);margin-bottom:2rem;"></i>
       <h1>CometEngine API Documentation</h1>
@@ -338,4 +350,4 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
         Explore the classes, methods, and properties available in CometEngine.
       </p>
     </div>
-  `}var Q=document.getElementById(`app`),nt=document.querySelectorAll(`.nav-links a`);function $(){let t=window.location.hash||`#home`;nt.forEach(e=>{e.getAttribute(`href`)===t?e.classList.add(`active`):e.classList.remove(`active`)}),t===`#home`?e(Q):t.startsWith(`#releases`)?Ve(Q,t.replace(`#releases`,``).substring(1)):t.startsWith(`#docs`)&&qe(Q,t)}window.addEventListener(`hashchange`,$),window.addEventListener(`load`,$),document.addEventListener(`click`,e=>{e.target.tagName===`A`&&e.target.getAttribute(`href`)?.startsWith(`#docs/`)});
+  `}var Q=document.getElementById(`app`),rt=document.querySelectorAll(`.nav-links a`);function $(){let t=window.location.hash||`#home`;rt.forEach(e=>{e.getAttribute(`href`)===t?e.classList.add(`active`):e.classList.remove(`active`)}),t===`#home`?e(Q):t.startsWith(`#releases`)?Ve(Q,t.replace(`#releases`,``).substring(1)):t.startsWith(`#docs`)&&Je(Q,t)}window.addEventListener(`hashchange`,$),window.addEventListener(`load`,$),document.addEventListener(`click`,e=>{e.target.tagName===`A`&&e.target.getAttribute(`href`)?.startsWith(`#docs/`)});

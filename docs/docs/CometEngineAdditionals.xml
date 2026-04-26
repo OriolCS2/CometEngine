@@ -19,97 +19,97 @@
 -->
 <doc>
     <callbacks name="CometEngine::CometBehaviour">
-        <callback name="PreUpdate">
+        <callback name="PreUpdate" return="void">
             <summary>
             Called at the start of every frame.
             </summary>
         </callback>
-        <callback name="Update">
+        <callback name="Update" return="void">
             <summary>
             Called at the middle of every frame.
             </summary>
         </callback>
-        <callback name="PostUpdate">
+        <callback name="PostUpdate" return="void">
             <summary>
             Called at the end of every frame.
             </summary>
         </callback>
-        <callback name="OnEnable">
+        <callback name="OnEnable" return="void">
             <summary>
             Called when this behaviour gets enabled.
             </summary>
         </callback>
-        <callback name="OnDisable">
+        <callback name="OnDisable" return="void">
             <summary>
             Called when this behaviour gets disabled.
             </summary>
         </callback>
-        <callback name="Awake">
+        <callback name="Awake" return="void">
             <summary>
             Called when the behaviour is created.
             </summary>
         </callback>
-        <callback name="OnDestroy">
+        <callback name="OnDestroy" return="void">
             <summary>
             Called when the behavior is going to be destroyed.
             </summary>
         </callback>
-        <callback name="Start">
+        <callback name="Start" return="void">
             <summary>
             Called before the first enabled frame ever.
             </summary>
         </callback>
-        <callback name="FixedUpdate">
+        <callback name="FixedUpdate" return="void">
             <summary>
             Called every frame that physics updates.
             </summary>
         </callback>
-        <callback name="OnMouseDown">
+        <callback name="OnMouseDown" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse is just clicked inside it.
             </summary>
         </callback>
-        <callback name="OnMouseDownUp">
+        <callback name="OnMouseDownUp" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse was down and now is just released inside it.
             </summary>
         </callback>
-        <callback name="OnMouseDrag">
+        <callback name="OnMouseDrag" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse is dragging it.
             </summary>
         </callback>
-        <callback name="OnMouseEnter">
+        <callback name="OnMouseEnter" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse pointer enters the collider.
             </summary>
         </callback>
-        <callback name="OnMouseExit">
+        <callback name="OnMouseExit" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse pointer leaves the collider.
             </summary>
         </callback>
-        <callback name="OnMouseHover">
+        <callback name="OnMouseHover" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse is inside it.
             </summary>
         </callback>
-        <callback name="OnMouseUp">
+        <callback name="OnMouseUp" return="void">
             <summary>
             Called when this behaviour owns a collider and the mouse is just released inside it.
             </summary>
         </callback>
-        <callback name="OnBecameVisible">
+        <callback name="OnBecameVisible" return="void">
             <summary>
             Called when this behaviour owns a renderer and it has just become visible for any camera.
             </summary>
         </callback>
-        <callback name="OnBecameInvisible">
+        <callback name="OnBecameInvisible" return="void">
             <summary>
             Called when this behaviour owns a renderer and it has just become invisible for every camera.
             </summary>
         </callback>
-        <callback name="OnCollisionEnter">
+        <callback name="OnCollisionEnter" return="void">
             <summary>
             Called when this behaviour owns a Collider or a RigidBody and it has just started colliding to another.
             </summary>
@@ -117,7 +117,7 @@
             Handles all the information about the collision.
             </param>
         </callback>
-        <callback name="OnCollisionStay">
+        <callback name="OnCollisionStay" return="void">
             <summary>
             Called when this behaviour owns a Collider or a RigidBody and it is colliding to another.
             </summary>
@@ -125,7 +125,7 @@
             Handles all the information about the collision.
             </param>
         </callback>
-        <callback name="OnCollisionExit">
+        <callback name="OnCollisionExit" return="void">
             <summary>
             Called when this behaviour owns a Collider or a RigidBody and it has just stopped colliding to another.
             </summary>
@@ -133,7 +133,7 @@
             Handles all the information about the collision.
             </param>
         </callback>
-        <callback name="OnTriggerEnter">
+        <callback name="OnTriggerEnter" return="void">
             <summary>
             Called when this behaviour owns a Collider trigger or a RigidBody and it just entered another inside.
             </summary>
@@ -141,7 +141,7 @@
             The other collider that has entered inside the trigger.
             </param>
         </callback>
-        <callback name="OnTriggerStay">
+        <callback name="OnTriggerStay" return="void">
             <summary>
             Called when this behaviour owns a Collider trigger or a RigidBody and it is another inside.
             </summary>
@@ -149,7 +149,7 @@
             The other collider that is inside the trigger.
             </param>
         </callback>
-        <callback name="OnTriggerExit">
+        <callback name="OnTriggerExit" return="void">
             <summary>
             Called when this behaviour owns a Collider trigger or a RigidBody and it has just left another.
             </summary>
@@ -157,7 +157,7 @@
             The other collider that has just left the trigger.
             </param>
         </callback>
-        <callback name="OnJointBreak">
+        <callback name="OnJointBreak" return="void">
             <summary>
             Called when this behaviour owns a Joint and it breaks.
             </summary>
@@ -165,66 +165,66 @@
             The joint object that has just been broken.
             </param>
         </callback>
-        <callback name="OnDrawGizmos">
+        <callback name="OnDrawGizmos" return="void">
             <summary>
             Allows drawing custom gizmos to the scene view. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="OnDrawGizmosSelected">
+        <callback name="OnDrawGizmosSelected" return="void">
             <summary>
             Allows drawing custom gizmos to the scene view only when the Entity is selected. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="OnEdited">
+        <callback name="OnEdited" return="void">
             <summary>
             Called when the user modifies a property with the Inspector or when the behaviour is loaded. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="Reset">
+        <callback name="Reset" return="void">
             <summary>
             Called when the user clicks the Reset button in the Inspector's context menu or when the behaviour is added for the first time. This callback is only called in editor mode.
             </summary>
         </callback>
     </callbacks>
     <callbacks name="CometEngine::CometObject">
-        <callback name="Reset">
+        <callback name="Reset" return="void">
             <summary>
             Called when the user clicks the Reset button in the Inspector or when the Object is created for the first time. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="OnEdited">
+        <callback name="OnEdited" return="void">
             <summary>
             Called when the user modifies a property with the Inspector. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="OnEnable">
+        <callback name="OnEnable" return="void">
             <summary>
             Called when this object gets enabled.
             </summary>
         </callback>
-        <callback name="OnDisable">
+        <callback name="OnDisable" return="void">
             <summary>
             Called when this object gets disabled.
             </summary>
         </callback>
     </callbacks>
     <callbacks name="CometEngine::AnimatorStateBehaviour">
-        <callback name="Awake">
+        <callback name="Awake" return="void">
             <summary>
             Called when the behaviour is created.
             </summary>
         </callback>
-        <callback name="Reset">
+        <callback name="Reset" return="void">
             <summary>
             Called when the user clicks the Reset button in the Inspector's context menu or when the behaviour is added for the first time. This callback is only called in editor mode.
             </summary>
         </callback>
-        <callback name="OnDestroy">
+        <callback name="OnDestroy" return="void">
             <summary>
             Called when the behaviour is going to be destroyed.
             </summary>
         </callback>
-        <callback name="OnStateEnter">
+        <callback name="OnStateEnter" return="void">
             <summary>
             Called when the state machine enters to this state.
             </summary>
@@ -235,7 +235,7 @@
             Holds information about the current state.
             </param>
         </callback>
-        <callback name="OnStateUpdate">
+        <callback name="OnStateUpdate" return="void">
             <summary>
             Called every frame this state is active.
             </summary>
@@ -246,7 +246,7 @@
             Holds information about the current state.
             </param>
         </callback>
-        <callback name="OnStateExit">
+        <callback name="OnStateExit" return="void">
             <summary>
             Called when this state stops being the active one.
             </summary>
@@ -259,7 +259,7 @@
         </callback>
     </callbacks>
     <callbacks name="CometEngine::GraphNode::GraphNode">
-        <callback name="OnGraphUpdaterStart">
+        <callback name="OnGraphUpdaterStart" return="void">
             <summary>
             Called when a graph updater starts updating this graph node.
             </summary>
@@ -267,7 +267,7 @@
             The graph updater that is starting to update the graph node.
             </param>
         </callback>
-        <callback name="OnGraphUpdaterEnd">
+        <callback name="OnGraphUpdaterEnd" return="void">
             <summary>
             Called when a graph updater stops updating the graph node, informing whether it has finished or not.
             </summary>
@@ -280,22 +280,22 @@
         </callback>
     </callbacks>
     <callbacks name="CometEditor::EditorBehaviour">
-        <callback name="Init">
+        <callback name="Init" return="void">
             <summary>
             Called once when this editor behaviour instance is initialized by the editor.
             </summary>
         </callback>
-        <callback name="OnDestroy">
+        <callback name="OnDestroy" return="void">
             <summary>
             Called once when this editor behaviour instance is destroyed by the editor.
             </summary>
         </callback>
-        <callback name="Update">
+        <callback name="Update" return="void">
             <summary>
             Called every editor frame.
             </summary>
         </callback>
-        <callback name="OnCustomInspector">
+        <callback name="OnCustomInspector" return="void">
             <summary>
             Called when the inspector of the behaviour requested with the attribute CustomInspector needs to be drawn. This allows to create a custom inspector for user script behaviours.
             </summary>
@@ -305,57 +305,57 @@
         </callback>
     </callbacks>
     <callbacks name="CometEditor::EditorWindow">
-        <callback name="OnBecameInvisible">
+        <callback name="OnBecameInvisible" return="void">
             <summary>
             Called when the window is hidden.
             </summary>
         </callback>
-        <callback name="OnBecameVisible">
+        <callback name="OnBecameVisible" return="void">
             <summary>
             Called when the window is shown.
             </summary>
         </callback>
-        <callback name="Awake">
+        <callback name="Awake" return="void">
             <summary>
             Called when the window is created.
             </summary>
         </callback>
-        <callback name="OnFocused">
+        <callback name="OnFocused" return="void">
             <summary>
             Called when the window gains focus.
             </summary>
         </callback>
-        <callback name="OnLostFocus">
+        <callback name="OnLostFocus" return="void">
             <summary>
             Called when the window loses focus.
             </summary>
         </callback>
-        <callback name="OnDestroy">
+        <callback name="OnDestroy" return="void">
             <summary>
             Called when the window is about to be destroyed.
             </summary>
         </callback>
-        <callback name="OnGUI">
+        <callback name="OnGUI" return="void">
             <summary>
             Called to render the window's UI using the CometEditor::GUI API.
             </summary>
         </callback>
-        <callback name="OnSaveChanges">
+        <callback name="OnSaveChanges" return="void">
             <summary>
             Called when the window is requested to save its changes.
             </summary>
         </callback>
-        <callback name="OnDiscardChanges">
+        <callback name="OnDiscardChanges" return="void">
             <summary>
             Called when the window is requested to discard its changes.
             </summary>
         </callback>
-        <callback name="OnAbortCloseSaveChanges">
+        <callback name="OnAbortCloseSaveChanges" return="void">
             <summary>
             Called when the popup to confirm save changes is aborted with the 'X' button.
             </summary>
         </callback>
-        <callback name="OnGetWindowConfig">
+        <callback name="OnGetWindowConfig" return="WindowConfig">
             <summary>
             Called when the window is going to be created to get its configuration. This allows to configure the window properties like its size, whether it is resizable or not, etc.
             </summary>

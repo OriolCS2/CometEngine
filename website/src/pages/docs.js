@@ -81,7 +81,6 @@ async function loadApiData() {
         const typePrefix = fullName[0]; // T, M, P, F
         const cleanName = fullName.substring(2);
 
-        // Extract param types from signature e.g. Method(TypeA,TypeB)
         const sigMatch = cleanName.match(/\(([^)]*)\)/);
         const sigTypes = sigMatch && sigMatch[1]
           ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
@@ -95,35 +94,16 @@ async function loadApiData() {
           const part = parts[i];
           const isLast = i === parts.length - 1;
 
-          if (isLast) {
+          if (isLast && typePrefix !== 'T') {
             if (!current._members) current._members = [];
-
-            const xmlParams = Array.from(member.getElementsByTagName('param'));
-            // Map XML <param name="x"> with type from the signature position
-            const params = xmlParams.map((p, idx) => ({
-              name: p.getAttribute('name'),
-              type: sigTypes[idx] || null,
-              desc: p.textContent.trim(),
-              default: p.getAttribute('default'),
-            }));
-
-            const rType = member.getAttribute('return');
-            const fType = member.getAttribute('type');
-
-            current._members.push({
-              type: typePrefix,
-              fullName,
-              name: part,
-              sigTypes,       // raw types from the signature
-              summary: member.getElementsByTagName('summary')[0]?.textContent?.trim() || '',
-              params,
-              returnType: rType || null,
-              returnDesc: member.getElementsByTagName('return')[0]?.textContent?.trim() || member.getElementsByTagName('returns')[0]?.textContent?.trim() || '',
-              fieldType: fType || null
-            });
+            current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
           } else {
             if (!current[part]) current[part] = {};
             current = current[part];
+            if (isLast) {
+              if (!current._members) current._members = [];
+              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+            }
           }
         }
       }
@@ -133,6 +113,31 @@ async function loadApiData() {
   }
 
   return namespaces;
+}
+
+function parseMemberData(member, typePrefix, fullName, name, sigTypes) {
+  const xmlParams = Array.from(member.getElementsByTagName('param'));
+  const params = xmlParams.map((p, idx) => ({
+    name: p.getAttribute('name'),
+    type: sigTypes[idx] || null,
+    desc: p.textContent.trim(),
+    default: p.getAttribute('default'),
+  }));
+
+  const rType = member.getAttribute('return');
+  const fType = member.getAttribute('type');
+
+  return {
+    type: typePrefix,
+    fullName,
+    name,
+    sigTypes,
+    summary: member.getElementsByTagName('summary')[0]?.textContent?.trim() || '',
+    params,
+    returnType: rType || null,
+    returnDesc: member.getElementsByTagName('return')[0]?.textContent?.trim() || member.getElementsByTagName('returns')[0]?.textContent?.trim() || '',
+    fieldType: fType || null
+  };
 }
 
 // ─── Tree ────────────────────────────────────────────────────────────────────

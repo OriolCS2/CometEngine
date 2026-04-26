@@ -71,47 +71,111 @@ async function loadApiData() {
   for (const file of files) {
     try {
       const response = await fetch(file);
-      const xmlText = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-      const members = xmlDoc.getElementsByTagName('member');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      let xmlText = await response.text();
+      console.log(`Fetched ${file}: ${xmlText.length} bytes.`);
 
-      for (const member of members) {
-        const fullName = member.getAttribute('name');
-        const typePrefix = fullName[0]; // T, M, P, F
-        const cleanName = fullName.substring(2);
-
-        const sigMatch = cleanName.match(/\(([^)]*)\)/);
-        const sigTypes = sigMatch && sigMatch[1]
-          ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
-          : [];
-
-        const nameWithoutSig = cleanName.split('(')[0];
-        const parts = nameWithoutSig.split('::');
-
-        let current = namespaces;
-        for (let i = 0; i < parts.length; i++) {
-          const part = parts[i];
-          const isLast = i === parts.length - 1;
-
-          if (isLast && typePrefix !== 'T') {
-            if (!current._members) current._members = [];
-            current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
-          } else {
-            if (!current[part]) current[part] = {};
-            current = current[part];
-            if (isLast) {
-              if (!current._members) current._members = [];
-              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+      // ─── XML Sanitization ──────────────────────────────────────────────────
+      // Fix unescaped < > in attributes, de-duplicate attributes, and fix malformed ones (e.g. key=)
+      xmlText = xmlText
+        // 1. Fix unescaped characters in attribute values
+        .replace(/([a-z]+)="([^"]*)"/gi, (m, attr, val) => {
+          return `${attr}="${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}"`;
+        })
+        // 2. Fix malformed attributes like key=) or key= >
+        .replace(/([a-z0-9_]+)\s*=\s*([)>])/gi, '$1="" $2')
+        // 3. De-duplicate attributes within tags
+        .replace(/<([a-z0-9:]+)\s+([^>]+)>/gi, (m, tag, attrs) => {
+          const seen = new Set();
+          // Improved attribute splitting to handle spaces in values (though rare in these XMLs)
+          const attrRegex = /([a-z0-9_]+)="([^"]*)"/gi;
+          const uniqueAttrs = [];
+          let attrMatch;
+          while ((attrMatch = attrRegex.exec(attrs)) !== null) {
+            const key = attrMatch[1].toLowerCase();
+            if (!seen.has(key)) {
+              seen.add(key);
+              uniqueAttrs.push(`${attrMatch[1]}="${attrMatch[2]}"`);
             }
           }
+          return `<${tag} ${uniqueAttrs.join(' ')}>`;
+        });
+
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+      
+      const parseError = xmlDoc.getElementsByTagName('parsererror');
+      if (parseError.length > 0) {
+        console.error(`Parser error in ${file}:`, parseError[0].textContent);
+        continue;
+      }
+
+      // ─── Extraction ────────────────────────────────────────────────────────
+      const members = Array.from(xmlDoc.getElementsByTagName('member'));
+      
+      // Also handle <callback> inside <callbacks>
+      const callbacksGroups = xmlDoc.getElementsByTagName('callbacks');
+      for (const group of callbacksGroups) {
+        const groupName = group.getAttribute('name');
+        const items = group.getElementsByTagName('callback');
+        for (const item of items) {
+          // Map to virtual member
+          const name = item.getAttribute('name');
+          const fullName = `M:${groupName}::${name}`;
+          // Add virtual attribute for our parser
+          item.setAttribute('name', fullName);
+          members.push(item);
+        }
+      }
+
+      console.log(`Loading ${file}: ${members.length} members found.`);
+
+      for (const member of members) {
+        try {
+          const fullName = member.getAttribute('name');
+          if (!fullName || fullName.length < 3) continue;
+
+          const typePrefix = fullName[0]; // T, M, P, F
+          const cleanName = fullName.substring(2).trim();
+
+          const sigMatch = cleanName.match(/\(([^)]*)\)/);
+          const sigTypes = sigMatch && sigMatch[1]
+            ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
+            : [];
+
+          const nameWithoutSig = cleanName.split('(')[0].trim();
+          const parts = nameWithoutSig.split('::').map(p => p.trim());
+
+          let current = namespaces;
+          for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            const isLast = i === parts.length - 1;
+
+            if (isLast && typePrefix !== 'T') {
+              if (!current._members) current._members = [];
+              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+            } else {
+              if (!current[part]) current[part] = {};
+              current = current[part];
+              if (isLast) {
+                if (!current._members) current._members = [];
+                current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+              }
+            }
+          }
+        } catch (memberError) {
+          console.error(`Error parsing member in ${file}:`, memberError);
         }
       }
     } catch (e) {
-      console.error('Error parsing XML:', e);
+      console.error(`Error loading/parsing ${file}:`, e);
     }
   }
 
+  console.log('Final apiData namespaces:', Object.keys(namespaces));
+  if (namespaces['CometEditor'] && namespaces['CometEditor']['GUI']) {
+    console.log('Final GUI members:', namespaces['CometEditor']['GUI']._members?.length);
+  }
   return namespaces;
 }
 

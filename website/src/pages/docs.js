@@ -1,4 +1,4 @@
-import inEditorImg from '../assets/InEditorScriptingAPI.png?url';
+import inEditorImg from '../assets/InEditorScriptingAPI.png';
 
 let apiData = null;
 let allPaths = [];
@@ -13,7 +13,7 @@ async function fetchVersions() {
     const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
     const releases = await response.json();
     const allTags = releases.map(r => r.tag_name);
-    
+
     // Filter tags that actually have a documentation folder
     const checkResults = await Promise.all(allTags.map(async tag => {
       try {
@@ -23,19 +23,19 @@ async function fetchVersions() {
         return null;
       }
     }));
-    
+
     versions = checkResults.filter(Boolean);
 
     // If no versions found via check (e.g. during local dev or HEAD not supported), 
     // at least try the latest one or a fallback
     if (versions.length === 0 && allTags.length > 0) {
-       // Fallback: just try to load the latest one if it works
-       versions = [allTags[0]];
+      // Fallback: just try to load the latest one if it works
+      versions = [allTags[0]];
     }
-    
+
     // Sort versions (newest first)
     versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' }));
-    
+
     if (!currentVersion) currentVersion = versions[0];
     return versions;
   } catch (error) {
@@ -58,7 +58,7 @@ window.openLightbox = (src) => {
     opacity: 0; transition: opacity 0.3s ease;
     backdrop-filter: blur(5px);
   `;
-  
+
   const img = document.createElement('img');
   img.src = src;
   img.style.cssText = `
@@ -68,15 +68,15 @@ window.openLightbox = (src) => {
     transform: scale(0.9); transition: transform 0.3s ease;
     border: 1px solid rgba(255,255,255,0.1);
   `;
-  
+
   overlay.appendChild(img);
   document.body.appendChild(overlay);
-  
+
   setTimeout(() => {
     overlay.style.opacity = '1';
     img.style.transform = 'scale(1)';
   }, 10);
-  
+
   overlay.onclick = () => {
     overlay.style.opacity = '0';
     img.style.transform = 'scale(0.9)';

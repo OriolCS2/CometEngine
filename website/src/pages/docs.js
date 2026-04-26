@@ -4,6 +4,47 @@ let apiData = null;
 let allPaths = [];
 const expandedPaths = new Set();
 let currentSearchQuery = '';
+let currentVersion = '';
+let versions = [];
+
+async function fetchVersions() {
+  if (versions.length > 0) return versions;
+  try {
+    const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
+    const releases = await response.json();
+    const allTags = releases.map(r => r.tag_name);
+    
+    // Filter tags that actually have a documentation folder
+    const checkResults = await Promise.all(allTags.map(async tag => {
+      try {
+        const res = await fetch(`./docs/${tag}/CometEngine.xml`, { method: 'HEAD' });
+        return res.ok ? tag : null;
+      } catch (e) {
+        return null;
+      }
+    }));
+    
+    versions = checkResults.filter(Boolean);
+
+    // If no versions found via check (e.g. during local dev or HEAD not supported), 
+    // at least try the latest one or a fallback
+    if (versions.length === 0 && allTags.length > 0) {
+       // Fallback: just try to load the latest one if it works
+       versions = [allTags[0]];
+    }
+    
+    // Sort versions (newest first)
+    versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' }));
+    
+    if (!currentVersion) currentVersion = versions[0];
+    return versions;
+  } catch (error) {
+    console.error('Error fetching versions:', error);
+    versions = ['2.0-rc.11'];
+    currentVersion = '2.0-rc.11';
+    return versions;
+  }
+}
 
 // Global lightbox function for images
 window.openLightbox = (src) => {
@@ -47,6 +88,8 @@ export async function renderDocs(container, hash) {
   const isFirstLoad = !apiData;
 
   if (isFirstLoad) {
+    container.innerHTML = '<div class="loading">Discovering versions...</div>';
+    await fetchVersions();
     container.innerHTML = '<div class="loading">Parsing documentation...</div>';
     apiData = await loadApiData();
     allPaths = getAllPaths(apiData);
@@ -70,6 +113,12 @@ export async function renderDocs(container, hash) {
       <div class="docs-layout">
         <div class="docs-sidebar">
           <div class="docs-sidebar-search">
+            <div style="margin-bottom: 0.75rem;">
+              <label style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 0.25rem;">API Version</label>
+              <select id="docs-version" class="search-box" style="margin-bottom: 0;">
+                ${versions.map(v => `<option value="${v}" ${v === currentVersion ? 'selected' : ''}>${v}</option>`).join('')}
+              </select>
+            </div>
             <input type="text" id="docs-search" class="search-box" placeholder="Search API..." style="margin-bottom: 0;">
           </div>
           <div class="docs-sidebar-tree" id="docs-tree"></div>
@@ -81,6 +130,7 @@ export async function renderDocs(container, hash) {
     `;
     renderTree(document.getElementById('docs-tree'), apiData);
     setupSearch();
+    setupVersionSelector(container);
   } else {
     // Just update the content panel and refresh tree active state
     document.getElementById('docs-detail').innerHTML = path ? renderDetail(path) : renderWelcome();
@@ -111,8 +161,24 @@ function setupSearch() {
   });
 }
 
+function setupVersionSelector(container) {
+  const versionSelect = document.getElementById('docs-version');
+  if (!versionSelect) return;
+  versionSelect.addEventListener('change', async (e) => {
+    currentVersion = e.target.value;
+    container.innerHTML = '<div class="loading">Switching version...</div>';
+    apiData = await loadApiData();
+    allPaths = getAllPaths(apiData);
+    renderDocs(container, window.location.hash);
+  });
+}
+
 async function loadApiData() {
-  const files = ['./docs/CometEngine.xml', './docs/CometEngineAdditionals.xml', './docs/CometEngineGlobals.xml'];
+  const files = [
+    `./docs/${currentVersion}/CometEngine.xml`,
+    `./docs/${currentVersion}/CometEngineAdditionals.xml`,
+    `./docs/${currentVersion}/CometEngineGlobals.xml`
+  ];
   const namespaces = {};
 
   for (const file of files) {

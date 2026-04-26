@@ -6442,34 +6442,34 @@
             <return> The current InputHandler instance.</return>
         
         </member>
-        <member name="M:CometEditor::AssetDataBase::SetDirty(CometEngine::Resource)">
+        <member name="M:CometEditor::AssetDataBase::SetDirty(Resource)">
             <summary>
             Marks a resource as dirty, indicating it has unsaved changes.
             </summary>
             <param name="resource">The resource to mark as dirty.</param>
         
         </member>
-        <member name="M:CometEditor::AssetDataBase::SetDirty(CometEngine::SubResource)">
+        <member name="M:CometEditor::AssetDataBase::SetDirty(SubResource)">
             <summary>
             
             </summary>
             <param name="resource"></param>
         
         </member>
-        <member name="M:TextFilter::TextFilter()">
+        <member name="M:CometEditor::TextFilter::TextFilter()">
             <summary>
             Creates a new empty text filter.
             </summary>
         
         </member>
-        <member name="M:TextFilter::TextFilter(string)">
+        <member name="M:CometEditor::TextFilter::TextFilter(string)">
             <summary>
             
             </summary>
             <param name="value"></param>
         
         </member>
-        <member name="M:TextFilter::Pass(string)">
+        <member name="M:CometEditor::TextFilter::Pass(string)">
             <summary>
             Returns true if the provided text matches the current filter criteria.
             </summary>
@@ -6477,14 +6477,14 @@
             <return>True if the text passes the filter.</return>
         
         </member>
-        <member name="M:TextFilter::GetFilter()">
+        <member name="M:CometEditor::TextFilter::GetFilter()">
             <summary>
             Gets the current raw filter string.
             </summary>
             <return>The current filter string.</return>
         
         </member>
-        <member name="M:TextFilter::SetFilter(string)">
+        <member name="M:CometEditor::TextFilter::SetFilter(string)">
             <summary>
             Sets a new filter string.
             </summary>
@@ -8623,7 +8623,7 @@
             </summary>
         
         </member>
-        <member name="T:ImageRenderMode">
+        <member name="T:CometEngine::UI::ImageRenderMode">
             <summary>
             Defines the rendering mode for UI Image components (Simple, Sliced, Tiled).
             </summary>
@@ -8887,7 +8887,7 @@
             </summary>
         
         </member>
-        <member name="T:TextFilter">
+        <member name="T:CometEditor::TextFilter">
             <summary>
             
             </summary>

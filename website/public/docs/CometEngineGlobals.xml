@@ -1,0 +1,3899 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="M:CometEditor::FileEditorSystem::GetLocalConfigDirectory()">
+            <summary>
+            Returns the local config directory for the current opened project.
+            </summary>
+        </member>
+        <member name="M:CometEditor::FileEditorSystem::GetGlobalConfigDirectory()">
+            <summary>
+            Returns the global config directory for the current user. This directory is shared between all the projects and should be used for settings that are not project specific.
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::Load()">
+            <summary>
+            Load the settings from file
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::Save()">
+            <summary>
+            Save current settings to file
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetJoystickDeadZone()">
+            <summary>
+            Current value between 0 - 1 of the joystick dead zone
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetTriggerDeadZone()">
+            <summary>
+            Current value between 0 - 1 of the triggers dead zone
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::SetJoystickDeadZone(float)">
+            <summary>
+            Sets the current value between 0 - 1 of the joystick dead zone
+            </summary>
+            <param name="joystickDeadZone">The new dead zone to apply for the joysticks</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::SetTriggerDeadZone(float)">
+            <summary>
+            Sets the current value between 0 - 1 of the triggers dead zone
+            </summary>
+            <param name="triggerDeadZone">The new dead zone to apply for the triggers</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetControllerName(ControllerNumber)">
+            <summary>
+            Returns the name of the controller or null if controllerNumber does no exist
+            </summary>
+            <param name="controllerNumber">The controller number to get the name from</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetControllersActive()">
+            <summary>
+            Number of active controllers
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetKeyName(KeyCode)">
+            <summary>
+            Returns the name of the keyboard key
+            </summary>
+            <param name="keyCode">The key code to get the name from</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetControllerButtonName(ControllerCode)">
+            <summary>
+            Returns the name of the controller button
+            </summary>
+            <param name="controllerCode">The controller code to get the name from</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetMouseButtonName(MouseCode)">
+            <summary>
+            Returns the name of the mouse button
+            </summary>
+            <param name="mouseCode">The mouse code to get the name from</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetGroupsSize()">
+            <summary>
+            Returns the number of the groups
+            </summary>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::RemoveGroup(string)">
+            <summary>
+            Returns true if it removes group called groupName
+            </summary>
+            <param name="groupName">The name of the group to remove</param>
+        </member>
+        <member name="M:CometEngine::InputSettings::InputSettings::GetGroups">
+            <summary>
+            Returns an array of all InputGroup
+            </summary>
+        </member>
+        <member name="F:CometEngine::SceneManagement::LoadSceneMode::SINGLE_AND_CLEAR_ALL">
+            <summary>
+            Destroy the immutable scene
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetScenesLoadedCount()">
+            <summary>
+            Number of scenes currently loaded
+            </summary>
+        </member>
+        <member name="M:CometEditor::Shell::ExecuteCommand(string)">
+            <summary>
+            Executes a shell command on the operating system and returns the exit code.
+            </summary>
+            <param name="command">Command to execute</param>
+            <returns>Process exit code (0 = success)</returns>
+        </member>
+        <member name="M:CometEditor::Shell::ExecuteCommandWithOutput(string,string)">
+            <summary>
+            Executes a shell command and returns the standard output result along with the exit status.
+            </summary>
+            <param name="command">Command to execute</param>
+            <param name="output">[out] Variable where the command output will be stored</param>
+            <returns>True if the command executed successfully, false otherwise</returns>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetScenesBuildSettingsCount()">
+            <summary>
+            Number of scenes added in build settings
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetActiveScene()">
+            <summary>
+            The scene active
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::CreateScene(string)">
+            <summary>
+            Returns a new scene that is opened additively.
+            </summary>
+            <param name="name">The name of the scene to create</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetSceneLoadedAt(int)">
+            <summary>
+            Returns the scene with index in the scenes loaded list
+            </summary>
+            <param name="scenesLoadedIndex">The index of the scene to get</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetSceneBuildSettingsAt(int)">
+            <summary>
+            Returns the scene with that buildSettingsIndex
+            </summary>
+            <param name="buildSettingsIndex">The index of the scene from the build settings</param>
+        </member>
+         <member name="M:CometEngine::SceneManagement::SceneManager::RemoveUnusedResources()">
+            <summary>
+            Removes every unused resource from memory
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetLoadedSceneByName(string)">
+            <summary>
+            Searches through the Scenes loaded for a Scene with the given name.
+            </summary>
+            <param name="name">The name of the scene</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetLoadedSceneByPath(string)">
+            <summary>
+            Searches through the Scenes loaded for a Scene with the given path.
+            </summary>
+            <param name="path">The path from assets of the scene to get</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::LoadScene(int,LoadSceneMode)">
+            <summary>
+            Loads the scene with x buildIndex
+            </summary>
+            <param name="sceneBuildIndex">The build index to load</param>
+            <param name="mode">The scene load mode</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::LoadScene(string,LoadSceneMode)">
+            <summary>
+            Loads the scene with name
+            </summary>
+            <param name="name">The name of the scene to load</param>
+            <param name="mode">The scene load mode</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::MergeScenes(Scene,Scene)">
+            <summary>
+            Move every Entity in toMoveOut to toMoveIn and then removes toMoveOut scene
+            </summary>
+            <param name="toMoveOut">The scene to get all entities from</param>
+            <param name="toMoveIn">The scene where all entities will be moved</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::SetSceneActive(Scene)">
+            <summary>
+            Set a new active scene
+            </summary>
+            <param name="newActive">The name of the scene to set active</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::UnloadScene(int)">
+            <summary>
+            Unload the scene with index in the loaded scenes list. Only works if more than one scene is loaded
+            </summary>
+            <param name="scenesLoadedIndex">The index of the scene to unload</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::UnloadScene(Scene)">
+            <summary>
+            Unload the scene. Only works if more than one scene is loaded
+            </summary>
+            <param name="scene">The name of the scene to unload</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::LoadSceneAsync(string,LoadSceneMode)">
+            <summary>
+            Load a scene in background and return a handler to this operation
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::LoadSceneAsync(int,LoadSceneMode)">
+            <summary>
+            Load a scene in background and return a handler to this operation
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::SceneManager::GetSceneAsyncOperations">
+            <summary>
+            Gets all the current active scene async operations.
+            </summary>
+            <returns>Returns an array that contains all the current active scene async operations. If there is not any operation, it will return null.</returns>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::GetBuildIndex()">
+            <summary>
+            Returns the index of the scene
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::IsLoaded()">
+            <summary>
+            Returns true if the scene is loaded
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::GetName()">
+            <summary>
+            Returns the name of the scene
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::GetPath()">
+            <summary>
+            Returns the local path of the scene --> Assets/...
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::GetNumRootEntities()">
+            <summary>
+            Returns the number of roots of the scene
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::IsEnabled()">
+            <summary>
+            Returns true if the scene root is enabled
+            </summary>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::SetEnable(bool)">
+            <summary>
+            Set the root state, if disabled, all entitys in this scene are disabled
+            </summary>
+            <param name="enabled">Flag that indicates if the scene should be enabled</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::GetRoots(Scene)">
+            <summary>
+            Returns an array of Entities that contains every root of the scene
+            </summary>
+            <param name="scene">The scene where roots are requested from</param>
+        </member>
+         <member name="M:CometEngine::SceneManagement::Scene::GetRoots(Scene)">
+            <summary>
+            Returns an array of Entities that contains every root of the scene
+            </summary>
+            <param name="scene">The scene where roots are requested from</param>
+        </member>
+        <member name="M:CometEngine::SceneManagement::Scene::MoveEntityToScene(Entity,Scene)">
+            <summary>
+            Moves the given entity to the given scene
+            </summary>
+            <param name="entity">The entity to move</param>
+            <param name="scene">The scene where entity will be moved</param>
+        </member>
+        <member name="T:CometEngine::UI::HorizontalAlignment">
+            <summary>
+            Enumeration of all available horizontal alignments.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::LEFT">
+            <summary>
+            Lines start at the left edge of the rect.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::CENTER">
+            <summary>
+            Lines are centered at the middle of the rect.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::RIGHT">
+            <summary>
+            Lines end at the right edge of the rect.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::NavigationFlags">
+            <summary>
+            Enumeration of all flags available for the navigation.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_NONE">
+            <summary>
+            No navigation.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_HORIZONTAL">
+            <summary>
+            Navigation auto horizontal.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_VERTICAL">
+            <summary>
+            Navigation auto vertical.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_EXPLICIT">
+            <summary>
+            Navigation to every side to a fixed Entity.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_AUTOMATIC">
+            <summary>
+            Automatic navigation.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_EVERYTHING">
+            <summary>
+            All navigation types valid.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::OverflowMode">
+            <summary>
+            Enumeration of all available overflow text modes.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::OverflowMode::OVERFLOW_">
+            <summary>
+            Text can overflow the rect.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::OverflowMode::TRUNCATE">
+            <summary>
+            Text can not overflow the rect.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::RenderModeType">
+            <summary>
+            Enumeration of the differents UI rendering modes.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::RenderModeType::SCREEN_SPACE">
+            <summary>
+            UI is rendered on the screen.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::RenderModeType::WORLD_SPACE">
+            <summary>
+            UI is rendered in the world as it were a normal object.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::ScaleModeType">
+            <summary>
+            Enumeration of the differents UI scale modes.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScaleModeType::CONSTANT_PIXEL_SIZE">
+            <summary>
+            UI elements retain the same pixel size regardless of screen size
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScaleModeType::SCALE_WITH_SCREEN_SIZE">
+            <summary>
+            UI elements are bigger the bigger screen is
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::ScreenMatchMode">
+            <summary>
+            Enumeration of all available match modes.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::WIDTH_OR_HEIGHT">
+            <summary>
+            Scales the canvas area with the width as reference, the height as reference, or something in between.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::EXPAND">
+            <summary>
+            Expands the canvas area either horizontally or vertically, so the size of the canvas will never be smaller than the reference.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::SHRINK">
+            <summary>
+            Crops the canvas area either horizontally or vertically, so the size of the canvas will never be larger than the reference.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::ScreenSpaceType">
+            <summary>
+            Enumeration of all available screen spaces.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScreenSpaceType::OVERLAY">
+            <summary>
+            UI is rendered on the real screen
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::ScreenSpaceType::CAMERA">
+            <summary>
+            UI is rendered only on the given camera screen
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::SelectableTransitionType">
+            <summary>
+            Enumeration of all available selectable transitions.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::NONE">
+            <summary>
+            No transitions will be performed.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::COLOR">
+            <summary>
+            Image will change its color depending on the state.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::SPRITE">
+            <summary>
+            Image will change its sprite depending on the state.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::ANIMATION">
+            <summary>
+            Animator will change its state depending on the transition state.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::VerticalAlignment">
+            <summary>
+            Enumeration of all available vertical alignments.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::TOP">
+            <summary>
+            Text starts at the top edge of the rect.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::MIDDLE">
+            <summary>
+            Text is centered at the middle of the rect.
+            </summary>
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::BOTTOM">
+            <summary>
+            Text ends at the bottom edge of the rect.
+            </summary>
+        </member>
+        <member name="T:CometEngine::ICoroutineParamsData">
+            <summary>
+            Interface to inherit from a custom class that wants to be used as parameters for a coroutine.
+            </summary>
+        </member>
+        <member name="T:CometEngine::IYieldInstruction">
+            <summary>
+            Base interface for every yield instruction.
+            </summary>
+        </member>
+         <member name="T:CometEngine::Json::IJsonObjectSerializable">
+            <summary>
+            Interface to inherit from when a custom class wants to be serialized and unserialized using JsonObject.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IBeginDragAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen to the start of a drag action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IBeginDragAction::OnBeginDrag()">
+            <summary>
+            Callback called at the start of a drag action on the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IDeselectAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen the deselect action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IDeselectAction::OnDeselected()">
+            <summary>
+            Callback called when the UI Element of the Entity is deselected.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IDragAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen to a drag action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IDragAction::OnDrag()">
+            <summary>
+            Callback called when a drag action is performed on the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IEndDragAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen to the end of a drag action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IEndDragAction::OnEndDrag()">
+            <summary>
+            Callback called at the end of a drag action on the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IPointerClickAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Pointer click on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IPointerClickAction::OnPointerClick()">
+            <summary>
+            Callback called when the pointer is clicked to the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IPointerDownAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Pointer down on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IPointerDownAction::OnPointerDown()">
+            <summary>
+            Callback called when the pointer is down to the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IPointerEnterAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Pointer Enter on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IPointerEnterAction::OnPointerEnter()">
+            <summary>
+            Callback called when the pointer enters to the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IPointerExitAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Pointer Exit on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IPointerExitAction::OnPointerExit()">
+            <summary>
+            Callback called when the pointer exits to the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::IPointerUpAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Pointer up on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::IPointerUpAction::OnPointerUp()">
+            <summary>
+            Callback called when the pointer is up to the UI Element of the Entity.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::ISelectAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen the select action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::ISelectAction::OnSelected()">
+            <summary>
+            Callback called when the UI Element of the Entity is selected.
+            </summary>
+        </member>
+        <member name="T:CometEngine::UI::ISubmitAction">
+            <summary>
+            Interface to inherit from a CometBehaviour in order to listen Submit action on the UI Selectable of the Entity.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UI::ISubmitAction::OnSubmit()">
+            <summary>
+            Callback called when the UI Element is submitted.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::AspectRatio">
+            <summary>
+            The aspect ratios availables for a video player.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::NO_SCALING">
+            <summary>
+            No scaling is used. The video is centered on the destination rectangle.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_VERTICALLY">
+            <summary>
+            Scale the source to fit the destination rectangle vertically. The source aspect ratio is preserved.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_HORIZONTALLY">
+            <summary>
+            Scale the source to fit the destination rectangle horizontally. The source aspect ratio is preserved.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_INSIDE">
+            <summary>
+            Scales down the in order so all the video is seen inside the rectangle. The source aspect ratio is preserved.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_OUTSIDE">
+            <summary>
+            Scales up in order to cover all the destination rectangle. The source aspect ratio is preserved.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::STRETCH">
+            <summary>
+            Scale both horizontally or vertically to fit the destination rectangle. The source aspect ratio isn’t preserved.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::AudioOutputMode">
+            <summary>
+            All the available audio outputs modes for the video player.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::NONE">
+            <summary>
+            No audio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::DIRECT">
+            <summary>
+            The audio is outputted directly.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::AUDIO_SOURCE">
+            <summary>
+            The audio goes through an audio source.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::RenderMode">
+            <summary>
+            Available values of how the video should be rendered.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::CAMERA_FAR_PLANE">
+            <summary>
+            Video is rendered at the far plane of a camera.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::CAMERA_NEAR_PLANE">
+            <summary>
+            Video is rendered at the near plane of a camera.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::RENDER_TEXTURE">
+            <summary>
+            Video is rendered at a render texture.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::SourceType">
+            <summary>
+            The source type of the video.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SourceType::VIDEO_CLIP">
+            <summary>
+            The video to play is a video resource clip.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SourceType::URL">
+            <summary>
+            The video to play is an url or a path.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::SubtitleTextDataFormat">
+            <summary>
+            Enumeration of all available subtitle text data types.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::UNDEFINED">
+            <summary>
+            Undefined format.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::ASS">
+            <summary>
+            The text data is in ASS (Advanced SubStation Alpha).
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::STANDARD_TEXT">
+            <summary>
+            The text data is simple text.
+            </summary>
+        </member>
+        <member name="T:CometEngine::Video::SubtitleDataEvent">
+            <summary>
+            Struct that holds the subtitle data send by the videoplayer.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::textData">
+            <summary>
+            The subtitle text.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::formatData">
+            <summary>
+            The format of the data.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::durationMs">
+            <summary>
+            The duration of this text in ms.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::boxIndex">
+            <summary>
+            The box index where this texts belongs to.
+            </summary>
+        </member>
+        <member name="T:CometEngine::ColorGradientMode">
+            <summary>
+            Enumeration of the different color mode calculations.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientMode::BLEND">
+            <summary>
+            Blend between the two marks.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientMode::FIXED">
+            <summary>
+            Fixed value of the previous mark.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC1">
+            <summary>
+            Xbox Share | PS5 Microphone | Switch Pro Capture.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::RIGHT_PADDLE1">
+            <summary>
+            "Xbox Elite Padle 1.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::LEFT_PADDLE1">
+            <summary>
+            Xbox Elite Padle 2.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::RIGHT_PADDLE2">
+            <summary>
+            Xbox Elite Padle 3.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::LEFT_PADDLE2">
+            <summary>
+            Xbox Elite Padle 4.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::TOUCHPAD">
+            <summary>
+            PS4/PS5 Touchpad.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC2">
+            <summary>
+            Additional Button 1.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC3">
+            <summary>
+            Additional Button 2.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC4">
+            <summary>
+            Additional Button 3.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC5">
+            <summary>
+            Additional Button 4.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ControllerCode::MISC6">
+            <summary>
+            Additional Button 5.
+            </summary>
+        </member>
+        <member name="T:CometEngine::TextureType">
+            <summary>
+            Enumeration that contains all available modes for a texture.
+            </summary>
+        </member>
+        <member name="F:CometEngine::TextureType::SPIRTE_AND_UI">
+            <summary>
+            Texture will be used as a spritesheet.
+            </summary>
+        </member>
+        <member name="F:CometEngine::TextureType::NORMAL_MAP">
+            <summary>
+            Texture will be used as a normal map.
+            </summary>
+        </member>
+        <member name="F:CometEngine::TextureType::MAX">
+            <summary>
+            Total count of texture type modes.
+            </summary>
+        </member>
+        <member name="F:CometEngine::App::onAppClosed">
+            <summary>
+            Called when application is closed
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetBackgroundLoadingPriority()">
+            <summary>
+            Gets the priority of the background loading data
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::SetBackgroundLoadingPriority(BackgroundLoadingPriority)">
+            <summary>
+            Sets the priority of the background loading data
+            </summary>
+            <param name="backgroundLoadingPriority">The new backgroundLoadingPriority</param>
+        </member>
+        <member name="M:CometEngine::App::GetCompanyName()">
+            <summary>
+            Company Name
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetPersistentPath()">
+            <summary>
+            Get the user-and-app-specific path where files can be written, on windows should be something like this: "C:\\Users\\userName\\AppData\\Roaming\\My Company\\My Program Name\\"
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetMainGamePath()">
+            <summary>
+            Returns the global path of the exe folder
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetDataAssetsPath()">
+            <summary>
+            Returns the folder for data assets
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::IsEngineEditor()">
+            <summary>
+            True if the game is running in the comet engine editor
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetProductName()">
+            <summary>
+            Product Name
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::IsStoppingInBackground()">
+            <summary>
+            Gets if the application stop when the window has no focus and false if it does not
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::SetStopInBackground(bool)">
+            <summary>
+            Sets if the application stop when the window has no focus and false if it does not
+            </summary>
+            <param name="stopInBackground">The new flag value to set</param>
+        </member>
+        <member name="M:CometEngine::App::GetDesiredFrameRate()">
+            <summary>
+            Gets the desired frame rate, set it to 0 to disable caping fps
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::SetDesiredFrameRate(int)">
+            <summary>
+            Sets the desired frame rate, set it to 0 to disable caping fps
+            </summary>
+            <param name="desiredFrameRate">The new desired frame rate</param>
+        </member>
+        <member name="M:CometEngine::App::GetCurrentFrameRate()">
+            <summary>
+            The current frame rate
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetEngineVersion()">
+            <summary>
+            Engine Version
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::GetProductVersion()">
+            <summary>
+            The product version
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::Quit()">
+            <summary>
+            When called, app will quit
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::OpenURL(string)">
+            <summary>
+            Opens the url in the default browser
+            </summary>
+            <param name="url">The url to open</param>
+        </member>
+        <member name="M:CometEngine::App::GetVsync()">
+            <summary>
+            Gets the current vsync state
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::SetVsync(bool)">
+            <summary>
+            Sets a new vsync state
+            </summary>
+            <param name="vsync">The new vsync state</param>
+        </member>
+        <member name="M:CometEngine::App::SaveCurrentSettings()">
+            <summary>
+            Save current settings to file
+            </summary>
+        </member>
+        <member name="M:CometEngine::App::LoadSettings()">
+            <summary>
+            Load the settings from file
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetCurrentOutputDevice()">
+            <summary>
+            Gets the name of the current output device
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SetCurrentOutputDevice(string)">
+            <summary>
+            Sets the current output device
+            </summary>
+            <param name="device">The new desired device</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetMasterVolume()">
+            <summary>
+            Gets the master Volume that ranges from 0.0F to 1.0F
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SetMasterVolume(float)">
+            <summary>
+            Sets the master Volume that ranges from 0.0F to 1.0F
+            </summary>
+            <param name="masterVolume">The volume to set</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetRolloffScale()">
+            <summary>
+            Gets the rolloff scale which influences the amount of attenuation that is applied to 3D sounds. The rolloff factor can range from 0.0 to 10.0, where 0 is no rolloff. 1.0 is the default rolloff factor set, the value which we also experience in the real world. A value of 2 would mean twice the real-world rolloff.
+            </summary>
+        </member>
+         <member name="M:CometEngine::AudioSystem::SetRolloffScale(float)">
+            <summary>
+            Sets the rolloff scale which influences the amount of attenuation that is applied to 3D sounds. The rolloff factor can range from 0.0 to 10.0, where 0 is no rolloff. 1.0 is the default rolloff factor set, the value which we also experience in the real world. A value of 2 would mean twice the real-world rolloff.
+            </summary>
+            <param name="rolloffScale">The new rolloffScale</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetDopplerFactor()">
+            <summary>
+            Gets the value between 0 and 5 which multiplies the doppler effect. Default value is 1.0, which is the real world doppler effect, and 5.0f would be five times the real world doppler effect
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SetDopplerFactor(float)">
+            <summary>
+            Sets a value between 0 and 5 which multiplies the doppler effect. Default value is 1.0, which is the real world doppler effect, and 5.0f would be five times the real world doppler effect
+            </summary>
+            <param name="dopplerFactor">The new doppler factor to set</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetAudioSourceDefaultMinDistance3D()">
+            <summary>
+            Gets the default distance at which a 3D Sound is at its maximum volume
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SetAudioSourceDefaultMinDistance3D(float)">
+            <summary>
+            Sets the default distance at which a 3D Sound is at its maximum volume
+            </summary>
+            <param name="audioSourceDefaultMinDistance3D">The minimum distance</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetSudioSourceDefaultMaxDistance3D()">
+            <summary>
+            Gets the default distance at which a 3D Sound is inaudible
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SetAudioSourceDefaultMaxDistance3D(float)">
+            <summary>
+            Sets the default distance at which a 3D Sound is inaudible
+            </summary>
+            <param name="audioSourceDefaultMaxDistance3D">The maximum distance</param>
+        </member>
+        <member name="M:CometEngine::AudioSystem::ResumeAll()">
+            <summary>
+            Resume all sounds
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::PauseAll()">
+            <summary>
+            Pause all sounds
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::StopAll()">
+            <summary>
+            Stop all sounds
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::SaveCurrentSettings()">
+            <summary>
+            Save current audio settings to file
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::LoadSettings()">
+            <summary>
+            Load the audio file settings
+            </summary>
+        </member>
+        <member name="M:CometEngine::AudioSystem::GetOutputDevices()">
+            <summary>
+            Array of the output devices, it can be null
+            </summary>
+        </member>
+        <member name="M:CometEngine::Cursor::IsVisible()">
+            <summary>
+            Gets if the cursor is being rendered and false if not
+            </summary>
+        </member>
+        <member name="M:CometEngine::Cursor::SetVisible(bool)">
+            <summary>
+            Sets if the cursor is being rendered and false if not
+            </summary>
+            <param name="visible">Flag that contains the new visible state</param>
+        </member>
+        <member name="M:CometEngine::Cursor::SetSystemCursor(SystemCursor)">
+            <summary>
+            Set a system default cursor
+            </summary>
+            <param name="systemCursor">The new system cursor to set</param>
+        </member>
+        <member name="M:CometEngine::Cursor::SetCursor(Texture2D,Vector2i)">
+            <summary>
+            Set the hotspot and texture for the cursor, setting texture as null will set the cursor as the default in Player Settings
+            </summary>
+        </member>
+        <member name="M:CometEngine::Debug::IsDevelopmentBuild()">
+            <summary>
+            Gets if this build is in development mode.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Graphics::GetUseLightMaterialsByDefault()">
+            <summary>
+            Gets if objects will be created with light materials if true
+            </summary>
+        </member>
+        <member name="M:CometEngine::Graphics::SetUseLightMaterialsByDefault(bool)">
+            <summary>
+            Sets if objects will be created with light materials if true
+            </summary>
+            <param name="useLightMaterialsByDefault">The new flag value</param>
+        </member>
+        <member name="M:CometEngine::Graphics::IsLoadingTexturesAsync()">
+            <summary>
+            Gets if you want to load all textures async
+            </summary>
+        </member>
+        <member name="M:CometEngine::Graphics::SetLoadTexturesAsync(bool)">
+            <summary>
+            Sets if you want to load all textures async
+            </summary>
+            <param name="loadTexturesAsynchronous">The new flag value</param>
+        </member>
+        <member name="M:CometEngine::Graphics::GetAntiAliasing()">
+            <summary>
+            Gets the anti-aliasing level
+            </summary>
+        </member>
+        <member name="M:CometEngine::Graphics::SetAntiAliasing(AntiAliasing)">
+            <summary>
+            Sets the anti-aliasing level
+            </summary>
+            <param name="antiAliasing">The new AntiAliasing level</param>
+        </member>
+        <member name="M:CometEngine::Graphics::SaveCurrentSettings()">
+            <summary>
+            Save current graphics settings to file
+            </summary>
+        </member>
+        <member name="M:CometEngine::Graphics::LoadSettings()">
+            <summary>
+            Load the graphics file settings
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onControllerDeviceConnected">
+            <summary>
+            Called when a controller device is connected
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onControllerDeviceDisconnected">
+            <summary>
+            Called when a controller device is disconnected
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyKeyPressed()">
+            <summary>
+            Returns true if any keyboard key is pressed
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyKeyDown()">
+            <summary>
+            Returns true if any keyboard key is down
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyKeyUp()">
+            <summary>
+            Returns true if any keyboard key is up
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyMouseButtonPressed()">
+            <summary>
+            Returns true if any mouse button is pressed
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyMouseButtonDown()">
+            <summary>
+            Returns true if any mouse button is down
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::IsAnyMouseButtonUp()">
+            <summary>
+            Returns true if any mouse button is up
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetMousePosition()">
+            <summary>
+            Returns the mouse position, top - left is 0,0
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetMouseMotion()">
+            <summary>
+            Returns the mouse motion
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetMouseScrollMotion()">
+            <summary>
+            Returns the mouse scroll motion
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetKeyPressed(KeyCode)">
+            <summary>
+            Returns true if the key is pressed
+            </summary>
+            <param name="keyCode">The key code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetKeyDown(KeyCode)">
+            <summary>
+            Returns true the first frame the key is pressed
+            </summary>
+            <param name="keyCode">The key code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetKeyUp(KeyCode)">
+            <summary>
+            Returns true when the key is released
+            </summary>
+            <param name="keyCode">The key code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetMouseButtonPressed(MouseCode)">
+            <summary>
+            Returns true if the mouse button is pressed
+            </summary>
+            <param name="mouseCode">The mouse code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetMouseButtonDown(MouseCode)">
+            <summary>
+            Returns true the first frame the mouse button is pressed
+            </summary>
+            <param name="mouseCode">The mouse code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetMouseButtonUp(MouseCode)">
+            <summary>
+            Returns true when the mouse button is released
+            </summary>
+            <param name="mouseCode">The mouse code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerType(ControllerNumber)">
+            <summary>
+            Returns the type of the controller. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerNumber">The controller number from which to get the type</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllersConnected()">
+            <summary>
+            Returns an array of the connected controllers
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonPressed(ControllerCode)">
+            <summary>
+            Returns true when the controller button is pressed in any controller
+            </summary>
+             <param name="controllerCode">The controller code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonPressed(ControllerCode,ControllerNumber)">
+            <summary>
+            Returns true when the controller button is pressed only in the controller that has controllerNumber. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerCode">The controller code to check</param>
+            <param name="controllerNumber">The controller number from which get the input</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonDown(ControllerCode)">
+            <summary>
+            Returns true when the controller button is down in any controller
+            </summary>
+            <param name="controllerCode">The controller code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonDown(ControllerCode,ControllerNumber)">
+            <summary>
+            Returns true when the controller button is down only in the controller that has controllerNumber. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerCode">The controller code to check</param>
+            <param name="controllerNumber">The controller number from which get the input</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonUp(ControllerCode)">
+            <summary>
+            Returns true when the controller button is up in any controller
+            </summary>
+            <param name="controllerCode">The controller code to check</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerButtonUp(ControllerCode,ControllerNumber)">
+            <summary>
+            Returns true when the controller button is up only in the controller that has controllerNumber. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerCode">The controller code to check</param>
+            <param name="controllerNumber">The controller number from which get the input</param>
+        </member>
+        <member name="M:CometEngine::Input::MakeControllerRumble(float,float)">
+            <summary>
+            Rumble all available controllers: strength goes between 0 - 1 and duration is 1000 = 1s
+            </summary>
+            <param name="strength">The strength of the rumble</param>
+            <param name="duration">Duration in ms of the rumble</param>
+        </member>
+        <member name="M:CometEngine::Input::MakeControllerRumble(float,float,ControllerNumber)">
+            <summary>
+            Rumble the controller with controllerNumber: strength goes between 0 - 1 and duration is 1000 = 1s. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="strength">The strength of the rumble</param>
+            <param name="duration">Duration in ms of the rumble</param>
+            <param name="controllerNumber">The controller number where the rumble will be applied</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerTriggerValue(ControllerTrigger,ControllerNumber)">
+            <summary>
+            Returns the trigger value between 0 to 1. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerTrigger">The trigger code</param>
+            <param name="controllerNumber">The controller number from which get the input</param>
+        </member>
+        <member name="M:CometEngine::Input::GetControllerAxisValue(ControllerAxis,ControllerNumber)">
+            <summary>
+            Returns the axis value between 0 to 1. The controller number one has number 1, controller number two has number 2... and so on
+            </summary>
+            <param name="controllerAxis">The axis code</param>
+            <param name="controllerNumber">The controller number from which get the input</param>
+        </member>
+        <member name="M:CometEngine::Input::GetAction(string)">
+            <summary>
+            Find the first action called actionName and returns true if it is done
+            </summary>
+            <param name="actionName">The name of the action to get</param>
+        </member>
+        <member name="M:CometEngine::Input::GetTouchCount()">
+            <summary>
+            Returns the number of currently active touches
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetTouchById(uint64)">
+            <summary>
+            Returns the touch data for a specific touch ID
+            </summary>
+            <param name="id">The touch ID to get data from</param>
+        </member>
+        <member name="M:CometEngine::Input::GetTouchByIndex(uint64)">
+            <summary>
+            Returns the touch data at a specific index
+            </summary>
+            <param name="index">The touch index to get data from</param>
+        </member>
+        <member name="M:CometEngine::Input::IsPinching()">
+            <summary>
+            Returns true if a pinch gesture is currently active
+            </summary>
+        </member>
+        <member name="M:CometEngine::Input::GetPinchZoom()">
+            <summary>
+            Returns the pinch zoom scale
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onTouchStarted">
+            <summary>
+            Called when a touch starts
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onTouchMoved">
+            <summary>
+            Called when a touch moves
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onTouchEnded">
+            <summary>
+            Called when a touch ends
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onPinchStarted">
+            <summary>
+            Called when a pinch gesture starts
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onPinchMoved">
+            <summary>
+            Called when a pinch gesture moves
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::onPinchEnded">
+            <summary>
+            Called when a pinch gesture ends
+            </summary>
+        </member>
+        <member name="T:CometEngine::Input::Touch">
+            <summary>
+            Represents a touch point with its data
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::Touch::id">
+            <summary>
+            The unique identifier of the touch
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::Touch::position">
+            <summary>
+            The position of the touch in screen space
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::Touch::motion">
+            <summary>
+            The motion (delta) of the touch from the last frame
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::Touch::pressure">
+            <summary>
+            The pressure of the touch, normalized between 0 and 1
+            </summary>
+        </member>
+        <member name="F:CometEngine::Input::Touch::state">
+            <summary>
+            The current state of the touch (down, up, moving, etc)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::GetVelocityIterations()">
+            <summary>
+                The number of iterations of the physics solver when considering objects' velocities
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetVelocityIterations(int)">
+            <summary>
+                The number of iterations of the physics solver when considering objects' velocities
+            </summary>
+            <param name="velocityIterations">The number of iterations of the physics solver when considering objects' velocities</param>
+        </member>
+        <member name="M:CometEngine::Physics::GetPositionIterations()">
+            <summary>
+                The number of iterations of the physics solver when considering objects' positions
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetPositionIterations(int)">
+            <summary>
+                The number of iterations of the physics solver when considering objects' positions
+            </summary>
+            <param name="positionIterations">The number of iterations of the physics solver when considering objects' positions</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetGravity()">
+            <summary>
+                Acceleration due to gravity
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetGravity(Vector2)">
+            <summary>
+            Acceleration due to gravity
+            </summary>
+            <param name="gravity">Acceleration due to gravity</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetRaycastHitTriggers()">
+            <summary>
+                Should raycast hit triggers?
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetRaycastHitTriggers(bool)">
+            <summary>
+                Should raycast hit triggers?
+            </summary>
+            <param name="raycastHitTriggers">Should raycast hit triggers?</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetMaxRotationSpeed()">
+            <summary>
+                The maximum angular speed of a rigid-body per physics update
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetMaxRotationSpeed(float)">
+            <summary>
+                The maximum angular speed of a rigid-body per physics update
+            </summary>
+            <param name="maxRotationSpeed">The maximum angular speed of a rigid-body per physics update</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetVelocityThreshold()">
+            <summary>
+                Any collisions with a relative linear velocity below this threshold will be treated as inelastic
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetVelocityThreshold(float)">
+            <summary>
+                Any collisions with a relative linear velocity below this threshold will be treated as inelastic
+            </summary>
+            <param name="velocityThreshold">Any collisions with a relative linear velocity below this threshold will be treated as inelastic</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetMaxLinearCorrection()">
+            <summary>
+                The maximum linear position correction used when solving constraints
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetMaxLinearCorrection(float)">
+            <summary>
+                The maximum linear position correction used when solving constraints
+            </summary>
+            <param name="maxLinearCorrection">The maximum linear position correction used when solving constraints</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetMaxAngularCorrection()">
+            <summary>
+                The maximum angular position correction used when solving constraints
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetMaxAngularCorrection(float)">
+            <summary>
+                The maximum angular position correction used when solving constraints
+            </summary>
+            <param name="maxAngularCorrection">The maximum angular position correction used when solving constraints</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetMaxTranslationSpeed()">
+            <summary>
+                The maximum linear speed of a rigid-body per physics update
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetMaxTranslationSpeed(float)">
+            <summary>
+                The maximum linear speed of a rigid-body per physics update
+            </summary>
+            <param name="maxTranslationSpeed">The maximum linear speed of a rigid-body per physics update</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetBaumgarteScale()">
+            <summary>
+                The scale factor that controls how fast overlaps are resolved
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetBaumgarteScale(float)">
+            <summary>
+                The scale factor that controls how fast overlaps are resolved
+            </summary>
+            <param name="baumgarteScale">The scale factor that controls how fast overlaps are resolved</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetBaumgarteTOIScale()">
+            <summary>
+                The scale factor that controls how fast TOI overlaps are resolved
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetBaumgarteTOIScale(float)">
+            <summary>
+                The scale factor that controls how fast TOI overlaps are resolved
+            </summary>
+            <param name="baumgarteTOIScale">The scale factor that controls how fast TOI overlaps are resolved</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetColliderAwakeColor()">
+            <summary>
+                The color used by the gizmos to show all awake colliders
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetColliderAwakeColor(Color)">
+            <summary>
+                The color used by the gizmos to show all awake colliders
+            </summary>
+            <param name="colliderAwakeColor">The color used by the gizmos to show all awake colliders</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetColliderAsleepColor()">
+            <summary>
+                The color used by the gizmos to show all asleep colliders
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetColliderAsleepColor(Color)">
+            <summary>
+                The color used by the gizmos to show all asleep colliders
+            </summary>
+            <param name="colliderAsleepColor">The color used by the gizmos to show all asleep colliders</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetColliderAABBColor()">
+            <summary>
+                Sets the color used by the gizmos to show all Collider axis-aligned bounding boxes
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetColliderAABBColor(Color)">
+            <summary>
+                Sets the color used by the gizmos to show all Collider axis-aligned bounding boxes
+            </summary>
+            <param name="colliderAABBColor">Sets the color used by the gizmos to show all Collider axis-aligned bounding boxes</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::IsShowingColliderAABB()">
+            <summary>
+                Should the collider gizmos show the AABBs for each collider?
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetShowColliderAABB(bool)">
+            <summary>
+                Should the collider gizmos show the AABBs for each collider?
+            </summary>
+            <param name="showColliderAABB">Should the collider gizmos show the AABBs for each collider?</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::IsShowingColliderSleep()">
+            <summary>
+                Should the collider gizmos show the sleep-state for each collider?
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetShowColliderSleep(bool)">
+            <summary>
+                Should the collider gizmos show the sleep-state for each collider?
+            </summary>
+            <param name="showColliderSleep">Should the collider gizmos show the sleep-state for each collider?</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::IsAlwaysShowingColliders()">
+            <summary>
+                Should the collider gizmos always be shown even when they are not selected?
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetAlwaysShowColliders(bool)">
+            <summary>
+                Should the collider gizmos always be shown even when they are not selected?
+            </summary>
+            <param name="alwaysShowColliders">Should the collider gizmos always be shown even when they are not selected?</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetAngularSleepTolerance()">
+            <summary>
+                A rigid-body cannot sleep if its angular velocity is above this tolerance
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetAngularSleepTolerance(float)">
+            <summary>
+                A rigid-body cannot sleep if its angular velocity is above this tolerance
+            </summary>
+            <param name="angularSleepTolerance">A rigid-body cannot sleep if its angular velocity is above this tolerance</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetLinearSleepTolerance()">
+            <summary>
+                A rigid-body cannot sleep if its linear velocity is above this tolerance
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetLinearSleepTolerance(float)">
+            <summary>
+                A rigid-body cannot sleep if its linear velocity is above this tolerance
+            </summary>
+            <param name="linearSleepTolerance">A rigid-body cannot sleep if its linear velocity is above this tolerance</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetTimeToSleep()">
+            <summary>
+                The time in seconds that a rigid-body must be still before it will go to sleep
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetTimeToSleep(float)">
+            <summary>
+                The time in seconds that a rigid-body must be still before it will go to sleep
+            </summary>
+            <param name="timeToSleep">The time in seconds that a rigid-body must be still before it will go to sleep</param>
+        </member>
+
+        <member name="M:CometEngine::Physics::GetDefaultContactOffset()">
+            <summary>
+                The default contact offset of the newly created colliders
+            </summary>
+        </member>
+        <member name="M:CometEngine::Physics::SetDefaultContactOffset(float)">
+            <summary>
+                The default contact offset of the newly created colliders
+            </summary>
+            <param name="defaultContactOffset">The default contact offset of the newly created colliders</param>
+        </member>
+        <member name="M:CometEngine::Random::GetSeed()">
+            <summary>
+            Gets the current seed for the random numbers
+            </summary>
+        </member>
+        <member name="M:CometEngine::Random::SetSeed(uint)">
+            <summary>
+            Sets the seed for the random numbers
+            </summary>
+            <param name="seed">The new seed</param>
+        </member>
+        <member name="M:CometEngine::Random::RangeInt(int,int)">
+            <summary>
+            Returns random int between min [inclusive] and max [inclusive]
+            </summary>
+            <param name="min">The minimum possible value inclusive</param>
+            <param name="max">The maximum possible value inclusive</param>
+        </member>
+        <member name="M:CometEngine::Random::RangeFloat(float,float)">
+            <summary>
+            Returns random float between min [inclusive] and max [inclusive]
+            </summary>
+            <param name="min">The minimum possible value inclusive</param>
+            <param name="max">The maximum possible value inclusive</param>
+        </member>
+        <member name="M:CometEngine::Random::RangeDouble(double,double)">
+            <summary>
+            Returns random double between min [inclusive] and max [inclusive]
+            </summary>
+            <param name="min">The minimum possible value inclusive</param>
+            <param name="max">The maximum possible value inclusive</param>
+        </member>
+        <member name="M:CometEngine::RuntimeAssets::LoadScene(string)">
+            <summary>
+            Load a scene from a RuntimeAssets folder from the project, this method dos not change the scene. Use CometEngine.SceneManagement to change the scene
+            </summary>
+            <param name="path">The path of the scene from the RuntimeAssets folder</param>
+        </member>
+        <member name="M:CometEngine::RuntimeAssets::UnloadAll()">
+            <summary>
+            Unload all assets previously loaded, this will unload the asset once any object is using it
+            </summary>
+        </member>
+        <member name="M:CometEngine::RuntimeAssets::LoadAllScenes(string)">
+            <summary>
+            Loads all the scenes at the given path. The path is relative to the RuntimeAssets folder and file extension should not be included. This method does not change the scene. Use CometEngine.SceneManagement to change the scene.
+            If the path points to a file, it will return an array with a single scene. If the path points to a folder, it will return an array with all the scenes in that folder and its subfolders.
+            </summary>
+            <param name="path">The path to the folder or file, relative to the RuntimeAssets folder, without file extension</param>
+            <returns>An array of loaded scenes, or an empty array if loading failed</returns>
+        </member>
+        <member name="M:CometEngine::RuntimeAssets::GetFilesAtDirectory(string)">
+            <summary>
+            Gets all files at a directory from the RuntimeAssets folder. The path is relative to the RuntimeAssets folder.
+            </summary>
+            <param name="path">The path of the directory, relative to the RuntimeAssets folder</param>
+            <returns>An array containing all file names in the directory, or an empty array if the directory does not exist</returns>
+        </member>
+        <member name="M:CometEngine::RuntimeAssets::GetDirectoriesAtDirectory(string)">
+            <summary>
+            Gets all directories at a directory from the RuntimeAssets folder. The path is relative to the RuntimeAssets folder. Only returns directories at the specified path, not in subfolders.
+            </summary>
+            <param name="path">The path of the directory, relative to the RuntimeAssets folder</param>
+            <returns>An array containing all subdirectory names in the directory, or an empty array if the directory does not exist</returns>
+        </member>
+        <member name="M:CometEngine::ScreenCapture::Capture(string,bool)">
+            <summary>
+            Saves a screen capture of the current game scene
+            </summary>
+            <param name="path">Path without extension to save the current game image</param>
+            <param name="overwrite">Flag that indicates if it should overwrite the image if the path already exists</param>
+            <returns>Returns true if the images has been saves successfully</returns>
+        </member>
+        <member name="M:CometEngine::Time::GetDeltaTime()">
+            <summary>
+                The last frame seconds
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetUnscaledDeltaTime()">
+            <summary>
+                The timeScale independent last frame seconds
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetFramesSinceStart()">
+            <summary>
+                The total numbers of frames since the start of the game
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetAppTime()">
+            <summary>
+                The total time since the start of the game
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetStartFrameTime()">
+            <summary>
+                The total dependent scale time at the start of the frame
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetStartFrameUnscaledTime()">
+            <summary>
+                The total independent scale time at the start of the frame
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetGameTime()">
+            <summary>
+                The total dependent scale time since the start of the game
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetUnscaledGameTime()">
+            <summary>
+                The total independent scale time since the start of the game
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetTimeScale()">
+            <summary>
+                The scale at which time passes
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::SetTimeScale(float)">
+            <summary>
+                The scale at which time passes
+            </summary>
+            <param name="timeScale">The scale at which time passes</param>
+        </member>
+        <member name="M:CometEngine::Time::GetSceneTime()">
+            <summary>
+                The time passed since last scene loaded
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetFixedDeltaTime()">
+            <summary>
+                Time in seconds at which physics updates
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::SetFixedDeltaTime(float)">
+            <summary>
+                Time in seconds at which physics updates
+            </summary>
+            <param name="fixedDeltaTime">Time in seconds at which physics updates</param>
+        </member>
+        <member name="M:CometEngine::Time::GetFixedGameTime()">
+            <summary>
+                The total time dependent scale time in seconds passed since last FixedUpdate
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetFixedUnscaledGameTime()">
+            <summary>
+                The total time independent scale time in seconds passed since last FixedUpdate
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::GetParticlesTimeStep()">
+            <summary>
+                Framerate-independent interval that indicates when particles are updated.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Time::SetParticlesTimeStep(float)">
+            <summary>
+                Framerate-independent interval that indicates when particles are updated.
+            </summary>
+            <param name="particlesTimeStep">Framerate-independent interval that indicates when particles are updated.</param>
+        </member>
+        <member name="T:CometEngine::UniqueInstances">
+            <summary>
+            Class that manages the UniqueInstances
+            </summary>
+        </member>
+        <member name="M:CometEngine::UniqueInstances::DestroyUniqueInstances()">
+            <summary>
+            Destroys the unique instance objects.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UniqueInstances::CreateUniqueInstances()">
+            <summary>
+            Create the unique insatance objects. If they are already created, this method will do nothing.
+            </summary>
+        </member>
+        <member name="M:CometEngine::UniqueInstances::RestartUniqueInstances()">
+            <summary>
+            Removes the current unique instance objects and then creates it again.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowFocusLost">
+            <summary>
+            Called when window loses the focus (in editor window means the game panel)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowFocusGained">
+            <summary>
+            Called when window gains the focus (in editor window means the game panel)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowResized">
+            <summary>
+            Called when window is resized (in editor window means the engine window)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowMaximized">
+            <summary>
+            Called when window is maximized (only called on build)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowMinimized">
+            <summary>
+            Called when window is minimized (only called on build)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::onWindowRestored">
+            <summary>
+            Called when window is restored (only called on build)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::GetWidth()">
+            <summary>
+                The width of the window in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetWidth(int)">
+            <summary>
+                The width of the window in pixels
+            </summary>
+            <param name="width">The width of the window in pixels</param>
+        </member>
+
+        <member name="M:CometEngine::Window::GetHeight()">
+            <summary>
+                The height of the window in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetHeight(int)">
+            <summary>
+                The height of the window in pixels
+            </summary>
+            <param name="height">The height of the window in pixels</param>
+        </member>
+        <member name="M:CometEngine::Window::GetInitialPositionMode()">
+            <summary>
+                The initial position mode of the window
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetInitialPositionMode(InitialPositionMode)">
+            <summary>
+                The initial position mode of the window
+            </summary>
+            <param name="mode">The initial position mode of the window</param>
+        </member>
+        <member name="M:CometEngine::Window::GetInitialPosition()">
+            <summary>
+                The initial position of the window on the screen in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetInitialPosition(Vector2i)">
+            <summary>
+                The initial position of the window on the screen in pixels
+            </summary>
+            <param name="position">The initial position of the window on the screen in pixels</param>
+        </member>
+        <member name="M:CometEngine::Window::GetInitialScreenIndex()">
+            <summary>
+                The initial screen index where the window will be created
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetInitialScreenIndex(int)">
+            <summary>
+                The initial screen index where the window will be created
+            </summary>
+            <param name="index">The initial screen index where the window will be created</param>
+        </member>
+        <member name="M:CometEngine::Window::IsAlwaysOnTop()">
+            <summary>
+                True if the window is always on top of other windows
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetAlwaysOnTop(bool)">
+            <summary>
+                True if the window is always on top of other windows
+            </summary>
+            <param name="alwaysOnTop">True if the window is always on top of other windows</param>
+        </member>
+        <member name="M:CometEngine::Window::GetPosition()">
+            <summary>
+                The position of the window on the screen in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetPosition(Vector2i)">
+            <summary>
+                The position of the window on the screen in pixels
+            </summary>
+            <param name="position">The position of the window on the screen in pixels</param>
+        </member>
+        <member name="M:CometEngine::Window::GetMinimumSize()">
+            <summary>
+                The minimum size of the window in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetMinimumSize(Vector2i)">
+            <summary>
+                The minimum size of the window in pixels
+            </summary>
+            <param name="minimumSize">The minimum size of the window in pixels</param>
+        </member>
+
+        <member name="M:CometEngine::Window::GetMaximumSize()">
+            <summary>
+                The maximum size of the window in pixels
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetMaximumSize(Vector2i)">
+            <summary>
+                The maximum size of the window in pixels
+            </summary>
+            <param name="maximumSize">The maximum size of the window in pixels</param>
+        </member>
+
+        <member name="M:CometEngine::Window::IsBordered()">
+            <summary>
+                True if the window is bordered
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetBordered(bool)">
+            <summary>
+                True if the window is bordered
+            </summary>
+            <param name="bordered">True if the window is bordered</param>
+        </member>
+
+        <member name="M:CometEngine::Window::IsResizable()">
+            <summary>
+                True if the window can be resized
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetResizable(bool)">
+            <summary>
+                True if the window can be resized
+            </summary>
+            <param name="resizable">True if the window can be resized</param>
+        </member>
+
+        <member name="M:CometEngine::Window::IsFocused()">
+            <summary>
+                True if the window is focused
+            </summary>
+        </member>
+
+        <member name="M:CometEngine::Window::GetMinimized()">
+            <summary>
+                True if the window is minimized
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::IsMinimized()">
+            <summary>
+                True if the window is minimized
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::IsMaximized()">
+            <summary>
+                True if the window is maximized
+            </summary>
+        </member>
+
+        <member name="M:CometEngine::Window::GetFullScreenMode()">
+            <summary>
+                Mode of the window
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetFullScreenMode(FullScreenMode)">
+            <summary>
+                Mode of the window
+            </summary>
+            <param name="mode">Mode of the window</param>
+        </member>
+
+        <member name="M:CometEngine::Window::GetCurrentResolution()">
+            <summary>
+               Gets the window resolution
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::LoadSettings()">
+            <summary>
+               Loads the window settings
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SaveCurrentSettings()">
+            <summary>
+               Saves the current window settings
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetResolution(Resolution)">
+            <summary>
+                Sets the window resolution
+            </summary>
+            <param name="resolution">Set window resolution</param>
+        </member>
+        <member name="T:CometEngine::Color">
+            <summary>
+            Struct that represents a Color with the four behaviours (red, green, blue and alpha) that range between 0.0F to 1.0F.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Color::Color(float,float,float)">
+            <summary>
+            Creates a color with a rgb.
+            </summary>
+            <param name="r">Red</param>
+            <param name="g">Green</param>
+            <param name="b">Blue</param>
+        </member>
+        <member name="M:CometEngine::Color::Color(float,float,float,float)">
+            <summary>
+            Creates a color with a rgba.
+            </summary>
+            <param name="r">Red</param>
+            <param name="g">Green</param>
+            <param name="b">Blue</param>
+            <param name="a">Alpha</param>
+        </member>
+        <member name="M:CometEngine::Color::Color(Color,float)">
+            <summary>
+            Creates a color copying another with a diferent alpha value.
+            </summary>
+            <param name="other">Other color</param>
+            <param name="a">Alpha</param>
+        </member>
+        <member name="F:CometEngine::Color::r">
+            <summary>
+            Red behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::g">
+            <summary>
+            Green behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::b">
+            <summary>
+            Blue behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::a">
+            <summary>
+            Alpha behaviour.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Color::ToGrayScale()">
+            <summary>
+            Get the gray scale format from the current Color.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Color::ToString()">
+            <summary>
+            Converts the color to a readable string.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Color::GetMaxBehaviour()">
+            <summary>
+            Get the maximum value of a behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::black">
+            <summary>
+            RGBA (0,0,0,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::blue">
+            <summary>
+            RGBA (0,0,1,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::clear">
+            <summary>
+            RGBA (0,0,0,0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::cyan">
+            <summary>
+            RGBA (0,1,1,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::gray">
+            <summary>
+            RGBA (0.5,0.5,0.5,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::grey">
+            <summary>
+            RGBA (0.5,0.5,0.5,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::green">
+            <summary>
+            RGBA (0,1,0,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::magenta">
+            <summary>
+            RGBA (1,0,1,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::red">
+            <summary>
+            RGBA (1,0,0,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::white">
+            <summary>
+            RGBA (1,1,1,1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Color::yellow">
+            <summary>
+            RGBA (1, 0.92, 0.016, 1)
+            </summary>
+        </member>
+        <member name="T:CometEngine::ColorGradientAlphaMark">
+            <summary>
+            Represents an alpha mark for a ColorGradient object.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientAlphaMark::position">
+            <summary>
+            Position to the gradient, value between 0.0F to 1.0F.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientAlphaMark::alpha">
+            <summary>
+            Alpha behaviour.
+            </summary>
+        </member>
+        <member name="T:CometEngine::ColorGradientColorMark">
+            <summary>
+            Represents a color mark for a ColorGradient object.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientColorMark::position">
+            <summary>
+            Position to the gradient, value between 0.0F to 1.0F.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientColorMark::red">
+            <summary>
+            Red behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientColorMark::green">
+            <summary>
+            Green behaviour.
+            </summary>
+        </member>
+        <member name="F:CometEngine::ColorGradientColorMark::blue">
+            <summary>
+            Blue behaviour.
+            </summary>
+        </member>
+        <member name="M:CometEngine::LayerMask::GetMultiMask(array<string>)">
+            <summary>
+            Return the mask
+            </summary>
+            <param name="layerNames">Merges all masks from the layers to one</param>
+        </member>
+        <member name="M:CometEngine::LayerMask::GetSingleMask(string)">
+            <summary>
+            Return the mask
+            </summary>
+            <param name="layerName">The name of the layer</param>
+        </member>
+        <member name="M:CometEngine::LayerMask::LayerNumberToMask(int64)">
+            <summary>
+            Return the mask of the number of a layer
+            </summary>
+            <param name="layerNumber">The number of the layer from which get the mask</param>
+        </member>
+        <member name="M:CometEngine::LayerMask::GetLayerNumber(string)">
+            <summary>
+            Return the number of the layer name
+            </summary>
+            <param name="layerName">The name of the layer</param>
+        </member>
+        <member name="M:CometEngine::LayerMask::GetLayerName(int64)">
+            <summary>
+            Return the name of the layerNumber
+            </summary>
+            <param name="layerNumber">The number of the layer from which get the name</param>
+        </member>
+        <member name="M:CometEngine::LayerMask::GetSingleMaskName(int64)">
+            <summary>
+            Return the name of the mask
+            </summary>
+            <param name="mask">The mask to get the name from</param>
+        </member>
+        <member name="F:CometEngine::LayerMask::maskValue">
+            <summary>
+            Value of the mask
+            </summary>
+        </member>
+        <member name="F:CometEngine::LayerMask::allLayers">
+            <summary>
+            Constant that holds all the possible layers.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Quaternion::identity">
+            <summary>
+            (0, 0, 0, 1)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::Dot(Quaternion)">
+            <summary>
+            Return the Dot product
+            </summary>
+            <param name="q">The other quaternion</param>
+        </member>
+        <member name="F:CometEngine::Quaternion::eulerAngles">
+            <summary>
+            Quaternion eulerAngles in degrees
+            </summary>
+        </member>
+        <member name="F:CometEngine::Quaternion::normalized">
+            <summary>
+            Returns a quaternion with magnitud of 1
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::Normalize">
+            <summary>
+            Makes this quaternion to havemagnitud of 1
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::AngleAxis(float,Vector3)">
+            <summary>
+            Creates a new Quaternion with angles in degrees and an axis
+            </summary>
+            <param name="angle">The angle in degrees</param>
+            <param name="axis">The rotation axis</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::RotateFromTo(Vector3,Vector3)">
+            <summary>
+            Return a new Quaternion that rotates from source to target
+            </summary>
+            <param name="from">The source direction</param>
+            <param name="to">The target direction</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::Set(float,float,float,float)">
+            <summary>
+            Set the x, y, z and w of this quaternion
+            </summary>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+            <param name="z">The z component</param>
+            <param name="w">The w component</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::ToAxisAngle(Vector3@,float@)">
+            <summary>
+            Get the axis and angle of this quaternion
+            </summary>
+            <param name="axis">The output axis</param>
+            <param name="angle">The output angle</param>
+        </member>
+        <member name="F:CometEngine::Quaternion::angle">
+            <summary>
+            Returns the angle of this quaternion
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::FromEuler(float,float,float)">
+            <summary>
+            Creates a new Quaternion with euler angles in degrees
+            </summary>
+            <param name="x">The x rotation in degrees</param>
+            <param name="y">The y rotation in degrees</param>
+            <param name="z">The z rotation in degrees</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::Inverse">
+            <summary>
+            Inverse this quaternion
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::Lerp(Quaternion,Quaternion,float)">
+            <summary>
+            Interpolates between a and b by t
+            </summary>
+            <param name="a">The start quaternion</param>
+            <param name="b">The target quaternion</param>
+            <param name="t">The interpolation parameter (0 to 1)</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::LerpUnclamped(Quaternion,Quaternion,float)">
+            <summary>
+            Interpolates between a and b by t
+            </summary>
+            <param name="a">The start quaternion</param>
+            <param name="b">The target quaternion</param>
+            <param name="t">The interpolation parameter (not clamped)</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::Slerp(Quaternion,Quaternion,float)">
+            <summary>
+            Spherically interpolates between a and b by t
+            </summary>
+            <param name="a">The start quaternion</param>
+            <param name="b">The target quaternion</param>
+            <param name="t">The interpolation parameter (0 to 1)</param>
+        </member>
+        <member name="M:CometEngine::Quaternion::SlerpUnclamped(Quaternion,Quaternion,float)">
+            <summary>
+            Spherically interpolates between a and b by t
+            </summary>
+            <param name="a">The start quaternion</param>
+            <param name="b">The target quaternion</param>
+            <param name="t">The interpolation parameter (not clamped)</param>
+        </member>
+        <member name="F:CometEngine::Quaternion::inverted">
+            <summary>
+            Return the inverted quaternion
+            </summary>
+        </member>
+        <member name="M:CometEngine::Quaternion::AngleBetween(Quaternion,Quaternion)">
+            <summary>
+            Return the angle between two quaternions in radians
+            </summary>
+            <param name="a">The first quaternion</param>
+            <param name="b">The second quaternion</param>
+        </member>
+        <member name="F:CometEngine::Vector2::down">
+            <summary>
+            (0, -1)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2::Length()">
+            <summary>
+            Returns the length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2::LengthSq()">
+            <summary>
+            Returns the squared length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2::Normalized()">
+            <summary>
+            Returns this vector with a magnitude of 1
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2::Set(float,float)">
+            <summary>
+            Set this vector with new x,y and z
+            </summary>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+        </member>
+        <member name="M:CometEngine::Vector2::DistanceSqr(Vector2)">
+            <summary>
+            Returns the squared distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Distance(Vector2)">
+            <summary>
+            Returns the distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Dot(Vector2)">
+            <summary>
+            Returns the dot product of two vectors.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Lerp(Vector2,float)">
+            <summary>
+            Linearly interpolates between two vectors
+            </summary>
+            <param name="to">The target vector</param>
+            <param name="t">The interpolation parameter (0 to 1)</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Max(Vector2)">
+            <summary>
+            Returns a vector that is made from the largest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Min(Vector2)">
+            <summary>
+            Returns a vector that is made from the smallest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Lerp(Vector2,Vector2)">
+            <summary>
+            Linearly interpolates between two vectors
+            </summary>
+            <param name="from">The start vector</param>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Angle(Vector2)">
+            <summary>
+            Returns the unsigned angle in degrees between from and to.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::SignedAngle(Vector2)">
+            <summary>
+            Returns the signed angle in degrees between from and to. Values range from -180 to 180.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2::Normalize()">
+            <summary>
+            Makes this vector to have a length of 1.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2::left">
+            <summary>
+            (-1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2::one">
+            <summary>
+            (1, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2::right">
+            <summary>
+            (1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2::up">
+            <summary>
+            (0, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2::zero">
+            <summary>
+            (0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2::Abs()">
+            <summary>
+            Returns a new Vector2 with absolut value of each behaviour
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::down">
+            <summary>
+            (0, -1)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2i::Length()">
+            <summary>
+            Returns the length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2i::LengthSq()">
+            <summary>
+            Returns the squared length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2i::Set(int,int)">
+            <summary>
+            Set this vector with new x,y and z
+            </summary>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+        </member>
+        <member name="M:CometEngine::Vector2i::DistanceSqr(Vector2i)">
+            <summary>
+            Returns the squared distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2i::Distance(Vector2i)">
+            <summary>
+            Returns the distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector2i::Max(Vector2i)">
+            <summary>
+            Returns a vector that is made from the largest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector2i::Min(Vector2i)">
+            <summary>
+            Returns a vector that is made from the smallest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector2i::Perpendicular()">
+            <summary>
+            Returns a new Vector2i perpendicular to vector
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::left">
+            <summary>
+            (-1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::one">
+            <summary>
+            (1, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::right">
+            <summary>
+            (1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::up">
+            <summary>
+            (0, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector2i::zero">
+            <summary>
+            (0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector2i::Abs()">
+            <summary>
+            Returns a new Vector2i with absolut value of each behaviour
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Lerp(Vector3,float)">
+            <summary>
+            Linearly interpolates between two vectors
+            </summary>
+            <param name="to">The target vector</param>
+            <param name="t">The interpolation parameter (0 to 1)</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Lerp(Vector3,Vector3)">
+            <summary>
+            Linearly interpolates between two vectors
+            </summary>
+            <param name="from">The start vector</param>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Project(Vector3)">
+            <summary>
+            Projects a vector onto another vector.
+            </summary>
+            <param name="onto">The vector to project onto</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Slerp(Vector3,float)">
+            <summary>
+            Spherically interpolates between two vectors
+            </summary>
+            <param name="to">The target vector</param>
+            <param name="t">The interpolation parameter (0 to 1)</param>
+        </member>
+        <member name="M:CometEngine::Vector3::SlerpUnclamped(Vector3,float)">
+            <summary>
+            Spherically interpolates between two vectors
+            </summary>
+            <param name="to">The target vector</param>
+            <param name="t">The interpolation parameter (not clamped)</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Max(Vector3)">
+            <summary>
+            Returns a vector that is made from the largest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Min(Vector3)">
+            <summary>
+            Returns a vector that is made from the smallest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="F:CometEngine::Vector3::back">
+            <summary>
+            (0, 0, -1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::down">
+            <summary>
+            (0, -1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::forward">
+            <summary>
+            (0, 0, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::left">
+            <summary>
+            (-1, 0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Abs()">
+            <summary>
+            Returns a new Vector3 with absolut value of each behaviour
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::one">
+            <summary>
+            (1, 1, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::right">
+            <summary>
+            (1, 0, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::up">
+            <summary>
+            (0, 1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3::zero">
+            <summary>
+            (0, 0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Length()">
+            <summary>
+            Returns the length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::LengthSq()">
+            <summary>
+            Returns the squared length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Normalized()">
+            <summary>
+            Returns this vector with a magnitude of 1
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Normalize()">
+            <summary>
+            Makes this vector to have a length of 1.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3::Set(float,float,float)">
+            <summary>
+            Set this vector with new x,y and z
+            </summary>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+            <param name="z">The z component</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Dot(Vector3)">
+            <summary>
+            Returns the dot product of two vectors.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Cross(Vector3)">
+            <summary>
+            Returns the cross product of two vectors.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::DistanceSqr(Vector3)">
+            <summary>
+            Returns the squared distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Distance(Vector3)">
+            <summary>
+            Returns the distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::Angle(Vector3)">
+            <summary>
+            Returns the unsigned angle in degrees between from and to.
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3::SignedAngle(Vector3,Vector3)">
+            <summary>
+            Returns the signed angle in degrees between from and to, rotating around the specified axis. Values range from -180 to 180.
+            </summary>
+            <param name="to">The target vector</param>
+            <param name="axis">The axis to rotate around</param>
+        </member>
+        <member name="M:CometEngine::Vector3i::Max(Vector3i)">
+            <summary>
+            Returns a vector that is made from the largest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="M:CometEngine::Vector3i::Min(Vector3i)">
+            <summary>
+            Returns a vector that is made from the smallest behaviours of two vectors.
+            </summary>
+            <param name="other">The other vector to compare</param>
+        </member>
+        <member name="F:CometEngine::Vector3i::back">
+            <summary>
+            (0, 0, -1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::down">
+            <summary>
+            (0, -1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::forward">
+            <summary>
+            (0, 0, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::left">
+            <summary>
+            (-1, 0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3i::Abs()">
+            <summary>
+            Returns a new Vector3i with absolut value of each behaviour
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::one">
+            <summary>
+            (1, 1, 1)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::right">
+            <summary>
+            (1, 0, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::up">
+            <summary>
+            (0, 1, 0)
+            </summary>
+        </member>
+        <member name="F:CometEngine::Vector3i::zero">
+            <summary>
+            (0, 0, 0)
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3i::Length()">
+            <summary>
+            Returns the length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3i::LengthSq()">
+            <summary>
+            Returns the squared length of the vector
+            </summary>
+        </member>
+        <member name="M:CometEngine::Vector3i::Set(int,int,int)">
+            <summary>
+            Set this vector with new x,y and z
+            </summary>
+            <param name="x">The x component</param>
+            <param name="y">The y component</param>
+            <param name="z">The z component</param>
+        </member>
+        <member name="M:CometEngine::Vector3i::DistanceSqr(Vector3i)">
+            <summary>
+            Returns the squared distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="M:CometEngine::Vector3i::Distance(Vector3i)">
+            <summary>
+            Returns the distance
+            </summary>
+            <param name="to">The target vector</param>
+        </member>
+        <member name="T:CometEngine::Window::ViewportAspectRatio">
+            <summary>
+            Enumeration of all viewport aspect ratios.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::FREE_ASPECT">
+            <summary>
+            Free aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_16_9">
+            <summary>
+            16:9 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_4_3">
+            <summary>
+            4:3 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_21_9">
+            <summary>
+            21:9 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_16_10">
+            <summary>
+            16:10 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_3_2">
+            <summary>
+            3:2 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::_5_4">
+            <summary>
+            5:4 aspect ratio.
+            </summary>
+        </member>
+        <member name="F:CometEngine::Window::ViewportAspectRatio::CUSTOM">
+            <summary>
+            Custom aspect ratio.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::GetViewportAspectRatio()">
+            <summary>
+            Returns the viewport aspect ratio.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetViewportAspectRatio(ViewportAspectRatio)">
+            <summary>
+            Sets the viewport aspect ratio.
+            </summary>
+            <param name="ratio">The viewport aspect ratio to set</param>
+        </member>
+        <member name="M:CometEngine::Window::GetCustomAspectRatio()">
+            <summary>
+            Returns the custom aspect ratio.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetCustomAspectRatio(Vector2i)">
+            <summary>
+            Sets the custom aspect ratio.
+            </summary>
+            <param name="ratio">The custom aspect ratio to set</param>
+        </member>
+        <member name="M:CometEngine::Window::KeepAspectRatioOnFullScreen()">
+            <summary>
+            Returns true if aspect ratio is maintained on fullscreen.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetKeepAspectRatioOnFullScreen(bool)">
+            <summary>
+            Sets if aspect ratio should be maintained on fullscreen.
+            </summary>
+            <param name="keep">True to keep aspect ratio, false otherwise</param>
+        </member>
+        <member name="M:CometEngine::Window::KeepAspectRatioOnFullScreenDesktop()">
+            <summary>
+            Returns true if aspect ratio is maintained on fullscreen desktop.
+            </summary>
+        </member>
+        <member name="M:CometEngine::Window::SetKeepAspectRatioOnFullScreenDesktop(bool)">
+            <summary>
+            Sets if aspect ratio should be maintained on fullscreen desktop.
+            </summary>
+            <param name="keep">True to keep aspect ratio, false otherwise</param>
+        </member>
+        <member name="M:CometEngine::FileSystem::Exists(string)">
+            <summary>
+            Checks if the given path exists.
+            </summary>
+            <param name="path">The path to check.</param>
+            <returns>Returns true if so, false otherwise.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::CreateDir(string)">
+            <summary>
+            Creates the given directory or directories if needed.
+            </summary>
+            <param name="path">Path to the directory to create.</param>
+        </member>
+        <member name="M:CometEngine::FileSystem::Remove(string)">
+            <summary>
+            Removes the given file/folder.
+            </summary>
+            <param name="path">Path to remove.</param>
+            <returns>Returns true if it is removed successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::RemoveAll(string)">
+            <summary>
+            Removes all files/folder in the given path recursive.
+            </summary>
+            <param name="path">The path.</param>
+            <returns>Returns true if it is removed successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::IsDirectory(string)">
+            <summary>
+            Checks if a path is a directory.
+            </summary>
+            <param name="path">The path to check.</param>
+            <returns>Returns true if it is a directory, false otherwise.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::Load(string)">
+            <summary>
+            Loads the given file into a string.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <returns>Returns the file content as a string.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::Save(string,string)">
+            <summary>
+            Saves the given string into a file.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <param name="content">The content to save.</param>
+        </member>
+        <member name="M:CometEngine::FileSystem::GetDirectoriesAt(string)">
+            <summary>
+            Returns an array of strings containing the names of the directories at the given path.
+            </summary>
+            <param name="path">The directory to iterate.</param>
+            <returns>Returns an array of directory names.</returns>
+        </member>
+        <member name="M:CometEngine::FileSystem::GetFilesAt(string)">
+            <summary>
+            Returns an array of strings containing the names of the files at the given path.
+            </summary>
+            <param name="path">The directory to iterate.</param>
+            <returns>Returns an array of file names.</returns>
+        </member>
+        <member name="T:CometEngine::CometDelegate">
+            <summary>
+            Funcdef for a callback delegate with no parameters
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateHandler">
+            <summary>
+            Handler for managing delegates with no parameters. Allows adding, removing, and invoking multiple callbacks.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::CometDelegateHandler()">
+            <summary>
+            Creates a new CometDelegateHandler
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::Add(CometDelegate)">
+            <summary>
+            Adds a callback to the handler
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::Remove(CometDelegate)">
+            <summary>
+            Removes a callback from the handler
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::Contains(CometDelegate)">
+            <summary>
+            Checks if a callback is registered in the handler
+            </summary>
+            <param name="method">The callback method to check. Must be passed explicitly using CometDelegate(YourMethod)</param>
+            <returns>True if the callback is registered, false otherwise</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::CallbacksCount()">
+            <summary>
+            Returns the number of registered callbacks
+            </summary>
+            <returns>The count of registered callbacks</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::ClearCallbacks()">
+            <summary>
+            Clears all registered callbacks
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandler::Invoke()">
+            <summary>
+            Invokes all registered callbacks
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateControllerNumber">
+            <summary>
+            Funcdef for a callback delegate that receives a ControllerNumber parameter
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateHandlerControllerNumber">
+            <summary>
+            Handler for managing delegates with ControllerNumber parameter. Allows adding, removing, and invoking multiple callbacks.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::CometDelegateHandlerControllerNumber()">
+            <summary>
+            Creates a new CometDelegateHandlerControllerNumber
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::Add(CometDelegateControllerNumber)">
+            <summary>
+            Adds a callback to the handler
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegateControllerNumber(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::Remove(CometDelegateControllerNumber)">
+            <summary>
+            Removes a callback from the handler
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegateControllerNumber(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::Contains(CometDelegateControllerNumber)">
+            <summary>
+            Checks if a callback is registered in the handler
+            </summary>
+            <param name="method">The callback method to check. Must be passed explicitly using CometDelegateControllerNumber(YourMethod)</param>
+            <returns>True if the callback is registered, false otherwise</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::CallbacksCount()">
+            <summary>
+            Returns the number of registered callbacks
+            </summary>
+            <returns>The count of registered callbacks</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerControllerNumber::ClearCallbacks()">
+            <summary>
+            Clears all registered callbacks
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegatefloat">
+            <summary>
+            Funcdef for a callback delegate that receives a float parameter
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateHandlerfloat">
+            <summary>
+            Handler for managing delegates with float parameter. Allows adding, removing, and invoking multiple callbacks.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::CometDelegateHandlerfloat()">
+            <summary>
+            Creates a new CometDelegateHandlerfloat
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::Add(CometDelegatefloat)">
+            <summary>
+            Adds a callback to the handler
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegatefloat(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::Remove(CometDelegatefloat)">
+            <summary>
+            Removes a callback from the handler
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegatefloat(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::Contains(CometDelegatefloat)">
+            <summary>
+            Checks if a callback is registered in the handler
+            </summary>
+            <param name="method">The callback method to check. Must be passed explicitly using CometDelegatefloat(YourMethod)</param>
+            <returns>True if the callback is registered, false otherwise</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::CallbacksCount()">
+            <summary>
+            Returns the number of registered callbacks
+            </summary>
+            <returns>The count of registered callbacks</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandlerfloat::ClearCallbacks()">
+            <summary>
+            Clears all registered callbacks
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateuint64">
+            <summary>
+            Funcdef for a callback delegate that receives a uint64 parameter
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometDelegateHandleruint64">
+            <summary>
+            Handler for managing delegates with uint64 parameter. Allows adding, removing, and invoking multiple callbacks.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::CometDelegateHandleruint64()">
+            <summary>
+            Creates a new CometDelegateHandleruint64
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::Add(CometDelegateuint64)">
+            <summary>
+            Adds a callback to the handler
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegateuint64(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::Remove(CometDelegateuint64)">
+            <summary>
+            Removes a callback from the handler
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegateuint64(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::Contains(CometDelegateuint64)">
+            <summary>
+            Checks if a callback is registered in the handler
+            </summary>
+            <param name="method">The callback method to check. Must be passed explicitly using CometDelegateuint64(YourMethod)</param>
+            <returns>True if the callback is registered, false otherwise</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::CallbacksCount()">
+            <summary>
+            Returns the number of registered callbacks
+            </summary>
+            <returns>The count of registered callbacks</returns>
+        </member>
+        <member name="M:CometEngine::CometDelegateHandleruint64::ClearCallbacks()">
+            <summary>
+            Clears all registered callbacks
+            </summary>
+        </member>
+        <member name="T:CometEngine::CometEventArg">
+            <summary>
+            Generic event handler that accepts a typed parameter. Allows managing and invoking callbacks with a specific parameter type.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEventArg::CometEventArg()">
+            <summary>
+            Creates a new CometEventArg generic event handler
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEventArg::RemovePersistentListeners()">
+            <summary>
+            Removes all persistent listeners registered to this event
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEventArg::Invoke(T)">
+            <summary>
+            Invokes all registered listeners with the provided parameter
+            </summary>
+            <param name="value">The parameter value to pass to all listeners</param>
+        </member>
+        <member name="M:CometEngine::CometEventArg::AddRuntimeListener(CometDelegate)">
+            <summary>
+            Adds a runtime listener to the event
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometEventArg::RemoveRuntimeListener(CometDelegate)">
+            <summary>
+            Removes a runtime listener from the event
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+        <member name="T:CometEngine::CometEvent">
+            <summary>
+            Event handler that accepts no parameters. Allows managing and invoking callbacks without arguments.
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::CometEvent()">
+            <summary>
+            Creates a new CometEvent
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::RemovePersistentListeners()">
+            <summary>
+            Removes all persistent listeners registered to this event
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::RemoveRuntimeListeners()">
+            <summary>
+            Removes all runtime listeners from this event
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::RemoveAllListeners()">
+            <summary>
+            Removes all listeners (both persistent and runtime) from this event
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::Invoke()">
+            <summary>
+            Invokes all registered listeners
+            </summary>
+        </member>
+        <member name="M:CometEngine::CometEvent::AddRuntimeListener(CometDelegate)">
+            <summary>
+            Adds a runtime listener to the event
+            </summary>
+            <param name="method">The callback method to add. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+        <member name="M:CometEngine::CometEvent::RemoveRuntimeListener(CometDelegate)">
+            <summary>
+            Removes a runtime listener from the event
+            </summary>
+            <param name="method">The callback method to remove. Must be passed explicitly using CometDelegate(YourMethod)</param>
+        </member>
+
+        <!-- CometEditor::GUI -->
+        <member name="M:CometEditor::GUI::BeginTable(string,int,TableFlags,CometEngine::Vector2,float)">
+            <summary>
+            Begin a table. You MUST call EndTable() when closing this table to prevent issues.
+            </summary>
+            <param name="stringId">The ID of the table.</param>
+            <param name="columns">Number of columns.</param>
+            <param name="flags">Table flags.</param>
+            <param name="outerSize">Outer size of the table.</param>
+            <param name="innerWidth">Inner width.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndTable()">
+            <summary>
+            Ends a previously started table.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableNextRow(TableRowFlags,float)">
+            <summary>
+            Moves to the next row in the table.
+            </summary>
+            <param name="rowFlags">Row flags.</param>
+            <param name="minRowHeight">Minimum row height.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableNextColumn()">
+            <summary>
+            Moves to the next column in the table.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableSetColumnIndex(int)">
+            <summary>
+            Sets the current column index.
+            </summary>
+            <param name="columnIndex">Column index.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableSetupColumn(string,TableColumnFlags,float,uint)">
+            <summary>
+            Sets up a column.
+            </summary>
+            <param name="label">Label of the column.</param>
+            <param name="flags">Column flags.</param>
+            <param name="initWidthOrWeight">Initial width or weight.</param>
+            <param name="userId">User ID.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableHeadersRow()">
+            <summary>
+            Submits the headers row.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableGetColumnCount()">
+            <summary>
+            Gets the number of columns.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableGetColumnName(int)">
+            <summary>
+            Gets the name of a column.
+            </summary>
+            <param name="columnIndex">Column index.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableGetColumnIndex()">
+            <summary>
+            Gets the current column index.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableGetRowIndex()">
+            <summary>
+            Gets the current row index.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableSetBgColor(TableBgTarget,uint,int)">
+            <summary>
+            Sets the background color for a table target.
+            </summary>
+            <param name="target">The target of the background color.</param>
+            <param name="color">The color to apply.</param>
+            <param name="columnIndex">The column index if applicable.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableSetupScrollFreeze(int,int)">
+            <summary>
+            Sets up scroll freeze functionality for a table.
+            </summary>
+            <param name="columns">Number of columns to freeze.</param>
+            <param name="rows">Number of rows to freeze.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableHeader(string)">
+            <summary>
+            Draws a table header with a label.
+            </summary>
+            <param name="label">The label to draw.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableAngledHeadersRow()">
+            <summary>
+            Draws angled headers for the table.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::TableSetColumnEnabled(int,bool)">
+            <summary>
+            Enables or disables a column in the table.
+            </summary>
+            <param name="columnIndex">Index of the column to set.</param>
+            <param name="enabled">True to enable, false to disable.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TableGetHoveredColumn()">
+            <summary>
+            Returns the index of the hovered column in the table.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::PushIDString(string)">
+            <summary>
+            Push string into the ID stack. You MUST call PopID() when done.
+            </summary>
+            <param name="stringId">String ID to push.</param>
+        </member>
+        <member name="M:CometEditor::GUI::PushIDNum(int)">
+            <summary>
+            Push integer into the ID stack. You MUST call PopID() when done.
+            </summary>
+            <param name="intId">Integer ID to push.</param>
+        </member>
+        <member name="M:CometEditor::GUI::PopID()">
+            <summary>
+            Pop from the ID stack.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::BeginCombo(string,string,ComboFlags)">
+            <summary>
+            Begin a combo box. You MUST call EndCombo() after a successful BeginCombo (when it returns true).
+            </summary>
+            <param name="label">Label for the combo box.</param>
+            <param name="previewValue">Value to preview.</param>
+            <param name="flags">Combo flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndCombo()">
+            <summary>
+            End a previously opened combo box.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::Combo(string,int,string,bool,int)">
+            <summary>
+            A high-level combo box.
+            </summary>
+            <param name="label">Label for the combo box.</param>
+            <param name="currentItem">Index of the currently selected item.</param>
+            <param name="itemsSeparatedByZero">Available items separated by zeros.</param>
+            <param name="outEdited">Set to true if edited.</param>
+            <param name="popupMaxHeightInItems">Max height in items.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::TreeNode(string,TreeNodeFlags)">
+            <summary>
+            Begin a tree node. You MUST call TreePop() if this function returns true!
+            </summary>
+            <param name="label">Label of the node.</param>
+            <param name="flags">Flags for the tree node.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TreePop()">
+            <summary>
+            Ends a previously started tree node.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::BeginTabBar(string)">
+            <summary>
+            Begin a tab bar. You MUST call EndTabBar() if it returns true!
+            </summary>
+            <param name="stringId">ID of the tab bar.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndTabBar()">
+            <summary>
+            End a tab bar.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::BeginTabItem(string)">
+            <summary>
+            Begin a tab item. You MUST call EndTabItem() if it returns true!
+            </summary>
+            <param name="label">Label of the tab item.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndTabItem()">
+            <summary>
+            End a tab item.
+            </summary>
+        </member>
+        
+        <member name="M:CometEditor::GUI::BeginGroup()">
+            <summary>
+            Starts a group of items. You MUST call EndGroup() after a BeginGroup().
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::EndGroup()">
+            <summary>
+            End a group.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::BeginChild(string,float,float,int,int)">
+            <summary>
+            Begin a child window. You MUST call EndChild() if it returns true!
+            </summary>
+            <param name="stringId">ID string of the child.</param>
+            <param name="width">Width of the child area.</param>
+            <param name="height">Height of the child area.</param>
+            <param name="childFlags">Child area flags.</param>
+            <param name="windowFlags">Window flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndChild()">
+            <summary>
+            End a child area.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::BeginDisabled(bool)">
+            <summary>
+            Disables the inputs block interactable items. You MUST call EndDisabled() afterwards.
+            </summary>
+            <param name="disabled">If true, disable the subsequent items.</param>
+        </member>
+        <member name="M:CometEditor::GUI::EndDisabled()">
+            <summary>
+            Ends input disabling block.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::PushStyleColor(int,CometEngine::Color)">
+            <summary>
+            Changes a style color. You MUST call PopStyleColor() to restore original state!
+            </summary>
+            <param name="index">Style index (Col enum value).</param>
+            <param name="color">The color to apply.</param>
+        </member>
+        <member name="M:CometEditor::GUI::PopStyleColor(int)">
+            <summary>
+            Restores previous colors.
+            </summary>
+            <param name="count">How many colors to pop.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::PushStyleVarNum(int,float)">
+            <summary>
+            Changes a style variable (float). You MUST call PopStyleVar() to restore original state!
+            </summary>
+            <param name="index">Variable index (StyleVar enum value).</param>
+            <param name="value">New variable value.</param>
+        </member>
+        <member name="M:CometEditor::GUI::PushStyleVarVector(int,CometEngine::Vector2)">
+            <summary>
+            Changes a style variable (Vector2). You MUST call PopStyleVar() to restore original state!
+            </summary>
+            <param name="index">Variable index (StyleVar enum value).</param>
+            <param name="value">New variable vector value.</param>
+        </member>
+        <member name="M:CometEditor::GUI::PopStyleVar(int)">
+            <summary>
+            Restores previous style variable.
+            </summary>
+            <param name="count">How many variables to pop.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::Text(string)">
+            <summary>
+            Renders generic text.
+            </summary>
+            <param name="text">Text to display.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TextColored(CometEngine::Color,string)">
+            <summary>
+            Renders colored text.
+            </summary>
+            <param name="color">Color to display the text with.</param>
+            <param name="text">Text to display.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TextDisabled(string)">
+            <summary>
+            Renders disabled text visually.
+            </summary>
+            <param name="text">Text to display.</param>
+        </member>
+        <member name="M:CometEditor::GUI::TextWrapped(string)">
+            <summary>
+            Renders word-wrapped text.
+            </summary>
+            <param name="text">Text to display.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::Button(string,CometEngine::Vector2,ButtonFlags)">
+            <summary>
+            Draw a button.
+            </summary>
+            <param name="label">Text on the button.</param>
+            <param name="size">Dimensions of the button.</param>
+            <param name="flags">Additional button behavior flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::Selectable(string,bool,SelectableFlags)">
+            <summary>
+            Draw a selectable text item.
+            </summary>
+            <param name="label">Text of the selectable.</param>
+            <param name="selected">True if it is selected.</param>
+            <param name="flags">Selectable behavior flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::SetNextItemWidth(float)">
+            <summary>
+            Sets the width of the next added element.
+            </summary>
+            <param name="width">Width value.</param>
+        </member>
+        <member name="M:CometEditor::GUI::AlignTextToFramePadding()">
+            <summary>
+            Vertically align upcoming text baseline to FramePadding.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::Checkbox(string,bool)">
+            <summary>
+            Draw a checkbox.
+            </summary>
+            <param name="label">Text describing checkbox.</param>
+            <param name="value">Checked state.</param>
+        </member>
+        <member name="M:CometEditor::GUI::Checkbox(string,bool,bool)">
+            <summary>
+            Draw a checkbox with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing checkbox.</param>
+            <param name="value">Checked state.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::SliderFloat(string,float,float,float,SliderFlags)">
+            <summary>
+            Draws a float slider.
+            </summary>
+            <param name="label">Text describing the slider.</param>
+            <param name="value">Current value.</param>
+            <param name="min">Minimum value.</param>
+            <param name="max">Maximum value.</param>
+            <param name="flags">Slider flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::SliderFloat(string,float,float,float,bool,SliderFlags)">
+            <summary>
+            Draws a float slider with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the slider.</param>
+            <param name="value">Current value.</param>
+            <param name="min">Minimum value.</param>
+            <param name="max">Maximum value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Slider flags.</param>
+        </member>
+        
+        <member name="M:CometEditor::GUI::SliderInt(string,int,int,int,SliderFlags)">
+            <summary>
+            Draws an int slider.
+            </summary>
+            <param name="label">Text describing the slider.</param>
+            <param name="value">Current value.</param>
+            <param name="min">Minimum value.</param>
+            <param name="max">Maximum value.</param>
+            <param name="flags">Slider flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::SliderInt(string,int,int,int,bool,SliderFlags)">
+            <summary>
+            Draws an int slider with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the slider.</param>
+            <param name="value">Current value.</param>
+            <param name="min">Minimum value.</param>
+            <param name="max">Maximum value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Slider flags.</param>
+        </member>
+        
+        <member name="M:CometEditor::GUI::InputFloat(string,float,InputFloatFlags)">
+            <summary>
+            Draws an input float.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current value.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::InputFloat(string,float,bool,InputFloatFlags)">
+            <summary>
+            Draws an input float with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::InputInt(string,int,InputIntFlags)">
+            <summary>
+            Draws an input int.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current value.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::InputInt(string,int,bool,InputIntFlags)">
+            <summary>
+            Draws an input int with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::InputText(string,string,InputTextFlags)">
+            <summary>
+            Draws an input text.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current string value.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::InputText(string,string,bool,InputTextFlags)">
+            <summary>
+            Draws an input text with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the input.</param>
+            <param name="value">Current string value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Input flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::ColorEdit(string,CometEngine::Color,ColorEditFlags)">
+            <summary>
+            Draws a color picker edit.
+            </summary>
+            <param name="label">Text describing the color.</param>
+            <param name="color">Current color value.</param>
+            <param name="flags">Color edit flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::ColorEdit(string,CometEngine::Color,bool,ColorEditFlags)">
+            <summary>
+            Draws a color picker edit with out parameter for edited state.
+            </summary>
+            <param name="label">Text describing the color.</param>
+            <param name="color">Current color value.</param>
+            <param name="outEdited">Will be true if interacted and edited.</param>
+            <param name="flags">Color edit flags.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::SameLine(float,float)">
+            <summary>
+            Call between widgets or groups to layout them horizontally.
+            </summary>
+            <param name="offset">Global offset.</param>
+            <param name="spacing">Spacing from previous item.</param>
+        </member>
+        <member name="M:CometEditor::GUI::Spacing()">
+            <summary>
+            Add vertical spacing.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::Separator()">
+            <summary>
+            Separator, generally horizontal.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::Indent(float)">
+            <summary>
+            Move content position toward the right.
+            </summary>
+            <param name="width">Indentation width.</param>
+        </member>
+        <member name="M:CometEditor::GUI::Unindent(float)">
+            <summary>
+            Move content position back toward the left.
+            </summary>
+            <param name="width">Un-indentation width.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::GetCursorPosX()">
+            <summary>
+            Gets the internal window cursor X position.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetCursorPosY()">
+            <summary>
+            Gets the internal window cursor Y position.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::SetCursorPosX(float)">
+            <summary>
+            Sets the internal window cursor X position.
+            </summary>
+            <param name="x">New X position.</param>
+        </member>
+        <member name="M:CometEditor::GUI::SetCursorPosY(float)">
+            <summary>
+            Sets the internal window cursor Y position.
+            </summary>
+            <param name="y">New Y position.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::ShowProperty(string)">
+            <summary>
+            Draws a specific property inspector logic for the given property name.
+            </summary>
+            <param name="fieldName">Name of the field to show property logic for.</param>
+        </member>
+        <member name="M:CometEditor::GUI::ShowAllProperties()">
+            <summary>
+            Draws the default inspector UI for all the properties in the behaviour.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::ShowSprite(CometEngine::Sprite,CometEngine::Vector2,bool,bool,bool)">
+            <summary>
+            Draws a CometEngine sprite UI thumbnail.
+            </summary>
+            <param name="sprite">The sprite to render.</param>
+            <param name="size">Dimensions of the UI image.</param>
+            <param name="keepAspectRatio">Whether to preserve the image ratio.</param>
+            <param name="flipX">Horizontal flip.</param>
+            <param name="flipY">Vertical flip.</param>
+        </member>
+        <member name="M:CometEditor::GUI::ShowTexture(CometEngine::Texture,CometEngine::Vector2,bool,bool,bool)">
+            <summary>
+            Draws a CometEngine texture UI thumbnail.
+            </summary>
+            <param name="texture">The texture to render.</param>
+            <param name="size">Dimensions of the UI image.</param>
+            <param name="keepAspectRatio">Whether to preserve the image ratio.</param>
+            <param name="flipX">Horizontal flip.</param>
+            <param name="flipY">Vertical flip.</param>
+        </member>
+        <member name="M:CometEditor::GUI::SaveState()">
+            <summary>
+            Forces the state of UI modifications to be saved (creates an Undo step).
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::SetNextItemOpen(bool,Cond)">
+            <summary>
+            Set the open state of the next item.
+            </summary>
+            <param name="isOpen">To open or not.</param>
+            <param name="cond">Condition.</param>
+        </member>
+        <member name="M:CometEditor::GUI::SetKeyboardFocusHere(int)">
+            <summary>
+            Set keyboard focus to the next item automatically.
+            </summary>
+            <param name="offset">Offset to target.</param>
+        </member>
+
+        <member name="M:CometEditor::GUI::Tooltip(string)">
+            <summary>
+            Sets a simple tooltip on hover.
+            </summary>
+            <param name="text">Text to display inside tooltip.</param>
+        </member>
+        
+        <member name="M:CometEditor::GUI::GetWindowSize()">
+            <summary>
+            Get the dimensions of the current window.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetWindowPos()">
+            <summary>
+            Get the position of the current window.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetContentRegionAvail()">
+            <summary>
+            Space available for content from current cursor position to bottom-right of window.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetItemRectSize()">
+            <summary>
+            Get the size of the last placed item.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetItemRectMin()">
+            <summary>
+            Get the min rect bounds of the last placed item.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetItemRectMax()">
+            <summary>
+            Get the max rect bounds of the last placed item.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::IsItemHovered(HoveredFlags)">
+            <summary>
+            Returns whether the last item is hovered.
+            </summary>
+            <param name="flags">Hover flags.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemActive()">
+            <summary>
+            Returns whether the last item is active.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemFocused()">
+            <summary>
+            Returns whether the last item is focused.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemClicked(MouseButton)">
+            <summary>
+            Returns whether the last item is clicked via the specific mouse button.
+            </summary>
+            <param name="button">The button clicked.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemVisible()">
+            <summary>
+            Returns whether the last item is visible.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemEdited()">
+            <summary>
+            Returns whether the last item was edited.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemActivated()">
+            <summary>
+            Returns whether the last item was activated.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemDeactivated()">
+            <summary>
+            Returns whether the last item was deactivated.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemDeactivatedAfterEdit()">
+            <summary>
+            Returns whether the last item was deactivated after an edit action.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsItemToggledOpen()">
+            <summary>
+            Returns whether the last item was toggled open.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsAnyItemHovered()">
+            <summary>
+            Returns whether any item is hovered.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsAnyItemActive()">
+            <summary>
+            Returns whether any item is active.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsAnyItemFocused()">
+            <summary>
+            Returns whether any item is focused.
+            </summary>
+        </member>
+
+        <member name="M:CometEditor::GUI::IsMouseDown(MouseButton)">
+            <summary>
+            Returns whether the specified mouse button is down.
+            </summary>
+            <param name="button">Button to query.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsMouseClicked(MouseButton,bool)">
+            <summary>
+            Returns whether the specified mouse button was clicked.
+            </summary>
+            <param name="button">Button to query.</param>
+            <param name="repeat">If true, returns repeated clicks as well.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsMouseDoubleClicked(MouseButton)">
+            <summary>
+            Returns whether the specified mouse button was double clicked.
+            </summary>
+            <param name="button">Button to query.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsMouseReleased(MouseButton)">
+            <summary>
+            Returns whether the specified mouse button was released.
+            </summary>
+            <param name="button">Button to query.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsMouseHoveringRect(float,float,float,float,bool)">
+            <summary>
+            Returns whether the mouse is hovering a given rect.
+            </summary>
+            <param name="x1">Min X.</param>
+            <param name="y1">Min Y.</param>
+            <param name="x2">Max X.</param>
+            <param name="y2">Max Y.</param>
+            <param name="clip">Should clip behavior be applied.</param>
+        </member>
+        <member name="M:CometEditor::GUI::IsMousePosValid()">
+            <summary>
+            Returns whether the mouse pos is currently valid.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::GetMousePos()">
+            <summary>
+            Gets the mouse cursor position.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::IsMouseDragging(MouseButton,float)">
+            <summary>
+            Returns whether the mouse is dragging.
+            </summary>
+            <param name="button">Button to query.</param>
+            <param name="lockThreshold">Threshold distance.</param>
+        </member>
+        <member name="M:CometEditor::GUI::GetMouseDragDelta(MouseButton,float)">
+            <summary>
+            Gets the drag distance delta.
+            </summary>
+            <param name="button">Button to query.</param>
+            <param name="lockThreshold">Threshold distance.</param>
+        </member>
+        <member name="M:CometEditor::GUI::ResetMouseDragDelta(MouseButton)">
+            <summary>
+            Resets current drag delta.
+            </summary>
+            <param name="button">Button to reset.</param>
+        </member>
+        <member name="M:CometEditor::GUI::GetMouseCursor()">
+            <summary>
+            Gets the current enum representation of mouse cursor.
+            </summary>
+        </member>
+        <member name="M:CometEditor::GUI::SetMouseCursor(MouseCursor)">
+            <summary>
+            Forces the mouse cursor style.
+            </summary>
+            <param name="cursorType">Desired cursor type.</param>
+        </member>
+    </members>
+</doc>

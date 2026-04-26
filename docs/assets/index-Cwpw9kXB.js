@@ -186,12 +186,12 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           margin-bottom: 1rem;
         }
       </style>
-      <section style="padding-top: 90px;">
+      <section class="release-detail-section" style="padding-top: 90px;">
         <div class="container">
           <a href="#releases" style="color: var(--accent-color); margin-bottom: 1rem; display: inline-block;">
             <i class="fas fa-arrow-left"></i> Back to All Releases
           </a>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 2rem;">
+          <div class="release-detail-top" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 2rem;">
             <div style="flex: 1;">
               <h1 style="font-size: 3.5rem; margin: 0; line-height: 1.1;">${n.name||n.tag_name}</h1>
               <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">

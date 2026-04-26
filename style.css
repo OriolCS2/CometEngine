@@ -479,9 +479,184 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2.5rem; }
-  .game-card { flex-direction: column; }
-  .game-img, .game-info { width: 100%; }
-  .docs-layout { flex-direction: column; height: auto; }
-  .docs-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); height: 400px; }
+  /* Navbar: reduce gaps and font size so links don't overflow */
+  .nav-container {
+    height: auto;
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .logo-link {
+    font-size: 1.1rem;
+  }
+
+  .logo-link img {
+    height: 30px;
+  }
+
+  .nav-links {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    font-size: 0.85rem;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 120px 0 60px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  /* Game card */
+  .game-card {
+    flex-direction: column;
+  }
+
+  .game-img, .game-info {
+    width: 100%;
+  }
+
+  .game-img {
+    min-height: 200px;
+  }
+
+  .game-info {
+    padding: 1.5rem;
+  }
+
+  /* Social links wrap on mobile */
+  .social-links {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* Release list: single column on mobile */
+  #featured-releases {
+    grid-template-columns: 1fr !important;
+    min-width: 0;
+  }
+
+  /* Prevent release cards from overflowing */
+  .release-card {
+    min-width: 0;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+
+  /* Release card header: wrap instead of overflow */
+  .release-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Truncate long release names */
+  .release-card h3 {
+    font-size: 1.3rem !important;
+    word-break: break-word;
+  }
+
+  /* Fix markdown content overflow */
+  .release-card .markdown-content {
+    overflow-x: hidden;
+    word-break: break-word;
+  }
+
+  /* Download button: full width in card */
+  .release-card .download-btn {
+    width: 100% !important;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* Release detail section: increase top padding since nav wraps on mobile */
+  .release-detail-section {
+    padding-top: 130px !important;
+  }
+
+  /* Release detail header: stack title and GitHub button vertically */
+  .release-detail-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  /* GitHub button: full width on mobile */
+  .release-detail-top .download-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-shrink: 1 !important;
+  }
+
+  /* Release detail title: smaller on mobile */
+  .release-detail-top h1 {
+    font-size: 2rem !important;
+    word-break: break-word;
+  }
+
+  /* Platform tabs: wrap */
+  #platform-tabs {
+    flex-wrap: wrap;
+  }
+
+  /* Asset download grid: single column */
+  #assets-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Asset download buttons: wrap filename and size on mobile */
+  #assets-list .download-btn {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    height: auto !important;
+    min-height: 0;
+    padding: 0.75rem 1rem;
+  }
+
+  #assets-list .download-btn > div {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #assets-list .download-btn span:last-child {
+    width: 100%;
+    text-align: right;
+    font-size: 0.8rem;
+  }
+
+  /* Filename text wraps instead of overflowing */
+  #assets-list .download-btn span {
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  /* Release title on detail page */
+  section h1[style] {
+    font-size: 2rem !important;
+  }
+
+  /* Older release items: stack info and date */
+  .older-release-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Docs layout */
+  .docs-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .docs-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    height: 400px;
+  }
 }

@@ -12,6 +12,8 @@ async function fetchVersions() {
   try {
     const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
     const releases = await response.json();
+    // Sort by published date, newest first (same as releases.js)
+    releases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
     const allTags = releases.map(r => r.tag_name);
 
     // Filter tags that actually have a documentation folder
@@ -24,7 +26,8 @@ async function fetchVersions() {
       }
     }));
 
-    versions = checkResults.filter(Boolean);
+    // Preserve the date-sorted order from allTags (filter out nulls, keeping order)
+    versions = allTags.filter(tag => checkResults.includes(tag) && checkResults[allTags.indexOf(tag)] !== null);
 
     // If no versions found via check (e.g. during local dev or HEAD not supported), 
     // at least try the latest one or a fallback
@@ -33,8 +36,7 @@ async function fetchVersions() {
       versions = [allTags[0]];
     }
 
-    // Sort versions (newest first)
-    versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' }));
+    // versions is already sorted by published_at (newest first) thanks to the sort above
 
     if (!currentVersion) currentVersion = versions[0];
     return versions;

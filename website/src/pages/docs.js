@@ -1,4 +1,4 @@
-import inEditorImg from '../assets/InEditorScriptingAPI.png';
+import inEditorImg from '../assets/InEditorScriptingAPI.png?url';
 
 let apiData = null;
 let allPaths = [];

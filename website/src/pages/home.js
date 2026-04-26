@@ -1,4 +1,4 @@
-import editorImg from '../assets/InEditorView.png';
+import editorImg from '../assets/InEditorView.png?url';
 
 export async function renderHome(container) {
   container.innerHTML = `

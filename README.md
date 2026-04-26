@@ -3,7 +3,7 @@
   <img src="https://github.com/user-attachments/assets/f4d0e433-f46c-4c75-8e03-526a7f3bfbf4" alt="Alt Text" width="120" height="120">
 </p>
 
-[Comet Engine](https://github.com/OriolCS2/CometEngine) is a cross platform (Windows, Linux, Web and Android-under development-) 2D game engine made with C++ and [Angelscript](https://github.com/anjo76/angelscript) for scripting system. It is being developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 but its code is still private.
+[Comet Engine](https://www.cometengine.org) is a cross platform (Windows, Linux, Web and Android-under development-) 2D game engine made with C++ and [Angelscript](https://github.com/anjo76/angelscript) for scripting system. It is being developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 but its code is still private.
 
 ![image](https://github.com/user-attachments/assets/d2f836b4-9cd4-4a5d-868c-e1c055b70c26)
 

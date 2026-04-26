@@ -8,7 +8,7 @@ export async function renderReleases(container, tag) {
     <section>
       <div class="container">
         <h2>Engine Releases</h2>
-        <div id="featured-releases" class="release-list" style="margin-bottom: 4rem;">
+        <div id="featured-releases" class="release-list" style="margin-bottom: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
           <div class="loading">Fetching releases from GitHub...</div>
         </div>
         
@@ -42,16 +42,15 @@ export async function renderReleases(container, tag) {
 
     featuredContainer.innerHTML = '';
     if (latestStable) {
-      featuredContainer.appendChild(createFeaturedCard(latestStable, 'Last Stable Release'));
+      featuredContainer.appendChild(createFeaturedCard(latestStable, 'Latest Stable Release'));
     }
     if (latestRC) {
       featuredContainer.appendChild(createFeaturedCard(latestRC, 'Latest Release Candidate'));
     }
 
-    // Older List
     const renderOlderList = (filtered) => {
       olderListContainer.innerHTML = filtered.map(r => `
-        <a href="#releases/${r.tag_name}" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); transition: var(--transition);">
+        <a href="#releases/${r.tag_name}" class="older-release-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); transition: var(--transition);">
           <div style="display: flex; align-items: center; gap: 1rem;">
             <span style="font-weight: 600; font-size: 1.1rem;">${r.name || r.tag_name}</span>
             <span class="tag ${r.prerelease ? 'tag-rc' : 'tag-stable'}" style="font-size: 0.7rem;">${r.prerelease ? 'RC' : 'Stable'}</span>
@@ -60,10 +59,10 @@ export async function renderReleases(container, tag) {
         </a>
       `).join('') || '<div style="padding: 2rem; color: var(--text-dim);">No releases found.</div>';
       
-      // Hover effect logic via CSS or inline
-      olderListContainer.querySelectorAll('a').forEach(a => {
-        a.onmouseover = () => a.style.background = 'rgba(255, 140, 0, 0.05)';
-        a.onmouseout = () => a.style.background = 'transparent';
+      // Inline style for hover since I can't easily add a new CSS class without modifying style.css
+      olderListContainer.querySelectorAll('.older-release-item').forEach(item => {
+        item.onmouseenter = () => { item.style.backgroundColor = 'rgba(255, 140, 0, 0.1)'; };
+        item.onmouseleave = () => { item.style.backgroundColor = 'transparent'; };
       });
     };
 
@@ -90,16 +89,23 @@ export async function renderReleases(container, tag) {
 function createFeaturedCard(release, label) {
   const div = document.createElement('div');
   div.className = 'release-card';
+  div.style.display = 'flex';
+  div.style.flexDirection = 'column';
   div.innerHTML = `
-    <div style="color: var(--accent-color); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 0.5rem;">${label}</div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+      <div style="color: var(--accent-color); font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">${label}</div>
+      <span class="tag ${release.prerelease ? 'tag-rc' : 'tag-stable'}">${release.prerelease ? 'Pre-release' : 'Stable'}</span>
+    </div>
     <div class="release-header">
-      <h3 style="font-size: 2rem;"><a href="#releases/${release.tag_name}" style="text-decoration: underline;">${release.name || release.tag_name}</a></h3>
-      <div style="color: var(--text-dim);">${new Date(release.published_at).toLocaleDateString()}</div>
+      <h3 style="font-size: 1.8rem;"><a href="#releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
+      <div style="color: var(--text-dim); font-size: 0.9rem;">${new Date(release.published_at).toLocaleDateString()}</div>
     </div>
-    <div style="margin-bottom: 1.5rem; color: var(--text-dim); font-size: 0.95rem;">
-      ${formatSummary(release.body)}
+    <div style="margin: 1.5rem 0; color: var(--text-dim); font-size: 0.95rem; height: 300px; overflow-y: auto; padding-right: 1rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+      ${formatMarkdown(release.body)}
     </div>
-    <a href="#releases/${release.tag_name}" class="download-btn" style="padding: 0.6rem 1.5rem; font-size: 1rem;">View Details</a>
+    <div style="margin-top: auto;">
+      <a href="#releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center;">View Full Release Notes</a>
+    </div>
   `;
   return div;
 }
@@ -160,20 +166,44 @@ async function renderReleaseDetail(container, tagName) {
   }
 }
 
-function formatSummary(text) {
-  if (!text) return '';
-  const lines = text.split('\n').filter(l => l.trim().length > 0);
-  return lines.slice(0, 3).join('<br>') + (lines.length > 3 ? '...' : '');
-}
-
 function formatMarkdown(text) {
   if (!text) return '';
-  return text
-    .replace(/^### (.*$)/gim, '<h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: #fff;">$1</h4>')
-    .replace(/^## (.*$)/gim, '<h3 style="margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; color: #fff;">$1</h3>')
-    .replace(/^# (.*$)/gim, '<h2 style="margin-top: 2.5rem; margin-bottom: 1.2rem; color: #fff;">$1</h2>')
-    .replace(/^\* (.*$)/gim, '<li style="margin-left: 1.5rem;">$1</li>')
-    .replace(/^\- (.*$)/gim, '<li style="margin-left: 1.5rem;">$1</li>')
-    .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace;">$1</code>')
-    .replace(/\n/g, '<br>');
+  
+  // Handle nested lists by looking for spaces before the marker
+  // This is a simplified regex-based markdown parser
+  let lines = text.split('\n');
+  let inList = false;
+  let html = '';
+
+  lines.forEach(line => {
+    // Indented list item
+    if (line.match(/^\s+[\-\*]\s+/)) {
+      const indent = line.match(/^\s+/)[0].length;
+      html += `<li style="margin-left: ${indent * 10}px; list-style: circle;">${line.replace(/^\s+[\-\*]\s+/, '')}</li>`;
+    } 
+    // Top-level list item
+    else if (line.match(/^[\-\*]\s+/)) {
+      html += `<li style="margin-left: 1.5rem; list-style: disc;">${line.replace(/^[\-\*]\s+/, '')}</li>`;
+    }
+    // Headers
+    else if (line.startsWith('### ')) {
+      html += `<h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: #fff;">${line.substring(4)}</h4>`;
+    }
+    else if (line.startsWith('## ')) {
+      html += `<h3 style="margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; color: #fff;">${line.substring(3)}</h3>`;
+    }
+    else if (line.startsWith('# ')) {
+      html += `<h2 style="margin-top: 2.5rem; margin-bottom: 1.2rem; color: #fff;">${line.substring(2)}</h2>`;
+    }
+    // Bold/Italic/Code
+    else {
+      let l = line
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace;">$1</code>');
+      html += l + '<br>';
+    }
+  });
+
+  return html;
 }

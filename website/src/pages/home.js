@@ -84,13 +84,13 @@ async function updateLatestRelease(container) {
     const os = getOS();
     const releaseHtml = `
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-        <a href="${featuredRelease.html_url}" target="_blank" class="download-btn">
+        <a href="#releases/${featuredRelease.tag_name}" class="download-btn">
           <i class="fas fa-download"></i>
           Download ${featuredRelease.tag_name} ${isRC ? '(RC)' : ''}
         </a>
         <div class="os-info">Available Editor for Windows and Linux</div>
         ${latestStable && latestRC && new Date(latestRC.published_at) > new Date(latestStable.published_at) ?
-        `<p style="font-size: 0.9rem; color: var(--accent-color);">New Release Candidate available: <a href="${latestRC.html_url}" style="text-decoration: underline;">${latestRC.tag_name}</a></p>` : ''}
+        `<p style="font-size: 0.9rem; color: var(--accent-color);">New Release Candidate available: <a href="#releases/${latestRC.tag_name}" style="text-decoration: underline;">${latestRC.tag_name}</a></p>` : ''}
       </div>
     `;
 

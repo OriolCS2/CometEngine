@@ -1,7 +1,47 @@
+import inEditorImg from '../assets/InEditorScriptingAPI.png';
+
 let apiData = null;
 let allPaths = [];
 const expandedPaths = new Set();
 let currentSearchQuery = '';
+
+// Global lightbox function for images
+window.openLightbox = (src) => {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999; cursor: zoom-out;
+    opacity: 0; transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+  `;
+  
+  const img = document.createElement('img');
+  img.src = src;
+  img.style.cssText = `
+    max-width: 90%; max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    transform: scale(0.9); transition: transform 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+  `;
+  
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+  
+  setTimeout(() => {
+    overlay.style.opacity = '1';
+    img.style.transform = 'scale(1)';
+  }, 10);
+  
+  overlay.onclick = () => {
+    overlay.style.opacity = '0';
+    img.style.transform = 'scale(0.9)';
+    setTimeout(() => overlay.remove(), 300);
+  };
+};
 
 export async function renderDocs(container, hash) {
   const isFirstLoad = !apiData;
@@ -515,12 +555,39 @@ function filterData(data, query) {
 
 function renderWelcome() {
   return `
-    <div style="text-align:center;padding-top:5rem;">
+    <div style="text-align:center;padding-top:5rem;padding-bottom:5rem;">
       <i class="fas fa-book" style="font-size:5rem;color:var(--accent-color);margin-bottom:2rem;"></i>
       <h1>Comet Engine API Documentation</h1>
-      <p style="color:var(--text-dim);max-width:600px;margin:1rem auto;">
+      <p style="color:var(--text-dim);max-width:600px;margin:1rem auto 3rem;">
         Explore the classes, methods, and properties available in CometEngine.
       </p>
+
+      <div style="margin-top: 2rem; padding: 2.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; max-width: 850px; margin-left: auto; margin-right: auto; text-align: left;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <i class="fas fa-exclamation-triangle" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+          <h2 style="margin: 0; color: #fff; font-size: 1.5rem;">Work In Progress</h2>
+        </div>
+        
+        <p style="color: var(--text-color); font-size: 1.1rem; margin-bottom: 1rem;">
+          This online documentation is currently being refined. For the most complete and interactive experience, 
+          we recommend using the Comet Engine in editor documentation.
+        </p>
+        
+        <div style="background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--accent-color);">
+          <span style="color: var(--text-dim);">Navigate to:</span> 
+          <code style="color: var(--accent-color); font-size: 1rem; margin-left: 0.5rem; background: transparent; padding: 0;">Help > Scripting API</code>
+        </div>
+
+        <div style="position: relative;">
+          <img src="${inEditorImg}" 
+               alt="In-Editor Scripting API" 
+               onclick="window.openLightbox(this.src)"
+               style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4); cursor: zoom-in;" />
+          <div style="position: absolute; bottom: -10px; right: -10px; background: var(--accent-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            In Editor Documentation
+          </div>
+        </div>
+      </div>
     </div>
   `;
 }

@@ -29,8 +29,10 @@ export async function renderDocs(container, hash) {
     container.innerHTML = `
       <div class="docs-layout">
         <div class="docs-sidebar">
-          <input type="text" id="docs-search" class="search-box" placeholder="Search API...">
-          <div id="docs-tree"></div>
+          <div class="docs-sidebar-search">
+            <input type="text" id="docs-search" class="search-box" placeholder="Search API..." style="margin-bottom: 0;">
+          </div>
+          <div class="docs-sidebar-tree" id="docs-tree"></div>
         </div>
         <div class="docs-content" id="docs-detail">
           ${path ? renderDetail(path) : renderWelcome()}

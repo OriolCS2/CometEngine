@@ -236,8 +236,10 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       `).join(``)||`<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">No downloads found for ${e}.</div>`};f(l),d.forEach(e=>{e.addEventListener(`click`,()=>{d.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),f(e.getAttribute(`data-platform`))})})}catch(t){e.innerHTML=`<div class="container" style="padding: 100px 2rem;"><h2>Error loading release details</h2><p>${t.message}</p></div>`}}function Ke(){let e=window.navigator.platform.toLowerCase();return e.includes(`win`)?`windows`:e.includes(`linux`)?`linux`:e.includes(`mac`)?`mac`:`windows`}var q=null,J=[],Y=new Set;async function qe(e,t){let n=!q;n&&(e.innerHTML=`<div class="loading">Parsing documentation...</div>`,q=await Ye(),J=$e(q));let r=decodeURIComponent(t.replace(`#docs`,``).substring(1));if(r){let e=r.split(`::`),t=``;e.forEach(e=>{t=t?`${t}::${e}`:e,Y.add(t)})}n||!document.getElementById(`docs-tree`)?(e.innerHTML=`
       <div class="docs-layout">
         <div class="docs-sidebar">
-          <input type="text" id="docs-search" class="search-box" placeholder="Search API...">
-          <div id="docs-tree"></div>
+          <div class="docs-sidebar-search">
+            <input type="text" id="docs-search" class="search-box" placeholder="Search API..." style="margin-bottom: 0;">
+          </div>
+          <div class="docs-sidebar-tree" id="docs-tree"></div>
         </div>
         <div class="docs-content" id="docs-detail">
           ${r?Xe(r):tt()}

@@ -2,7 +2,7 @@
     <section class="hero">
       <div class="container">
         <img src="./logo.png" alt="CometEngine Logo" style="height: 120px; margin-bottom: 2rem;">
-        <h1>CometEngine</h1>
+        <h1>Comet Engine</h1>
         <p style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">2D cross platform game engine</p>
         <div style="font-size: 1.5rem; margin-bottom: 2rem; display: flex; justify-content: center; gap: 1.5rem; color: var(--text-dim);">
           <i class="fab fa-windows" title="Windows"></i>
@@ -38,7 +38,7 @@
 
     <section id="made-with" class="featured-game">
       <div class="container">
-        <h2>Made with CometEngine</h2>
+        <h2>Made with Comet Engine</h2>
         <div class="game-card">
           <div class="game-img" style="background-image: url('https://img.itch.zone/aW1nLzI2ODQ1ODY5LnBuZw==/315x250%23c/B0Ks6Q.png');"></div>
           <div class="game-info">

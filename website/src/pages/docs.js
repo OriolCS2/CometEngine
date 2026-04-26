@@ -103,7 +103,7 @@ async function loadApiData() {
 
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-      
+
       const parseError = xmlDoc.getElementsByTagName('parsererror');
       if (parseError.length > 0) {
         console.error(`Parser error in ${file}:`, parseError[0].textContent);
@@ -112,7 +112,7 @@ async function loadApiData() {
 
       // ─── Extraction ────────────────────────────────────────────────────────
       const members = Array.from(xmlDoc.getElementsByTagName('member'));
-      
+
       // Also handle <callback> inside <callbacks>
       const callbacksGroups = xmlDoc.getElementsByTagName('callbacks');
       for (const group of callbacksGroups) {
@@ -124,6 +124,7 @@ async function loadApiData() {
           const fullName = `M:${groupName}::${name}`;
           // Add virtual attribute for our parser
           item.setAttribute('name', fullName);
+          item.setAttribute('is-callback', 'true');
           members.push(item);
         }
       }
@@ -147,19 +148,21 @@ async function loadApiData() {
           const parts = nameWithoutSig.split('::').map(p => p.trim());
 
           let current = namespaces;
+          const parentName = parts.length > 1 ? parts[parts.length - 2] : null;
+
           for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
             const isLast = i === parts.length - 1;
 
             if (isLast && typePrefix !== 'T') {
               if (!current._members) current._members = [];
-              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
             } else {
               if (!current[part]) current[part] = {};
               current = current[part];
               if (isLast) {
                 if (!current._members) current._members = [];
-                current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes));
+                current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
               }
             }
           }
@@ -179,7 +182,7 @@ async function loadApiData() {
   return namespaces;
 }
 
-function parseMemberData(member, typePrefix, fullName, name, sigTypes) {
+function parseMemberData(member, typePrefix, fullName, name, sigTypes, parentName) {
   const xmlParams = Array.from(member.getElementsByTagName('param'));
   const params = xmlParams.map((p, idx) => ({
     name: p.getAttribute('name'),
@@ -190,6 +193,8 @@ function parseMemberData(member, typePrefix, fullName, name, sigTypes) {
 
   const rType = member.getAttribute('return');
   const fType = member.getAttribute('type');
+  const isConstructor = member.getAttribute('constructor') === 'true' || (typePrefix === 'M' && name === parentName);
+  const isCallback = member.tagName.toLowerCase() === 'callback' || member.getAttribute('is-callback') === 'true';
 
   return {
     type: typePrefix,
@@ -200,7 +205,9 @@ function parseMemberData(member, typePrefix, fullName, name, sigTypes) {
     params,
     returnType: rType || null,
     returnDesc: member.getElementsByTagName('return')[0]?.textContent?.trim() || member.getElementsByTagName('returns')[0]?.textContent?.trim() || '',
-    fieldType: fType || null
+    fieldType: fType || null,
+    isConstructor,
+    isCallback
   };
 }
 
@@ -277,9 +284,11 @@ function renderDetail(path) {
 
   const members = current._members || [];
   const classDoc = members.find(m => m.type === 'T');
-  const methods = members.filter(m => m.type === 'M');
-  const properties = members.filter(m => m.type === 'P');
+  const constructors = members.filter(m => m.isConstructor);
+  const callbacks = members.filter(m => m.isCallback);
   const fields = members.filter(m => m.type === 'F');
+  const methods = members.filter(m => m.type === 'M' && !m.isConstructor && !m.isCallback);
+  const properties = members.filter(m => m.type === 'P');
 
   const childClasses = Object.keys(current).filter(k => k !== '_members').map(k => ({
     name: k,
@@ -306,10 +315,24 @@ function renderDetail(path) {
         </div>
       ` : ''}
 
-      ${properties.length > 0 ? `
+      ${constructors.length > 0 ? `
         <div class="api-section">
-          <h3>Properties</h3>
-          ${properties.map(p => renderPropertyItem(p)).join('')}
+          <h3>Constructors</h3>
+          ${constructors.map(c => renderMethodItem(c)).join('')}
+        </div>
+      ` : ''}
+
+      ${callbacks.length > 0 ? `
+        <div class="api-section">
+          <h3>Callbacks</h3>
+          ${callbacks.map(c => renderMethodItem(c)).join('')}
+        </div>
+      ` : ''}
+
+      ${fields.length > 0 ? `
+        <div class="api-section">
+          <h3>Fields</h3>
+          ${fields.map(f => renderFieldItem(f)).join('')}
         </div>
       ` : ''}
 
@@ -320,10 +343,10 @@ function renderDetail(path) {
         </div>
       ` : ''}
 
-      ${fields.length > 0 ? `
+      ${properties.length > 0 ? `
         <div class="api-section">
-          <h3>Fields & Enums</h3>
-          ${fields.map(f => renderFieldItem(f)).join('')}
+          <h3>Properties</h3>
+          ${properties.map(p => renderPropertyItem(p)).join('')}
         </div>
       ` : ''}
     </div>
@@ -357,7 +380,8 @@ function renderPropertyItem(p) {
 }
 
 function renderMethodItem(m) {
-  const returnType = m.returnType || 'void';
+  const isConstructor = m.isConstructor;
+  const returnType = isConstructor ? '' : (m.returnType || 'void');
 
   const paramsDecl = m.params.map(p =>
     `<span style="color:#61afef;">${p.type ? linkType(p.type) : ''}</span>${p.type ? ' ' : ''}<span style="color:#fff;">${p.name || ''}</span>`
@@ -366,8 +390,8 @@ function renderMethodItem(m) {
   return `
     <div class="api-item">
       <div style="font-family:monospace;font-size:1rem;margin-bottom:0.75rem;display:flex;flex-wrap:wrap;align-items:baseline;gap:0.25rem;">
-        <span style="color:#61afef;">${linkType(returnType)}</span>
-        <span style="font-weight:700;color:#fff;margin-left:0.4rem;">${m.name}</span>
+        ${returnType ? `<span style="color:#61afef;">${linkType(returnType)}</span>` : ''}
+        <span style="font-weight:700;color:#fff;margin-left:${returnType ? '0.4rem' : '0'};">${m.name}</span>
         <span style="color:var(--text-dim);">(</span>${paramsDecl}<span style="color:var(--text-dim);">)</span>
       </div>
       <p style="color:var(--text-dim);margin-bottom:${(m.params.length > 0 || m.returnDesc) ? '1rem' : '0'};">${m.summary}</p>

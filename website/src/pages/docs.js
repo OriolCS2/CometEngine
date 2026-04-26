@@ -1,7 +1,7 @@
 let apiData = null;
 let allPaths = [];
-// Persists across hash changes — which paths are expanded in the tree
 const expandedPaths = new Set();
+let currentSearchQuery = '';
 
 export async function renderDocs(container, hash) {
   const isFirstLoad = !apiData;
@@ -44,9 +44,16 @@ export async function renderDocs(container, hash) {
   } else {
     // Just update the content panel and refresh tree active state
     document.getElementById('docs-detail').innerHTML = path ? renderDetail(path) : renderWelcome();
-    renderTree(document.getElementById('docs-tree'), apiData);
-    const searchVal = document.getElementById('docs-search')?.value;
-    if (searchVal) setupSearch();
+
+    const treeContainer = document.getElementById('docs-tree');
+    if (currentSearchQuery) {
+      renderTree(treeContainer, filterData(apiData, currentSearchQuery), true);
+    } else {
+      renderTree(treeContainer, apiData);
+    }
+
+    const searchInput = document.getElementById('docs-search');
+    if (searchInput) searchInput.value = currentSearchQuery;
   }
 }
 
@@ -54,10 +61,10 @@ function setupSearch() {
   const searchInput = document.getElementById('docs-search');
   if (!searchInput) return;
   searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
+    currentSearchQuery = e.target.value.toLowerCase();
     const treeContainer = document.getElementById('docs-tree');
-    if (query.length > 0) {
-      renderTree(treeContainer, filterData(apiData, query), true);
+    if (currentSearchQuery.length > 0) {
+      renderTree(treeContainer, filterData(apiData, currentSearchQuery), true);
     } else {
       renderTree(treeContainer, apiData);
     }
@@ -85,9 +92,9 @@ async function loadApiData() {
         // 2. Fix malformed attributes like key=) or key= >
         .replace(/([a-z0-9_]+)\s*=\s*([)>])/gi, '$1="" $2')
         // 3. De-duplicate attributes within tags
-        .replace(/<([a-z0-9:]+)\s+([^>]+)>/gi, (m, tag, attrs) => {
+        .replace(/<([a-z0-9:]+)\s+([^>]*?)(\/?)>/gi, (m, tag, attrs, selfClose) => {
           const seen = new Set();
-          // Improved attribute splitting to handle spaces in values (though rare in these XMLs)
+          // Improved attribute splitting to handle spaces in values
           const attrRegex = /([a-z0-9_]+)="([^"]*)"/gi;
           const uniqueAttrs = [];
           let attrMatch;
@@ -98,7 +105,7 @@ async function loadApiData() {
               uniqueAttrs.push(`${attrMatch[1]}="${attrMatch[2]}"`);
             }
           }
-          return `<${tag} ${uniqueAttrs.join(' ')}>`;
+          return `<${tag}${uniqueAttrs.length ? ' ' + uniqueAttrs.join(' ') : ''}${selfClose ? ' /' : ''}>`;
         });
 
       const parser = new DOMParser();
@@ -133,18 +140,21 @@ async function loadApiData() {
 
       for (const member of members) {
         try {
-          const fullName = member.getAttribute('name');
-          if (!fullName || fullName.length < 3) continue;
+          const rawName = member.getAttribute('name');
+          if (!rawName) continue;
 
-          const typePrefix = fullName[0]; // T, M, P, F
-          const cleanName = fullName.substring(2).trim();
+          const match = rawName.trim().match(/^([A-Z]):(.+)$/);
+          if (!match) continue;
 
-          const sigMatch = cleanName.match(/\(([^)]*)\)/);
+          const typePrefix = match[1];
+          const fullName = match[2].trim();
+
+          const sigMatch = fullName.match(/\(([^)]*)\)/);
           const sigTypes = sigMatch && sigMatch[1]
             ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
             : [];
 
-          const nameWithoutSig = cleanName.split('(')[0].trim();
+          const nameWithoutSig = fullName.split('(')[0].trim();
           const parts = nameWithoutSig.split('::').map(p => p.trim());
 
           let current = namespaces;
@@ -459,22 +469,46 @@ function filterData(data, query) {
   const filtered = {};
   const search = (obj, target) => {
     let match = false;
+
+    // Check this node's members
+    if (obj._members) {
+      const matchingMembers = obj._members.filter(m =>
+        m.name.toLowerCase().includes(query) ||
+        m.summary.toLowerCase().includes(query)
+      );
+      if (matchingMembers.length > 0) {
+        target._members = matchingMembers;
+        match = true;
+      }
+    }
+
+    // Check children (namespaces and classes)
     Object.keys(obj).forEach(key => {
-      if (key === '_members') {
-        const found = obj._members.filter(m =>
-          m.name.toLowerCase().includes(query) || m.summary.toLowerCase().includes(query)
-        );
-        if (found.length > 0) { target._members = found; match = true; }
-      } else {
-        const sub = {};
-        if (search(obj[key], sub) || key.toLowerCase().includes(query)) {
-          target[key] = sub;
-          match = true;
+      if (key === '_members') return;
+
+      const sub = {};
+      const childMatch = search(obj[key], sub);
+      const nameMatch = key.toLowerCase().includes(query);
+
+      if (childMatch || nameMatch) {
+        target[key] = sub;
+        match = true;
+
+        // If the name matched but no members did, at least include the 'T' member (Class Doc) 
+        // so the user can see the summary of the class they searched for.
+        if (nameMatch && obj[key]._members && (!sub._members || !sub._members.find(m => m.type === 'T'))) {
+          const tMember = obj[key]._members.find(m => m.type === 'T');
+          if (tMember) {
+            if (!sub._members) sub._members = [];
+            sub._members.unshift(tMember);
+          }
         }
       }
     });
+
     return match;
   };
+
   search(data, filtered);
   return filtered;
 }
@@ -483,7 +517,7 @@ function renderWelcome() {
   return `
     <div style="text-align:center;padding-top:5rem;">
       <i class="fas fa-book" style="font-size:5rem;color:var(--accent-color);margin-bottom:2rem;"></i>
-      <h1>CometEngine API Documentation</h1>
+      <h1>Comet Engine API Documentation</h1>
       <p style="color:var(--text-dim);max-width:600px;margin:1rem auto;">
         Explore the classes, methods, and properties available in CometEngine.
       </p>

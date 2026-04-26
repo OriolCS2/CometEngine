@@ -575,32 +575,32 @@ Also can be parented to another entity, and it will inherit the transform of the
 		</member>
 		<member name="M:CometEngine::Transform::Rotate(Vector3,float,Space)" return="void">
 			<summary>Rotate the transform given and angle and axis</summary>
-			<param name="axis" />
-			<param name="angleRadians" />
-			<param name="space" />
+			<param ></param>
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Transform::Rotate(Vector3,Space)" return="void">
 			<summary>Rotate the transform in euler angles in degrees</summary>
-			<param name="eulers" />
-			<param name="space" />
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Transform::Rotate(float,float,float,Space)" return="void">
 			<summary>Rotate the transform in euler angles in degrees</summary>
-			<param name="xAngleDeg" />
-			<param name="yAngleDeg" />
-			<param name="zAngleDeg" />
-			<param name="space" />
+			<param ></param>
+			<param ></param>
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Transform::Translate(Vector3,Space)" return="void">
 			<summary>Moves the transform in the direction and distance of translation</summary>
-			<param name="translation" />
-			<param name="space" />
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Transform::SetPositionAndRotation(Vector3,Quaternion,Space)" return="void">
 			<summary>Set the position and rotation</summary>
-			<param name="position" />
-			<param name="rotation" />
-			<param name="space" />
+			<param ></param>
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Transform::ObjectPositionToWorldPosition(Vector3)" return="Vector3">
 			<summary>Transforms the local object position to world position.</summary>
@@ -649,11 +649,11 @@ It requires an AnimatorController to work.</summary>
 		</member>
 		<member name="M:CometEngine::Animator::GetParameter(string)" return="AnimatorControllerParameter">
 			<summary>Returns true if the state exists</summary>
-			<param name="name" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Animator::GetParameter(int)" return="AnimatorControllerParameter">
 			<summary>Returns true if the state exists</summary>
-			<param name="index" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Animator::GetParameterID(string)" return="uint64">
 			<summary>Returns the ID if the parameter exists, 0 if not</summary>
@@ -857,7 +857,7 @@ It requires an AnimatorController to work.</summary>
 			<summary>An audio echo effect. It adds an echo to the incoming audio signal.</summary>
 		</member>
 		<member name="M:CometEngine::AudioEffectEcho::__AudioEffectEcho__GetWetMix(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="P:CometEngine::AudioEffectEcho::delay" type="uint">
 			<summary>Delay of the echo sound in milliseconds</summary>
@@ -872,31 +872,31 @@ It requires an AnimatorController to work.</summary>
 			<summary>An audio flange effect. It creates a whooshing or sweeping sound by mixing two identical signals together, with one signal delayed by a small and gradually changing period.</summary>
 		</member>
 		<member name="M:CometEngine::AudioEffectFlange::__AudioEffectFlange__GetWetMix(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="P:CometEngine::AudioEffectFlange::depth" type="float">
 			<summary>Percentage by which the delay time is modulated by the low-frequency oscillator, in hundredths of a percentage point</summary>
 		</member>
 		<member name="M:CometEngine::AudioEffectFlange::__AudioEffectFlange__GetSpeed(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::AudioEffectReverb">
 			<summary>An audio reverb effect. It simulates the reverberation of sound in a physical space.</summary>
 		</member>
 		<member name="M:CometEngine::AudioEffectReverb::__AudioEffectReverb__GetWetMix(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::AudioEffectReverb::__AudioEffectReverb__GetFreeze(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::AudioEffectReverb::__AudioEffectReverb__GetRoomSize(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::AudioEffectReverb::__AudioEffectReverb__GetDamp(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::AudioEffectReverb::__AudioEffectReverb__GetWidth(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::Camera">
 			<summary>The Camera is the point of view where the scene is rendered from.</summary>
@@ -3808,13 +3808,13 @@ It requires an AnimatorController to work.</summary>
 			<summary>A freeform light is a light that has a custom shape.</summary>
 		</member>
 		<member name="M:CometEngine::FreeformLight::__FreeformLight__GetFallOff(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::FreeformLight::__FreeformLight__GetFallOffRadius(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::FreeformLight::__FreeformLight__GetFallOffOffset(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::GlobalLight">
 			<summary>A global light affects all objects in the scene equally, regardless of their position or orientation.
@@ -3830,32 +3830,32 @@ It is often used to simulate ambient lighting or environmental effects.</summary
 			<summary>Radius of the polygon shape.</summary>
 		</member>
 		<member name="M:CometEngine::ParametricLight::__ParametricLight__GetFallOff(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::ParametricLight::__ParametricLight__GetFallOffRadius(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::ParametricLight::__ParametricLight__GetFallOffOffset(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::PointLight">
 			<summary>A point light is a light that emits light in all directions from a single point in space.
 It is often used to simulate light sources such as light bulbs or candles.</summary>
 		</member>
 		<member name="M:CometEngine::PointLight::__PointLight__GetInnerAngle(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::PointLight::__PointLight__GetOuterAngle(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::PointLight::__PointLight__GetInnerRadius(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::PointLight::__PointLight__GetOuterRadius(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::PointLight::__PointLight__GetFallOff(this)" return="return">
-			<param name="" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::SpriteLight">
 			<summary>A sprite light is a light that uses a sprite as its shape. The sprite's alpha channel is used to define the light's shape.</summary>
@@ -4182,7 +4182,7 @@ It is often used for complex collision detection and response.</summary>
 		</member>
 		<member name="M:CometEngine::PolygonCollider::SetVertices(array&lt;Vector2>)" return="void">
 			<summary>Sets the vertices of the polygon collider.</summary>
-			<param name="vertices" />
+			<param ></param>
 		</member>
 		<member name="T:CometEngine::TilemapCollider">
 			<summary>A tilemap collider is a collider that is used for tilemaps.</summary>
@@ -5164,7 +5164,7 @@ If the path points to a file, it will return an array with a single entity. If t
 			<summary>Base class CometEngine types. Used to manage references to native objects.</summary>
 		</member>
 		<member name="M:CometEngine::Ptr::opEquals(Ptr)" return="bool">
-			<param name="other" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Ptr::IsValid()" return="bool" />
 		<member name="T:CometEngine::Resource">
@@ -5715,7 +5715,7 @@ EX: RenderTexture.Remove(renderTexture);</summary>
 		</member>
 		<member name="M:CometEngine::Texture2DDataSpriteAndUI::GetSprite(uint)" return="Sprite">
 			<summary>Gets the sprite at the given index.</summary>
-			<param name="index" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::Texture2DDataSpriteAndUI::GetSprite(string)" return="Sprite">
 			<summary>Gets the first sprite that matches the given name.</summary>
@@ -5896,7 +5896,7 @@ EX: RenderTexture.Remove(renderTexture);</summary>
 			<summary>Base class for every graph node asset.</summary>
 		</member>
 		<member name="M:CometEngine::GraphNode::Node::Node(array&lt;string>)">
-			<param name="exitPins" />
+			<param ></param>
 		</member>
 		<member name="F:CometEngine::GraphNode::Node::id" type="uint64">
 			<summary>The unique identifier of the node.</summary>
@@ -5961,7 +5961,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		</member>
 		<member name="M:CometEngine::GraphNode::GraphNode::SetEntryNode(Node)" return="void">
 			<summary>Sets the entry node of the graph node. This will unlink the previous entry node if it exists and link the new entry node.</summary>
-			<param name="entryNode" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::GraphNode::GraphNode::GetNodeById(uint64)" return="Node">
 			<summary>Gets a node by its unique identifier.</summary>
@@ -5999,8 +5999,8 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 			<param name="node">The node to add.</param>
 		</member>
 		<member name="M:CometEngine::GraphNode::GraphNode::RemoveAllConnectionsBetweenNodeAToNodeB(Node,Node)" return="private void">
-			<param name="nodeA" />
-			<param name="nodeB" />
+			<param ></param>
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::GraphNode::GraphNode::RemoveAllConnectionsBetweenNodes(Node,Node)" return="void">
 			<summary>Removes all flow connections between the two given nodes.</summary>
@@ -6087,7 +6087,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		</member>
 		<member name="M:CometEngine::InputSettings::InputGroup::RemoveAction(string)" return="bool">
 			<summary>Returns true if it removes action called actionName</summary>
-			<param name="actionName" />
+			<param ></param>
 		</member>
 		<member name="M:CometEngine::InputSettings::InputGroup::AddAction(string)" return="InputAction">
 			<summary>Returns the action if it creates a new action called actionName otherwise returns null</summary>
@@ -6333,7 +6333,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		<member name="M:CometEngine::Json::JsonObject::GetVector3(string,Vector3)" return="Vector3">
 			<summary>Gets the Vector3 value that matches the given key.</summary>
 			<param name="key">The key to find.</param>
-			<param name="defaultValue" default="Vector3::zero" />
+			<param ></param>
 			<returns>Returns the value of the key or Vector3.zero if it does not exist.</returns>
 		</member>
 		<member name="M:CometEngine::Json::JsonObject::SetVector3(string,Vector3)" return="void">
@@ -6344,7 +6344,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		<member name="M:CometEngine::Json::JsonObject::GetVector2(string,Vector2)" return="Vector2">
 			<summary>Gets the Vector2 value that matches the given key.</summary>
 			<param name="key">The key to find.</param>
-			<param name="defaultValue" default="Vector2::zero" />
+			<param ></param>
 			<returns>Returns the value of the key or Vector2.zero if it does not exist.</returns>
 		</member>
 		<member name="M:CometEngine::Json::JsonObject::SetVector2(string,Vector2)" return="void">
@@ -6411,7 +6411,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		</member>
 		<member name="M:CometEngine::Json::JsonObject::to::Deserialize(string,IJsonObjectSerializable)" return="bool">
 			<param name="jsonString">The string that contains the json data.</param>
-			<param name="objectToFill" />
+			<param ></param>
 			<returns>Returns the object holding the json data.</returns>
 		</member>
 		<member name="T:CometEngine::Network::SocketClient">
@@ -6739,7 +6739,7 @@ If it is 0, the next node will be the first one connected to the output pin.</su
 		</member>
 		<member name="M:CometEngine::ParticleSystemModule::ParticlePropertyEmission::GetBurst(int)" return="Burst">
 			<summary>Gets the burst at the given index.</summary>
-			<param name="index" />
+			<param ></param>
 			<returns>Returns the burst at the given index.</returns>
 		</member>
 		<member name="M:CometEngine::ParticleSystemModule::ParticlePropertyEmission::SetBursts(array&lt;Burst>)" return="void">

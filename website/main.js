@@ -20,8 +20,9 @@ function handleRoute() {
   // Render page
   if (hash === '#home') {
     renderHome(app);
-  } else if (hash === '#releases') {
-    renderReleases(app);
+  } else if (hash.startsWith('#releases')) {
+    const tag = hash.replace('#releases', '').substring(1);
+    renderReleases(app, tag);
   } else if (hash.startsWith('#docs')) {
     renderDocs(app, hash);
   }

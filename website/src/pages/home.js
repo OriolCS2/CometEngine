@@ -4,7 +4,13 @@ export async function renderHome(container) {
       <div class="container">
         <img src="./logo.png" alt="CometEngine Logo" style="height: 120px; margin-bottom: 2rem;">
         <h1>CometEngine</h1>
-        <p>A powerful and lightweight 2D game engine designed for performance, flexibility, and ease of use. Built for developers by developers.</p>
+        <p style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">2D cross platform game engine</p>
+        <div style="font-size: 1.5rem; margin-bottom: 2rem; display: flex; justify-content: center; gap: 1.5rem; color: var(--text-dim);">
+          <i class="fab fa-windows" title="Windows"></i>
+          <i class="fab fa-linux" title="Linux"></i>
+          <i class="fab fa-chrome" title="Web"></i>
+          <i class="fab fa-android" title="Android"></i>
+        </div>
         <div id="latest-release-container">
           <div class="loading">Finding latest version...</div>
         </div>
@@ -57,7 +63,7 @@ async function updateLatestRelease(container) {
   try {
     const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
     const releases = await response.json();
-    
+
     if (!releases || releases.length === 0) {
       container.innerHTML = '<p>No releases found.</p>';
       return;
@@ -74,7 +80,7 @@ async function updateLatestRelease(container) {
 
     // If there's an RC newer than the latest stable, we might want to show both or just the latest stable but mention the RC
     // The user said: "Aqui vigilar perque estaria guay que surti ultima estable i si hi ha un rc mes nova en quant a data que la ultima estable doncs que surti last candidate tmb o algo aixi"
-    
+
     const os = getOS();
     const releaseHtml = `
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
@@ -82,12 +88,12 @@ async function updateLatestRelease(container) {
           <i class="fas fa-download"></i>
           Download ${featuredRelease.tag_name} ${isRC ? '(RC)' : ''}
         </a>
-        <div class="os-info">Available for Windows and Linux</div>
-        ${latestStable && latestRC && new Date(latestRC.published_at) > new Date(latestStable.published_at) ? 
-          `<p style="font-size: 0.9rem; color: var(--accent-color);">New Release Candidate available: <a href="${latestRC.html_url}" style="text-decoration: underline;">${latestRC.tag_name}</a></p>` : ''}
+        <div class="os-info">Available Editor for Windows and Linux</div>
+        ${latestStable && latestRC && new Date(latestRC.published_at) > new Date(latestStable.published_at) ?
+        `<p style="font-size: 0.9rem; color: var(--accent-color);">New Release Candidate available: <a href="${latestRC.html_url}" style="text-decoration: underline;">${latestRC.tag_name}</a></p>` : ''}
       </div>
     `;
-    
+
     container.innerHTML = releaseHtml;
   } catch (error) {
     console.error('Error fetching releases:', error);

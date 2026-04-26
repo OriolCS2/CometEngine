@@ -1,7 +1,10 @@
+import editorImg from '../assets/InEditorView.png';
+
 export async function renderHome(container) {
   container.innerHTML = `
-    <section class="hero">
-      <div class="container">
+    <section class="hero" style="position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('${editorImg}') center center / cover no-repeat; opacity: 0.2; z-index: 0; pointer-events: none; filter: blur(1px);"></div>
+      <div class="container" style="position: relative; z-index: 1;">
         <img src="./logo.png" alt="CometEngine Logo" style="height: 120px; margin-bottom: 2rem;">
         <h1>Comet Engine</h1>
         <p style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">2D cross platform game engine</p>

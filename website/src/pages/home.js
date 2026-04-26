@@ -41,10 +41,10 @@ export async function renderHome(container) {
       <div class="container">
         <h2>Made with CometEngine</h2>
         <div class="game-card">
-          <div class="game-img" style="background-image: url('https://img.itch.zone/aW1nLzE1ODA0NzE0LnBuZw==/347x500/0oX8Y8.png');"></div>
+          <div class="game-img" style="background-image: url('https://img.itch.zone/aW1nLzI2ODQ1ODY5LnBuZw==/315x250%23c/B0Ks6Q.png');"></div>
           <div class="game-info">
             <h3>Sant Jordi - The Stone Song</h3>
-            <p>A beautiful 2D adventure game inspired by the legend of Sant Jordi. Experience fluid gameplay and stunning visuals powered by CometEngine.</p>
+            <p>The first game ever released using CometEngine! This project was done for a Game Jam, created in a very short time to experiment with the engine's tools and web performance.</p>
             <a href="https://christt105.itch.io/sant-jordi-the-stone-song" target="_blank" class="download-btn" style="background: #da291c;">
               <i class="fas fa-play"></i>
               Play on Itch.io

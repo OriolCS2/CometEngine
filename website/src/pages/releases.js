@@ -15,7 +15,7 @@ export async function renderReleases(container, tag) {
   container.innerHTML = `
     <section>
       <div class="container">
-        <h2>Engine Releases</h2>
+        <h2>Releases</h2>
         <div id="featured-releases" class="release-list" style="margin-bottom: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
           <div class="loading">Fetching releases from GitHub...</div>
         </div>
@@ -38,7 +38,7 @@ export async function renderReleases(container, tag) {
   const featuredContainer = document.getElementById('featured-releases');
   const olderListContainer = document.getElementById('older-releases-list');
   const filterBtns = document.querySelectorAll('.filter-btn');
-  
+
   try {
     const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
     const allReleases = await response.json();
@@ -103,29 +103,50 @@ function parseMarkdown(text) {
   }
 }
 
+function parseMarkdownPreview(text) {
+  if (!text) return 'No release notes provided.';
+
+  // 1. Netegem espais inicials i finals
+  let cleaned = text.trim();
+
+  // 2. Eliminem el primer títol (H1-H6) i els salts de línia posteriors
+  cleaned = cleaned.replace(/^#{1,6}[^\n]*(\n|\r\n)*/, '');
+
+  // 3. Tornem a netejar espais per si han quedat buits després del títol
+  cleaned = cleaned.trim();
+
+  try {
+    return marked.parse(cleaned);
+  } catch (e) {
+    return cleaned.replace(/\n/g, '<br>');
+  }
+}
+
 function createFeaturedCard(release, label) {
   const div = document.createElement('div');
   div.className = 'release-card';
   div.style.display = 'flex';
   div.style.flexDirection = 'column';
-  
-  const mdContent = parseMarkdown(release.body);
-  
+
+  const mdContent = parseMarkdownPreview(release.body);
+
   div.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+    <style>
+      /* Força que el primer element del MD no tingui marge superior */
+      .markdown-content > *:first-child {
+        margin-top: 0 !important;
+      }
+    </style>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem;">
       <div style="color: var(--accent-color); font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">${label}</div>
       <span class="tag ${release.prerelease ? 'tag-rc' : 'tag-stable'}">${release.prerelease ? 'Pre-release' : 'Stable'}</span>
     </div>
-    <div class="release-header">
-      <h3 style="font-size: 1.8rem;"><a href="#releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
+    <div class="release-header" style="margin-bottom: 0.5rem;">
+      <h3 style="font-size: 1.8rem; margin: 0;"><a href="#releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
       <div style="color: var(--text-dim); font-size: 0.9rem;">${new Date(release.published_at).toLocaleDateString()}</div>
     </div>
-    <div class="markdown-content" style="
-      ul { list-style: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
-      ol { list-style: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
-      li { margin-bottom: 0.25rem; }
-      height: 300px; overflow-y: auto; padding-right: 1rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
-      ${mdContent}
+    <div class="markdown-content" style="display: flow-root; margin: 0.75rem 0; height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
+        ${mdContent}
     </div>
     <div style="margin-top: auto; padding-top: 1.5rem;">
       <a href="#releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center; display: flex; align-items: center;">Download</a>
@@ -136,7 +157,7 @@ function createFeaturedCard(release, label) {
 
 async function renderReleaseDetail(container, tagName) {
   container.innerHTML = `<div class="container" style="padding: 100px 2rem;"><div class="loading">Loading release ${tagName}...</div></div>`;
-  
+
   try {
     const response = await fetch(`https://api.github.com/repos/OriolCS2/CometEngine/releases/tags/${tagName}`);
     const release = await response.json();
@@ -157,12 +178,22 @@ async function renderReleaseDetail(container, tagName) {
     else if (hasOther) defaultPlatform = 'other';
 
     container.innerHTML = `
-      <section style="padding-top: 120px;">
+      <style>
+        /* Eliminem el marge superior del primer element dins del markdown per evitar el padding extra */
+        .markdown-content > *:first-child {
+          margin-top: 0 !important;
+        }
+        /* Millorem una mica l'espaiat de les llistes per a que no es vegin massa separades */
+        .markdown-content ul, .markdown-content ol {
+          margin-bottom: 1rem;
+        }
+      </style>
+      <section style="padding-top: 90px;">
         <div class="container">
-          <a href="#releases" style="color: var(--accent-color); margin-bottom: 2rem; display: inline-block;">
+          <a href="#releases" style="color: var(--accent-color); margin-bottom: 1rem; display: inline-block;">
             <i class="fas fa-arrow-left"></i> Back to All Releases
           </a>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem; gap: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 2rem;">
             <div style="flex: 1;">
               <h1 style="font-size: 3.5rem; margin: 0; line-height: 1.1;">${release.name || release.tag_name}</h1>
               <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
@@ -185,13 +216,12 @@ async function renderReleaseDetail(container, tagName) {
                 ${hasOther ? `<button class="filter-btn ${defaultPlatform === 'other' ? 'active' : ''}" data-platform="other"><i class="fas fa-box"></i> Other</button>` : ''}
               </div>
               <div id="assets-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;">
-                <!-- Assets will be injected here -->
-              </div>
+                </div>
             </div>
 
             <div>
               <h2 style="text-align: left; font-size: 2rem; margin-bottom: 1.5rem;">Release Notes</h2>
-              <div class="markdown-content" style="background: var(--card-bg); padding: 3.5rem; border-radius: 12px; border: 1px solid var(--border-color); line-height: 1.8;">
+              <div class="markdown-content" style="display: flow-root; background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); line-height: 1.8;">
                 ${parseMarkdown(release.body)}
               </div>
             </div>

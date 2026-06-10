@@ -1,5 +1,3 @@
-import inEditorImg from '../assets/InEditorScriptingAPI.png';
-
 let apiData = null;
 let allPaths = [];
 const expandedPaths = new Set();
@@ -357,8 +355,8 @@ function renderTree(container, data, autoOpen = false) {
       </div>
     `;
 
+    const nodeEl = node.querySelector('.tree-node');
     const toggleBtn = node.querySelector('.tree-toggle');
-    const label = node.querySelector('.tree-label');
     const children = node.querySelector('.tree-children');
     const icon = toggleBtn.querySelector('i');
 
@@ -373,8 +371,9 @@ function renderTree(container, data, autoOpen = false) {
       else expandedPaths.add(nodePath);
     });
 
-    // Label: navigate
-    label.addEventListener('click', (e) => {
+    // Whole row (button): navigate. Clicking the arrow is handled above and
+    // stops propagation, so it expands/collapses without opening the page.
+    nodeEl.addEventListener('click', (e) => {
       e.stopPropagation();
       window.location.hash = `#docs/${nodePath}`;
     });
@@ -629,33 +628,6 @@ function renderWelcome() {
       <p style="color:var(--text-dim);max-width:600px;margin:1rem auto 3rem;">
         Explore the classes, methods, and properties available in CometEngine.
       </p>
-
-      <div style="margin-top: 2rem; padding: 2.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; max-width: 850px; margin-left: auto; margin-right: auto; text-align: left;">
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-          <i class="fas fa-exclamation-triangle" style="color: var(--accent-color); font-size: 1.5rem;"></i>
-          <h2 style="margin: 0; color: #fff; font-size: 1.5rem;">Work In Progress</h2>
-        </div>
-        
-        <p style="color: var(--text-color); font-size: 1.1rem; margin-bottom: 1rem;">
-          This online documentation is currently being refined. For the most complete and interactive experience, 
-          we recommend using the Comet Engine in editor documentation.
-        </p>
-        
-        <div style="background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--accent-color);">
-          <span style="color: var(--text-dim);">Navigate to:</span> 
-          <code style="color: var(--accent-color); font-size: 1rem; margin-left: 0.5rem; background: transparent; padding: 0;">Help > Scripting API</code>
-        </div>
-
-        <div style="position: relative;">
-          <img src="${inEditorImg}" 
-               alt="In-Editor Scripting API" 
-               onclick="window.openLightbox(this.src)"
-               style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4); cursor: zoom-in;" />
-          <div style="position: absolute; bottom: -10px; right: -10px; background: var(--accent-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-            In Editor Documentation
-          </div>
-        </div>
-      </div>
     </div>
   `;
 }

@@ -7,7 +7,11 @@ const navLinks = document.querySelectorAll('.nav-links a');
 
 function handleRoute() {
   const hash = window.location.hash || '#home';
-  
+
+  // Docs uses a full-height, app-like layout: lock page scroll so only the
+  // sidebar tree and content panels scroll (no double scrollbar).
+  document.body.classList.toggle('docs-active', hash.startsWith('#docs'));
+
   // Update active nav link
   navLinks.forEach(link => {
     if (link.getAttribute('href') === hash) {

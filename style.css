@@ -292,6 +292,16 @@ h2 {
 }
 
 /* Documentation Layout */
+/* On the docs route, lock page scroll and hide the footer so only the
+   inner panels scroll (avoids the double scrollbar). */
+body.docs-active {
+  overflow: hidden;
+}
+
+body.docs-active footer {
+  display: none;
+}
+
 .docs-layout {
   display: flex;
   gap: 0;
@@ -648,6 +658,15 @@ footer {
   }
 
   /* Docs layout */
+  /* On mobile the layout stacks and grows; allow the page to scroll again. */
+  body.docs-active {
+    overflow: auto;
+  }
+
+  body.docs-active footer {
+    display: block;
+  }
+
   .docs-layout {
     flex-direction: column;
     height: auto;

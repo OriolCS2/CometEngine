@@ -17,12 +17,39 @@ Usage:
 
 import datetime
 import os
+import shutil
 import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = os.path.join(ROOT, "docs")
 DEFAULT_DOMAIN = "www.cometengine.org"
+
+
+def find_npm():
+    """Locate the npm executable even if it isn't on PATH.
+
+    A terminal opened before Node.js was installed won't have the updated
+    PATH, so fall back to the standard install locations.
+    """
+    found = shutil.which("npm")
+    if found:
+        return found
+
+    candidates = []
+    if os.name == "nt":
+        for base in (os.environ.get("ProgramFiles", r"C:\Program Files"),
+                     os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+                     os.path.join(os.environ.get("LOCALAPPDATA", ""), "Programs")):
+            if base:
+                candidates.append(os.path.join(base, "nodejs", "npm.cmd"))
+    else:
+        candidates += ["/usr/local/bin/npm", "/usr/bin/npm"]
+
+    for path in candidates:
+        if path and os.path.isfile(path):
+            return path
+    return None
 
 
 def run(cmd, **kwargs):
@@ -46,8 +73,19 @@ def build():
     cname = read_cname()
     print(f"[Publish] CNAME -> {cname}")
 
-    print("[Publish] Running: npm run build")
-    result = run("npm run build")
+    npm = find_npm()
+    if not npm:
+        print("[Publish] Could not find npm. Install Node.js from "
+              "https://nodejs.org and reopen your terminal.", file=sys.stderr)
+        return False
+
+    # Make sure npm's own folder is on PATH so it can locate node.exe.
+    npm_dir = os.path.dirname(npm)
+    if npm_dir:
+        os.environ["PATH"] = npm_dir + os.pathsep + os.environ.get("PATH", "")
+
+    print(f"[Publish] Running: {npm} run build")
+    result = run(f'"{npm}" run build')
     if result.returncode != 0:
         print("[Publish] Build failed.", file=sys.stderr)
         return False

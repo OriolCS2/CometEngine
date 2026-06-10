@@ -234,7 +234,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           </div>
           <span style="font-size: 0.8rem; color: var(--text-dim);">${(e.size/1024/1024).toFixed(1)} MB</span>
         </a>
-      `).join(``)||`<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">No downloads found for ${e}.</div>`};f(l),d.forEach(e=>{e.addEventListener(`click`,()=>{d.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),f(e.getAttribute(`data-platform`))})})}catch(t){e.innerHTML=`<div class="container" style="padding: 100px 2rem;"><h2>Error loading release details</h2><p>${t.message}</p></div>`}}function $e(){let e=window.navigator.platform.toLowerCase();return e.includes(`win`)?`windows`:e.includes(`linux`)?`linux`:e.includes(`mac`)?`mac`:`windows`}var et=``+new URL(`InEditorScriptingAPI-DNrmWrRS.png`,import.meta.url).href,V=null,H=[],U=new Set,W=``,G=``,K=[];async function tt(){if(K.length>0)return K;try{let e=await(await fetch(`https://api.github.com/repos/OriolCS2/CometEngine/releases`)).json();e.sort((e,t)=>new Date(t.published_at)-new Date(e.published_at));let t=e.map(e=>e.tag_name),n=await Promise.all(t.map(async e=>{try{return(await fetch(`./docs/${e}/CometEngine.xml`,{method:`HEAD`})).ok?e:null}catch{return null}}));return K=t.filter(e=>n.includes(e)&&n[t.indexOf(e)]!==null),K.length===0&&t.length>0&&(K=[t[0]]),G||=K[0],K}catch(e){return console.error(`Error fetching versions:`,e),K=[`2.0-rc.11`],G=`2.0-rc.11`,K}}window.openLightbox=e=>{let t=document.createElement(`div`);t.style.cssText=`
+      `).join(``)||`<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">No downloads found for ${e}.</div>`};f(l),d.forEach(e=>{e.addEventListener(`click`,()=>{d.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),f(e.getAttribute(`data-platform`))})})}catch(t){e.innerHTML=`<div class="container" style="padding: 100px 2rem;"><h2>Error loading release details</h2><p>${t.message}</p></div>`}}function $e(){let e=window.navigator.platform.toLowerCase();return e.includes(`win`)?`windows`:e.includes(`linux`)?`linux`:e.includes(`mac`)?`mac`:`windows`}var V=null,H=[],U=new Set,W=``,G=``,K=[];async function et(){if(K.length>0)return K;try{let e=await(await fetch(`https://api.github.com/repos/OriolCS2/CometEngine/releases`)).json();e.sort((e,t)=>new Date(t.published_at)-new Date(e.published_at));let t=e.map(e=>e.tag_name),n=await Promise.all(t.map(async e=>{try{return(await fetch(`./docs/${e}/CometEngine.xml`,{method:`HEAD`})).ok?e:null}catch{return null}}));return K=t.filter(e=>n.includes(e)&&n[t.indexOf(e)]!==null),K.length===0&&t.length>0&&(K=[t[0]]),G||=K[0],K}catch(e){return console.error(`Error fetching versions:`,e),K=[`2.0-rc.11`],G=`2.0-rc.11`,K}}window.openLightbox=e=>{let t=document.createElement(`div`);t.style.cssText=`
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.85);
@@ -248,7 +248,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
     box-shadow: 0 0 50px rgba(0,0,0,0.5);
     transform: scale(0.9); transition: transform 0.3s ease;
     border: 1px solid rgba(255,255,255,0.1);
-  `,t.appendChild(n),document.body.appendChild(t),setTimeout(()=>{t.style.opacity=`1`,n.style.transform=`scale(1)`},10),t.onclick=()=>{t.style.opacity=`0`,n.style.transform=`scale(0.9)`,setTimeout(()=>t.remove(),300)}};async function nt(e,t){let n=!V;n&&(e.innerHTML=`<div class="loading">Discovering versions...</div>`,await tt(),e.innerHTML=`<div class="loading">Parsing documentation...</div>`,V=await at(),H=Z(V));let r=decodeURIComponent(t.replace(`#docs`,``).substring(1));if(r){let e=r.split(`::`),t=``;e.forEach(e=>{t=t?`${t}::${e}`:e,U.add(t)})}if(n||!document.getElementById(`docs-tree`))e.innerHTML=`
+  `,t.appendChild(n),document.body.appendChild(t),setTimeout(()=>{t.style.opacity=`1`,n.style.transform=`scale(1)`},10),t.onclick=()=>{t.style.opacity=`0`,n.style.transform=`scale(0.9)`,setTimeout(()=>t.remove(),300)}};async function tt(e,t){let n=!V;n&&(e.innerHTML=`<div class="loading">Discovering versions...</div>`,await et(),e.innerHTML=`<div class="loading">Parsing documentation...</div>`,V=await q(),H=Z(V));let r=decodeURIComponent(t.replace(`#docs`,``).substring(1));if(r){let e=r.split(`::`),t=``;e.forEach(e=>{t=t?`${t}::${e}`:e,U.add(t)})}if(n||!document.getElementById(`docs-tree`))e.innerHTML=`
       <div class="docs-layout">
         <div class="docs-sidebar">
           <div class="docs-sidebar-search">
@@ -263,10 +263,10 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
           <div class="docs-sidebar-tree" id="docs-tree"></div>
         </div>
         <div class="docs-content" id="docs-detail">
-          ${r?J(r):ut()}
+          ${r?at(r):lt()}
         </div>
       </div>
-    `,q(document.getElementById(`docs-tree`),V),rt(),it(e);else{document.getElementById(`docs-detail`).innerHTML=r?J(r):ut();let e=document.getElementById(`docs-tree`);W?q(e,lt(V,W),!0):q(e,V);let t=document.getElementById(`docs-search`);t&&(t.value=W)}}function rt(){let e=document.getElementById(`docs-search`);e&&e.addEventListener(`input`,e=>{W=e.target.value.toLowerCase();let t=document.getElementById(`docs-tree`);W.length>0?q(t,lt(V,W),!0):q(t,V)})}function it(e){let t=document.getElementById(`docs-version`);t&&t.addEventListener(`change`,async t=>{G=t.target.value,e.innerHTML=`<div class="loading">Switching version...</div>`,V=await at(),H=Z(V),nt(e,window.location.hash)})}async function at(){let e=[`./docs/${G}/CometEngine.xml`,`./docs/${G}/CometEngineAdditionals.xml`,`./docs/${G}/CometEngineGlobals.xml`],t={};for(let n of e)try{let e=await fetch(n);if(!e.ok)throw Error(`HTTP error! status: ${e.status}`);let r=await e.text();console.log(`Fetched ${n}: ${r.length} bytes.`),r=r.replace(/([a-z]+)="([^"]*)"/gi,(e,t,n)=>`${t}="${n.replace(/</g,`&lt;`).replace(/>/g,`&gt;`)}"`).replace(/([a-z0-9_]+)\s*=\s*([)>])/gi,`$1="" $2`).replace(/<([a-z0-9:]+)\s+([^>]*?)(\/?)>/gi,(e,t,n,r)=>{let i=new Set,a=/([a-z0-9_]+)="([^"]*)"/gi,o=[],s;for(;(s=a.exec(n))!==null;){let e=s[1].toLowerCase();i.has(e)||(i.add(e),o.push(`${s[1]}="${s[2]}"`))}return`<${t}${o.length?` `+o.join(` `):``}${r?` /`:``}>`});let i=new DOMParser().parseFromString(r,`text/xml`),a=i.getElementsByTagName(`parsererror`);if(a.length>0){console.error(`Parser error in ${n}:`,a[0].textContent);continue}let o=Array.from(i.getElementsByTagName(`member`)),s=i.getElementsByTagName(`callbacks`);for(let e of s){let t=e.getAttribute(`name`),n=e.getElementsByTagName(`callback`);for(let e of n){let n=`M:${t}::${e.getAttribute(`name`)}`;e.setAttribute(`name`,n),e.setAttribute(`is-callback`,`true`),o.push(e)}}console.log(`Loading ${n}: ${o.length} members found.`);for(let e of o)try{let n=e.getAttribute(`name`);if(!n)continue;let r=n.trim().match(/^([A-Z]):(.+)$/);if(!r)continue;let i=r[1],a=r[2].trim(),o=a.match(/\(([^)]*)\)/),s=o&&o[1]?o[1].split(`,`).map(e=>e.trim()).filter(Boolean):[],c=a.split(`(`)[0].trim().split(`::`).map(e=>e.trim()),l=t,u=c.length>1?c[c.length-2]:null;for(let t=0;t<c.length;t++){let n=c[t],r=t===c.length-1;r&&i!==`T`?(l._members||=[],l._members.push(ot(e,i,a,n,s,u))):(l[n]||(l[n]={}),l=l[n],r&&(l._members||=[],l._members.push(ot(e,i,a,n,s,u))))}}catch(e){console.error(`Error parsing member in ${n}:`,e)}}catch(e){console.error(`Error loading/parsing ${n}:`,e)}return console.log(`Final apiData namespaces:`,Object.keys(t)),t.CometEditor&&t.CometEditor.GUI&&console.log(`Final GUI members:`,t.CometEditor.GUI._members?.length),t}function ot(e,t,n,r,i,a){let o=Array.from(e.getElementsByTagName(`param`)).map((e,t)=>({name:e.getAttribute(`name`),type:i[t]||null,desc:e.textContent.trim(),default:e.getAttribute(`default`)})),s=e.getAttribute(`return`),c=e.getAttribute(`type`),l=e.getAttribute(`constructor`)===`true`||t===`M`&&r===a,u=e.tagName.toLowerCase()===`callback`||e.getAttribute(`is-callback`)===`true`;return{type:t,fullName:n,name:r,sigTypes:i,summary:e.getElementsByTagName(`summary`)[0]?.textContent?.trim()||``,params:o,returnType:s||null,returnDesc:e.getElementsByTagName(`return`)[0]?.textContent?.trim()||e.getElementsByTagName(`returns`)[0]?.textContent?.trim()||``,fieldType:c||null,isConstructor:l,isCallback:u}}function q(e,t,n=!1){e.innerHTML=``;let r=decodeURIComponent(window.location.hash.replace(`#docs`,``).substring(1)),i=(e,t,a=``)=>{let o=document.createElement(`div`);o.className=`tree-item`;let s=a?`${a}::${e}`:e,c=Object.keys(t).filter(e=>e!==`_members`).length>0,l=n||U.has(s);o.innerHTML=`
+    `,J(document.getElementById(`docs-tree`),V),nt(),rt(e);else{document.getElementById(`docs-detail`).innerHTML=r?at(r):lt();let e=document.getElementById(`docs-tree`);W?J(e,ct(V,W),!0):J(e,V);let t=document.getElementById(`docs-search`);t&&(t.value=W)}}function nt(){let e=document.getElementById(`docs-search`);e&&e.addEventListener(`input`,e=>{W=e.target.value.toLowerCase();let t=document.getElementById(`docs-tree`);W.length>0?J(t,ct(V,W),!0):J(t,V)})}function rt(e){let t=document.getElementById(`docs-version`);t&&t.addEventListener(`change`,async t=>{G=t.target.value,e.innerHTML=`<div class="loading">Switching version...</div>`,V=await q(),H=Z(V),tt(e,window.location.hash)})}async function q(){let e=[`./docs/${G}/CometEngine.xml`,`./docs/${G}/CometEngineAdditionals.xml`,`./docs/${G}/CometEngineGlobals.xml`],t={};for(let n of e)try{let e=await fetch(n);if(!e.ok)throw Error(`HTTP error! status: ${e.status}`);let r=await e.text();console.log(`Fetched ${n}: ${r.length} bytes.`),r=r.replace(/([a-z]+)="([^"]*)"/gi,(e,t,n)=>`${t}="${n.replace(/</g,`&lt;`).replace(/>/g,`&gt;`)}"`).replace(/([a-z0-9_]+)\s*=\s*([)>])/gi,`$1="" $2`).replace(/<([a-z0-9:]+)\s+([^>]*?)(\/?)>/gi,(e,t,n,r)=>{let i=new Set,a=/([a-z0-9_]+)="([^"]*)"/gi,o=[],s;for(;(s=a.exec(n))!==null;){let e=s[1].toLowerCase();i.has(e)||(i.add(e),o.push(`${s[1]}="${s[2]}"`))}return`<${t}${o.length?` `+o.join(` `):``}${r?` /`:``}>`});let i=new DOMParser().parseFromString(r,`text/xml`),a=i.getElementsByTagName(`parsererror`);if(a.length>0){console.error(`Parser error in ${n}:`,a[0].textContent);continue}let o=Array.from(i.getElementsByTagName(`member`)),s=i.getElementsByTagName(`callbacks`);for(let e of s){let t=e.getAttribute(`name`),n=e.getElementsByTagName(`callback`);for(let e of n){let n=`M:${t}::${e.getAttribute(`name`)}`;e.setAttribute(`name`,n),e.setAttribute(`is-callback`,`true`),o.push(e)}}console.log(`Loading ${n}: ${o.length} members found.`);for(let e of o)try{let n=e.getAttribute(`name`);if(!n)continue;let r=n.trim().match(/^([A-Z]):(.+)$/);if(!r)continue;let i=r[1],a=r[2].trim(),o=a.match(/\(([^)]*)\)/),s=o&&o[1]?o[1].split(`,`).map(e=>e.trim()).filter(Boolean):[],c=a.split(`(`)[0].trim().split(`::`).map(e=>e.trim()),l=t,u=c.length>1?c[c.length-2]:null;for(let t=0;t<c.length;t++){let n=c[t],r=t===c.length-1;r&&i!==`T`?(l._members||=[],l._members.push(it(e,i,a,n,s,u))):(l[n]||(l[n]={}),l=l[n],r&&(l._members||=[],l._members.push(it(e,i,a,n,s,u))))}}catch(e){console.error(`Error parsing member in ${n}:`,e)}}catch(e){console.error(`Error loading/parsing ${n}:`,e)}return console.log(`Final apiData namespaces:`,Object.keys(t)),t.CometEditor&&t.CometEditor.GUI&&console.log(`Final GUI members:`,t.CometEditor.GUI._members?.length),t}function it(e,t,n,r,i,a){let o=Array.from(e.getElementsByTagName(`param`)).map((e,t)=>({name:e.getAttribute(`name`),type:i[t]||null,desc:e.textContent.trim(),default:e.getAttribute(`default`)})),s=e.getAttribute(`return`),c=e.getAttribute(`type`),l=e.getAttribute(`constructor`)===`true`||t===`M`&&r===a,u=e.tagName.toLowerCase()===`callback`||e.getAttribute(`is-callback`)===`true`;return{type:t,fullName:n,name:r,sigTypes:i,summary:e.getElementsByTagName(`summary`)[0]?.textContent?.trim()||``,params:o,returnType:s||null,returnDesc:e.getElementsByTagName(`return`)[0]?.textContent?.trim()||e.getElementsByTagName(`returns`)[0]?.textContent?.trim()||``,fieldType:c||null,isConstructor:l,isCallback:u}}function J(e,t,n=!1){e.innerHTML=``;let r=decodeURIComponent(window.location.hash.replace(`#docs`,``).substring(1)),i=(e,t,a=``)=>{let o=document.createElement(`div`);o.className=`tree-item`;let s=a?`${a}::${e}`:e,c=Object.keys(t).filter(e=>e!==`_members`).length>0,l=n||U.has(s);o.innerHTML=`
       <div class="tree-node ${r===s?`active`:``}" data-path="${s}">
         <span class="tree-toggle" style="width:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
           ${c?`<i class="fas ${l?`fa-chevron-down`:`fa-chevron-right`}" style="font-size:0.75rem;"></i>`:`<i class="fas fa-cube" style="font-size:0.7rem;color:var(--text-dim);"></i>`}
@@ -275,7 +275,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       </div>
       <div class="tree-children" style="display:${l?`block`:`none`};">
       </div>
-    `;let u=o.querySelector(`.tree-toggle`),d=o.querySelector(`.tree-label`),f=o.querySelector(`.tree-children`),p=u.querySelector(`i`);return u.addEventListener(`click`,e=>{if(e.stopPropagation(),!c)return;let t=f.style.display===`block`;f.style.display=t?`none`:`block`,p&&(p.className=`fas ${t?`fa-chevron-right`:`fa-chevron-down`}`),t?U.delete(s):U.add(s)}),d.addEventListener(`click`,e=>{e.stopPropagation(),window.location.hash=`#docs/${s}`}),Object.keys(t).filter(e=>e!==`_members`).sort().forEach(e=>{f.appendChild(i(e,t[e],s))}),o};Object.keys(t).sort().forEach(n=>{e.appendChild(i(n,t[n]))})}function J(e){let t=e.split(`::`),n=V;for(let e of t)n=n?.[e];if(!n)return`<h2>Element not found</h2>`;let r=n._members||[],i=r.find(e=>e.type===`T`),a=r.filter(e=>e.isConstructor),o=r.filter(e=>e.isCallback),s=r.filter(e=>e.type===`F`),c=r.filter(e=>e.type===`M`&&!e.isConstructor&&!e.isCallback),l=r.filter(e=>e.type===`P`),u=Object.keys(n).filter(e=>e!==`_members`).map(e=>({name:e,summary:n[e]._members?.find(e=>e.type===`T`)?.summary||``}));return`
+    `;let u=o.querySelector(`.tree-node`),d=o.querySelector(`.tree-toggle`),f=o.querySelector(`.tree-children`),p=d.querySelector(`i`);return d.addEventListener(`click`,e=>{if(e.stopPropagation(),!c)return;let t=f.style.display===`block`;f.style.display=t?`none`:`block`,p&&(p.className=`fas ${t?`fa-chevron-right`:`fa-chevron-down`}`),t?U.delete(s):U.add(s)}),u.addEventListener(`click`,e=>{e.stopPropagation(),window.location.hash=`#docs/${s}`}),Object.keys(t).filter(e=>e!==`_members`).sort().forEach(e=>{f.appendChild(i(e,t[e],s))}),o};Object.keys(t).sort().forEach(n=>{e.appendChild(i(n,t[n]))})}function at(e){let t=e.split(`::`),n=V;for(let e of t)n=n?.[e];if(!n)return`<h2>Element not found</h2>`;let r=n._members||[],i=r.find(e=>e.type===`T`),a=r.filter(e=>e.isConstructor),o=r.filter(e=>e.isCallback),s=r.filter(e=>e.type===`F`),c=r.filter(e=>e.type===`M`&&!e.isConstructor&&!e.isCallback),l=r.filter(e=>e.type===`P`),u=Object.keys(n).filter(e=>e!==`_members`).map(e=>({name:e,summary:n[e]._members?.find(e=>e.type===`T`)?.summary||``}));return`
     <div class="api-member">
       <div style="color:var(--accent-color);font-weight:600;margin-bottom:0.25rem;font-size:0.9rem;">${t.slice(0,-1).join(`::`)||`Global`}</div>
       <h1 style="font-size:2.5rem;margin:0 0 1rem;">${t[t.length-1]}</h1>
@@ -312,7 +312,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       ${s.length>0?`
         <div class="api-section">
           <h3>Fields</h3>
-          ${s.map(e=>st(e)).join(``)}
+          ${s.map(e=>ot(e)).join(``)}
         </div>
       `:``}
 
@@ -326,11 +326,11 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       ${l.length>0?`
         <div class="api-section">
           <h3>Properties</h3>
-          ${l.map(e=>ct(e)).join(``)}
+          ${l.map(e=>st(e)).join(``)}
         </div>
       `:``}
     </div>
-  `}function st(e){let t=e.fieldType||``;return`
+  `}function ot(e){let t=e.fieldType||``;return`
     <div class="api-item">
       <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
         ${t?`<span style="color:#61afef;">${X(t)}</span>`:``}
@@ -338,7 +338,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
       </div>
       <p style="color:var(--text-dim);">${e.summary}</p>
     </div>
-  `}function ct(e){let t=e.fieldType||e.sigTypes?.[0]||``;return`
+  `}function st(e){let t=e.fieldType||e.sigTypes?.[0]||``;return`
     <div class="api-item">
       <div style="display:flex;align-items:baseline;gap:0.5rem;font-family:monospace;font-size:1rem;margin-bottom:0.5rem;">
         ${t?`<span style="color:#61afef;">${X(t)}</span>`:``}
@@ -377,39 +377,12 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
         </div>
       `:``}
     </div>
-  `}function X(e){if(!e)return``;let t=e.replace(/&lt;/g,`<`).replace(/&gt;/g,`>`),n=t.match(/^array<(.+)>$/);if(n){let e=n[1];return`<span style="color:#61afef;">array&lt;${X(e)}&gt;</span>`}let r=t.replace(/[?*&]/g,``).trim(),i=H.find(e=>e===r||e.endsWith(`::${r}`));return i?`<a href="#docs/${i}" style="color:#61afef;text-decoration:underline;">${t}</a>`:`<span style="color:#61afef;">${t}</span>`}function Z(e,t=``){let n=[];return Object.keys(e).forEach(r=>{if(r===`_members`)return;let i=t?`${t}::${r}`:r;n.push(i),n=n.concat(Z(e[r],i))}),n}function lt(e,t){let n={},r=(e,n)=>{let i=!1;if(e._members){let r=e._members.filter(e=>e.name.toLowerCase().includes(t)||e.summary.toLowerCase().includes(t));r.length>0&&(n._members=r,i=!0)}return Object.keys(e).forEach(a=>{if(a===`_members`)return;let o={},s=r(e[a],o),c=a.toLowerCase().includes(t);if((s||c)&&(n[a]=o,i=!0,c&&e[a]._members&&(!o._members||!o._members.find(e=>e.type===`T`)))){let t=e[a]._members.find(e=>e.type===`T`);t&&(o._members||=[],o._members.unshift(t))}}),i};return r(e,n),n}function ut(){return`
+  `}function X(e){if(!e)return``;let t=e.replace(/&lt;/g,`<`).replace(/&gt;/g,`>`),n=t.match(/^array<(.+)>$/);if(n){let e=n[1];return`<span style="color:#61afef;">array&lt;${X(e)}&gt;</span>`}let r=t.replace(/[?*&]/g,``).trim(),i=H.find(e=>e===r||e.endsWith(`::${r}`));return i?`<a href="#docs/${i}" style="color:#61afef;text-decoration:underline;">${t}</a>`:`<span style="color:#61afef;">${t}</span>`}function Z(e,t=``){let n=[];return Object.keys(e).forEach(r=>{if(r===`_members`)return;let i=t?`${t}::${r}`:r;n.push(i),n=n.concat(Z(e[r],i))}),n}function ct(e,t){let n={},r=(e,n)=>{let i=!1;if(e._members){let r=e._members.filter(e=>e.name.toLowerCase().includes(t)||e.summary.toLowerCase().includes(t));r.length>0&&(n._members=r,i=!0)}return Object.keys(e).forEach(a=>{if(a===`_members`)return;let o={},s=r(e[a],o),c=a.toLowerCase().includes(t);if((s||c)&&(n[a]=o,i=!0,c&&e[a]._members&&(!o._members||!o._members.find(e=>e.type===`T`)))){let t=e[a]._members.find(e=>e.type===`T`);t&&(o._members||=[],o._members.unshift(t))}}),i};return r(e,n),n}function lt(){return`
     <div style="text-align:center;padding-top:5rem;padding-bottom:5rem;">
       <i class="fas fa-book" style="font-size:5rem;color:var(--accent-color);margin-bottom:2rem;"></i>
       <h1>Comet Engine API Documentation</h1>
       <p style="color:var(--text-dim);max-width:600px;margin:1rem auto 3rem;">
         Explore the classes, methods, and properties available in CometEngine.
       </p>
-
-      <div style="margin-top: 2rem; padding: 2.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; max-width: 850px; margin-left: auto; margin-right: auto; text-align: left;">
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-          <i class="fas fa-exclamation-triangle" style="color: var(--accent-color); font-size: 1.5rem;"></i>
-          <h2 style="margin: 0; color: #fff; font-size: 1.5rem;">Work In Progress</h2>
-        </div>
-        
-        <p style="color: var(--text-color); font-size: 1.1rem; margin-bottom: 1rem;">
-          This online documentation is currently being refined. For the most complete and interactive experience, 
-          we recommend using the Comet Engine in editor documentation.
-        </p>
-        
-        <div style="background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--accent-color);">
-          <span style="color: var(--text-dim);">Navigate to:</span> 
-          <code style="color: var(--accent-color); font-size: 1rem; margin-left: 0.5rem; background: transparent; padding: 0;">Help > Scripting API</code>
-        </div>
-
-        <div style="position: relative;">
-          <img src="${et}" 
-               alt="In-Editor Scripting API" 
-               onclick="window.openLightbox(this.src)"
-               style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4); cursor: zoom-in;" />
-          <div style="position: absolute; bottom: -10px; right: -10px; background: var(--accent-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-            In Editor Documentation
-          </div>
-        </div>
-      </div>
     </div>
-  `}var Q=document.getElementById(`app`),dt=document.querySelectorAll(`.nav-links a`);function $(){let e=window.location.hash||`#home`;dt.forEach(t=>{t.getAttribute(`href`)===e?t.classList.add(`active`):t.classList.remove(`active`)}),e===`#home`?t(Q):e.startsWith(`#releases`)?Je(Q,e.replace(`#releases`,``).substring(1)):e.startsWith(`#docs`)&&nt(Q,e)}window.addEventListener(`hashchange`,$),window.addEventListener(`load`,$),document.addEventListener(`click`,e=>{e.target.tagName===`A`&&e.target.getAttribute(`href`)?.startsWith(`#docs/`)});
+  `}var Q=document.getElementById(`app`),ut=document.querySelectorAll(`.nav-links a`);function $(){let e=window.location.hash||`#home`;document.body.classList.toggle(`docs-active`,e.startsWith(`#docs`)),ut.forEach(t=>{t.getAttribute(`href`)===e?t.classList.add(`active`):t.classList.remove(`active`)}),e===`#home`?t(Q):e.startsWith(`#releases`)?Je(Q,e.replace(`#releases`,``).substring(1)):e.startsWith(`#docs`)&&tt(Q,e)}window.addEventListener(`hashchange`,$),window.addEventListener(`load`,$),document.addEventListener(`click`,e=>{e.target.tagName===`A`&&e.target.getAttribute(`href`)?.startsWith(`#docs/`)});

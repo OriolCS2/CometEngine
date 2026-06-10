@@ -360,10 +360,11 @@ function renderTree(container, data, autoOpen = false) {
     const children = node.querySelector('.tree-children');
     const icon = toggleBtn.querySelector('i');
 
-    // Arrow: only expand/collapse, never navigate
+    // Arrow: only expand/collapse, never navigate. Leaf icons (no arrow) fall
+    // through to the row handler below so they open the page.
     toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
       if (!hasChildren) return;
+      e.stopPropagation();
       const open = children.style.display === 'block';
       children.style.display = open ? 'none' : 'block';
       if (icon) icon.className = `fas ${open ? 'fa-chevron-right' : 'fa-chevron-down'}`;

@@ -193,7 +193,7 @@ async function renderDashboard(container, user) {
         const btn = e.currentTarget;
         btn.disabled = true;
         try {
-          await deletePackage(user, pkg);
+          await deletePackage(pkg);
           showToast(`"${pkg.name}" was deleted.`, 'success');
           renderDashboard(container, user);
         } catch (err) {

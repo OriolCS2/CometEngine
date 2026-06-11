@@ -85,6 +85,25 @@ from the browser.
 
 ---
 
+## Admin / moderation
+
+Run [`supabase/admin.sql`](supabase/admin.sql) in the SQL Editor (after
+signing in on the website at least once so your profile exists). It:
+
+- adds an `is_admin` flag to profiles and marks `contrasnya@gmail.com` as admin
+- lets admins see drafts, unpublish/delete ANY package and clean up its files
+- locks the `is_admin` column so users can't grant themselves admin via the API
+
+Admins get an orange "Admin moderation" bar with Unpublish/Delete buttons on
+every package page. To add more admins later:
+
+```sql
+update public.profiles set is_admin = true
+where id = (select id from auth.users where email = 'someone@example.com');
+```
+
+---
+
 ## How it's wired (reference)
 
 | Piece | Where |

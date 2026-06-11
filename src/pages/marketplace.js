@@ -1,6 +1,7 @@
 import {
   CATEGORIES, isBackendConfigured, listPackages, getPackageBySlug, listVersions,
   getProfile, getZipUrl, recordDownload,
+  getUser, isCurrentUserAdmin, setPackageStatus, deletePackage,
 } from '../lib/marketplace-api.js';
 import {
   escapeHtml, renderMarkdown, formatBytes, formatDownloads, formatDate,
@@ -167,6 +168,7 @@ async function renderPackageDetail(container, slug) {
       <div class="container">
         ${demoBanner()}
         <a href="#marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
+        <div id="mp-mod-bar"></div>
 
         <div class="mp-detail-header">
           ${pkg.icon_url
@@ -247,6 +249,69 @@ async function renderPackageDetail(container, slug) {
   `;
 
   wireDetailPage(container, pkg, versions, shots);
+  renderModerationBar(container, pkg);
+}
+
+// Owner: quick links to manage the package. Admin: moderation controls on any
+// package. Hidden for everyone else (and enforced server-side by RLS anyway).
+async function renderModerationBar(container, pkg) {
+  const host = container.querySelector('#mp-mod-bar');
+  if (!host) return;
+
+  const user = await getUser();
+  if (!user) return;
+  const isOwner = user.id === pkg.owner_id;
+  const isAdmin = !isOwner && await isCurrentUserAdmin();
+  if (!isOwner && !isAdmin) return;
+
+  const isPublished = pkg.status === 'published';
+  host.innerHTML = `
+    <div class="mp-mod-bar ${isAdmin ? 'mp-mod-bar-admin' : ''}">
+      <span class="mp-mod-label">
+        <i class="fas fa-${isAdmin ? 'shield-halved' : 'wrench'}"></i>
+        ${isAdmin ? 'Admin moderation' : 'You own this package'}
+        ${isPublished ? '' : '<span class="mp-badge mp-badge-dim">Draft (hidden)</span>'}
+      </span>
+      <span class="mp-mod-actions">
+        ${isOwner ? `
+          <a class="filter-btn" href="#account/edit/${encodeURIComponent(pkg.id)}"><i class="fas fa-pen"></i> Edit</a>
+          <a class="filter-btn" href="#account/version/${encodeURIComponent(pkg.id)}"><i class="fas fa-circle-up"></i> New version</a>
+        ` : ''}
+        <button class="filter-btn" id="mp-mod-status">
+          ${isPublished ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
+        </button>
+        <button class="filter-btn mp-mod-delete" id="mp-mod-delete"><i class="fas fa-trash"></i> Delete</button>
+      </span>
+    </div>
+  `;
+
+  host.querySelector('#mp-mod-status').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    try {
+      await setPackageStatus(pkg.id, isPublished ? 'draft' : 'published');
+      showToast(isPublished ? `"${pkg.name}" is now hidden from the marketplace.` : `"${pkg.name}" is now public.`, 'success');
+      renderPackageDetail(container, pkg.slug);
+    } catch (err) {
+      btn.disabled = false;
+      showToast(`Could not change status: ${err.message}`, 'error');
+    }
+  });
+
+  host.querySelector('#mp-mod-delete').addEventListener('click', async (e) => {
+    const ownerNote = isAdmin ? `\n\nYou are deleting it as ADMIN — it belongs to another user.` : '';
+    if (!confirm(`Delete "${pkg.name}" permanently?\n\nThis removes the package, ALL its versions and all its files. This cannot be undone.${ownerNote}`)) return;
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    try {
+      await deletePackage(pkg);
+      showToast(`"${pkg.name}" was deleted.`, 'success');
+      window.location.hash = '#marketplace';
+    } catch (err) {
+      btn.disabled = false;
+      showToast(`Delete failed: ${err.message}`, 'error');
+    }
+  });
 }
 
 function versionCard(v, isLatest) {

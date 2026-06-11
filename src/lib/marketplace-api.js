@@ -70,6 +70,33 @@ export async function signOut() {
   await client.auth.signOut();
 }
 
+// Profile of the signed-in user (cached per user). Used to know if the
+// current user is an admin — the is_admin flag can only be set via SQL in the
+// Supabase dashboard, never through the website.
+let cachedProfile = null;
+let cachedProfileUserId = null;
+
+export async function getMyProfile() {
+  const client = getClient();
+  if (!client) return null;
+  const user = await getUser();
+  if (!user) {
+    cachedProfile = null;
+    cachedProfileUserId = null;
+    return null;
+  }
+  if (cachedProfile && cachedProfileUserId === user.id) return cachedProfile;
+  const { data } = await client.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  cachedProfile = data;
+  cachedProfileUserId = user.id;
+  return data;
+}
+
+export async function isCurrentUserAdmin() {
+  const profile = await getMyProfile();
+  return Boolean(profile?.is_admin);
+}
+
 // Safety net in case the signup trigger didn't run (e.g. schema applied after
 // the first login).
 export async function ensureProfile(user) {
@@ -354,13 +381,15 @@ export async function setPackageStatus(packageId, status) {
   if (error) throw error;
 }
 
-export async function deletePackage(user, pkg) {
+export async function deletePackage(pkg) {
   const client = requireClient();
 
   // Best-effort cleanup of stored files (rows are the source of truth).
+  // Files live under the OWNER's folder — relevant when an admin deletes
+  // someone else's package.
   for (const bucket of [ZIPS_BUCKET, MEDIA_BUCKET]) {
     try {
-      const prefix = `${user.id}/${pkg.id}`;
+      const prefix = `${pkg.owner_id}/${pkg.id}`;
       const paths = await listAllFiles(client, bucket, prefix);
       if (paths.length > 0) await client.storage.from(bucket).remove(paths);
     } catch (e) {

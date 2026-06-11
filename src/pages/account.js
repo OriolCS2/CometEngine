@@ -1,7 +1,7 @@
 import {
   CATEGORIES, LICENSES, MAX_ZIP_BYTES, MAX_SCREENSHOTS,
-  isBackendConfigured, getUser, signInWithGoogle,
-  listMyPackages, getPackageById, listVersions,
+  isBackendConfigured, getUser, signInWithGoogle, isCurrentUserAdmin,
+  listMyPackages, listAllPackagesAdmin, getPackageById, listVersions,
   createPackage, updatePackage, publishVersion, setPackageStatus, deletePackage,
 } from '../lib/marketplace-api.js';
 import {
@@ -41,7 +41,9 @@ export async function renderAccount(container, hash) {
     return;
   }
 
-  if (parts[0] === 'new') {
+  if (parts[0] === 'admin') {
+    await renderAdminPanel(container, user, parts[1] ? decodeURIComponent(parts[1]) : null);
+  } else if (parts[0] === 'new') {
     renderPackageForm(container, user, null);
   } else if (parts[0] === 'edit' && parts[1]) {
     const pkg = await getOwnPackage(container, user, parts[1]);
@@ -111,6 +113,7 @@ function renderSignIn(container) {
 async function renderDashboard(container, user) {
   const meta = user.user_metadata || {};
   const name = meta.full_name || meta.name || user.email || 'Account';
+  const isAdmin = await isCurrentUserAdmin();
 
   container.innerHTML = `
     <section class="mp-section">
@@ -119,12 +122,18 @@ async function renderDashboard(container, user) {
           <div class="acc-identity">
             ${meta.avatar_url ? `<img src="${escapeHtml(meta.avatar_url)}" alt="" referrerpolicy="no-referrer">` : '<i class="fas fa-user-circle"></i>'}
             <div>
-              <h1>${escapeHtml(name)}</h1>
+              <h1>${escapeHtml(name)} ${isAdmin ? '<span class="mp-badge mp-badge-accent" style="vertical-align: middle;"><i class="fas fa-shield-halved"></i> Admin</span>' : ''}</h1>
               <p>${escapeHtml(user.email || '')}</p>
             </div>
           </div>
           <a href="#account/new" class="download-btn" style="font-size: 1rem;"><i class="fas fa-upload"></i> Upload New Package</a>
         </div>
+        ${isAdmin ? `
+          <div class="adm-banner">
+            <span><i class="fas fa-shield-halved"></i> You are an <strong>admin</strong> — you can moderate every package on the marketplace.</span>
+            <a href="#account/admin" class="filter-btn"><i class="fas fa-list-check"></i> Manage all packages</a>
+          </div>
+        ` : ''}
         <h2 class="acc-section-title">My Packages</h2>
         <div id="acc-list"><div class="loading">Loading your packages...</div></div>
       </div>
@@ -641,4 +650,183 @@ async function renderVersionForm(container, user, pkg) {
 function suggestNext(version) {
   const core = version.split('-')[0].split('.').map(Number);
   return `${core[0]}.${core[1]}.${(core[2] || 0) + 1}`;
+}
+
+// ---------------------------------------------------------------------------
+// Admin panel
+//   #account/admin            → all publishers (filterable)
+//   #account/admin/{ownerId}  → one publisher's packages, with moderation
+// ---------------------------------------------------------------------------
+
+async function renderAdminPanel(container, user, ownerId) {
+  if (!(await isCurrentUserAdmin())) {
+    container.innerHTML = `
+      <section class="mp-section"><div class="container mp-narrow">
+        <div class="mp-empty"><i class="fas fa-lock"></i><p>This area is for administrators only.</p></div>
+        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+      </div></section>
+    `;
+    return;
+  }
+
+  container.innerHTML = `<section class="mp-section"><div class="container"><div class="loading">Loading all packages...</div></div></section>`;
+
+  let all;
+  try {
+    all = await listAllPackagesAdmin();
+  } catch (e) {
+    container.innerHTML = `<section class="mp-section"><div class="container"><div class="mp-empty"><i class="fas fa-triangle-exclamation"></i><p>${escapeHtml(e.message)}</p></div></div></section>`;
+    return;
+  }
+
+  // Group packages per publisher.
+  const publishers = new Map();
+  for (const pkg of all) {
+    if (!publishers.has(pkg.owner_id)) {
+      publishers.set(pkg.owner_id, {
+        ownerId: pkg.owner_id,
+        name: pkg.profiles?.display_name || 'Unknown user',
+        avatar: pkg.profiles?.avatar_url || null,
+        packages: [],
+      });
+    }
+    publishers.get(pkg.owner_id).packages.push(pkg);
+  }
+
+  if (ownerId) {
+    renderAdminUserView(container, user, publishers.get(ownerId), ownerId);
+  } else {
+    renderAdminUsersList(container, publishers, all.length);
+  }
+}
+
+function renderAdminUsersList(container, publishers, totalCount) {
+  const rows = [...publishers.values()].sort((a, b) => b.packages.length - a.packages.length);
+
+  container.innerHTML = `
+    <section class="mp-section">
+      <div class="container">
+        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <h1 class="acc-form-title"><i class="fas fa-shield-halved" style="color: var(--accent-color);"></i> Admin — All Packages</h1>
+        <p class="acc-form-subtitle">${totalCount} package${totalCount === 1 ? '' : 's'} from ${rows.length} publisher${rows.length === 1 ? '' : 's'} (drafts included). Click a publisher to moderate their packages.</p>
+        <input type="text" id="adm-filter" class="search-box" placeholder="Filter by publisher name...">
+        <div id="adm-users"></div>
+      </div>
+    </section>
+  `;
+
+  const listHost = container.querySelector('#adm-users');
+  const renderRows = (filter) => {
+    const q = (filter || '').toLowerCase();
+    const filtered = q ? rows.filter(r => r.name.toLowerCase().includes(q)) : rows;
+    listHost.innerHTML = filtered.map(r => {
+      const downloads = r.packages.reduce((s, p) => s + (p.download_count || 0), 0);
+      const drafts = r.packages.filter(p => p.status !== 'published').length;
+      return `
+        <a class="acc-pkg-row adm-user-row" href="#account/admin/${encodeURIComponent(r.ownerId)}">
+          <div class="acc-pkg-info">
+            ${r.avatar ? `<img src="${escapeHtml(r.avatar)}" alt="" referrerpolicy="no-referrer" style="border-radius: 50%;">` : '<div class="mp-card-icon-fallback acc-pkg-icon-fallback" style="border-radius: 50%;"><i class="fas fa-user"></i></div>'}
+            <div>
+              <strong>${escapeHtml(r.name)}</strong>
+              <div class="acc-pkg-meta">
+                <span><i class="fas fa-cube"></i> ${r.packages.length} package${r.packages.length === 1 ? '' : 's'}</span>
+                ${drafts > 0 ? `<span class="mp-badge mp-badge-dim">${drafts} draft${drafts === 1 ? '' : 's'}</span>` : ''}
+                <span><i class="fas fa-download"></i> ${formatDownloads(downloads)}</span>
+              </div>
+            </div>
+          </div>
+          <span style="color: var(--text-dim);"><i class="fas fa-chevron-right"></i></span>
+        </a>
+      `;
+    }).join('') || '<div class="mp-empty"><p>No publishers match that name.</p></div>';
+  };
+
+  renderRows('');
+  container.querySelector('#adm-filter').addEventListener('input', (e) => renderRows(e.target.value));
+}
+
+function renderAdminUserView(container, user, publisher, ownerId) {
+  if (!publisher) {
+    container.innerHTML = `
+      <section class="mp-section"><div class="container">
+        <a href="#account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
+        <div class="mp-empty"><p>This user has no packages (or was already cleaned up).</p></div>
+      </div></section>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <section class="mp-section">
+      <div class="container">
+        <a href="#account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
+        <div class="acc-header" style="margin-bottom: 2rem;">
+          <div class="acc-identity">
+            ${publisher.avatar ? `<img src="${escapeHtml(publisher.avatar)}" alt="" referrerpolicy="no-referrer">` : '<i class="fas fa-user-circle"></i>'}
+            <div>
+              <h1>${escapeHtml(publisher.name)}</h1>
+              <p>${publisher.packages.length} package${publisher.packages.length === 1 ? '' : 's'} · admin moderation view</p>
+            </div>
+          </div>
+        </div>
+        <div id="adm-pkgs">
+          ${publisher.packages.map(pkg => `
+            <div class="acc-pkg-row" data-id="${escapeHtml(pkg.id)}">
+              <div class="acc-pkg-info">
+                ${pkg.icon_url ? `<img src="${escapeHtml(pkg.icon_url)}" alt="">` : '<div class="mp-card-icon-fallback acc-pkg-icon-fallback"><i class="fas fa-cube"></i></div>'}
+                <div>
+                  <strong>${escapeHtml(pkg.name)}</strong>
+                  <div class="acc-pkg-meta">
+                    <span class="mp-badge ${pkg.status === 'published' ? 'mp-badge-green' : 'mp-badge-dim'}">${pkg.status === 'published' ? 'Published' : 'Draft (hidden)'}</span>
+                    <span><i class="fas fa-tag"></i> v${escapeHtml(pkg.latest_version || '—')}</span>
+                    <span><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)}</span>
+                    <span>Updated ${formatDate(pkg.updated_at)}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="acc-pkg-actions">
+                <a class="filter-btn" href="#marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i> View</a>
+                <button class="filter-btn adm-toggle-status">
+                  ${pkg.status === 'published' ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
+                </button>
+                <button class="filter-btn acc-delete adm-delete"><i class="fas fa-trash"></i> Delete</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  container.querySelectorAll('#adm-pkgs .acc-pkg-row').forEach(row => {
+    const pkg = publisher.packages.find(p => String(p.id) === row.dataset.id);
+
+    row.querySelector('.adm-toggle-status').addEventListener('click', async (e) => {
+      const btn = e.currentTarget;
+      btn.disabled = true;
+      try {
+        const next = pkg.status === 'published' ? 'draft' : 'published';
+        await setPackageStatus(pkg.id, next);
+        showToast(next === 'published' ? `"${pkg.name}" is now public.` : `"${pkg.name}" is now hidden.`, 'success');
+        renderAdminPanel(container, user, ownerId);
+      } catch (err) {
+        btn.disabled = false;
+        showToast(`Could not change status: ${err.message}`, 'error');
+      }
+    });
+
+    row.querySelector('.adm-delete').addEventListener('click', async (e) => {
+      if (!confirm(`Delete "${pkg.name}" by ${publisher.name} permanently?\n\nThis removes the package, ALL its versions and all its files. This cannot be undone.`)) return;
+      const btn = e.currentTarget;
+      btn.disabled = true;
+      try {
+        await deletePackage(pkg);
+        showToast(`"${pkg.name}" was deleted.`, 'success');
+        renderAdminPanel(container, user, ownerId);
+      } catch (err) {
+        btn.disabled = false;
+        showToast(`Delete failed: ${err.message}`, 'error');
+      }
+    });
+  });
 }

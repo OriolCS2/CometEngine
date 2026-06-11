@@ -1,4 +1,4 @@
-import { isBackendConfigured, onAuthChange, signInWithGoogle, signOut, ensureProfile } from './marketplace-api.js';
+import { isBackendConfigured, onAuthChange, signInWithGoogle, signOut, ensureProfile, isCurrentUserAdmin } from './marketplace-api.js';
 import { escapeHtml, showToast } from './ui.js';
 
 // Renders the sign-in button / user avatar menu in the navbar and keeps it in
@@ -64,6 +64,17 @@ function render(host, user) {
 
   const avatarBtn = host.querySelector('#nav-avatar');
   const menu = host.querySelector('#nav-menu');
+
+  // Admins get an extra entry (checked async so the menu renders instantly).
+  isCurrentUserAdmin().then(isAdmin => {
+    if (!isAdmin || menu.querySelector('.nav-menu-admin')) return;
+    const link = document.createElement('a');
+    link.href = '#account/admin';
+    link.className = 'nav-menu-admin';
+    link.innerHTML = '<i class="fas fa-shield-halved"></i> Admin panel';
+    link.addEventListener('click', () => { menu.hidden = true; });
+    menu.insertBefore(link, host.querySelector('#nav-signout'));
+  });
 
   avatarBtn.addEventListener('click', (e) => {
     e.stopPropagation();

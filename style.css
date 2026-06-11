@@ -1250,6 +1250,36 @@ footer {
   font-size: 0.95rem;
 }
 
+.adm-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: rgba(255, 140, 0, 0.07);
+  border: 1px solid rgba(255, 140, 0, 0.5);
+  border-radius: 10px;
+  padding: 0.9rem 1.25rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+
+.adm-banner i {
+  color: var(--accent-color);
+  margin-right: 0.4rem;
+}
+
+.adm-banner .filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.adm-user-row:hover {
+  border-color: var(--accent-color);
+}
+
 .acc-section-title {
   font-size: 1.6rem;
   text-align: left;

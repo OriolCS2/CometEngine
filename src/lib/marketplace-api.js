@@ -156,6 +156,18 @@ function sortPackages(rows, sort) {
   return sorted;
 }
 
+// Admin only: RLS returns every package (drafts included) when the caller's
+// profile has is_admin = true; everyone else just gets the public ones.
+export async function listAllPackagesAdmin() {
+  const client = requireClient();
+  const { data, error } = await client
+    .from('packages')
+    .select(PACKAGE_SELECT)
+    .order('updated_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
 export async function listMyPackages(userId) {
   const client = requireClient();
   const { data, error } = await client

@@ -1,6 +1,7 @@
 import { renderHome } from './src/pages/home.js';
 import { renderReleases } from './src/pages/releases.js';
 import { renderDocs } from './src/pages/docs.js';
+import { renderTutorials } from './src/pages/tutorials.js';
 import { renderMarketplace } from './src/pages/marketplace.js';
 import { renderAccount } from './src/pages/account.js';
 import { initAuthUI } from './src/lib/auth-ui.js';
@@ -20,9 +21,10 @@ function handleRoute() {
     return;
   }
 
-  // Docs uses a full-height, app-like layout: lock page scroll so only the
-  // sidebar tree and content panels scroll (no double scrollbar).
-  document.body.classList.toggle('docs-active', hash.startsWith('#docs'));
+  // Docs and tutorial pages use a full-height, app-like layout: lock page
+  // scroll so only the sidebar tree and content panels scroll (no double
+  // scrollbar). The tutorials landing page (#tutorials) scrolls normally.
+  document.body.classList.toggle('docs-active', hash.startsWith('#docs') || hash.startsWith('#tutorials/'));
 
   // Update active nav link (subpages keep their section highlighted)
   navLinks.forEach(link => {
@@ -37,6 +39,8 @@ function handleRoute() {
   } else if (hash.startsWith('#releases')) {
     const tag = hash.replace('#releases', '').substring(1);
     renderReleases(app, tag);
+  } else if (hash.startsWith('#tutorials')) {
+    renderTutorials(app, hash);
   } else if (hash.startsWith('#docs')) {
     renderDocs(app, hash);
   } else if (hash.startsWith('#marketplace')) {

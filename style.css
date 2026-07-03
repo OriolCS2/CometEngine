@@ -1896,3 +1896,558 @@ footer {
     align-items: flex-start;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Tutorials
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Landing page ─── */
+
+.tut-hero {
+  padding: 150px 0 60px;
+  text-align: center;
+  background: radial-gradient(circle at center, #1a2a3a 0%, var(--bg-color) 70%);
+}
+
+.tut-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tut-hero p {
+  color: var(--text-dim);
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+
+.tut-grid-section {
+  padding: 3rem 0 5rem;
+}
+
+.tut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+.tut-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: var(--transition);
+  position: relative;
+}
+
+.tut-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.tut-card-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: rgba(255, 140, 0, 0.12);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--accent-color);
+}
+
+.tut-card-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-color);
+  margin-bottom: 0.3rem;
+}
+
+.tut-card-body h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-color);
+}
+
+.tut-card-body p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.tut-card-arrow {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.1rem;
+  color: var(--text-dim);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.tut-card:hover .tut-card-arrow {
+  opacity: 1;
+  color: var(--accent-color);
+  transform: translateX(3px);
+}
+
+/* ─── Tutorial page layout ─── */
+
+.tut-sidebar {
+  width: 300px;
+}
+
+.tut-nav-category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin: 1.25rem 0 0.4rem 0.25rem;
+}
+
+.tut-nav-category:first-child {
+  margin-top: 0.25rem;
+}
+
+.tut-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  color: var(--text-color);
+  margin-bottom: 2px;
+}
+
+.tut-nav-item i {
+  width: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.tut-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tut-nav-item.active {
+  background: rgba(255, 140, 0, 0.13);
+  color: var(--accent-color);
+}
+
+.tut-nav-item.active i {
+  color: var(--accent-color);
+}
+
+.tut-nav-empty {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  padding: 1rem 0.25rem;
+}
+
+.tut-content {
+  padding: 2.5rem 3rem 4rem;
+}
+
+.tut-page {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.tut-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+
+.tut-breadcrumb a {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.tut-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.tut-breadcrumb i {
+  font-size: 0.6rem;
+}
+
+/* ─── "On this page" rail ─── */
+
+.tut-toc {
+  width: 250px;
+  flex-shrink: 0;
+  padding: 2.5rem 1.5rem 2rem 0;
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+
+.tut-toc-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+}
+
+.tut-toc-link {
+  display: block;
+  padding: 0.28rem 0 0.28rem 0.75rem;
+  color: var(--text-dim);
+  border-left: 2px solid var(--border-color);
+  line-height: 1.35;
+}
+
+.tut-toc-link:hover {
+  color: var(--text-color);
+}
+
+.tut-toc-link.active {
+  color: var(--accent-color);
+  border-left-color: var(--accent-color);
+}
+
+.tut-toc-h3 {
+  padding-left: 1.6rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 1400px) {
+  .tut-toc {
+    display: none;
+  }
+}
+
+/* ─── Article typography ─── */
+
+.tut-md h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.tut-md h1 + p {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+
+.tut-md h2 {
+  font-size: 1.65rem;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  scroll-margin-top: 1.5rem;
+}
+
+.tut-md h3 {
+  font-size: 1.2rem;
+  margin: 2rem 0 0.75rem;
+  color: var(--accent-color);
+  scroll-margin-top: 1.5rem;
+}
+
+.tut-md p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+.tut-md ul,
+.tut-md ol {
+  margin: 0 0 1.25rem 1.5rem;
+  line-height: 1.75;
+}
+
+.tut-md ul {
+  list-style: disc;
+}
+
+.tut-md ol {
+  list-style: decimal;
+}
+
+.tut-md li {
+  margin-bottom: 0.35rem;
+}
+
+.tut-md li::marker {
+  color: var(--accent-color);
+}
+
+.tut-md a {
+  color: var(--accent-color);
+}
+
+.tut-md a:hover {
+  text-decoration: underline;
+}
+
+.tut-md strong {
+  color: #fff;
+}
+
+.tut-md hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2.5rem 0;
+}
+
+.tut-md code {
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+  font-size: 0.86em;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  color: #e8c789;
+  white-space: nowrap;
+}
+
+/* ─── Code blocks ─── */
+
+.tut-codeblock {
+  margin: 1.25rem 0 1.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #12151c;
+}
+
+.tut-codeblock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  background: #1a1f28;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tut-codeblock-lang {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.tut-copy-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-family: inherit;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tut-copy-btn:hover {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.tut-codeblock pre {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.tut-codeblock pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  white-space: pre;
+  color: #d4d8e0;
+  font-size: 0.87rem;
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+}
+
+.as-keyword { color: #c678dd; }
+.as-type    { color: #e5c07b; }
+.as-func    { color: #61afef; }
+.as-string  { color: #98c379; }
+.as-number  { color: #d19a66; }
+.as-comment { color: #6b7280; font-style: italic; }
+.as-meta    { color: #56b6c2; }
+
+/* ─── Callouts ─── */
+
+.tut-callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  border-left-width: 4px;
+  background: var(--bg-secondary);
+}
+
+.tut-callout p {
+  margin-bottom: 0.5rem;
+}
+
+.tut-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.tut-callout-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.tut-callout-note { border-left-color: #61afef; }
+.tut-callout-note .tut-callout-title { color: #61afef; }
+
+.tut-callout-tip { border-left-color: #98c379; }
+.tut-callout-tip .tut-callout-title { color: #98c379; }
+
+.tut-callout-warning { border-left-color: #e5c07b; }
+.tut-callout-warning .tut-callout-title { color: #e5c07b; }
+
+.tut-callout-important { border-left-color: #e06c75; }
+.tut-callout-important .tut-callout-title { color: #e06c75; }
+
+/* ─── Figures ─── */
+
+.tut-figure {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+.tut-figure img {
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.tut-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ─── Tables ─── */
+
+.tut-table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0 1.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.tut-md table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tut-md th {
+  text-align: left;
+  background: var(--bg-secondary);
+  color: var(--accent-color);
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.tut-md td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(48, 54, 64, 0.5);
+  vertical-align: top;
+}
+
+.tut-md tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── Prev / Next pager ─── */
+
+.tut-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.tut-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.tut-pager-link:hover {
+  border-color: var(--accent-color);
+}
+
+.tut-pager-next {
+  text-align: right;
+}
+
+.tut-pager-dir {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.tut-pager-title {
+  font-weight: 600;
+  color: var(--accent-color);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .tut-content {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .tut-pager {
+    grid-template-columns: 1fr;
+  }
+
+  .tut-hero {
+    padding: 120px 0 40px;
+  }
+
+  .tut-hero h1 {
+    font-size: 2.2rem;
+  }
+}

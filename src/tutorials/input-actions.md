@@ -128,13 +128,18 @@ class WeaponController : CometBehaviour
 
 ## The generated InputWrapper
 
-Typing action names as strings is error-prone. The editor generates a typed **InputWrapper** for your groups, so you can reach any action with autocompletion and no string lookups:
+Typing action names as strings is error-prone. The editor can generate a typed **InputWrapper** for your groups, so you can reach any action with autocompletion and no string lookups:
 
 ```angelscript
 // Generated from the editor's Input settings:
 Vector2 move = InputWrapper::Gameplay.Move.GetVector2();
 if (InputWrapper::Gameplay.Jump.wasPressedThisFrame) Jump();
 ```
+
+**Generating it:** at the top of the **Project Settings → Input** panel, next to **Input Wrapper**, click **Create**. Comet writes an `InputWrapper` script with a typed accessor for every group and action, which you can then use anywhere in your code.
+
+> [!IMPORTANT]
+> The wrapper is *generated code* — a snapshot of your scheme, not a live view of it. **Every time you add, remove or rename a group or action, regenerate it by clicking the refresh button** (the *Create* control becomes a refresh once the wrapper exists). Skip this and the wrapper drifts out of sync — a renamed action still exposes its old name, and a new one won't appear at all.
 
 Under the hood the wrapper simply caches `GetGroupByName` / `GetActionByName` for you (exactly the pattern shown above), but you get compile-time names and IDE completion for free.
 

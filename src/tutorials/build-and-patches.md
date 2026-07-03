@@ -52,7 +52,12 @@ A patch is built **against the packs your players already have**. In the platfor
 3. In the Build window, add the shipped `MyGame.ori` to **Patch Base Packs** (for later patches: list the base first, then each prior patch, in order).
 4. Press **Build**. Comet compares every resource's content hash against the merged base packs and writes `MyGame_patch.ori` containing **only what changed** — plus tombstones for resources you deleted.
 
-Players drop the patch file next to the game (or your launcher downloads it) and the runtime layers it over the base: newer packs shadow older ones, deletions apply, done. Patch metadata records which content version it targets and its sequence number, so out-of-order patches are refused instead of corrupting the game.
+Once the player has the patch file, there are two ways it gets applied, and the difference matters:
+
+- **Drop it in the `extra_ori/` folder** (next to the executable) and it is **mounted automatically at startup** — no code required. This is the zero-effort path for a launcher or auto-updater: download into `extra_ori/`, relaunch, done.
+- **Put it anywhere else** and you must **mount it yourself from AngelScript** with `OriLoader::Mount("path/to/patch.ori")` (see below). This is what you want for an in-game "check for updates" button, DLC the player enables in a menu, or a mod loader.
+
+Either way the runtime layers the patch over the base: newer packs shadow older ones, deletions apply, done. Patch metadata records which content version it targets and its sequence number, so out-of-order patches are refused instead of corrupting the game.
 
 > [!NOTE]
 > Patches are regular `.ori` packs. The same mechanism ships DLC: build a patch that only *adds* content and sell the file.

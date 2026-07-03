@@ -77,12 +77,36 @@ Key `TilemapRenderer` calls: `SetTile(cell, tile)`, `SetTiles(cells, tiles)`, `G
 > [!TIP]
 > `SetTiles()` (plural) applies a whole batch in one call and is much faster than looping `SetTile()` when you generate a level procedurally.
 
-## Editor workflow
+## Creating tiles
 
-1. **Create the tilemap entity**: add a **Grid** and a **Tilemap Renderer**. Set the Grid's cell size to match your art's pixels-per-unit.
-2. **Create tile assets** from the Project panel's create menu (Tile, Rule Tile, Auto Tile...). For a Rule Tile, its inspector shows a 3×3 rule grid — click neighbour cells to mark them **This** (green), **Not This** (red) or don't-care (grey), and the center to cycle its rotation/mirror transform. Add rules top-to-bottom; the **first matching rule wins**.
-3. **Create a Tile Palette** (`Create Resource → Tile Palette`) and drop your tiles into it.
-4. **Paint** with the palette's brush into the scene — single tiles, rectangles or fills. A grid overlay snaps to cells.
+Tiles come from your sprite art. The fastest path — and the one that creates the tile assets *for* you:
+
+1. **Import and slice your tileset.** Drop a spritesheet in, set its Texture Type to `Sprite and UI`, and slice it into individual sprites in the [Sprite Editor](#tutorials/sprite-rendering) (grid slicing is ideal for a tileset).
+2. **Open the Tile Palette panel** (`Window → Tile Palette`) and **create a palette** — give it a name and a cell size matching your tiles.
+3. **Drag the sliced spritesheet onto the palette.** The panel literally invites you to *"Drag Spritesheet, Sprite or a Tile here"* — drop it and Comet **auto-creates a simple `Tile` asset for every sprite** and lays them out in the palette. That's your tile set, created in one gesture.
+
+![The Tile Palette panel with a sliced spritesheet turned into tiles.](./tutorials/tile-palette.png)
+
+### Smarter tiles
+
+For tiles with behaviour, create the tile asset explicitly from the Project panel's create menu, then drag it into the palette:
+
+- **Animated Tile** — hand it a list of sprites and a speed.
+- **Random / Weighted Random Tile** — give it several sprites; each cell picks one (stably, seeded by position).
+- **Auto Tile** — supply the 16 (2×2) or ~47 (3×3) mask sprites and it picks the right edge/corner piece from its neighbours automatically.
+- **Rule Tile** — the most powerful. Its inspector shows a **3×3 rule grid**: click a neighbour cell to require it be the **same tile** (green), a **different tile** (red), or **don't-care** (grey), and click the center to cycle a rotation/mirror transform so one rule covers several orientations. Add rules top to bottom — the **first rule that matches a cell's neighbours wins**.
+
+## Painting a tilemap
+
+With a palette ready and a tilemap entity in the scene (a **Grid** + **Tilemap Renderer**):
+
+1. **Pick a tile** in the Tile Palette panel.
+2. **Choose a tool** from the palette toolbar — **Brush** (single cells), **Box Brush** (drag a rectangle), **Fill** (flood-fill an area), **Picker** (eyedrop a tile already in the map) or **Rubber** (erase).
+3. **Paint into the scene.** A grid overlay snaps to cells; drag to lay down tiles.
+
+![Painting tiles into a tilemap in the scene view.](./tutorials/tilemap-painting.png)
+
+Rule tiles and auto-tiles update themselves as you paint — lay a strip of wall and the corners and edges resolve automatically.
 
 ## Physics: the Tilemap Collider
 

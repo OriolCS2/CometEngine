@@ -33,7 +33,7 @@ using namespace CometEngine;
 class PlayerMovement : CometBehaviour
 {
     private RigidBody body;
-    float moveForce = 30.0F;
+    float moveSpeed = 6.0F;
     float jumpImpulse = 8.0F;
 
     void Start()
@@ -43,13 +43,15 @@ class PlayerMovement : CometBehaviour
 
     void FixedUpdate()
     {
-        // Continuous horizontal force from held keys.
+        // Drive horizontal motion by setting the velocity directly — snappy,
+        // predictable control that ignores mass. The vertical velocity is left
+        // untouched so gravity and jumps still work.
         float dir = 0.0F;
         if (Input::GetKeyPressed(KeyCode::A)) dir -= 1.0F;
         if (Input::GetKeyPressed(KeyCode::D)) dir += 1.0F;
-        body.ApplyForce(Vector2(dir * moveForce, 0.0F));
+        body.velocity = Vector2(dir * moveSpeed, body.velocity.y);
 
-        // Instantaneous jump impulse.
+        // Jump with an instantaneous impulse.
         if (Input::GetKeyDown(KeyCode::SPACE))
         {
             body.ApplyLinearImpulse(Vector2(0.0F, jumpImpulse));
@@ -58,7 +60,8 @@ class PlayerMovement : CometBehaviour
 }
 ```
 
-**Force vs. impulse:** `ApplyForce` accumulates over the step (good for thrust, gravity-like pushes); `ApplyLinearImpulse` changes velocity instantly (good for jumps, hits). There are `AtPoint` variants that also impart spin, plus `ApplyTorque` / `ApplyAngularImpulse` for rotation. You can also set `velocity` directly — the right choice for kinematic platforms.
+> [!NOTE]
+> **Setting `velocity` vs. applying forces.** Assigning `body.velocity` directly gives snappy, mass-independent control — ideal for a responsive player character or a kinematic platform. Forces are for physical, mass-aware motion: **`ApplyForce`** accumulates over the step (thrust, wind, gravity-like pushes) while **`ApplyLinearImpulse`** changes velocity instantly (jumps, hits, knockback). There are `AtPoint` variants that also impart spin, plus `ApplyTorque` / `ApplyAngularImpulse` for rotation. Pick velocity for arcade feel, forces for simulation feel.
 
 ## Collision and trigger callbacks
 

@@ -2,6 +2,8 @@
 
 Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a **node graph**: boxes wired together, execution flowing along the wires. Comet's node graph system runs graphs on entities via a **Graph Updater**, and — uniquely — lets you write your own nodes in AngelScript.
 
+![A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node.](./tutorials/node-graph.png)
+
 ## How a graph runs
 
 A graph starts at an implicit **Entry** node and flows along **flow wires** (white) from one **flow node** to the next. Before a node runs, its **data inputs** are pulled from upstream **pure nodes** (stateless little calculators — Add, Compare, Get Time) along **data wires** (coloured). **Variables** carry state, and a graph can expose **inputs** and **outputs** that your game code reads and writes.

@@ -80,8 +80,7 @@ Two pieces cooperate to produce 2D shadows:
 
    Shadow Casters also filter by **Sorting Layers**, so an occluder only blocks lights on matching layers.
 
-> [!NOTE]
-> Shadow *rendering* is controlled from script (`castShadows`, `shadowMode`, `shadowStrength`...), but occluder *shapes* are authored in the editor — the Shadow Caster component itself is not exposed to AngelScript.
+![A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground.](./tutorials/shadows.png)
 
 ## Scripting lights
 

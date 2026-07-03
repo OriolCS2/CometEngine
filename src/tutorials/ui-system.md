@@ -237,7 +237,12 @@ Combine with **ScrollRect** for scrollable lists: put the layout on the `content
 
 ## Fonts
 
-Import a `.ttf`/`.otf` and assign it to `Text.font`. Text styling is per-widget: `fontSize` (or `autoFontSize` with min/max bounds to fit the rect), alignment, `wrapping`, `overflowMode`, plus `bold`, `italic`, `underline` and `strikethrough`.
+Comet accepts two kinds of font, and both plug into a Text's `font` field:
+
+- **Vector fonts** — import a `.ttf` or `.otf` and the engine rasterizes glyphs at any size, so text stays crisp at every scale. The default for UI.
+- **Bitmap fonts** — a pre-rendered glyph atlas (a texture plus its layout), ideal for pixel-art games where you want text to scale in hard pixels rather than smooth vectors, or to match a specific retro look.
+
+Text styling is per-widget regardless of the font kind: `fontSize` (or `autoFontSize` with min/max bounds to fit the rect), alignment, `wrapping`, `overflowMode`, plus `bold`, `italic`, `underline` and `strikethrough`.
 
 ## Where to go next
 

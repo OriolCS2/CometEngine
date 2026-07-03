@@ -18,6 +18,8 @@ Both are added from **Add Behaviour → Diverse**:
 3. Switch to **Move Control Points** and drag the tangent handles to bend each segment.
 4. Tweak the **Bake Interval** down for a smoother, more accurate follow (at a small memory cost).
 
+![A Bézier curve in the Scene view: blue anchor points, red tangent handles and the smooth spline drawn between them.](./tutorials/bezier-curve.png)
+
 ## Following a curve
 
 Add a **Bézier Curve Follower**, set **Curve to Follow** to your curve, then advance it every frame. You drive the distance yourself, which keeps movement speed independent of the curve's length:

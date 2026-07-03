@@ -10,6 +10,7 @@ import animationMd from '../tutorials/animation.md?raw';
 import bezierMd from '../tutorials/bezier.md?raw';
 import physicsMd from '../tutorials/physics.md?raw';
 import inputMd from '../tutorials/input.md?raw';
+import inputActionsMd from '../tutorials/input-actions.md?raw';
 import uiMd from '../tutorials/ui-system.md?raw';
 import audioMd from '../tutorials/audio.md?raw';
 import navigationMd from '../tutorials/navigation.md?raw';
@@ -87,11 +88,19 @@ const TUTORIALS = [
   },
   {
     id: 'input',
-    title: 'Input: Keyboard, Gamepad & Actions',
+    title: 'Reading Raw Input',
+    icon: 'fa-keyboard',
+    category: 'Input',
+    blurb: 'Poll keyboard, mouse, controllers and touch directly, frame by frame.',
+    md: inputMd,
+  },
+  {
+    id: 'input-actions',
+    title: 'Input Actions: The Input Module',
     icon: 'fa-gamepad',
     category: 'Input',
-    blurb: 'Poll keys, mice, controllers and touch, or bind rebindable input actions.',
-    md: inputMd,
+    blurb: 'Bind rebindable named actions, add deadzones and hold/tap, and debug them live.',
+    md: inputActionsMd,
   },
   {
     id: 'ui-system',

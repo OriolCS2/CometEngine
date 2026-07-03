@@ -1,14 +1,19 @@
-# Input: Keyboard, Gamepad & Actions
+# Reading Raw Input
 
-Reading the player's intent comes in two flavours in Comet. **Polling** asks the hardware directly — "is W held right now?" — and is perfect for quick prototypes. The **action system** binds named, rebindable *actions* ("Jump", "Move") to keys, buttons and sticks, which is what you want for a shippable game with gamepad support and remappable controls.
+The most direct way to know what the player is doing is to ask the hardware every frame: *is W held right now? did they just click? how far is the stick pushed?* This is **polling**, and it lives in the `CometEngine::Input` namespace. It's perfect for prototypes, game jams, fixed control schemes and touch handling.
 
-## Polling the hardware
+> [!TIP]
+> When you're ready for rebindable controls and first-class gamepad support, graduate to the [Input Actions system](#tutorials/input-actions) — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.
 
-Everything lives in the `CometEngine::Input` namespace. The three verbs matter:
+## The three verbs: Down, Pressed, Up
 
-- **`GetKeyPressed(key)`** — true **every frame** the key is held (a level). Use it for continuous movement.
-- **`GetKeyDown(key)`** — true only on the **first frame** of the press (an edge). Use it for actions that fire once: jump, shoot, confirm.
-- **`GetKeyUp(key)`** — true on the frame the key is **released**.
+For every button — keyboard, mouse or controller — there are three queries, and choosing the right one is most of the battle:
+
+| Query | True when... | Use it for |
+|-------|--------------|-----------|
+| **`GetKeyDown(key)`** | the **first frame** of the press (an edge) | one-shot actions: jump, shoot, confirm, toggle |
+| **`GetKeyPressed(key)`** | **every frame** the key is held (a level) | continuous actions: walking, charging, aiming |
+| **`GetKeyUp(key)`** | the frame it is **released** (an edge) | release actions: release a charged shot |
 
 ```angelscript
 using namespace CometEngine;
@@ -40,109 +45,108 @@ class Player : CometBehaviour
 }
 ```
 
-Mouse and controllers follow the same pattern:
+`KeyCode` covers the whole keyboard: letters (`A`–`Z`), digits, `SPACE`, `RETURN`, `ESCAPE`, the arrows (`UP`/`DOWN`/`LEFT`/`RIGHT`), function keys (`F1`–`F12`) and modifiers (`SHIFT_LEFT`, `CONTROL_LEFT`, ...).
+
+## Mouse
 
 ```angelscript
-// Mouse
-Vector2 mousePos = Input::GetMousePosition();        // screen space
-float wheel = Input::GetMouseScrollMotion();
-if (Input::GetMouseButtonDown(MouseCode::LEFT)) { /* click */ }
+using namespace CometEngine;
+using namespace CometEngine::Input;
 
-// Gamepad (CONTROLLER_1..8, or CONTROLLER_ANY for the first connected)
-Vector2 stick = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
-if (Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
-{
-    Input::MakeControllerRumble(0.6F, 0.2F);  // strength, seconds
-}
+Vector2 mousePos = Input::GetMousePosition();     // screen space, (0,0) top-left
+Vector2 delta = Input::GetMouseMotion();          // movement since last frame
+float wheel = Input::GetMouseScrollMotion();      // scroll delta
+
+if (Input::GetMouseButtonDown(MouseCode::LEFT))   { /* click */ }
+if (Input::GetMouseButtonPressed(MouseCode::RIGHT)) { /* hold to aim */ }
 ```
 
-Touch is multi-touch aware — each finger is a `Touch` with a stable `id`, `position`, `motion` and `state` (`STARTED` / `MOVED` / `ENDED`). The sample project's mobile controller builds a virtual joystick by tracking a finger on the left half of the screen:
+`MouseCode` is `LEFT`, `MIDDLE`, `RIGHT`, `BUTTON_4`, `BUTTON_5`. Mouse position is in **screen space** — to convert it to world space, go through your camera.
+
+## Controllers
+
+Comet supports up to eight controllers. Pass a `ControllerNumber` to target a specific one, or `CONTROLLER_ANY` for the first connected:
 
 ```angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+// Analog stick — a Vector2 in the range -1..+1 on each axis.
+Vector2 leftStick = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+float rightTrigger = Input::GetControllerTriggerValue(ControllerTrigger::RIGHT, ControllerNumber::CONTROLLER_1);
+
+// Buttons — same Down / Pressed / Up trio as the keyboard.
+if (Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
+{
+    Jump();
+    Input::MakeControllerRumble(0.6F, 0.2F);   // strength 0..1, duration in seconds
+}
+
+// Discover what's plugged in at runtime.
+array<ControllerNumber> pads = Input::GetControllersConnected();
+```
+
+`ControllerCode` names the face buttons (`A`/`B`/`X`/`Y`), the D-pad (`DPAD_UP`...), shoulders, stick clicks and analog-stick directions as virtual buttons (`LEFT_AXIS_UP`...). `MakeControllerRumble` and `PlayHapticPreset` drive vibration. `GetActiveInputDevice()` tells you whether the player is currently on keyboard-and-mouse or a gamepad, so you can swap on-screen button prompts to match.
+
+## Touch
+
+Touch is multi-touch aware: each finger is a `Touch` with a **stable `id`** you can follow across frames, plus `position`, `motion` and a `state` (`STARTED` / `MOVED` / `ENDED`):
+
+```angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
 uint64 touchCount = Input::GetTouchCount();
 for (uint64 i = 0; i < touchCount; i++)
 {
     Touch touch = Input::GetTouchByIndex(i);
     if (touch.state == TouchState::ENDED) continue;
-    // ... use touch.position, touch.id ...
+
+    // touch.id follows this finger; touch.position is screen space.
+    Debug::Log("finger " + touch.id + " at " + touch.position.ToString());
 }
 ```
 
-## The action system
+This is how the sample project's mobile controller builds a virtual joystick — it claims the first finger that lands on the left half of the screen (tracking it by `id`) and reads its offset from the touch-down point each frame. `Input::IsPinching()` and `Input::GetPinchZoom()` give you two-finger pinch for zoom.
 
-Hard-coding `KeyCode::SPACE` everywhere means no rebinding and no easy gamepad support. **Input actions** fix that: you define named actions in **Project Settings → Input**, each with one or more **bindings** (keyboard, mouse, controller, or composites like WASD → a `Vector2`), grouped into **input groups** ("UI", "Gameplay").
+## Reading a whole character controller
 
-An action has a **value type** — `Button`, `Axis` (1D) or `Vector2` (2D) — and you read it by name:
+Putting the verbs together — keyboard *and* gamepad, movement *and* a one-shot fire, exactly as the sample project's `Player` script does it:
 
 ```angelscript
 using namespace CometEngine;
-using namespace CometEngine::InputSettings;
+using namespace CometEngine::Input;
 
-class PlayerController : CometBehaviour
+class Player : CometBehaviour
 {
-    private InputAction moveAction;
-    private InputAction jumpAction;
-
-    void Start()
-    {
-        InputGroup group = InputSettings::GetGroupByName("Gameplay");
-        if (group !is null)
-        {
-            moveAction = group.GetActionByName("Move");
-            jumpAction = group.GetActionByName("Jump");
-        }
-    }
+    float speed = 6.0F;
 
     void Update()
     {
-        if (moveAction !is null)
+        // Movement: keyboard OR left stick, whichever the player uses.
+        Vector2 velocity = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+        if (Input::GetKeyPressed(KeyCode::W)) velocity.y += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) velocity.y -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) velocity.x -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) velocity.x += 1.0F;
+
+        // Fire: space OR the A button, once per press.
+        if (Input::GetKeyDown(KeyCode::SPACE) ||
+            Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
         {
-            // One Vector2, whether it came from WASD, arrows or a stick.
-            Vector2 move = moveAction.GetVector2();
-            transform.Translate(move * 5.0F * Time::GetDeltaTime(), Space::World);
+            Fire();
         }
 
-        // wasPressedThisFrame is the action-system equivalent of GetKeyDown.
-        if (jumpAction !is null && jumpAction.wasPressedThisFrame)
-        {
-            Jump();
-        }
+        transform.Translate(velocity * speed * Time::GetDeltaTime(), Space::World);
     }
 
-    void Jump() { }
+    void Fire() { }
 }
 ```
 
-`isPressed` (held), `wasPressedThisFrame` / `wasReleasedThisFrame` (edges), and the typed getters `GetBool()` / `GetFloat()` / `GetVector2()` cover every case. You can also subscribe to callbacks instead of polling:
-
-```angelscript
-void Start()
-{
-    InputGroup group = InputSettings::GetGroupByName("Gameplay");
-    jumpAction = group.GetActionByName("Jump");
-    jumpAction.onStarted.Add(InputActionCallback(OnJump));
-}
-
-void OnJump(InputAction action)
-{
-    Debug::Log("jump!");
-}
-```
-
-### Bindings, processors and interactions
-
-Each binding can carry **processors** (deadzone, invert, scale, response curve) and **interactions** (press, hold, tap, multi-tap) — so "hold to charge" or "double-tap to dash" are configured, not coded. Composite bindings turn four buttons into a `Vector2`, or two into an axis.
-
-> [!TIP]
-> The editor generates a typed **InputWrapper** accessor for your groups, so you can write `InputWrapper::Gameplay.Move.GetVector2()` with autocompletion instead of looking actions up by string every time.
-
-## Which to use
-
-- **Polling** — jams, prototypes, fixed control schemes, mobile touch handling.
-- **Action system** — shipping games that need gamepad support, rebindable controls, or "hold/tap" interactions.
-
-They coexist freely; use whichever fits each situation.
+> [!WARNING]
+> Notice this reads two hard-coded keys for every action, and there's no way for the player to rebind them or for a designer to tune deadzones. That's fine for a jam — but the moment you want remappable controls, "hold to charge", or clean multi-device support, it's time for [Input Actions](#tutorials/input-actions).
 
 ## Where to go next
 
-Feed input into [physics forces](#tutorials/physics), drive an [animator's parameters](#tutorials/animation), or wire buttons in your [UI](#tutorials/ui-system).
+Turn these reads into movement with [Physics](#tutorials/physics), or step up to rebindable, designer-friendly controls with [Input Actions](#tutorials/input-actions).

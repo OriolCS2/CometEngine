@@ -34,7 +34,44 @@ Clip-level settings live on the Animation resource itself:
 
 ### Animation events
 
-Events call a method on the entity's scripts when playback crosses a frame. Right-click the event track at the desired frame, choose **Add Event**, then pick the behaviour, the method and its argument values. Classic uses: footstep sounds, spawning a hitbox on the exact swing frame, `OnAttackEnded()` notifications.
+Keyframes change *what the sprite looks like*; **animation events** make things *happen* at exact moments in the clip. An event calls a method on one of the entity's scripts when playback crosses a specific frame — the reliable way to sync gameplay to animation: a footstep sound on the frame the foot lands, a hitbox spawned on the exact frame of a sword swing, a screen shake when a monster stomps.
+
+In the Animation Timeline, each animated entity has an **event track** running along the top. To add an event:
+
+1. Move the scrubber to the frame where it should fire.
+2. Right-click the event track (or use its **Add Event** control) at that frame.
+3. Pick the target **behaviour**, the **method** to call, and fill in any argument values the method takes.
+
+A diamond marker appears on the event track at that frame. The method is just an ordinary function on one of your scripts — no special attribute needed:
+
+```angelscript
+using namespace CometEngine;
+
+class Player : CometBehaviour
+{
+    AudioSample footstepSound;   // assigned in the Inspector
+
+    // Called by the animation event on the foot-plant frames.
+    void OnFootstep()
+    {
+        AudioSource::PlaySingle(footstepSound, 0.6F);
+    }
+
+    // Events can pass arguments configured in the timeline.
+    void SpawnHitbox(int damage)
+    {
+        Debug::Log("swing hitbox active for " + damage + " damage");
+    }
+}
+```
+
+The `PlayerRun` clip in the screenshot above, for instance, has two `OnFootstep` events — one on each frame where a foot hits the ground — so the footstep audio stays perfectly in step with the run cycle no matter how the animation's speed is scaled.
+
+> [!NOTE]
+> Events fire when playback *crosses* their frame during normal play. When you `Seek()` to scrub the animator deterministically (for a network correction, say), pass `fireEvents = false` so you don't retrigger sounds and hitboxes while jumping through the timeline.
+
+> [!WARNING]
+> An event calls a method **by name** on the target behaviour. If you rename or remove that method in your script, the event silently stops firing — so keep event-target method names stable, or update the event when you refactor.
 
 ## Building the state machine
 
@@ -80,11 +117,11 @@ using namespace CometEngine;
 
 class PlayerAnimation : CometBehaviour
 {
-    private Animator @animator;
+    private Animator animator;
 
     void Start()
     {
-        @animator = Animator::Get(entity);
+        animator = Animator::Get(entity);
     }
 
     void Update()
@@ -108,7 +145,7 @@ You can also query and force states directly:
 
 ```angelscript
 // What is playing right now?
-AnimatorStateInfo @state = animator.GetCurrentState();
+AnimatorStateInfo state = animator.GetCurrentState();
 if (state !is null)
 {
     Debug::Log(state.name + " at " + state.normalizedTime);
@@ -142,18 +179,18 @@ using namespace CometEngine;
 class AlertState : AnimatorStateBehaviour
 {
     // Called when the animator enters this state.
-    void OnStateEnter(Animator @animator, AnimatorStateInfo @stateInfo)
+    void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo)
     {
         Debug::Log(animator.entity.name + " entered " + stateInfo.name);
     }
 
     // Called every animation update while this state is active.
-    void OnStateUpdate(Animator @animator, AnimatorStateInfo @stateInfo)
+    void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo)
     {
     }
 
     // Called when the animator leaves this state.
-    void OnStateExit(Animator @animator, AnimatorStateInfo @stateInfo)
+    void OnStateExit(Animator animator, AnimatorStateInfo stateInfo)
     {
     }
 }
@@ -170,7 +207,7 @@ using namespace CometEngine;
 
 class SkinSwapper : CometBehaviour
 {
-    void ApplySkin(AnimatorControllerOverride @skin)
+    void ApplySkin(AnimatorControllerOverride skin)
     {
         Animator::Get(entity).animatorController = skin;
     }

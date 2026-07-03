@@ -89,7 +89,7 @@ class PanelSetup : CometBehaviour
 {
     void Start()
     {
-        SpriteRenderer @renderer = SpriteRenderer::Get(entity);
+        SpriteRenderer renderer = SpriteRenderer::Get(entity);
         renderer.renderMode = SpriteRenderMode::SLICED;
         renderer.size = Vector2(10.0F, 4.0F); // world units, borders stay crisp
     }
@@ -105,11 +105,11 @@ using namespace CometEngine;
 
 class PlayerVisuals : CometBehaviour
 {
-    private SpriteRenderer @spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
-        @spriteRenderer = SpriteRenderer::Get(entity);
+        spriteRenderer = SpriteRenderer::Get(entity);
     }
 
     void Update()
@@ -131,7 +131,7 @@ class PlayerVisuals : CometBehaviour
 ```
 
 > [!NOTE]
-> `SpriteRenderer::Get(entity)` returns the behaviour attached to that entity. The `@` symbol declares a *handle* (a reference) — assigning with `@spriteRenderer = ...` stores the reference instead of copying the object.
+> `SpriteRenderer::Get(entity)` returns a reference to the behaviour attached to that entity — the same pattern works for every behaviour type (`Camera::Get`, `Animator::Get`, ...).
 
 ## Materials: shared vs. instanced
 
@@ -147,13 +147,13 @@ using namespace CometEngine;
 
 class Disolve : CometBehaviour
 {
-    private Material @spriteMaterial;
+    private Material spriteMaterial;
     private float value = 0.0F;
 
     void Start()
     {
         // Accessing .material clones the shared material for this renderer only.
-        @spriteMaterial = SpriteRenderer::Get(entity).material;
+        spriteMaterial = SpriteRenderer::Get(entity).material;
     }
 
     void Update()
@@ -185,7 +185,7 @@ class RuntimeSpriteSwap : CometBehaviour
     void Start()
     {
         // Load a sprite atlas and pick a sprite from it by name.
-        SpriteAtlas @atlas = cast<SpriteAtlas@>(
+        SpriteAtlas atlas = cast<SpriteAtlas>(
             RuntimeAssets::LoadResource("Atlases/Characters", ResourceType::SPRITE_ATLAS));
 
         if (atlas !is null)
@@ -209,7 +209,7 @@ class TorchFlame : CometBehaviour
 {
     void Start()
     {
-        AnimatedSprite @anim = AnimatedSprite::Get(entity);
+        AnimatedSprite anim = AnimatedSprite::Get(entity);
         anim.speed = 12.0F;       // frames per second
         anim.loop = true;
         anim.randomStart = true;  // desync multiple torches

@@ -3,11 +3,18 @@ import DOMPurify from 'dompurify';
 
 import spritesMd from '../tutorials/sprite-rendering.md?raw';
 import lightsMd from '../tutorials/lights.md?raw';
+import tilemapMd from '../tutorials/tilemap.md?raw';
+import particlesMd from '../tutorials/particles.md?raw';
+import videoMd from '../tutorials/video.md?raw';
 import animationMd from '../tutorials/animation.md?raw';
+import bezierMd from '../tutorials/bezier.md?raw';
+import physicsMd from '../tutorials/physics.md?raw';
+import inputMd from '../tutorials/input.md?raw';
 import uiMd from '../tutorials/ui-system.md?raw';
 import audioMd from '../tutorials/audio.md?raw';
 import navigationMd from '../tutorials/navigation.md?raw';
 import networkingMd from '../tutorials/networking.md?raw';
+import nodeGraphMd from '../tutorials/node-graph.md?raw';
 import buildMd from '../tutorials/build-and-patches.md?raw';
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -31,12 +38,60 @@ const TUTORIALS = [
     md: lightsMd,
   },
   {
+    id: 'tilemap',
+    title: 'Tilemaps & Rule Tiles',
+    icon: 'fa-border-all',
+    category: '2D Graphics',
+    blurb: 'Paint worlds with grids, animated tiles, auto-tiles and neighbour-aware rule tiles.',
+    md: tilemapMd,
+  },
+  {
+    id: 'particles',
+    title: 'Particle Systems',
+    icon: 'fa-fire',
+    category: '2D Graphics',
+    blurb: 'Fire, smoke, sparks and magic with a modular, Unity-style particle system.',
+    md: particlesMd,
+  },
+  {
+    id: 'video',
+    title: 'Video Playback',
+    icon: 'fa-film',
+    category: '2D Graphics',
+    blurb: 'Play WebM video onto a render texture or camera plane, with audio routed through a mixer.',
+    md: videoMd,
+  },
+  {
     id: 'animation',
     title: 'Animation & the Animator',
     icon: 'fa-person-running',
     category: 'Animation',
-    blurb: 'Animation clips, the state machine editor, parameters, transitions and state scripts.',
+    blurb: 'Animation clips, keyframes, events, the state machine editor, parameters and transitions.',
     md: animationMd,
+  },
+  {
+    id: 'bezier',
+    title: 'Bézier Curves & Paths',
+    icon: 'fa-bezier-curve',
+    category: 'Animation',
+    blurb: 'Author smooth paths and move platforms, cameras and projectiles along them.',
+    md: bezierMd,
+  },
+  {
+    id: 'physics',
+    title: 'Physics: Bodies, Colliders & Joints',
+    icon: 'fa-cubes-stacked',
+    category: 'Physics',
+    blurb: 'Rigid bodies, colliders, triggers, raycasts and joints on the Box2D backend.',
+    md: physicsMd,
+  },
+  {
+    id: 'input',
+    title: 'Input: Keyboard, Gamepad & Actions',
+    icon: 'fa-gamepad',
+    category: 'Input',
+    blurb: 'Poll keys, mice, controllers and touch, or bind rebindable input actions.',
+    md: inputMd,
   },
   {
     id: 'ui-system',
@@ -71,6 +126,14 @@ const TUTORIALS = [
     md: networkingMd,
   },
   {
+    id: 'node-graph',
+    title: 'Visual Scripting with Node Graphs',
+    icon: 'fa-diagram-project',
+    category: 'Visual Scripting',
+    blurb: 'Author gameplay logic as node graphs and write your own custom nodes in AngelScript.',
+    md: nodeGraphMd,
+  },
+  {
     id: 'build-and-patches',
     title: 'Exporting Builds & Shipping Patches',
     icon: 'fa-box-open',
@@ -80,7 +143,7 @@ const TUTORIALS = [
   },
 ];
 
-const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'UI', 'Audio', 'Navigation', 'Networking', 'Shipping'];
+const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Shipping'];
 
 let sidebarFilter = '';
 

@@ -26,6 +26,9 @@ Comet packs content into **`.ori`** archives — a deterministic, binary-indexed
 | `Embedded in executable` | The `.ori` is appended to the executable — one single file to distribute. |
 | `Loose content folder` | A `content/` folder with the raw blobs and manifests — convenient while iterating. |
 
+> [!NOTE]
+> **Content Packaging is a standalone (Windows/Linux) option.** Android and Web decide their own layout: an Android build packs content uncompressed inside the APK so the engine can memory-map it in place, and a Web build produces a static site with the content preloaded or streamed over HTTP (see the platform notes below). The `Single .ori` / `Embedded` / `Loose` choice only applies to the desktop executable + pack you ship yourself.
+
 A typical Windows output folder:
 
 ```text
@@ -80,7 +83,7 @@ class PatchManager : CometBehaviour
 
     void ListInstalledContent()
     {
-        array<string> @packs = OriLoader::GetMountedPacks();
+        array<string> packs = OriLoader::GetMountedPacks();
         for (uint i = 0; i < packs.length(); i++)
         {
             Debug::Log("[" + formatInt(int(i)) + "] " + packs[i]);
@@ -114,6 +117,51 @@ The Web tab configures the **Canvas Size** and responsiveness. The build produce
 - Patches work over HTTP too: `OriLoader::Mount("https://cdn.example.com/patch_v2.ori")`.
 
 Remember the platform's limits: no native sockets (use WebSockets — see [Networking](#tutorials/networking)) and no threads.
+
+## Platform macros in AngelScript
+
+Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines a **preprocessor macro** for the platform each compile targets, and you branch on it with `#ifdef` / `#ifndef` / `#else` / `#endif`:
+
+| Macro | Defined when compiling for... |
+|-------|-------------------------------|
+| `COMET_STANDALONE` | a Windows or Linux desktop build |
+| `COMET_ANDROID` | an Android build |
+| `COMET_WEB` | a Web (Emscripten/WASM) build |
+| `COMET_EDITOR` | running **inside the editor** (play mode / edit mode), not an exported build |
+
+`COMET_EDITOR` is the important one: it's defined while your scripts run in the editor and **absent in every exported build**. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:
+
+```angelscript
+using namespace CometEngine;
+
+class DebugTools : CometBehaviour
+{
+    void Update()
+    {
+#ifdef COMET_EDITOR
+        // Cheat keys that only exist while developing in the editor.
+        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
+        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+#endif
+    }
+
+    void OpenSettingsFolder()
+    {
+#ifdef COMET_STANDALONE
+        // Desktop-only: browse to a folder on disk.
+        OpenNativeFileBrowser();
+#elif defined(COMET_WEB)
+        // The browser sandbox has no filesystem — show an in-game panel instead.
+        ShowInGameSettings();
+#endif
+    }
+}
+```
+
+The build system also lets you define your own **scripting constants** per platform in the Player Settings, which appear as additional `#ifdef` symbols — handy for feature flags (a `DEMO` build, a `CONSOLE` variant, and so on).
+
+> [!TIP]
+> `COMET_EDITOR` is true in **both** edit mode and play mode inside the editor. If you need "only in a real build", use `#ifndef COMET_EDITOR`. If you need "only on desktop", use `#ifdef COMET_STANDALONE`.
 
 ## Automating builds (CI)
 

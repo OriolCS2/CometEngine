@@ -22,6 +22,8 @@ There is no separate "ambient light" setting: an ambient is simply a **GlobalLig
 
 ## The five light types
 
+![All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light.](./tutorials/light-types.png)
+
 All lights are behaviours added from **Add Behaviour → Lighting** (`Global Light`, `Point Light`, `Freeform Light`, `Parametric Light`, `Sprite Light`). They share a common base (color, intensity, blend mode, shadows, sorting layers) and each adds its own shape:
 
 ### GlobalLight
@@ -90,12 +92,12 @@ using namespace CometEngine;
 
 class TorchLight : CometBehaviour
 {
-    private PointLight @torch;
+    private PointLight torch;
     private float time = 0.0F;
 
     void Start()
     {
-        @torch = PointLight::Get(entity);
+        torch = PointLight::Get(entity);
         torch.color = Color(1.0F, 0.7F, 0.3F, 1.0F); // warm orange
         torch.outerRadius = 4.0F;
         torch.fallOff = 0.6F;
@@ -120,13 +122,13 @@ using namespace CometEngine;
 
 class DayNightCycle : CometBehaviour
 {
-    private GlobalLight @sun;
+    private GlobalLight sun;
     private float dayTime = 0.0F;      // 0..1 over a full day
     float dayLengthSeconds = 120.0F;
 
     void Start()
     {
-        @sun = GlobalLight::Get(entity);
+        sun = GlobalLight::Get(entity);
 
         array<string> layers = {"Background", "Default", "Characters"};
         sun.SetSortingLayers(layers);

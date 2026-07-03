@@ -34,12 +34,12 @@ using namespace CometEngine;
 
 class HealthBarFill : CometBehaviour
 {
-    private RectTransform @rect;
+    private RectTransform rect;
     private float fullWidth;
 
     void Start()
     {
-        @rect = RectTransform::Get(entity);
+        rect = RectTransform::Get(entity);
         fullWidth = rect.size.x;
     }
 
@@ -81,7 +81,7 @@ using namespace CometEngine::UI;
 
 class PlayButton : CometBehaviour, IPointerClickAction
 {
-    void OnPointerClick(PointerEvent @pointerEvent)
+    void OnPointerClick(PointerEvent pointerEvent)
     {
         Debug::Log("Play clicked!");
         SceneManagement::SceneManager::LoadScene("Level1");
@@ -94,9 +94,9 @@ The full set: `IPointerClickAction`, `IPointerDownAction`, `IPointerUpAction`, `
 ```angelscript
 class DraggableCard : CometBehaviour, IBeginDragAction, IDragAction, IEndDragAction
 {
-    void OnBeginDrag(PointerEvent @event) { Debug::Log("BEGIN DRAG"); }
-    void OnDrag(PointerEvent @event)      { Debug::Log(event.handler.entity.name); }
-    void OnEndDrag(PointerEvent @event)   { Debug::Log("END DRAG"); }
+    void OnBeginDrag(PointerEvent event) { Debug::Log("BEGIN DRAG"); }
+    void OnDrag(PointerEvent event)      { Debug::Log(event.handler.entity.name); }
+    void OnEndDrag(PointerEvent event)   { Debug::Log("END DRAG"); }
 }
 ```
 
@@ -110,11 +110,11 @@ using namespace CometEngine::UI;
 
 class SettingsMenu : CometBehaviour
 {
-    private Slider @volumeSlider;
+    private Slider volumeSlider;
 
     void Start()
     {
-        @volumeSlider = Slider::Get(Entity::Find("VolumeSlider"));
+        volumeSlider = Slider::Get(Entity::Find("VolumeSlider"));
         volumeSlider.minValue = 0.0F;
         volumeSlider.maxValue = 1.0F;
     }
@@ -134,10 +134,10 @@ class SettingsMenu : CometBehaviour
 ```angelscript
 string ReadIp()
 {
-    Entity @ipEntity = Entity::Find("IpInput");
+    Entity ipEntity = Entity::Find("IpInput");
     if (ipEntity !is null)
     {
-        InputField @field = InputField::Get(ipEntity);
+        InputField field = InputField::Get(ipEntity);
         if (field !is null && field.textValue.length() > 0)
         {
             return field.textValue;
@@ -155,14 +155,14 @@ using namespace CometEngine::UI;
 
 class ResolutionPicker : CometBehaviour
 {
-    private DropDown @dropDown;
+    private DropDown dropDown;
 
     void Start()
     {
-        @dropDown = DropDown::Get(entity);
+        dropDown = DropDown::Get(entity);
 
-        array<Resolution> @resolutions = Window::GetAvailableResolutions();
-        array<DropDownOption@> options;
+        array<Resolution> resolutions = Window::GetAvailableResolutions();
+        array<DropDownOption> options;
         for (uint i = 0; i < resolutions.length(); i++)
         {
             DropDownOption option;
@@ -179,10 +179,10 @@ class ResolutionPicker : CometBehaviour
 ```angelscript
 void IncreaseCount()
 {
-    Entity @ent = Entity::Find("TextClickCounter");
+    Entity ent = Entity::Find("TextClickCounter");
     if (ent !is null)
     {
-        UI::Text @text = UI::Text::Get(ent);
+        UI::Text text = UI::Text::Get(ent);
         if (text !is null)
         {
             int count = parseInt(text.text);
@@ -205,13 +205,13 @@ class FancyTitle : CometBehaviour
 {
     void Start()
     {
-        Text @text = Text::Get(entity);
+        Text text = Text::Get(entity);
         text.bbcodeEnabled = true;
         text.RegisterBBCodeHandler("rainbow", BBCodeHandlerDelegate(RainbowTag));
         text.text = "Welcome to [rainbow]Comet Engine[/rainbow]!";
     }
 
-    void RainbowTag(BBCodeHandlerData @data)
+    void RainbowTag(BBCodeHandlerData data)
     {
         // Called per character inside the tag, every frame.
         float hue = data.elapsedTime * 2.0F + float(data.relativeIndex) * 0.35F;

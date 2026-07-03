@@ -36,11 +36,11 @@ class MenuButton : CometBehaviour, IPointerClickAction
     string roomSceneName = "Room";
 
     // Keep the peer in a member handle: it must outlive this function!
-    private CometEngine::Network::ENetMultiplayerPeer @peer;
+    private CometEngine::Network::ENetMultiplayerPeer peer;
 
     void Host()
     {
-        @peer = CometEngine::Network::ENetMultiplayerPeer();
+        peer = CometEngine::Network::ENetMultiplayerPeer();
         if (peer.CreateServer(port, 8))                    // port, max peers
         {
             Network::Multiplayer::SetMultiplayerPeer(peer);
@@ -55,7 +55,7 @@ class MenuButton : CometBehaviour, IPointerClickAction
 
     void Join()
     {
-        @peer = CometEngine::Network::ENetMultiplayerPeer();
+        peer = CometEngine::Network::ENetMultiplayerPeer();
         if (peer.CreateClient(ReadIp(), port))
         {
             Network::Multiplayer::SetMultiplayerPeer(peer);
@@ -63,7 +63,7 @@ class MenuButton : CometBehaviour, IPointerClickAction
         }
     }
 
-    void OnPointerClick(PointerEvent @event)
+    void OnPointerClick(PointerEvent event)
     {
         if (entity.name == "HostButton") Host();
         else if (entity.name == "JoinButton") Join();
@@ -71,10 +71,10 @@ class MenuButton : CometBehaviour, IPointerClickAction
 
     string ReadIp()
     {
-        Entity @ipEntity = Entity::Find("IpInput");
+        Entity ipEntity = Entity::Find("IpInput");
         if (ipEntity !is null)
         {
-            InputField @field = InputField::Get(ipEntity);
+            InputField field = InputField::Get(ipEntity);
             if (field !is null && field.textValue.length() > 0)
             {
                 return field.textValue;
@@ -86,7 +86,7 @@ class MenuButton : CometBehaviour, IPointerClickAction
 ```
 
 > [!IMPORTANT]
-> Store the peer in a **member handle** (`@peer = ...`). A peer declared as a local variable is destroyed when the function returns — and the connection dies with it.
+> Store the peer in a **class member**, like `peer` above. A peer declared as a local variable is destroyed when the function returns — and the connection dies with it.
 
 ### Reacting to peers coming and going
 
@@ -191,7 +191,7 @@ For transforms, don't replicate fields by hand — add a **MultiplayerSynchroniz
 ```angelscript
 void Start()
 {
-    MultiplayerSynchronizer @sync = MultiplayerSynchronizer::Get(entity);
+    MultiplayerSynchronizer sync = MultiplayerSynchronizer::Get(entity);
     if (sync !is null)
     {
         sync.AddTransformPreset();   // replicate position/rotation/scale
@@ -214,10 +214,10 @@ void StartMatch()
     {
         if (slotPeer[i] == 0) continue;
 
-        Entity @ship = shipSpawner.Spawn(0);   // spawnable index 0
+        Entity ship = shipSpawner.Spawn(0);   // spawnable index 0
         if (ship !is null)
         {
-            ShipController @sc = ShipController::Get(ship);
+            ShipController sc = ShipController::Get(ship);
             sc.ownerPeerId = slotPeer[i];      // [ReplicateOnSpawn] fields...
             sc.colorIndex  = slotColor[i];     // ...travel inside the spawn packet
         }

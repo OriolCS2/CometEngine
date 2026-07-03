@@ -50,7 +50,7 @@ class AgentTest : CometBehaviour
         // While avoidance is enabled the simulation reports the collision-free
         // velocity through the onVelocityComputed signal, so the body is moved
         // from inside that callback.
-        agent.onVelocityComputed.Add(CometDelegateVector2(@OnVelocityComputed));
+        agent.onVelocityComputed.Add(CometDelegateVector2(OnVelocityComputed));
 
         // Where the agent should navigate to.
         agent.targetPosition = desiredPos;
@@ -102,7 +102,7 @@ agent.IsTargetReached();        // within targetDesiredDistance of the target
 agent.IsTargetReachable();      // can the path actually end at the target?
 agent.DistanceToTarget();       // straight-line distance
 agent.GetPathLength();          // full length of the current path
-array<Vector2> @path = agent.GetCurrentNavigationPath();  // all waypoints, world space
+array<Vector2> path = agent.GetCurrentNavigationPath();  // all waypoints, world space
 ```
 
 And if you prefer events over polling, agents expose signals: `onPathChanged`, `onWaypointReached`, `onLinkReached`, `onTargetReached`, `onNavigationFinished` and the `onVelocityComputed` you already met.

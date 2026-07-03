@@ -39,11 +39,11 @@ using namespace CometEngine;
 
 class DoorBell : CometBehaviour
 {
-    private AudioSource @source;
+    private AudioSource source;
 
     void Start()
     {
-        @source = AudioSource::Get(entity);
+        source = AudioSource::Get(entity);
         source.volume = 0.8F;
     }
 
@@ -76,7 +76,7 @@ AudioSource::PlaySingle(explosionSample, 0.9F);
 AudioSource::PlaySingleAtPosition(explosionSample, transform.position, 1.0F);
 
 // Need to control it afterwards? Use the tracked variants:
-AudioSource @handle = AudioSource::PlaySingleTracked(alarmSample, 1.0F);
+AudioSource handle = AudioSource::PlaySingleTracked(alarmSample, 1.0F);
 // ... later:
 handle.Stop();
 ```
@@ -84,7 +84,7 @@ handle.Stop();
 Untracked one-shots clean themselves up when playback ends.
 
 > [!NOTE]
-> Assign samples to script fields through the Inspector by declaring them, e.g. `AudioSample @explosionSample;` — or load them at runtime with `RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)`.
+> Assign samples to script fields through the Inspector by declaring them, e.g. `AudioSample explosionSample;` — or load them at runtime with `RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)`.
 
 ## 2D vs 3D sound
 
@@ -118,9 +118,9 @@ using namespace CometEngine::Audio;
 
 class AudioOptions : CometBehaviour
 {
-    [Serialize] AudioMixerGroup @master;
-    [Serialize] AudioMixerGroup @music;
-    [Serialize] AudioMixerGroup @effects;
+    [Serialize] AudioMixerGroup master;
+    [Serialize] AudioMixerGroup music;
+    [Serialize] AudioMixerGroup effects;
 
     void Update()
     {
@@ -153,11 +153,11 @@ using namespace CometEngine::Audio;
 
 class WaterZone : CometBehaviour
 {
-    [Serialize] AudioMixer @gameMixer;
+    [Serialize] AudioMixer gameMixer;
 
     void EnterWater()
     {
-        array<AudioMixerLayout@> @layouts = gameMixer.GetLayouts();
+        array<AudioMixerLayout> layouts = gameMixer.GetLayouts();
         for (uint i = 0; i < layouts.length(); i++)
         {
             if (!layouts[i].isDefault)
@@ -191,7 +191,7 @@ AudioSystem::ResumeAll();    // and closed
 AudioSystem::StopAll();
 
 // Offer an output-device picker:
-array<string> @devices = AudioSystem::GetOutputDevices();
+array<string> devices = AudioSystem::GetOutputDevices();
 AudioSystem::SetCurrentOutputDevice(devices[0]);
 ```
 

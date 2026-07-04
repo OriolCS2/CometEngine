@@ -82,6 +82,16 @@ class DebugCommands : CometBehaviour
 
 Now typing `/print hello` echoes `hello` in the console. The first word of the name (`print`) becomes the `/print` you type; the rest (`<str>`) is just a usage hint shown by `/help`. The callback receives the space-separated arguments the player typed, and `print(...)` writes back into the console. `DevConsole::Show()`, `Hide()`, `IsShown()` and `UnregisterCommand("print")` round out the API.
 
+### Debugging and profiling a dev build
+
+A development build isn't only for print-debugging — the editor can **attach its script debugger and profiler to the running build** over a local socket. Turn it on in **Preferences → Build Debugger**:
+
+![Preferences → Build Debugger: "Attach to development builds", with the script debugger and profiler ports.](/tutorials/build-debugger.png)
+
+With **Attach to development builds** ticked, launch a development build and the editor connects to it automatically on the **script debugger port** (`54711`). From there the editor's built-in **text editor becomes a full AngelScript debugger for the live build**: click the gutter to set **breakpoints**, then **Step Over / Step In / Step Out / Continue** through your code while the game runs, inspecting the **call stack**, **local variables** and watched expressions in the debugger panels — the same experience as debugging play mode in the editor, except it's the real exported build being driven.
+
+The **profiler port** (`54713`) is the other half: it streams timing data from the running build into the editor's profiler, so you can see where each frame actually goes — script functions, draw calls, systems — on real hardware instead of guessing. (You only need to change either port if something else on your machine already uses it.)
+
 ## What comes out the other side
 
 Comet packs content into **`.ori`** archives — a deterministic, binary-indexed format the runtime **memory-maps** and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The **Content Packaging** dropdown picks the layout:
@@ -233,6 +243,27 @@ The build system also lets you define your own **scripting constants** per platf
 
 > [!TIP]
 > `COMET_EDITOR` is true in **both** edit mode and play mode inside the editor. If you need "only in a real build", use `#ifndef COMET_EDITOR`. If you need "only on desktop", use `#ifdef COMET_STANDALONE`.
+
+### Detecting a development build at runtime
+
+The `#ifdef` macros above are **compile-time** — resolved when the script is built, so they can't tell a *development* build from a *release* one (both are, say, `COMET_STANDALONE`). For that, check at **runtime** with `Debug::IsDevelopmentBuild()`: it returns `true` when the **Development Build** box was ticked and `false` in a release build. Use it to gate cheats, debug overlays or verbose logging without maintaining a separate build:
+
+```angelscript
+using namespace CometEngine;
+
+class Cheats : CometBehaviour
+{
+    void Update()
+    {
+        if (!Debug::IsDevelopmentBuild()) return;   // release build: stay out of the way
+
+        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
+        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+    }
+}
+```
+
+It pairs naturally with the compile-time macros: wrap editor-only tooling in `#ifdef COMET_EDITOR`, and gate the debug helpers that *do* ship in dev builds behind `Debug::IsDevelopmentBuild()`.
 
 ## Automating builds (CI)
 

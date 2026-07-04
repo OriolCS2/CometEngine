@@ -86,7 +86,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-jUCiKAE3.js"></script>
+  <script type="module" crossorigin src="/assets/index-0yaqExtq.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
 </head>
 
@@ -243,6 +243,11 @@ class DebugCommands : CometBehaviour
 }
 </code></pre>
 <p>Now typing <code>/print hello</code> echoes <code>hello</code> in the console. The first word of the name (<code>print</code>) becomes the <code>/print</code> you type; the rest (<code>&lt;str&gt;</code>) is just a usage hint shown by <code>/help</code>. The callback receives the space-separated arguments the player typed, and <code>print(...)</code> writes back into the console. <code>DevConsole::Show()</code>, <code>Hide()</code>, <code>IsShown()</code> and <code>UnregisterCommand(&quot;print&quot;)</code> round out the API.</p>
+<h3>Debugging and profiling a dev build</h3>
+<p>A development build isn&#39;t only for print-debugging — the editor can <strong>attach its script debugger and profiler to the running build</strong> over a local socket. Turn it on in <strong>Preferences → Build Debugger</strong>:</p>
+<p><img src="/tutorials/build-debugger.png" alt="Preferences → Build Debugger: &quot;Attach to development builds&quot;, with the script debugger and profiler ports."></p>
+<p>With <strong>Attach to development builds</strong> ticked, launch a development build and the editor connects to it automatically on the <strong>script debugger port</strong> (<code>54711</code>). From there the editor&#39;s built-in <strong>text editor becomes a full AngelScript debugger for the live build</strong>: click the gutter to set <strong>breakpoints</strong>, then <strong>Step Over / Step In / Step Out / Continue</strong> through your code while the game runs, inspecting the <strong>call stack</strong>, <strong>local variables</strong> and watched expressions in the debugger panels — the same experience as debugging play mode in the editor, except it&#39;s the real exported build being driven.</p>
+<p>The <strong>profiler port</strong> (<code>54713</code>) is the other half: it streams timing data from the running build into the editor&#39;s profiler, so you can see where each frame actually goes — script functions, draw calls, systems — on real hardware instead of guessing. (You only need to change either port if something else on your machine already uses it.)</p>
 <h2>What comes out the other side</h2>
 <p>Comet packs content into <strong><code>.ori</code></strong> archives — a deterministic, binary-indexed format the runtime <strong>memory-maps</strong> and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The <strong>Content Packaging</strong> dropdown picks the layout:</p>
 <table>
@@ -404,6 +409,22 @@ class DebugTools : CometBehaviour
 <p>[!TIP]
 <code>COMET_EDITOR</code> is true in <strong>both</strong> edit mode and play mode inside the editor. If you need &quot;only in a real build&quot;, use <code>#ifndef COMET_EDITOR</code>. If you need &quot;only on desktop&quot;, use <code>#ifdef COMET_STANDALONE</code>.</p>
 </blockquote>
+<h3>Detecting a development build at runtime</h3>
+<p>The <code>#ifdef</code> macros above are <strong>compile-time</strong> — resolved when the script is built, so they can&#39;t tell a <em>development</em> build from a <em>release</em> one (both are, say, <code>COMET_STANDALONE</code>). For that, check at <strong>runtime</strong> with <code>Debug::IsDevelopmentBuild()</code>: it returns <code>true</code> when the <strong>Development Build</strong> box was ticked and <code>false</code> in a release build. Use it to gate cheats, debug overlays or verbose logging without maintaining a separate build:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class Cheats : CometBehaviour
+{
+    void Update()
+    {
+        if (!Debug::IsDevelopmentBuild()) return;   // release build: stay out of the way
+
+        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
+        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+    }
+}
+</code></pre>
+<p>It pairs naturally with the compile-time macros: wrap editor-only tooling in <code>#ifdef COMET_EDITOR</code>, and gate the debug helpers that <em>do</em> ship in dev builds behind <code>Debug::IsDevelopmentBuild()</code>.</p>
 <h2>Automating builds (CI)</h2>
 <p>Everything the Build window does is available headless — perfect for nightly builds and release pipelines:</p>
 <pre><code class="language-text">CometEngine.exe --export Windows --path &quot;C:/projects/MyGame&quot; --export-path &quot;C:/builds/win64&quot;

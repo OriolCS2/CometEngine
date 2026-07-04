@@ -1,0 +1,5 @@
+# Comet Engine — https://www.cometengine.org/
+User-agent: *
+Allow: /
+
+Sitemap: https://www.cometengine.org/sitemap.xml

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.cometengine.org/</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials</loc></url>
-  <url><loc>https://www.cometengine.org/marketplace</loc></url>
-  <url><loc>https://www.cometengine.org/releases</loc></url>
-  <url><loc>https://www.cometengine.org/docs</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/animation</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/audio</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/bezier</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/build-and-patches</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/input-actions</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/input</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/lights</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/navigation</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/networking</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/node-graph</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/particles</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/physics</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/sprite-rendering</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/tilemap</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/ui-system</loc></url>
-  <url><loc>https://www.cometengine.org/tutorials/video</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/</loc></url>
+  <url><loc>https://www.cometengine.org/marketplace/</loc></url>
+  <url><loc>https://www.cometengine.org/releases/</loc></url>
+  <url><loc>https://www.cometengine.org/docs/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/animation/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/audio/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/bezier/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/build-and-patches/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/input-actions/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/input/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/lights/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/navigation/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/networking/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/node-graph/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/particles/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/physics/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/sprite-rendering/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/tilemap/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/ui-system/</loc></url>
+  <url><loc>https://www.cometengine.org/tutorials/video/</loc></url>
 </urlset>

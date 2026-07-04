@@ -50,7 +50,7 @@ function writePage(relDir, html) {
   writeFileSync(join(dir, 'index.html'), html, 'utf8');
 }
 
-const urls = ['/', '/tutorials', '/marketplace', '/releases', '/docs'];
+const urls = ['/', '/tutorials/', '/marketplace/', '/releases/', '/docs/'];
 const cards = [];
 let count = 0;
 
@@ -59,9 +59,9 @@ for (const file of readdirSync(TUT_SRC).filter(f => f.endsWith('.md'))) {
   const md = readFileSync(join(TUT_SRC, file), 'utf8');
   const title = (md.match(/^#\s+(.+)$/m)?.[1] || id).trim();
   const description = describe(md);
-  const url = `${SITE}/tutorials/${id}`;
+  const url = `${SITE}/tutorials/${id}/`;
   writePage(`tutorials/${id}`, pageHtml({ title, description, url, contentHtml: marked.parse(md) }));
-  urls.push(`/tutorials/${id}`);
+  urls.push(`/tutorials/${id}/`);
   cards.push(`<li><a href="/tutorials/${id}">${escapeAttr(title)}</a> — ${escapeAttr(description)}</li>`);
   count++;
 }
@@ -70,7 +70,7 @@ for (const file of readdirSync(TUT_SRC).filter(f => f.endsWith('.md'))) {
 writePage('tutorials', pageHtml({
   title: 'Tutorials',
   description: 'Step-by-step guides to every major subsystem of the Comet Engine 2D game engine.',
-  url: `${SITE}/tutorials`,
+  url: `${SITE}/tutorials/`,
   contentHtml: `<h1>Comet Engine Tutorials</h1><ul>${cards.join('')}</ul>`,
 }));
 
@@ -86,7 +86,7 @@ const sections = [
 for (const s of sections) {
   writePage(s.path, pageHtml({
     title: s.title, description: s.description,
-    url: `${SITE}/${s.path}`, contentHtml: `<h1>${escapeAttr(s.title)}</h1>`,
+    url: `${SITE}/${s.path}/`, contentHtml: `<h1>${escapeAttr(s.title)}</h1>`,
   }));
 }
 

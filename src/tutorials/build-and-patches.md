@@ -6,15 +6,81 @@ Your game runs great in the editor — time to put it in players' hands. Comet e
 
 Open it from **Window → Build**:
 
-![The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs.](/tutorials/build-panel.png)
+![The Build Settings window: the scene list, the Development Build options, platform tabs, Content Packaging and Patch Base Packs.](/tutorials/build-panel.png)
 
 From top to bottom:
 
 - **Scenes added in Build** — every scene that ships. The checkbox enables/disables a scene, dragging reorders them, and the number on the right is the **build index**: index `0` is the scene your game boots into. **Add Open Scenes** grabs whatever you have open.
-- **Development Build** — includes debug symbols, console output and development-only tooling. Ship-to-store builds leave this off.
+- **Development Build** — turns on the in-game debugging tools: the dev console, debug drawing, on-screen stats and a log file. Leave it **off** for store builds. The next section breaks these down.
 - **Platform tabs** — Windows / Linux / Android / Web, each with its own settings such as the target **Architecture** (the active platform is marked). Selecting a different tab shows **Switch Platform**, which reimports the asset library for that target.
 - **Player Settings** — product name, version, icon and friends.
 - **Build** / **Build And Run** — the moment of truth.
+
+## Development builds & the dev console
+
+Tick **Development Build** and a whole debugging toolkit ships inside your game. Leave it **off** for anything you hand to players — release builds drop the tooling, the watermark and the overhead. Its sub-options:
+
+- **Development Build (Dev Console available with `º`)** — the master switch. It enables the in-game **dev console**, opened at runtime with the **`º`** key (top-left of the keyboard, just below `Esc`).
+- **Debug drawing** — lets `Debug::DrawLine` and friends render in the running game, so you can see raycasts, paths and hitboxes on the real build, not just in the editor.
+- **HUD FPS stats** — an FPS + memory overlay you can toggle in-game with **Ctrl + F3**.
+- **Extra HUD stats** — expands that overlay with frame time, draw calls and instance counts.
+- **Write log file next to the executable** — dumps the run's log to a file beside the game, so you can debug a build on a machine that isn't yours.
+- **Development watermark** — stamps a corner marker so a dev build is never mistaken for a release.
+
+### The dev console
+
+Press **`º`** in a development build and the console drops down over your game — a live command line into the running build:
+
+![The Comet dev console open over a running game, listing the built-in commands after typing /help.](/tutorials/dev-console.png)
+
+Type `/help` for the list. The built-ins cover what you reach for constantly while testing:
+
+| Command | What it does |
+| --- | --- |
+| `/help` | List commands. |
+| `/quit` | Stop play / quit the game. |
+| `/hide` | Hide the console. |
+| `/clear` | Clear the console. |
+| `/load <name\|index>` | Load a scene by name or build index. |
+| `/reload` | Reload the current scene. |
+| `/restart` | Reload the first build scene. |
+| `/scenes` | List the build scenes. |
+| `/timescale <n>` | Get / set the time scale (`0.5` = half speed, `0` = pause). |
+| `/stats` | Toggle the stats HUD (FPS + memory). |
+| `/extra_stats` | Toggle extra stats (frame time, draw calls, instances). |
+| `/watermark` | Toggle the dev watermark. |
+| `/mem` | Print memory usage. |
+| `/fullscreen` | Toggle fullscreen. |
+| `/vsync <on\|off>` | Toggle vsync. |
+| `/res <w> <h>` | Set the window size. |
+| `/screenshot [path]` | Save a screenshot without the console in it. |
+| `/volume <n>` | Set master volume (`0..1`). |
+| `/mute` | Toggle audio mute. |
+
+### Registering your own commands
+
+The console is scriptable: register a command from AngelScript and it appears in `/help` right beside the built-ins. Hand `DevConsole::RegisterCommand` a name, a help string and a callback that receives the typed arguments:
+
+```angelscript
+using namespace CometEngine;
+
+class DebugCommands : CometBehaviour
+{
+    void Start()
+    {
+        DevConsole::RegisterCommand("print <str>", "prints the given str",
+            CometDelegateStringArray(PrintCommand));
+    }
+
+    void PrintCommand(array<string>@ args)
+    {
+        if (args.length() == 0) return;
+        print(args[0]);
+    }
+}
+```
+
+Now typing `/print hello` echoes `hello` in the console. The first word of the name (`print`) becomes the `/print` you type; the rest (`<str>`) is just a usage hint shown by `/help`. The callback receives the space-separated arguments the player typed, and `print(...)` writes back into the console. `DevConsole::Show()`, `Hide()`, `IsShown()` and `UnregisterCommand("print")` round out the API.
 
 ## What comes out the other side
 

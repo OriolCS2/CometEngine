@@ -30,9 +30,9 @@
     content="Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…" />
   <meta property="og:url" content="https://www.cometengine.org/tutorials/build-and-patches/" />
   <meta property="og:image" content="https://www.cometengine.org/tutorials/build-panel.png" />
-  <meta property="og:image:width" content="585" />
-  <meta property="og:image:height" content="520" />
-  <meta property="og:image:alt" content="The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs." />
+  <meta property="og:image:width" content="614" />
+  <meta property="og:image:height" content="669" />
+  <meta property="og:image:alt" content="The Build Settings window: the scene list, the Development Build options, platform tabs, Content Packaging and Patch Base Packs." />
 
   <!-- Twitter / X card -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -86,7 +86,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-iDA97UKR.js"></script>
+  <script type="module" crossorigin src="/assets/index-jUCiKAE3.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
 </head>
 
@@ -116,15 +116,133 @@
 <p>Your game runs great in the editor — time to put it in players&#39; hands. Comet exports self-contained builds for <strong>Windows, Linux, Android and Web</strong>, packs your content into memory-mapped <code>.ori</code> archives, and — the killer feature — builds <strong>incremental patches</strong> that ship only what changed since the version your players already have.</p>
 <h2>The Build Settings window</h2>
 <p>Open it from <strong>Window → Build</strong>:</p>
-<p><img src="/tutorials/build-panel.png" alt="The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs."></p>
+<p><img src="/tutorials/build-panel.png" alt="The Build Settings window: the scene list, the Development Build options, platform tabs, Content Packaging and Patch Base Packs."></p>
 <p>From top to bottom:</p>
 <ul>
 <li><strong>Scenes added in Build</strong> — every scene that ships. The checkbox enables/disables a scene, dragging reorders them, and the number on the right is the <strong>build index</strong>: index <code>0</code> is the scene your game boots into. <strong>Add Open Scenes</strong> grabs whatever you have open.</li>
-<li><strong>Development Build</strong> — includes debug symbols, console output and development-only tooling. Ship-to-store builds leave this off.</li>
+<li><strong>Development Build</strong> — turns on the in-game debugging tools: the dev console, debug drawing, on-screen stats and a log file. Leave it <strong>off</strong> for store builds. The next section breaks these down.</li>
 <li><strong>Platform tabs</strong> — Windows / Linux / Android / Web, each with its own settings such as the target <strong>Architecture</strong> (the active platform is marked). Selecting a different tab shows <strong>Switch Platform</strong>, which reimports the asset library for that target.</li>
 <li><strong>Player Settings</strong> — product name, version, icon and friends.</li>
 <li><strong>Build</strong> / <strong>Build And Run</strong> — the moment of truth.</li>
 </ul>
+<h2>Development builds &amp; the dev console</h2>
+<p>Tick <strong>Development Build</strong> and a whole debugging toolkit ships inside your game. Leave it <strong>off</strong> for anything you hand to players — release builds drop the tooling, the watermark and the overhead. Its sub-options:</p>
+<ul>
+<li><strong>Development Build (Dev Console available with <code>º</code>)</strong> — the master switch. It enables the in-game <strong>dev console</strong>, opened at runtime with the <strong><code>º</code></strong> key (top-left of the keyboard, just below <code>Esc</code>).</li>
+<li><strong>Debug drawing</strong> — lets <code>Debug::DrawLine</code> and friends render in the running game, so you can see raycasts, paths and hitboxes on the real build, not just in the editor.</li>
+<li><strong>HUD FPS stats</strong> — an FPS + memory overlay you can toggle in-game with <strong>Ctrl + F3</strong>.</li>
+<li><strong>Extra HUD stats</strong> — expands that overlay with frame time, draw calls and instance counts.</li>
+<li><strong>Write log file next to the executable</strong> — dumps the run&#39;s log to a file beside the game, so you can debug a build on a machine that isn&#39;t yours.</li>
+<li><strong>Development watermark</strong> — stamps a corner marker so a dev build is never mistaken for a release.</li>
+</ul>
+<h3>The dev console</h3>
+<p>Press <strong><code>º</code></strong> in a development build and the console drops down over your game — a live command line into the running build:</p>
+<p><img src="/tutorials/dev-console.png" alt="The Comet dev console open over a running game, listing the built-in commands after typing /help."></p>
+<p>Type <code>/help</code> for the list. The built-ins cover what you reach for constantly while testing:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/help</code></td>
+<td>List commands.</td>
+</tr>
+<tr>
+<td><code>/quit</code></td>
+<td>Stop play / quit the game.</td>
+</tr>
+<tr>
+<td><code>/hide</code></td>
+<td>Hide the console.</td>
+</tr>
+<tr>
+<td><code>/clear</code></td>
+<td>Clear the console.</td>
+</tr>
+<tr>
+<td><code>/load &lt;name|index&gt;</code></td>
+<td>Load a scene by name or build index.</td>
+</tr>
+<tr>
+<td><code>/reload</code></td>
+<td>Reload the current scene.</td>
+</tr>
+<tr>
+<td><code>/restart</code></td>
+<td>Reload the first build scene.</td>
+</tr>
+<tr>
+<td><code>/scenes</code></td>
+<td>List the build scenes.</td>
+</tr>
+<tr>
+<td><code>/timescale &lt;n&gt;</code></td>
+<td>Get / set the time scale (<code>0.5</code> = half speed, <code>0</code> = pause).</td>
+</tr>
+<tr>
+<td><code>/stats</code></td>
+<td>Toggle the stats HUD (FPS + memory).</td>
+</tr>
+<tr>
+<td><code>/extra_stats</code></td>
+<td>Toggle extra stats (frame time, draw calls, instances).</td>
+</tr>
+<tr>
+<td><code>/watermark</code></td>
+<td>Toggle the dev watermark.</td>
+</tr>
+<tr>
+<td><code>/mem</code></td>
+<td>Print memory usage.</td>
+</tr>
+<tr>
+<td><code>/fullscreen</code></td>
+<td>Toggle fullscreen.</td>
+</tr>
+<tr>
+<td><code>/vsync &lt;on|off&gt;</code></td>
+<td>Toggle vsync.</td>
+</tr>
+<tr>
+<td><code>/res &lt;w&gt; &lt;h&gt;</code></td>
+<td>Set the window size.</td>
+</tr>
+<tr>
+<td><code>/screenshot [path]</code></td>
+<td>Save a screenshot without the console in it.</td>
+</tr>
+<tr>
+<td><code>/volume &lt;n&gt;</code></td>
+<td>Set master volume (<code>0..1</code>).</td>
+</tr>
+<tr>
+<td><code>/mute</code></td>
+<td>Toggle audio mute.</td>
+</tr>
+</tbody></table>
+<h3>Registering your own commands</h3>
+<p>The console is scriptable: register a command from AngelScript and it appears in <code>/help</code> right beside the built-ins. Hand <code>DevConsole::RegisterCommand</code> a name, a help string and a callback that receives the typed arguments:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class DebugCommands : CometBehaviour
+{
+    void Start()
+    {
+        DevConsole::RegisterCommand(&quot;print &lt;str&gt;&quot;, &quot;prints the given str&quot;,
+            CometDelegateStringArray(PrintCommand));
+    }
+
+    void PrintCommand(array&lt;string&gt;@ args)
+    {
+        if (args.length() == 0) return;
+        print(args[0]);
+    }
+}
+</code></pre>
+<p>Now typing <code>/print hello</code> echoes <code>hello</code> in the console. The first word of the name (<code>print</code>) becomes the <code>/print</code> you type; the rest (<code>&lt;str&gt;</code>) is just a usage hint shown by <code>/help</code>. The callback receives the space-separated arguments the player typed, and <code>print(...)</code> writes back into the console. <code>DevConsole::Show()</code>, <code>Hide()</code>, <code>IsShown()</code> and <code>UnregisterCommand(&quot;print&quot;)</code> round out the API.</p>
 <h2>What comes out the other side</h2>
 <p>Comet packs content into <strong><code>.ori</code></strong> archives — a deterministic, binary-indexed format the runtime <strong>memory-maps</strong> and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The <strong>Content Packaging</strong> dropdown picks the layout:</p>
 <table>

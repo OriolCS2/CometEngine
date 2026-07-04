@@ -30,9 +30,20 @@ function describe(md) {
   return text.length > 160 ? text.slice(0, 157).trimEnd() + '…' : text;
 }
 
-function pageHtml({ title, description, url, contentHtml }) {
+/** Read a PNG's pixel dimensions from its IHDR header, or null. */
+function pngSize(file) {
+  try {
+    const buf = readFileSync(file);
+    if (buf.length > 24 && buf.readUInt32BE(0) === 0x89504e47) {
+      return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+    }
+  } catch { /* ignore */ }
+  return null;
+}
+
+function pageHtml({ title, description, url, contentHtml, image }) {
   const full = `${title} — Comet Engine`;
-  return shell
+  let html = shell
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(full)}</title>`)
     .replace(/(<meta name="description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
@@ -42,6 +53,18 @@ function pageHtml({ title, description, url, contentHtml }) {
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
     .replace(/(<meta name="twitter:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
     .replace(/(<main id="app">)[\s\S]*?(<\/main>)/, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
+  if (image) {
+    html = html
+      .replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${image.url}$2`)
+      .replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${image.url}$2`)
+      .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, `$1${escapeAttr(image.alt || full)}$2`);
+    if (image.w && image.h) {
+      html = html
+        .replace(/(<meta property="og:image:width" content=")[^"]*(")/, `$1${image.w}$2`)
+        .replace(/(<meta property="og:image:height" content=")[^"]*(")/, `$1${image.h}$2`);
+    }
+  }
+  return html;
 }
 
 function writePage(relDir, html) {
@@ -60,7 +83,17 @@ for (const file of readdirSync(TUT_SRC).filter(f => f.endsWith('.md'))) {
   const title = (md.match(/^#\s+(.+)$/m)?.[1] || id).trim();
   const description = describe(md);
   const url = `${SITE}/tutorials/${id}/`;
-  writePage(`tutorials/${id}`, pageHtml({ title, description, url, contentHtml: marked.parse(md) }));
+
+  // Use the tutorial's first image as its own social-preview (og:image), so a
+  // shared link shows that tutorial's screenshot instead of the generic one.
+  let image = null;
+  const m = md.match(/!\[([^\]]*)\]\((\/tutorials\/[^)]+\.(?:png|jpe?g|webp))\)/i);
+  if (m) {
+    const size = pngSize(join(ROOT, 'public', m[2].replace(/^\//, '')));
+    image = { url: SITE + m[2], alt: m[1], w: size?.w, h: size?.h };
+  }
+
+  writePage(`tutorials/${id}`, pageHtml({ title, description, url, contentHtml: marked.parse(md), image }));
   urls.push(`/tutorials/${id}/`);
   cards.push(`<li><a href="/tutorials/${id}">${escapeAttr(title)}</a> — ${escapeAttr(description)}</li>`);
   count++;

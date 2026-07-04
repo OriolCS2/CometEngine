@@ -126,12 +126,33 @@ def _gh_json(args):
         return None
 
 
-def pages_latest_build():
-    """Most recent GitHub Pages build as {'status', 'commit'}, or None."""
-    data = _gh_json("api repos/{owner}/{repo}/pages/builds")
-    if isinstance(data, list) and data:
-        top = data[0]
-        return {"status": top.get("status"), "commit": top.get("commit") or ""}
+def _pages_runs(limit=15):
+    """Recent 'pages build and deployment' Actions runs (newest first), or None.
+
+    The Actions run is the source of truth for a Pages deploy. The legacy
+    /pages/builds API is unreliable here — it can report 'building' even after
+    the deploy step has already failed — so we read the workflow runs instead.
+    """
+    data = _gh_json(f"run list --limit {limit} "
+                    "--json databaseId,headSha,status,conclusion,name")
+    if not isinstance(data, list):
+        return None
+    return [r for r in data if "pages" in (r.get("name") or "").lower()]
+
+
+def pages_deploy_in_progress(runs=None):
+    """True if a Pages deploy is currently queued or running."""
+    runs = _pages_runs(limit=6) if runs is None else runs
+    if not runs:
+        return False
+    return any(r.get("status") in ("in_progress", "queued", "waiting") for r in runs)
+
+
+def run_for_commit(sha, runs):
+    """The Pages run whose head commit is `sha`, or None."""
+    for r in runs or []:
+        if sha and (r.get("headSha") or "").startswith(sha[:20]):
+            return r
     return None
 
 
@@ -142,69 +163,67 @@ def current_sha():
 
 
 def wait_for_pages_idle(timeout=240, interval=8):
-    """Block until GitHub Pages has no build in progress.
-
-    Pushing while a previous deploy is still running makes the two overlap and
-    can wedge Pages; waiting for it to settle first keeps deploys serialized.
-    Degrades to a no-op if Pages can't be queried (no `gh`, no auth, etc.).
-    """
+    """Block until no GitHub Pages deploy is running, so our push doesn't pile
+    onto an in-flight one. No-op if Pages can't be queried (no `gh`/auth)."""
     if not gh_available():
         return
     deadline = time.time() + timeout
     announced = False
     while time.time() < deadline:
-        build = pages_latest_build()
-        if build is None:
-            return  # Can't query Pages — don't block the publish.
-        if build["status"] != "building":
+        runs = _pages_runs(limit=6)
+        if runs is None:
+            return  # Can't query — don't block the publish.
+        if not pages_deploy_in_progress(runs):
             if announced:
-                print(f"[Publish] Previous Pages deploy settled ({build['status']}).")
+                print("[Publish] Previous Pages deploy finished.")
             return
         if not announced:
             print("[Publish] A GitHub Pages deploy is still running; waiting for it to "
-                  "finish before pushing (prevents a stuck deploy)...")
+                  "finish before pushing...")
             announced = True
         time.sleep(interval)
     print("[Publish] Gave up waiting for the previous Pages deploy; pushing anyway.")
 
 
-def wait_for_pages_deploy(sha, timeout=360, interval=10, retries=2):
-    """Confirm the pushed commit deploys; re-trigger a transient failure.
+def wait_for_pages_deploy(sha, timeout=480, interval=12, retries=3):
+    """Wait for the pushed commit's Pages deploy, re-running it if it fails.
 
-    Returns False only on a deploy that stays errored after `retries`
-    re-triggers. A confirmed success, an ambiguous timeout, or an unqueryable
-    Pages setup all return True so a slow-but-fine deploy never fails the run.
+    GitHub Pages intermittently fails the deploy step ("Deployment failed, try
+    again later.") even though the build succeeded; re-running the failed job
+    reliably clears it. Returns False only if it still fails after `retries`
+    re-runs; a success, an unverifiable setup, or a timeout return True.
     """
-    if not gh_available():
-        print("[Publish] (gh CLI not found — not verifying the Pages deploy.)")
+    if not gh_available() or not sha:
         return True
-    short = (sha or "")[:8]
+    short = sha[:8]
     print(f"[Publish] Waiting for GitHub Pages to deploy {short}...")
     deadline = time.time() + timeout
-    attempts = 0
+    reruns = 0
     while time.time() < deadline:
-        build = pages_latest_build()
-        if build is None:
-            print("[Publish] (Could not read Pages status — not verifying.)")
+        runs = _pages_runs()
+        if runs is None:
+            print("[Publish] (Could not read Actions status — not verifying.)")
             return True
-        ours = bool(sha) and build["commit"].startswith(sha[:20])
-        if ours and build["status"] == "built":
+        info = run_for_commit(sha, runs)
+        if info is None or info.get("status") != "completed":
+            time.sleep(interval)  # run not registered / still building
+            continue
+        if info.get("conclusion") == "success":
             print(f"[Publish] GitHub Pages deployed {short}.")
             return True
-        if ours and build["status"] == "errored":
-            if attempts < retries:
-                attempts += 1
-                print(f"[Publish] Pages deploy errored — re-triggering ({attempts}/{retries})...")
-                run("gh api -X POST repos/{owner}/{repo}/pages/builds",
-                    capture_output=True, text=True, encoding="utf-8", errors="replace")
-                time.sleep(interval)
-                continue
-            print("[Publish] Pages deploy failed after retries. See the repo's Actions tab.",
-                  file=sys.stderr)
-            return False
-        time.sleep(interval)
-    print(f"[Publish] Pages deploy of {short} didn't confirm within {timeout}s; it may "
-          "still be finishing. Check the Actions tab.", file=sys.stderr)
+        # Deploy step failed (usually the flaky "try again later") — re-run it.
+        if reruns < retries:
+            reruns += 1
+            print(f"[Publish] Pages deploy failed; re-running it ({reruns}/{retries})...")
+            run(f"gh run rerun {info['databaseId']} --failed",
+                capture_output=True, text=True, encoding="utf-8", errors="replace")
+            time.sleep(interval * 2)
+            continue
+        print("[Publish] Pages deploy still failing after re-runs; re-run it from the "
+              "repo's Actions tab.", file=sys.stderr)
+        return False
+    print(f"[Publish] Deploy of {short} didn't confirm within {timeout}s; check the "
+          "Actions tab.", file=sys.stderr)
     return True
 
 

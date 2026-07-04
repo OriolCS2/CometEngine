@@ -1,11 +1,12 @@
 # Comet Engine
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f4d0e433-f46c-4c75-8e03-526a7f3bfbf4" alt="Alt Text" width="120" height="120">
+  <img src="https://github.com/user-attachments/assets/f4d0e433-f46c-4c75-8e03-526a7f3bfbf4" alt="Comet Engine logo" width="120" height="120">
 </p>
 
-[Comet Engine](https://www.cometengine.org) is a cross platform (Windows, Linux, Web and Android-under development-) 2D game engine made with C++ and [Angelscript](https://github.com/anjo76/angelscript) for scripting system. It is being developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 but its code is still private.
+**Comet Engine is a free, cross-platform 2D game engine made in C++ with [AngelScript](https://github.com/anjo76/angelscript) scripting** — a full editor with 2D lighting & shadows, tilemaps, physics, particles, animation and visual scripting, plus one-click export to Windows, Linux, Web and Android. Developed by [Oriol Capdevila](https://www.linkedin.com/in/oriol-capdevila/) since 2020 (the engine code is currently private).
 
-![image](https://github.com/user-attachments/assets/d2f836b4-9cd4-4a5d-868c-e1c055b70c26)
+🌐 **[cometengine.org](https://www.cometengine.org)** &nbsp;·&nbsp; 📚 **[Tutorials](https://www.cometengine.org/tutorials)** &nbsp;·&nbsp; ⬇️ **[Download](https://www.cometengine.org/releases)**
 
 # Getting the engine
 ## Downloading

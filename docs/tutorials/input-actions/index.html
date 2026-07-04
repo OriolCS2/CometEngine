@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Input Actions: The Input Module — Comet Engine</title>
+  <meta name="description"
+    content="Reading KeyCode::SPACE directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timer…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/input-actions" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Input Actions: The Input Module — Comet Engine" />
+  <meta property="og:description"
+    content="Reading KeyCode::SPACE directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timer…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/input-actions" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Input Actions: The Input Module — Comet Engine" />
+  <meta name="twitter:description"
+    content="Reading KeyCode::SPACE directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timer…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Input Actions: The Input Module</h1>
+<p>Reading <code>KeyCode::SPACE</code> directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timers. Comet&#39;s <strong>Input module</strong> fixes all of that. You define named <strong>actions</strong> — &quot;Jump&quot;, &quot;Move&quot;, &quot;Fire&quot; — in the editor, bind them to any keys, buttons or sticks you like, and your code just asks the action for its value. Rebinding, deadzones, hold/tap detection and multi-device support all become configuration instead of code.</p>
+<blockquote>
+<p>[!TIP]
+This is the layer above <a href="/tutorials/input">raw input polling</a>. If you only need a couple of fixed keys, polling is simpler. For a shippable game with gamepad support and remappable controls, use actions.</p>
+</blockquote>
+<h2>The model: groups, actions, bindings</h2>
+<p>Three concepts nest inside each other:</p>
+<ul>
+<li>An <strong>Input Group</strong> organizes related actions — a <code>Gameplay</code> group, a <code>UI</code> group, a <code>Vehicle</code> group. Groups can be enabled and disabled as a unit, so entering a menu can switch the whole control scheme in one line.</li>
+<li>An <strong>Input Action</strong> is a named intent with a <strong>value type</strong>: <code>Button</code> (pressed / not), <code>Axis</code> (a 1-D float, like a throttle) or <code>Vector2</code> (a 2-D direction, like movement).</li>
+<li>A <strong>Binding</strong> connects a physical control to an action. One action can have many bindings — that&#39;s how <em>Jump</em> answers to both the space bar and the gamepad&#39;s A button. <strong>Composite</strong> bindings combine several controls into one value (four keys → a <code>Vector2</code>, two keys → an axis).</li>
+</ul>
+<h2>Configuring actions in the editor</h2>
+<p>Open <strong>Project Settings → Input</strong>. This is where the whole scheme is authored:</p>
+<p><img src="/tutorials/input-settings.png" alt="The Input panel in Project Settings, with groups, actions and their bindings."></p>
+<ol>
+<li><strong>Add a group</strong> (e.g. <code>Gameplay</code>).</li>
+<li><strong>Add actions</strong> to it (e.g. <code>Move</code> as a <code>Vector2</code>, <code>Jump</code> as a <code>Button</code>) and pick each one&#39;s value type.</li>
+<li><strong>Add bindings</strong> to each action. For <code>Move</code>, a <strong>2D Vector composite</strong> turns W/A/S/D into a <code>Vector2</code>; add a second binding for the gamepad&#39;s left stick and the action seamlessly accepts either. For <code>Jump</code>, add the space bar and the A button.</li>
+<li>Optionally attach <strong>processors</strong> and <strong>interactions</strong> (below).</li>
+<li>Save — the scheme is stored with the project.</li>
+</ol>
+<h3>Processors: shaping the value</h3>
+<p>A <strong>processor</strong> post-processes a binding&#39;s or action&#39;s raw value:</p>
+<ul>
+<li><strong>Deadzone</strong> — ignore tiny stick drift below a threshold.</li>
+<li><strong>Invert X / Invert Y</strong> — flip an axis (inverted-Y aiming).</li>
+<li><strong>Scale</strong> — multiply the value (sensitivity).</li>
+<li><strong>Normalize / Clamp</strong> — bound the range.</li>
+<li><strong>Response Curve</strong> — ease the input non-linearly, so small stick movements are gentle and large ones ramp up.</li>
+</ul>
+<h3>Interactions: shaping <em>when</em> it fires</h3>
+<p>An <strong>interaction</strong> decides what counts as &quot;performed&quot;, so timing-based inputs are configuration, not code:</p>
+<ul>
+<li><strong>Press</strong> — fires immediately (the default).</li>
+<li><strong>Hold</strong> — fires after the control is held for a set time (hold to charge, hold to interact).</li>
+<li><strong>Tap</strong> — fires on a quick press-and-release.</li>
+<li><strong>Slow Tap / Multi-Tap</strong> — deliberate presses, or double/triple taps (double-tap to dash).</li>
+</ul>
+<h2>Reading actions from AngelScript</h2>
+<p>Fetch a group by name, pull out its actions, and read them. The value-type getters mirror the raw polling verbs:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::InputSettings;
+
+class PlayerController : CometBehaviour
+{
+    private InputAction moveAction;
+    private InputAction jumpAction;
+
+    void Start()
+    {
+        InputGroup group = InputSettings::GetGroupByName(&quot;Gameplay&quot;);
+        if (group !is null)
+        {
+            moveAction = group.GetActionByName(&quot;Move&quot;);
+            jumpAction = group.GetActionByName(&quot;Jump&quot;);
+        }
+    }
+
+    void Update()
+    {
+        // One Vector2, whether it came from WASD or the left stick.
+        if (moveAction !is null)
+        {
+            Vector2 move = moveAction.GetVector2();
+            transform.Translate(move * 5.0F * Time::GetDeltaTime(), Space::World);
+        }
+
+        // wasPressedThisFrame is the action-system GetKeyDown.
+        if (jumpAction !is null &amp;&amp; jumpAction.wasPressedThisFrame)
+        {
+            Jump();
+        }
+    }
+
+    void Jump() { }
+}
+</code></pre>
+<p>The state accessors:</p>
+<table>
+<thead>
+<tr>
+<th>Accessor</th>
+<th>Equivalent raw verb</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>isPressed</code></td>
+<td><code>GetKeyPressed</code> (held)</td>
+</tr>
+<tr>
+<td><code>wasPressedThisFrame</code></td>
+<td><code>GetKeyDown</code> (press edge)</td>
+</tr>
+<tr>
+<td><code>wasReleasedThisFrame</code></td>
+<td><code>GetKeyUp</code> (release edge)</td>
+</tr>
+<tr>
+<td><code>GetBool()</code> / <code>GetFloat()</code> / <code>GetVector2()</code></td>
+<td>typed value read</td>
+</tr>
+</tbody></table>
+<p><code>phase</code> (<code>IDLE</code> / <code>STARTED</code> / <code>PERFORMED</code>) exposes the interaction state machine when you need it.</p>
+<h2>Callbacks instead of polling</h2>
+<p>For fire-and-forget events, subscribe to an action&#39;s signals rather than checking it every frame:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::InputSettings;
+
+class WeaponController : CometBehaviour
+{
+    void Start()
+    {
+        InputGroup group = InputSettings::GetGroupByName(&quot;Gameplay&quot;);
+        InputAction fire = group.GetActionByName(&quot;Fire&quot;);
+        if (fire !is null)
+        {
+            fire.onStarted.Add(InputActionCallback(OnFireStarted));
+            fire.onCancelled.Add(InputActionCallback(OnFireReleased));
+        }
+    }
+
+    void OnFireStarted(InputAction action)   { Debug::Log(&quot;fire down&quot;); }
+    void OnFireReleased(InputAction action)  { Debug::Log(&quot;fire up&quot;); }
+}
+</code></pre>
+<p><code>onStarted</code>, <code>onPerformed</code> and <code>onCancelled</code> fire once per state transition — ideal for hold/charge weapons where you care about the <em>edges</em>, not every frame in between.</p>
+<h2>The generated InputWrapper</h2>
+<p>Typing action names as strings is error-prone. The editor can generate a typed <strong>InputWrapper</strong> for your groups, so you can reach any action with autocompletion and no string lookups:</p>
+<pre><code class="language-angelscript">// Generated from the editor&#39;s Input settings:
+Vector2 move = InputWrapper::Gameplay.Move.GetVector2();
+if (InputWrapper::Gameplay.Jump.wasPressedThisFrame) Jump();
+</code></pre>
+<p><strong>Generating it:</strong> at the top of the <strong>Project Settings → Input</strong> panel, next to <strong>Input Wrapper</strong>, click <strong>Create</strong>. Comet writes an <code>InputWrapper</code> script with a typed accessor for every group and action, which you can then use anywhere in your code.</p>
+<blockquote>
+<p>[!IMPORTANT]
+The wrapper is <em>generated code</em> — a snapshot of your scheme, not a live view of it. <strong>Every time you add, remove or rename a group or action, regenerate it by clicking the refresh button</strong> (the <em>Create</em> control becomes a refresh once the wrapper exists). Skip this and the wrapper drifts out of sync — a renamed action still exposes its old name, and a new one won&#39;t appear at all.</p>
+</blockquote>
+<p>Under the hood the wrapper simply caches <code>GetGroupByName</code> / <code>GetActionByName</code> for you (exactly the pattern shown above), but you get compile-time names and IDE completion for free.</p>
+<h2>Switching schemes with groups</h2>
+<p>Because groups enable and disable as a unit, swapping control contexts is trivial:</p>
+<pre><code class="language-angelscript">using namespace CometEngine::InputSettings;
+
+void OpenPauseMenu()
+{
+    InputSettings::GetGroupByName(&quot;Gameplay&quot;).enabled = false;
+    InputSettings::GetGroupByName(&quot;UI&quot;).enabled = true;
+}
+</code></pre>
+<p>Now <code>Gameplay</code> actions go quiet while the pause menu is up, and the <code>UI</code> group&#39;s Navigate/Submit/Cancel take over — no flags threaded through your gameplay code.</p>
+<h2>The Input Debugger</h2>
+<p>When a binding &quot;doesn&#39;t fire&quot; or a stick reads the wrong axis, open <strong>Window → Input Debugger</strong>. It lists every group and action with its <strong>value type</strong>, live <strong>phase</strong>, and current <strong>value</strong>, updating in real time — so you can watch an action light up as you press the key and confirm the binding is wired the way you think.</p>
+<p><img src="/tutorials/input-debugger.png" alt="The Input Debugger panel showing live action values in play mode."></p>
+<p>At the top it also shows the <strong>active device</strong> (Keyboard &amp; Mouse or Gamepad) and the <strong>number of connected controllers</strong>. Live values appear once you enter <strong>play mode</strong> — in edit mode it prompts you to press Play.</p>
+<blockquote>
+<p>[!NOTE]
+The Input Debugger is the fastest way to diagnose input problems: if the action doesn&#39;t react here, the binding is wrong (fix it in Project Settings); if it <em>does</em> react here but not in your game, the bug is in your script.</p>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Drive a character with actions and <a href="/tutorials/physics">Physics</a>, or wire the <code>UI</code> group&#39;s Navigate/Submit into your <a href="/tutorials/ui-system">menus</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

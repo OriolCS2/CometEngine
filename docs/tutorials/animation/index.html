@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Animation &amp; the Animator — Comet Engine</title>
+  <meta name="description"
+    content="Comet's animation stack has two levels. Animation clips keyframe properties over time; the Animator plays those clips through a visual state machine with par…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/animation" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Animation &amp; the Animator — Comet Engine" />
+  <meta property="og:description"
+    content="Comet's animation stack has two levels. Animation clips keyframe properties over time; the Animator plays those clips through a visual state machine with par…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/animation" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Animation &amp; the Animator — Comet Engine" />
+  <meta name="twitter:description"
+    content="Comet's animation stack has two levels. Animation clips keyframe properties over time; the Animator plays those clips through a visual state machine with par…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Animation &amp; the Animator</h1>
+<p>Comet&#39;s animation stack has two levels. <strong>Animation clips</strong> keyframe properties over time; the <strong>Animator</strong> plays those clips through a visual state machine with parameters and transitions — idle to run, run to jump, jump to fall — exactly the workflow you know from big engines, tailored to 2D.</p>
+<h2>Choosing your tool</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>AnimatedSprite</strong></th>
+<th><strong>Animator</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>What it does</td>
+<td>Cycles through a list of sprites at a fixed FPS</td>
+<td>Plays Animation clips through a state machine</td>
+</tr>
+<tr>
+<td>Can animate</td>
+<td>Sprite frames only</td>
+<td>Any keyframeable property: transform, sprite, colors, your script fields</td>
+</tr>
+<tr>
+<td>Logic</td>
+<td>Play / Pause / Stop</td>
+<td>States, transitions, conditions, parameters, events, state scripts</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Torches, coins, simple loops</td>
+<td>Characters and anything gameplay-driven</td>
+</tr>
+</tbody></table>
+<p><code>AnimatedSprite</code> is covered at the end of the <a href="/tutorials/sprite-rendering">Sprite Rendering tutorial</a>. Everything below is about the full pipeline: <strong>Animation → AnimatorController → Animator</strong>.</p>
+<h2>Creating an Animation clip</h2>
+<p>Right-click in the <strong>Project</strong> panel and choose <strong>Create Resource → Animation</strong>. Double-click the new asset to open the <strong>Animation Timeline</strong> panel:</p>
+<p><img src="/tutorials/animation-timeline.png" alt="The Animation Timeline panel: transport controls, the frame ruler, samples and the Add Property track list."></p>
+<p>The timeline works the way you&#39;d expect:</p>
+<ol>
+<li><strong>Add Property</strong> — pick any animatable property from the behaviours on the target entity: <code>Transform</code> position/rotation/scale, <code>SpriteRenderer</code> color or flips, even public fields of your own scripts.</li>
+<li>Move the <strong>scrubber</strong> to a frame.</li>
+<li>Change the value — in the Inspector or by moving the entity in the scene — and <strong>record a keyframe</strong>. Keyframes show as diamonds on the track.</li>
+<li>Values between keyframes are interpolated with editable curves.</li>
+</ol>
+<p>Clip-level settings live on the Animation resource itself:</p>
+<ul>
+<li><strong>Samples</strong> — timeline resolution in frames per second (default 60).</li>
+<li><strong>Loop</strong> — whether the clip wraps around or plays once.</li>
+<li><code>length</code> is derived from your last keyframe.</li>
+</ul>
+<h3>Animation events</h3>
+<p>Keyframes change <em>what the sprite looks like</em>; <strong>animation events</strong> make things <em>happen</em> at exact moments in the clip. An event calls a method on one of the entity&#39;s scripts when playback crosses a specific frame — the reliable way to sync gameplay to animation: a footstep sound on the frame the foot lands, a hitbox spawned on the exact frame of a sword swing, a screen shake when a monster stomps.</p>
+<p>In the Animation Timeline, each animated entity has an <strong>event track</strong> running along the top. To add an event:</p>
+<ol>
+<li>Move the scrubber to the frame where it should fire.</li>
+<li>Right-click the event track (or use its <strong>Add Event</strong> control) at that frame.</li>
+<li>Pick the target <strong>behaviour</strong>, the <strong>method</strong> to call, and fill in any argument values the method takes.</li>
+</ol>
+<p>A diamond marker appears on the event track at that frame. The method is just an ordinary function on one of your scripts — no special attribute needed:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class Player : CometBehaviour
+{
+    AudioSample footstepSound;   // assigned in the Inspector
+
+    // Called by the animation event on the foot-plant frames.
+    void OnFootstep()
+    {
+        AudioSource::PlaySingle(footstepSound, 0.6F);
+    }
+
+    // Events can pass arguments configured in the timeline.
+    void SpawnHitbox(int damage)
+    {
+        Debug::Log(&quot;swing hitbox active for &quot; + damage + &quot; damage&quot;);
+    }
+}
+</code></pre>
+<p>The <code>PlayerRun</code> clip in the screenshot above, for instance, has two <code>OnFootstep</code> events — one on each frame where a foot hits the ground — so the footstep audio stays perfectly in step with the run cycle no matter how the animation&#39;s speed is scaled.</p>
+<blockquote>
+<p>[!NOTE]
+Events fire when playback <em>crosses</em> their frame during normal play. When you <code>Seek()</code> to scrub the animator deterministically (for a network correction, say), pass <code>fireEvents = false</code> so you don&#39;t retrigger sounds and hitboxes while jumping through the timeline.</p>
+</blockquote>
+<blockquote>
+<p>[!WARNING]
+An event calls a method <strong>by name</strong> on the target behaviour. If you rename or remove that method in your script, the event silently stops firing — so keep event-target method names stable, or update the event when you refactor.</p>
+</blockquote>
+<h2>Building the state machine</h2>
+<p>Right-click the <strong>Project</strong> panel → <strong>Create Resource → Animator Controller</strong>, then double-click it to open the <strong>Animator</strong> graph:</p>
+<p><img src="/tutorials/animator-graph.png" alt="The Animator window: the parameters panel on the left, the state-machine graph with its Entry, Any State and Exit nodes on the right."></p>
+<p>The workflow, end to end:</p>
+<ol>
+<li><p><strong>Create states</strong> — right-click the background → <strong>Create State</strong>. Assign each state an Animation clip and a name (<code>Idle</code>, <code>Run</code>, <code>Jump</code>...).</p>
+</li>
+<li><p><strong>Pick the entry state</strong> — right-click a state → <strong>Set as Entry</strong>. This is where the machine starts.</p>
+</li>
+<li><p><strong>Connect them</strong> — right-click a state → <strong>Create Transition To</strong>, then click the target state.</p>
+</li>
+<li><p><strong>Add parameters</strong> — in the <strong>Parameters</strong> panel, click <strong>+ Add Parameter</strong> and choose a type:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Float</code></td>
+<td>Continuous values — speed, aim angle.</td>
+</tr>
+<tr>
+<td><code>Int</code></td>
+<td>Discrete values — weapon id, combo step.</td>
+</tr>
+<tr>
+<td><code>Bool</code></td>
+<td>Persistent flags — grounded, crouching.</td>
+</tr>
+<tr>
+<td><code>Trigger</code></td>
+<td>One-shot events — jump, hit. Consumed automatically when a transition uses it.</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>Add conditions to transitions</strong> — right-click a transition → <strong>Edit Conditions</strong>. Combine parameter checks (<code>speed</code> greater than <code>0.1</code>, <code>isGrounded</code> is true...); <em>all</em> conditions must pass. Enable <strong>Exit Time</strong> on a transition to also require the current animation to finish first — ideal for attack chains that must not cut off mid-swing.</p>
+</li>
+</ol>
+<p>For big graphs, group states into <strong>sub-state machines</strong> (right-click → <strong>Create State Machine</strong>, double-click to enter). States inside are addressed with a slash path like <code>&quot;Combat/Attack1&quot;</code>.</p>
+<blockquote>
+<p>[!TIP]
+The controller&#39;s <strong>Conditions Check Mode</strong> decides <em>when</em> transitions are evaluated: only when a parameter changes or an animation ends (cheap, default) or every animation update (reactive, a bit costlier).</p>
+</blockquote>
+<h2>Playing it on an entity</h2>
+<p>Select your entity, <strong>Add Behaviour → Animator</strong>, and drop the controller into the <strong>Animator Controller</strong> field. Useful inspector options:</p>
+<ul>
+<li><strong>Speed</strong> — global playback multiplier for this entity.</li>
+<li><strong>Update Time Mode</strong> — <code>Scaled Time</code> (respects <code>Time</code> scaling and pauses), <code>Unscaled Time</code> (UI, pause menus) or <code>Physics Time</code> (sync with FixedUpdate).</li>
+<li><strong>Keep State On Disable</strong> — when re-enabled, resume where it left off instead of restarting from entry.</li>
+</ul>
+<h2>Driving the Animator from AngelScript</h2>
+<p>Your gameplay code never plays clips directly — it feeds <strong>parameters</strong> and lets the state machine decide:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class PlayerAnimation : CometBehaviour
+{
+    private Animator animator;
+
+    void Start()
+    {
+        animator = Animator::Get(entity);
+    }
+
+    void Update()
+    {
+        float moveX = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) moveX -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) moveX += 1.0F;
+
+        animator.SetFloat(&quot;speed&quot;, Math::Abs(moveX));
+        animator.SetBool(&quot;isMoving&quot;, moveX != 0.0F);
+
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            animator.SetTrigger(&quot;jump&quot;); // consumed by the Idle-&gt;Jump transition
+        }
+    }
+}
+</code></pre>
+<p>You can also query and force states directly:</p>
+<pre><code class="language-angelscript">// What is playing right now?
+AnimatorStateInfo state = animator.GetCurrentState();
+if (state !is null)
+{
+    Debug::Log(state.name + &quot; at &quot; + state.normalizedTime);
+}
+
+// Bypass transitions entirely (cutscenes, deaths):
+animator.Play(&quot;Death&quot;, 0.0F);            // state name
+animator.Play(&quot;Combat/Attack1&quot;, 0.0F);   // state inside a sub-machine
+
+// Deterministically scrub to a point in the current state (e.g. after a
+// network correction). fireEvents = false skips animation events on the way.
+animator.Seek(0.5F, false);
+</code></pre>
+<blockquote>
+<p>[!TIP]
+<code>SetFloat(&quot;speed&quot;, ...)</code> hashes the parameter name every call. In hot loops, resolve the ID once and reuse it:</p>
+<pre><code class="language-angelscript">private uint64 speedId;
+void Start() { speedId = animator.GetParameterID(&quot;speed&quot;); }
+void Update() { animator.SetFloat(speedId, currentSpeed); }
+</code></pre>
+</blockquote>
+<h2>State machine behaviours</h2>
+<p>Sometimes logic belongs to a <em>state</em>, not to the entity — &quot;play a sound while in <code>Alert</code>&quot;, &quot;enable the hitbox during <code>Attack</code>&quot;. Right-click a state → <strong>Add Script → AnimatorStateBehaviour</strong> and Comet generates a script skeleton for you:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class AlertState : AnimatorStateBehaviour
+{
+    // Called when the animator enters this state.
+    void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo)
+    {
+        Debug::Log(animator.entity.name + &quot; entered &quot; + stateInfo.name);
+    }
+
+    // Called every animation update while this state is active.
+    void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo)
+    {
+    }
+
+    // Called when the animator leaves this state.
+    void OnStateExit(Animator animator, AnimatorStateInfo stateInfo)
+    {
+    }
+}
+</code></pre>
+<p>The instance lives as long as the controller is in use, and <code>Awake()</code> / <code>OnDestroy()</code> bracket its lifetime.</p>
+<h2>Reusing a controller: Animator Overrides</h2>
+<p>An <strong>Animator Controller Override</strong> (<code>Create Resource → Animator Controller Override</code>) wraps an existing controller and swaps its clips while keeping every state, transition and parameter. Build the state machine once for &quot;humanoid enemy&quot;, then create overrides for the goblin, the skeleton and the knight that only replace the animations:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class SkinSwapper : CometBehaviour
+{
+    void ApplySkin(AnimatorControllerOverride skin)
+    {
+        Animator::Get(entity).animatorController = skin;
+    }
+}
+</code></pre>
+<p>From code you can inspect and edit overrides with <code>GetOverride()</code> / <code>SetOverride(original, replacement)</code>.</p>
+<h2>Animator quick reference</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Call</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Set parameters</td>
+<td><code>SetFloat / SetInt / SetBool (name or id, value)</code></td>
+</tr>
+<tr>
+<td>Fire a trigger</td>
+<td><code>SetTrigger(&quot;jump&quot;)</code>, cancel with <code>ResetTrigger(&quot;jump&quot;)</code></td>
+</tr>
+<tr>
+<td>Read parameters</td>
+<td><code>GetFloat / GetInt / GetBool / GetTrigger</code></td>
+</tr>
+<tr>
+<td>Current state</td>
+<td><code>GetCurrentState()</code> → <code>name</code>, <code>fullName</code>, <code>normalizedTime</code></td>
+</tr>
+<tr>
+<td>Force a state</td>
+<td><code>Play(&quot;StateName&quot;, normalizedTime)</code></td>
+</tr>
+<tr>
+<td>Scrub deterministically</td>
+<td><code>Seek(normalizedTime, fireEvents)</code></td>
+</tr>
+<tr>
+<td>Playback speed</td>
+<td><code>speed</code> property</td>
+</tr>
+<tr>
+<td>Reset parameters</td>
+<td><code>SetDefaultParameterValues()</code></td>
+</tr>
+</tbody></table>
+<h2>Where to go next</h2>
+<p>Hook animation parameters to real movement in the <a href="/tutorials/navigation">Navigation tutorial</a>, or trigger animations across the network in <a href="/tutorials/networking">Networking &amp; Multiplayer</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Visual Scripting with Node Graphs — Comet Engine</title>
+  <meta name="description"
+    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/node-graph" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Visual Scripting with Node Graphs — Comet Engine" />
+  <meta property="og:description"
+    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/node-graph" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Visual Scripting with Node Graphs — Comet Engine" />
+  <meta name="twitter:description"
+    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Visual Scripting with Node Graphs</h1>
+<p>Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a <strong>node graph</strong>: boxes wired together, execution flowing along the wires. Comet&#39;s node graph system runs graphs on entities via a <strong>Graph Updater</strong>, and — uniquely — lets you write your own nodes in AngelScript.</p>
+<p><img src="/tutorials/node-graph.png" alt="A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node."></p>
+<h2>How a graph runs</h2>
+<p>A graph starts at an implicit <strong>Entry</strong> node and flows along <strong>flow wires</strong> (white) from one <strong>flow node</strong> to the next. Before a node runs, its <strong>data inputs</strong> are pulled from upstream <strong>pure nodes</strong> (stateless little calculators — Add, Compare, Get Time) along <strong>data wires</strong> (coloured). <strong>Variables</strong> carry state, and a graph can expose <strong>inputs</strong> and <strong>outputs</strong> that your game code reads and writes.</p>
+<p>There are two kinds of node:</p>
+<ul>
+<li><strong>Flow nodes</strong> — sit on the execution path. They can take time, branch, or loop. A flow node returns an <code>ExecutionResult</code> naming which output to continue along.</li>
+<li><strong>Pure nodes</strong> — compute output values from inputs on demand, with no side effects. They&#39;re evaluated (and memoized) whenever a flow node needs their result.</li>
+</ul>
+<h2>Running a graph on an entity</h2>
+<p>Add a <strong>Graph Updater</strong> behaviour, assign it a graph, and it runs a private copy of that graph (the asset itself is never mutated). Your code feeds the graph its inputs and reads its outputs by variable name:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class QuestRunner : CometBehaviour
+{
+    void Start()
+    {
+        GraphUpdater updater = GraphUpdater::Get(entity);
+
+        // Push inputs into the graph...
+        updater.SetInputFloat(&quot;playerLevel&quot;, 7.0);
+        updater.SetInputBool(&quot;hasKey&quot;, true);
+        updater.Start();
+    }
+
+    void Update()
+    {
+        GraphUpdater updater = GraphUpdater::Get(entity);
+        if (!updater.isRunning)
+        {
+            // ...and read what it produced.
+            Debug::Log(&quot;reward: &quot; + updater.GetOutputInt(&quot;goldReward&quot;));
+        }
+    }
+}
+</code></pre>
+<p><code>SetInputBool/Int/Float/String/Vector2/Vector3</code> push values in; <code>GetOutputBool/Int/Float/...</code> read them back; <code>Start()</code> / <code>Stop()</code> and <code>isRunning</code> control the run. When a graph finishes, its <strong>End Update Action</strong> can restart it, disable the behaviour, or destroy the entity.</p>
+<h2>Writing your own nodes in AngelScript</h2>
+<p>This is the powerful part: a node is just an AngelScript class with attributes. <strong>Pure nodes</strong> override <code>Evaluate</code> and declare <code>[Input]</code>/<code>[Output]</code> fields:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem(&quot;Math/Add&quot;)]
+class AddNode : PureNode
+{
+    [Input] float a;
+    [Input] float b;
+    [Output] float result;
+
+    void Evaluate(GraphNode graph)
+    {
+        result = a + b;
+    }
+}
+</code></pre>
+<p><strong>Flow nodes</strong> declare their output pins in the constructor with <code>super({...})</code> and return an <code>ExecutionResult</code> naming the pin to continue along. A branch:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem(&quot;Flow/Branch&quot;)]
+class BranchNode : FlowNode
+{
+    [Input] bool condition;
+
+    BranchNode()
+    {
+        super({&quot;True&quot;, &quot;False&quot;});   // two flow outputs
+    }
+
+    ExecutionResult OnExecute(GraphNode graph)
+    {
+        return ExecutionResult(condition ? &quot;True&quot; : &quot;False&quot;);
+    }
+}
+</code></pre>
+<p>A flow node can also <strong>span multiple frames</strong> — return an empty <code>ExecutionResult()</code> to stay on the node and be called again next frame. That&#39;s how a Delay node works:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem(&quot;Flow/Delay&quot;)]
+[NodeColor(0.2, 0.2, 0.5)]
+class DelayNode : FlowNode
+{
+    [Input] float delaySeconds = 1.0F;
+    private float startTime = 0.0F;
+
+    DelayNode()
+    {
+        super({&quot;Next&quot;});
+    }
+
+    void OnExecuteStart(GraphNode graph)
+    {
+        startTime = Time::GetGameTime();
+    }
+
+    ExecutionResult OnExecute(GraphNode graph)
+    {
+        if (Time::GetGameTime() - startTime &gt;= delaySeconds)
+        {
+            return ExecutionResult(&quot;Next&quot;);   // move on
+        }
+        return ExecutionResult();             // wait, retry next frame
+    }
+}
+</code></pre>
+<p>The attributes are the glue:</p>
+<ul>
+<li><strong><code>[GraphNodeMenuItem(&quot;Path/Name&quot;)]</code></strong> — registers the node in the graph editor&#39;s right-click <em>Add Node</em> menu under that path. Required.</li>
+<li><strong><code>[Input]</code> / <code>[Output]</code></strong> — mark fields as data pins. Supported types: <code>bool</code>, <code>int</code>, <code>uint</code>, <code>int64</code>, <code>uint64</code>, <code>float</code>, <code>string</code>, <code>Vector2</code>, <code>Vector3</code>, and object handles.</li>
+<li><strong><code>[NodeColor(r, g, b)]</code></strong> — an optional header colour.</li>
+</ul>
+<p>Pure nodes can even resolve inputs <strong>lazily</strong> — override <code>ResolveInputsManually()</code> to return <code>true</code> and call <code>ResolveInput(graph, &quot;pinName&quot;)</code> only for the branch you actually take, so an expensive or side-effecting upstream node on the path <em>not</em> chosen never runs.</p>
+<h2>Authoring a graph in the editor</h2>
+<ol>
+<li>Create a graph object in the Project panel, then double-click to open the <strong>graph editor</strong>.</li>
+<li>Right-click the canvas to add nodes from your <code>[GraphNodeMenuItem]</code> menu.</li>
+<li>Drag from a flow output to the next node&#39;s flow input (white wires); drag from an <code>[Output]</code> pin to an <code>[Input]</code> pin (coloured wires).</li>
+<li>Add <strong>variables</strong>, <strong>inputs</strong> and <strong>outputs</strong> in the side panel — those inputs/outputs are the contract your <code>GraphUpdater</code> code talks to.</li>
+<li>Drop a <strong>Graph Updater</strong> on an entity and assign the graph.</li>
+</ol>
+<blockquote>
+<p>[!NOTE]
+Data-flow cycles (a pure node feeding itself) are detected and reported; flow loops are allowed and intentional. The runtime always executes a <strong>clone</strong> of the asset, so a running graph never corrupts the source.</p>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Node graphs pair naturally with everything else — kick one off from an <a href="/tutorials/input">input action</a>, have it move a platform along a <a href="/tutorials/bezier">Bézier path</a>, or drive an <a href="/tutorials/animation">animator</a> from its outputs.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

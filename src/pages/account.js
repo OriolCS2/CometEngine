@@ -1,3 +1,4 @@
+import { navigate, currentRoute } from '../lib/router.js';
 import {
   CATEGORIES, LICENSES, MAX_ZIP_BYTES, MAX_SCREENSHOTS,
   isBackendConfigured, getUser, signInWithGoogle, isCurrentUserAdmin,
@@ -27,7 +28,7 @@ export async function renderAccount(container, hash) {
             <h2>Backend not configured</h2>
             <p>The marketplace backend (Supabase) is not connected yet, so accounts and publishing are disabled.
                Follow the steps in <code>MARKETPLACE_SETUP.md</code> to enable it.</p>
-            <a href="#marketplace" class="download-btn" style="font-size: 1rem;">Browse the demo Marketplace</a>
+            <a href="/marketplace" class="download-btn" style="font-size: 1rem;">Browse the demo Marketplace</a>
           </div>
         </div>
       </section>
@@ -62,7 +63,7 @@ async function getOwnPackage(container, user, id) {
     container.innerHTML = `
       <section class="mp-section"><div class="container mp-narrow">
         <div class="mp-empty"><i class="fas fa-triangle-exclamation"></i><p>Package not found, or you are not its owner.</p></div>
-        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
       </div></section>
     `;
     return null;
@@ -100,8 +101,8 @@ function renderSignIn(container) {
   // Re-render once the session arrives (e.g. returning from the OAuth redirect).
   window.addEventListener('auth-changed', function onAuth(e) {
     window.removeEventListener('auth-changed', onAuth);
-    if (e.detail.user && window.location.hash.startsWith('#account')) {
-      renderAccount(container, window.location.hash);
+    if (e.detail.user && currentRoute().startsWith('#account')) {
+      renderAccount(container, currentRoute());
     }
   });
 }
@@ -126,12 +127,12 @@ async function renderDashboard(container, user) {
               <p>${escapeHtml(user.email || '')}</p>
             </div>
           </div>
-          <a href="#account/new" class="download-btn" style="font-size: 1rem;"><i class="fas fa-upload"></i> Upload New Package</a>
+          <a href="/account/new" class="download-btn" style="font-size: 1rem;"><i class="fas fa-upload"></i> Upload New Package</a>
         </div>
         ${isAdmin ? `
           <div class="adm-banner">
             <span><i class="fas fa-shield-halved"></i> You are an <strong>admin</strong> — you can moderate every package on the marketplace.</span>
-            <a href="#account/admin" class="filter-btn"><i class="fas fa-list-check"></i> Manage all packages</a>
+            <a href="/account/admin" class="filter-btn"><i class="fas fa-list-check"></i> Manage all packages</a>
           </div>
         ` : ''}
         <h2 class="acc-section-title">My Packages</h2>
@@ -148,7 +149,7 @@ async function renderDashboard(container, user) {
         <div class="mp-empty">
           <i class="fas fa-box-open"></i>
           <p>You haven't published any packages yet.</p>
-          <a href="#account/new" class="download-btn" style="font-size: 1rem; margin-top: 1rem;">Upload your first package</a>
+          <a href="/account/new" class="download-btn" style="font-size: 1rem; margin-top: 1rem;">Upload your first package</a>
         </div>
       `;
       return;
@@ -169,9 +170,9 @@ async function renderDashboard(container, user) {
           </div>
         </div>
         <div class="acc-pkg-actions">
-          <a class="filter-btn" href="#marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i></a>
-          <a class="filter-btn" href="#account/version/${encodeURIComponent(pkg.id)}" title="Publish new version"><i class="fas fa-circle-up"></i> New version</a>
-          <a class="filter-btn" href="#account/edit/${encodeURIComponent(pkg.id)}" title="Edit metadata"><i class="fas fa-pen"></i> Edit</a>
+          <a class="filter-btn" href="/marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i></a>
+          <a class="filter-btn" href="/account/version/${encodeURIComponent(pkg.id)}" title="Publish new version"><i class="fas fa-circle-up"></i> New version</a>
+          <a class="filter-btn" href="/account/edit/${encodeURIComponent(pkg.id)}" title="Edit metadata"><i class="fas fa-pen"></i> Edit</a>
           <button class="filter-btn acc-toggle-status" title="${pkg.status === 'published' ? 'Hide from the marketplace' : 'Make public'}">
             ${pkg.status === 'published' ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
           </button>
@@ -312,7 +313,7 @@ function renderPackageForm(container, user, pkg) {
   container.innerHTML = `
     <section class="mp-section">
       <div class="container mp-narrow">
-        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
         <h1 class="acc-form-title">${isEdit ? `Edit "${escapeHtml(pkg.name)}"` : 'Publish a New Package'}</h1>
         ${isEdit ? '' : '<p class="acc-form-subtitle">Fill in the details below. Fields marked with <span class="req">*</span> are required. Everything can be edited later except the URL id.</p>'}
 
@@ -419,7 +420,7 @@ function renderPackageForm(container, user, pkg) {
             <button type="submit" class="download-btn" id="form-submit" style="font-size: 1.05rem;">
               <i class="fas fa-${isEdit ? 'floppy-disk' : 'rocket'}"></i> ${isEdit ? 'Save changes' : 'Publish package'}
             </button>
-            <a href="#account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
+            <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
           </div>
         </form>
       </div>
@@ -458,7 +459,7 @@ function renderPackageForm(container, user, pkg) {
           screenshotFiles: limitedShots(container),
         });
         showToast('Package updated.', 'success');
-        window.location.hash = '#account';
+        navigate('/account');
       } else {
         const version = container.querySelector('#f-version').value.trim();
         if (!isValidSemver(version)) throw new Error('Version must follow the MAJOR.MINOR.PATCH format, e.g. 1.0.0.');
@@ -480,7 +481,7 @@ function renderPackageForm(container, user, pkg) {
           zipFile,
         });
         showToast('Your package is live!', 'success');
-        window.location.hash = '#account';
+        navigate('/account');
       }
     } catch (err) {
       console.error(err);
@@ -574,7 +575,7 @@ async function renderVersionForm(container, user, pkg) {
   container.innerHTML = `
     <section class="mp-section">
       <div class="container mp-narrow">
-        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
         <h1 class="acc-form-title">New version of "${escapeHtml(pkg.name)}"</h1>
         <p class="acc-form-subtitle">
           Current latest version: <strong>${latest ? `v${escapeHtml(latest.version)}` : 'none'}</strong>${latest ? ` (published ${formatDate(latest.created_at)})` : ''}.
@@ -602,7 +603,7 @@ async function renderVersionForm(container, user, pkg) {
             <button type="submit" class="download-btn" id="ver-submit" style="font-size: 1.05rem;">
               <i class="fas fa-circle-up"></i> Publish version
             </button>
-            <a href="#account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
+            <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
           </div>
         </form>
       </div>
@@ -636,7 +637,7 @@ async function renderVersionForm(container, user, pkg) {
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
       await publishVersion(user, pkg, { version, changelogMd, zipFile });
       showToast(`v${version} published!`, 'success');
-      window.location.hash = '#account';
+      navigate('/account');
     } catch (err) {
       console.error(err);
       error.textContent = err.message;
@@ -663,7 +664,7 @@ async function renderAdminPanel(container, user, ownerId) {
     container.innerHTML = `
       <section class="mp-section"><div class="container mp-narrow">
         <div class="mp-empty"><i class="fas fa-lock"></i><p>This area is for administrators only.</p></div>
-        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
       </div></section>
     `;
     return;
@@ -706,7 +707,7 @@ function renderAdminUsersList(container, publishers, totalCount) {
   container.innerHTML = `
     <section class="mp-section">
       <div class="container">
-        <a href="#account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
         <h1 class="acc-form-title"><i class="fas fa-shield-halved" style="color: var(--accent-color);"></i> Admin — All Packages</h1>
         <p class="acc-form-subtitle">${totalCount} package${totalCount === 1 ? '' : 's'} from ${rows.length} publisher${rows.length === 1 ? '' : 's'} (drafts included). Click a publisher to moderate their packages.</p>
         <input type="text" id="adm-filter" class="search-box" placeholder="Filter by publisher name...">
@@ -723,7 +724,7 @@ function renderAdminUsersList(container, publishers, totalCount) {
       const downloads = r.packages.reduce((s, p) => s + (p.download_count || 0), 0);
       const drafts = r.packages.filter(p => p.status !== 'published').length;
       return `
-        <a class="acc-pkg-row adm-user-row" href="#account/admin/${encodeURIComponent(r.ownerId)}">
+        <a class="acc-pkg-row adm-user-row" href="/account/admin/${encodeURIComponent(r.ownerId)}">
           <div class="acc-pkg-info">
             ${r.avatar ? `<img src="${escapeHtml(r.avatar)}" alt="" referrerpolicy="no-referrer" style="border-radius: 50%;">` : '<div class="mp-card-icon-fallback acc-pkg-icon-fallback" style="border-radius: 50%;"><i class="fas fa-user"></i></div>'}
             <div>
@@ -749,7 +750,7 @@ function renderAdminUserView(container, user, publisher, ownerId) {
   if (!publisher) {
     container.innerHTML = `
       <section class="mp-section"><div class="container">
-        <a href="#account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
+        <a href="/account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
         <div class="mp-empty"><p>This user has no packages (or was already cleaned up).</p></div>
       </div></section>
     `;
@@ -759,7 +760,7 @@ function renderAdminUserView(container, user, publisher, ownerId) {
   container.innerHTML = `
     <section class="mp-section">
       <div class="container">
-        <a href="#account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
+        <a href="/account/admin" class="mp-back"><i class="fas fa-arrow-left"></i> Back to all publishers</a>
         <div class="acc-header" style="margin-bottom: 2rem;">
           <div class="acc-identity">
             ${publisher.avatar ? `<img src="${escapeHtml(publisher.avatar)}" alt="" referrerpolicy="no-referrer">` : '<i class="fas fa-user-circle"></i>'}
@@ -785,7 +786,7 @@ function renderAdminUserView(container, user, publisher, ownerId) {
                 </div>
               </div>
               <div class="acc-pkg-actions">
-                <a class="filter-btn" href="#marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i> View</a>
+                <a class="filter-btn" href="/marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i> View</a>
                 <button class="filter-btn adm-toggle-status">
                   ${pkg.status === 'published' ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
                 </button>

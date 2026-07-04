@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Building User Interfaces — Comet Engine</title>
+  <meta name="description"
+    content="Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a Canvas at the root, Rec…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/ui-system" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Building User Interfaces — Comet Engine" />
+  <meta property="og:description"
+    content="Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a Canvas at the root, Rec…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/ui-system" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Building User Interfaces — Comet Engine" />
+  <meta name="twitter:description"
+    content="Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a Canvas at the root, Rec…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Building User Interfaces</h1>
+<p>Menus, HUDs, dialogs, settings screens — Comet&#39;s UI system is a retained, anchor-based layout system in the spirit of Unity&#39;s uGUI: a <strong>Canvas</strong> at the root, <strong>RectTransform</strong> on every element, and a family of widgets (Button, Text, Image, InputField, Slider...) that raise events your scripts react to.</p>
+<p><img src="/tutorials/ui-canvas.png" alt="A Canvas with a button selected, showing the RectTransform anchors in the inspector."></p>
+<h2>The Canvas</h2>
+<p>Every piece of UI lives under a <strong>Canvas</strong> entity (right-click the Hierarchy → <strong>UI → Canvas</strong>). Its <strong>Render Mode</strong> decides where the UI exists:</p>
+<ul>
+<li><strong>Screen Space</strong> — the canvas is glued to the screen. Menus, HUDs, anything resolution-anchored.</li>
+<li><strong>World Space</strong> — the canvas lives in the world like any other entity. Health bars over enemies, computer screens inside the scene, damage numbers.</li>
+</ul>
+<p>Canvases can be <strong>nested</strong>; a nested canvas can <code>overrideSorting</code> to force itself above or below its surroundings.</p>
+<h2>RectTransform: anchors, pivot and size</h2>
+<p>UI entities replace the plain Transform with a <strong>RectTransform</strong> — a rectangle whose position and size are expressed <em>relative to the parent rectangle</em> through <strong>anchors</strong>:</p>
+<ul>
+<li><code>anchorMin</code> / <code>anchorMax</code> — two normalized points (0–1) in the parent. When both are equal you get a fixed-size element pinned to that point; when they differ, the element <strong>stretches</strong> with the parent.</li>
+<li><code>pivot</code> — the point of the element (0–1) that <code>anchoredPosition</code> positions, and the center of rotation/scaling.</li>
+<li><code>anchoredPosition</code> + <code>size</code> — where the pivot sits relative to the anchors, and how big the rect is.</li>
+<li>When stretched, you edit the margins instead: <code>leftDistance</code>, <code>rightDistance</code>, <code>topDistance</code>, <code>bottomDistance</code>.</li>
+</ul>
+<p>The Inspector&#39;s anchor preset widget covers the common cases in one click — corners, edges, center, and full-stretch. Rules of thumb:</p>
+<blockquote>
+<p>[!TIP]
+Anchor each element to the screen region it belongs to: score to the top-left, minimap to the top-right, action bar stretched along the bottom. The layout then survives every aspect ratio without a single line of code.</p>
+</blockquote>
+<p>From script, the same properties are read/write:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class HealthBarFill : CometBehaviour
+{
+    private RectTransform rect;
+    private float fullWidth;
+
+    void Start()
+    {
+        rect = RectTransform::Get(entity);
+        fullWidth = rect.size.x;
+    }
+
+    void SetHealth(float normalized) // 0..1
+    {
+        rect.size = Vector2(fullWidth * normalized, rect.size.y);
+    }
+}
+</code></pre>
+<h2>The widget family</h2>
+<p>All widgets live in the <code>CometEngine::UI</code> namespace and are created from the Hierarchy&#39;s <strong>UI</strong> submenu. The visual ones derive from <code>Graphic</code> (which gives them <code>color</code>, <code>material</code> and a <code>mouseFilter</code>); the interactive ones derive from <code>Selectable</code> (which adds <code>interactable</code>, hover/press <strong>transitions</strong>, and keyboard/gamepad <strong>navigation</strong>):</p>
+<table>
+<thead>
+<tr>
+<th>Widget</th>
+<th>Purpose</th>
+<th>Key members</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Text</code></td>
+<td>Styled text, BBCode, auto-sizing</td>
+<td><code>text</code>, <code>font</code>, <code>fontSize</code>, <code>horizontalAlignment</code>, <code>bbcodeEnabled</code>, <code>bold</code>...</td>
+</tr>
+<tr>
+<td><code>Image</code></td>
+<td>Sprite display, 9-slice, tiling</td>
+<td><code>sprite</code>, <code>renderMode</code> (Simple/Sliced/Tiled), <code>fillCenter</code></td>
+</tr>
+<tr>
+<td><code>Button</code></td>
+<td>Click target</td>
+<td><code>onClick</code>, <code>interactable</code></td>
+</tr>
+<tr>
+<td><code>InputField</code></td>
+<td>Text entry</td>
+<td><code>textValue</code>, <code>characterLimit</code>, <code>contentType</code>, <code>onValueChanged</code>, <code>onEndEdit</code></td>
+</tr>
+<tr>
+<td><code>Slider</code></td>
+<td>Draggable value</td>
+<td><code>value</code>, <code>minValue</code>, <code>maxValue</code>, <code>wholeNumbers</code>, <code>onValueChanged</code></td>
+</tr>
+<tr>
+<td><code>Toggle</code></td>
+<td>Checkbox</td>
+<td><code>isOn</code>, <code>group</code>, <code>onValueChanged</code></td>
+</tr>
+<tr>
+<td><code>ToggleGroup</code></td>
+<td>Radio-button behaviour for Toggles</td>
+<td><code>allowSwitchOff</code></td>
+</tr>
+<tr>
+<td><code>DropDown</code></td>
+<td>Option list</td>
+<td><code>value</code>, <code>AddOption()</code>, <code>SetOptions()</code>, <code>onValueChanged</code></td>
+</tr>
+<tr>
+<td><code>ScrollRect</code></td>
+<td>Scrollable content</td>
+<td><code>content</code>, <code>horizontal</code>, <code>vertical</code>, <code>movementType</code>, <code>inertia</code></td>
+</tr>
+<tr>
+<td><code>Scrollbar</code></td>
+<td>Standalone scroll handle</td>
+<td><code>value</code>, <code>size</code>, <code>direction</code></td>
+</tr>
+</tbody></table>
+<h2>Reacting to input</h2>
+<p>There are two complementary mechanisms.</p>
+<h3>1. Pointer interfaces — any entity, any shape</h3>
+<p>Implement one or more pointer interfaces on a <code>CometBehaviour</code> and the UI input system calls you directly. This is the pattern used across Comet&#39;s own sample project:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::UI;
+
+class PlayButton : CometBehaviour, IPointerClickAction
+{
+    void OnPointerClick(PointerEvent pointerEvent)
+    {
+        Debug::Log(&quot;Play clicked!&quot;);
+        SceneManagement::SceneManager::LoadScene(&quot;Level1&quot;);
+    }
+}
+</code></pre>
+<p>The full set: <code>IPointerClickAction</code>, <code>IPointerDownAction</code>, <code>IPointerUpAction</code>, <code>IPointerUpOutsideAction</code>, <code>IPointerEnterAction</code>, <code>IPointerExitAction</code>, <code>IBeginDragAction</code>, <code>IDragAction</code>, <code>IEndDragAction</code>, <code>ISelectAction</code>, <code>IDeselectAction</code>, <code>ISubmitAction</code>. Drag-and-drop, for instance, is three methods:</p>
+<pre><code class="language-angelscript">class DraggableCard : CometBehaviour, IBeginDragAction, IDragAction, IEndDragAction
+{
+    void OnBeginDrag(PointerEvent event) { Debug::Log(&quot;BEGIN DRAG&quot;); }
+    void OnDrag(PointerEvent event)      { Debug::Log(event.handler.entity.name); }
+    void OnEndDrag(PointerEvent event)   { Debug::Log(&quot;END DRAG&quot;); }
+}
+</code></pre>
+<h3>2. Widget events — values, not clicks</h3>
+<p>Value widgets expose typed events (<code>CometEvent</code> / <code>CometEventArg&lt;T&gt;</code>). Hook persistent listeners in the Inspector (the button&#39;s <strong>On Click</strong> list), or subscribe at runtime:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::UI;
+
+class SettingsMenu : CometBehaviour
+{
+    private Slider volumeSlider;
+
+    void Start()
+    {
+        volumeSlider = Slider::Get(Entity::Find(&quot;VolumeSlider&quot;));
+        volumeSlider.minValue = 0.0F;
+        volumeSlider.maxValue = 1.0F;
+    }
+
+    void Update()
+    {
+        // Polling the value each frame is the simplest reliable pattern.
+        AudioSystem::SetMasterVolume(volumeSlider.value);
+    }
+}
+</code></pre>
+<h2>Real patterns from the sample project</h2>
+<p><strong>Reading an InputField</strong> (the multiplayer menu reads the server IP this way):</p>
+<pre><code class="language-angelscript">string ReadIp()
+{
+    Entity ipEntity = Entity::Find(&quot;IpInput&quot;);
+    if (ipEntity !is null)
+    {
+        InputField field = InputField::Get(ipEntity);
+        if (field !is null &amp;&amp; field.textValue.length() &gt; 0)
+        {
+            return field.textValue;
+        }
+    }
+    return &quot;127.0.0.1&quot;;
+}
+</code></pre>
+<p><strong>Filling a DropDown with the available screen resolutions:</strong></p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::UI;
+
+class ResolutionPicker : CometBehaviour
+{
+    private DropDown dropDown;
+
+    void Start()
+    {
+        dropDown = DropDown::Get(entity);
+
+        array&lt;Resolution&gt; resolutions = Window::GetAvailableResolutions();
+        array&lt;DropDownOption&gt; options;
+        for (uint i = 0; i &lt; resolutions.length(); i++)
+        {
+            DropDownOption option;
+            option.name = resolutions[i].ToString();
+            options.insertLast(option);
+        }
+        dropDown.SetOptions(options);
+    }
+}
+</code></pre>
+<p><strong>Updating a Text label at runtime:</strong></p>
+<pre><code class="language-angelscript">void IncreaseCount()
+{
+    Entity ent = Entity::Find(&quot;TextClickCounter&quot;);
+    if (ent !is null)
+    {
+        UI::Text text = UI::Text::Get(ent);
+        if (text !is null)
+        {
+            int count = parseInt(text.text);
+            ++count;
+            text.text = formatInt(count);
+        }
+    }
+}
+</code></pre>
+<h2>Rich text with BBCode</h2>
+<p>Set <code>bbcodeEnabled</code> on a Text and you can mix styling inline — and even register <strong>custom tags</strong> that scripts animate:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::UI;
+
+class FancyTitle : CometBehaviour
+{
+    void Start()
+    {
+        Text text = Text::Get(entity);
+        text.bbcodeEnabled = true;
+        text.RegisterBBCodeHandler(&quot;rainbow&quot;, BBCodeHandlerDelegate(RainbowTag));
+        text.text = &quot;Welcome to [rainbow]Comet Engine[/rainbow]!&quot;;
+    }
+
+    void RainbowTag(BBCodeHandlerData data)
+    {
+        // Called per character inside the tag, every frame.
+        float hue = data.elapsedTime * 2.0F + float(data.relativeIndex) * 0.35F;
+        data.color = Color(Math::Sin(hue) * 0.5F + 0.5F,
+                           Math::Sin(hue + 2.1F) * 0.5F + 0.5F,
+                           Math::Sin(hue + 4.2F) * 0.5F + 0.5F,
+                           1.0F);
+    }
+}
+</code></pre>
+<p>The handler receives the tag&#39;s parameters (<code>GetFloat/GetString/GetInt</code>), the character index and mutable <code>color</code>, <code>offset</code> and <code>visible</code> fields — enough for wave, shake and typewriter effects.</p>
+<h2>Automatic layouts</h2>
+<p>Stop positioning list items by hand — add a layout behaviour to the parent:</p>
+<ul>
+<li><strong>VerticalLayout / HorizontalLayout</strong> — stack children with <code>spacing</code> and <code>padding</code>; <code>childWidthFitMode</code> / <code>childHeightFitMode</code> optionally stretch them (<code>FIT_PARENT</code>, <code>FIT_AVAILABLE</code>).</li>
+<li><strong>GridLayout</strong> — fixed <code>cellSize</code> + <code>spacing</code>, flowing by <code>constraint</code> (<code>FLEXIBLE</code>, <code>FIXED_COLUMNS</code>, <code>FIXED_ROWS</code>) from a <code>startCorner</code>.</li>
+<li><strong>LayoutElementConstraints</strong> — per-child overrides: <code>minSize</code>, <code>preferredSize</code>, <code>flex</code>, or <code>ignoreLayout</code> to opt out.</li>
+</ul>
+<p>Combine with <strong>ScrollRect</strong> for scrollable lists: put the layout on the <code>content</code> rect and the ScrollRect handles clamping, elasticity and inertia. Use a <strong>Mask</strong> to clip the content to the viewport, and a <strong>CanvasGroup</strong> to fade or disable a whole subtree at once (<code>alpha</code>, <code>interactable</code>).</p>
+<h2>Fonts</h2>
+<p>Comet accepts two kinds of font, and both plug into a Text&#39;s <code>font</code> field:</p>
+<ul>
+<li><strong>Vector fonts</strong> — import a <code>.ttf</code> or <code>.otf</code> and the engine rasterizes glyphs at any size, so text stays crisp at every scale. The default for UI.</li>
+<li><strong>Bitmap fonts</strong> — a pre-rendered glyph atlas (a texture plus its layout), ideal for pixel-art games where you want text to scale in hard pixels rather than smooth vectors, or to match a specific retro look.</li>
+</ul>
+<p>Text styling is per-widget regardless of the font kind: <code>fontSize</code> (or <code>autoFontSize</code> with min/max bounds to fit the rect), alignment, <code>wrapping</code>, <code>overflowMode</code>, plus <code>bold</code>, <code>italic</code>, <code>underline</code> and <code>strikethrough</code>.</p>
+<h2>Where to go next</h2>
+<p>Wire your new menu to actual gameplay: start a match in <a href="/tutorials/networking">Networking &amp; Multiplayer</a>, or make the settings screen control <a href="/tutorials/audio">Audio &amp; Mixers</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

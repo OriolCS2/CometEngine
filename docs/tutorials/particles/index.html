@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Particle Systems — Comet Engine</title>
+  <meta name="description"
+    content="Fire, smoke, sparks, magic, rain, explosions — all of it comes from the Particle System, a modular emitter modelled after Unity's. You start with an emitter…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/particles" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Particle Systems — Comet Engine" />
+  <meta property="og:description"
+    content="Fire, smoke, sparks, magic, rain, explosions — all of it comes from the Particle System, a modular emitter modelled after Unity's. You start with an emitter…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/particles" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Particle Systems — Comet Engine" />
+  <meta name="twitter:description"
+    content="Fire, smoke, sparks, magic, rain, explosions — all of it comes from the Particle System, a modular emitter modelled after Unity's. You start with an emitter…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Particle Systems</h1>
+<p>Fire, smoke, sparks, magic, rain, explosions — all of it comes from the <strong>Particle System</strong>, a modular emitter modelled after Unity&#39;s. You start with an emitter and switch on <strong>modules</strong> — emission, shape, colour-over-lifetime, velocity, size, texture animation — each shaping the particles a little more.</p>
+<p><img src="/tutorials/particles-scene.png" alt="The Particle System playing in the editor with the module inspector and preview controls."></p>
+<h2>The emitter and its modules</h2>
+<p>Add a <strong>Particle System</strong> from <strong>Add Behaviour</strong> and it starts emitting immediately in the editor, with a preview overlay (<strong>Play / Pause / Stop</strong>, playback speed and a scrubber) in the scene view.</p>
+<p>The top of the inspector is the <strong>System</strong> block — the properties every particle is born with:</p>
+<ul>
+<li><strong>Duration</strong> and <strong>Loop</strong> — the length of one emission cycle and whether it repeats.</li>
+<li><strong>Start Lifetime / Start Speed / Start Size / Start Rotation / Start Color</strong> — initial values. Each is a <strong>value selector</strong>: a constant, a random range, or a curve/gradient over the cycle.</li>
+<li><strong>Gravity Scale</strong>, <strong>Max Particles</strong>, <strong>Simulation Space</strong> (<code>Local</code> follows the emitter, <code>World</code> leaves particles behind), and <strong>Play On Awake</strong>.</li>
+</ul>
+<p>Below that sit the toggleable <strong>modules</strong>, each with an enable checkbox:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Emission</strong></td>
+<td>Rate-per-second plus timed <strong>Bursts</strong>.</td>
+</tr>
+<tr>
+<td><strong>Shape</strong></td>
+<td>Where particles spawn: <code>Circle</code>, <code>Rectangle</code> or <code>Edge</code>.</td>
+</tr>
+<tr>
+<td><strong>Velocity / Force / Limit Velocity over Lifetime</strong></td>
+<td>Push, drag and steer particles as they age.</td>
+</tr>
+<tr>
+<td><strong>Color / Size / Rotation over Lifetime</strong></td>
+<td>Fade, grow and spin over each particle&#39;s life.</td>
+</tr>
+<tr>
+<td><strong>Color / Size / Rotation by Speed</strong></td>
+<td>Modulate by how fast a particle is moving.</td>
+</tr>
+<tr>
+<td><strong>Texture Animation</strong></td>
+<td>Flipbook the particle sprite from a sheet or sprite list.</td>
+</tr>
+<tr>
+<td><strong>Renderer</strong></td>
+<td>Draw mode (<code>Chunk</code> batches, <code>Individual</code> allows per-particle material) and sort order.</td>
+</tr>
+</tbody></table>
+<h2>Value selectors and gradients</h2>
+<p>The recurring pattern is the <strong>value selector</strong> — wherever you see a property like Start Size or a lifetime curve, it can be a <strong>constant</strong>, a <strong>random between two values</strong>, or a <strong>curve</strong> (float) / <strong>gradient</strong> (colour) sampled over the particle&#39;s normalized age. This is what makes a flame fade from white to orange to transparent, or embers shrink as they rise.</p>
+<h2>Controlling it from AngelScript</h2>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::ParticleSystemModule;
+
+class Explosion : CometBehaviour
+{
+    void Start()
+    {
+        ParticleSystem particles = ParticleSystem::Get(entity);
+        particles.loop = false;
+        particles.maxParticles = 500;
+
+        // Configure emission with a one-shot burst of debris.
+        ParticlePropertyEmission emission = particles.emission;
+        emission.enabled = true;
+
+        Burst burst;
+        burst.time = 0.0F;
+        burst.probability = 1.0F;
+        burst.count.constant = 60;
+        emission.AddBurst(burst);
+
+        particles.Play();
+    }
+
+    void Update()
+    {
+        ParticleSystem particles = ParticleSystem::Get(entity);
+        // Emit a puff of smoke on demand.
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            particles.Emit(20);
+        }
+    }
+}
+</code></pre>
+<p><code>Play()</code>, <code>Pause()</code>, <code>Stop()</code>, <code>Clear()</code> and <code>Emit(count)</code> drive playback; <code>Simulate(time, restart)</code> fast-forwards the simulation (handy for pre-warming an effect so it looks established the instant it appears). Read-only <code>isPlaying</code>, <code>isEmitting</code>, <code>particleCount</code> and <code>isAlive</code> report state.</p>
+<blockquote>
+<p>[!TIP]
+<code>simulationSpace = ParticleSystemSimulationSpace::WORLD</code> is the difference between a torch flame that drags a trail as the torch moves (World) and one that stays glued to the torch (Local). Pick per effect.</p>
+</blockquote>
+<h2>Building a fire effect</h2>
+<p>The classic recipe, all in the inspector:</p>
+<ol>
+<li><strong>Shape</strong> → small <code>Circle</code> at the base.</li>
+<li><strong>Start Color</strong> → bright yellow; <strong>Color over Lifetime</strong> → gradient yellow → orange → transparent.</li>
+<li><strong>Start Size</strong> → medium; <strong>Size over Lifetime</strong> → curve shrinking to zero.</li>
+<li><strong>Velocity over Lifetime</strong> → upward, with a little turbulence via the random-between mode.</li>
+<li><strong>Emission</strong> → a steady rate, no bursts.</li>
+<li><strong>Renderer</strong> → an additive material so overlapping particles glow.</li>
+</ol>
+<h2>UI particles</h2>
+<p>Need particles <em>inside</em> a UI canvas — confetti on a victory screen, sparkles on a button? Use <strong>UI Particle System</strong> instead. It&#39;s the same module set but renders in the UI layer under a <code>RectTransform</code>, so it respects canvas sorting and masks. See the <a href="/tutorials/ui-system">UI tutorial</a> for the canvas basics.</p>
+<h2>Where to go next</h2>
+<p>Trigger a burst from an <a href="/tutorials/animation">animation event</a>, attach one to a <a href="/tutorials/networking">networked spawn</a>, or light it dramatically with <a href="/tutorials/lights">2D lights</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

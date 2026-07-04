@@ -2,7 +2,7 @@
 
 Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal-map support — all layer-aware and fully scriptable.
 
-![A Point Light on the ship's engine: the radius gizmo in the Scene view, and every light property in the Inspector.](./tutorials/light-scene.png)
+![A Point Light on the ship's engine: the radius gizmo in the Scene view, and every light property in the Inspector.](/tutorials/light-scene.png)
 
 ## How 2D lighting works in Comet
 
@@ -22,7 +22,7 @@ There is no separate "ambient light" setting: an ambient is simply a **GlobalLig
 
 ## The five light types
 
-![All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light.](./tutorials/light-types.png)
+![All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light.](/tutorials/light-types.png)
 
 All lights are behaviours added from **Add Behaviour → Lighting** (`Global Light`, `Point Light`, `Freeform Light`, `Parametric Light`, `Sprite Light`). They share a common base (color, intensity, blend mode, shadows, sorting layers) and each adds its own shape:
 
@@ -75,12 +75,12 @@ Two pieces cooperate to produce 2D shadows:
    Both modes share **Shadow Color** (the tint of shadowed areas) and **Shadow Strength** (0 = invisible, 1 = fully dark).
 
 2. **Occluders** are entities with a **Shadow Caster** behaviour (**Add Behaviour → Lighting → Shadow Caster**). Its **Shape Source** is either:
-   - `Sprite` — reuses the occluder polygon authored in the [Sprite Editor's Shadow Caster tool](#tutorials/sprite-rendering), or
+   - `Sprite` — reuses the occluder polygon authored in the [Sprite Editor's Shadow Caster tool](/tutorials/sprite-rendering), or
    - `Custom` — a polygon you edit in the scene, with a **Closed** toggle and a **Cull Mode** for one-sided shadows.
 
    Shadow Casters also filter by **Sorting Layers**, so an occluder only blocks lights on matching layers.
 
-![A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground.](./tutorials/shadows.png)
+![A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground.](/tutorials/shadows.png)
 
 ## Scripting lights
 
@@ -167,4 +167,4 @@ If a sprite has a **normal map** assigned (via the Sprite Editor's **Secondary T
 
 ## Where to go next
 
-Combine lights with the sprites you set up in [Sprite Rendering](#tutorials/sprite-rendering), or give your scene motion with [Animation & the Animator](#tutorials/animation).
+Combine lights with the sprites you set up in [Sprite Rendering](/tutorials/sprite-rendering), or give your scene motion with [Animation & the Animator](/tutorials/animation).

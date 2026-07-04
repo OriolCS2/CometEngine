@@ -2,7 +2,7 @@
 
 Moving platforms that sweep along a smooth arc, a camera that glides through a level, a projectile that curves to its target — all of these follow a **Bézier curve**. Comet gives you a **Bézier Curve** behaviour to author the path and a **Bézier Curve Follower** to move any transform along it.
 
-![The Bézier Curve and Bézier Curve Follower components in the Inspector.](./tutorials/bezier-inspector.png)
+![The Bézier Curve and Bézier Curve Follower components in the Inspector.](/tutorials/bezier-inspector.png)
 
 ## The two components
 
@@ -18,7 +18,7 @@ Both are added from **Add Behaviour → Diverse**:
 3. Switch to **Move Control Points** and drag the tangent handles to bend each segment.
 4. Tweak the **Bake Interval** down for a smoother, more accurate follow (at a small memory cost).
 
-![A Bézier curve in the Scene view: blue anchor points, red tangent handles and the smooth spline drawn between them.](./tutorials/bezier-curve.png)
+![A Bézier curve in the Scene view: blue anchor points, red tangent handles and the smooth spline drawn between them.](/tutorials/bezier-curve.png)
 
 ## Following a curve
 
@@ -116,4 +116,4 @@ class RuntimePath : CometBehaviour
 
 ## Where to go next
 
-Combine a curve-following camera with your [UI](#tutorials/ui-system), or trigger a projectile's launch from an [input action](#tutorials/input) or [animation event](#tutorials/animation).
+Combine a curve-following camera with your [UI](/tutorials/ui-system), or trigger a projectile's launch from an [input action](/tutorials/input) or [animation event](/tutorials/animation).

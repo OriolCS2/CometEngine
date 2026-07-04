@@ -6,7 +6,7 @@ Your game runs great in the editor — time to put it in players' hands. Comet e
 
 Open it from **Window → Build**:
 
-![The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs.](./tutorials/build-panel.png)
+![The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs.](/tutorials/build-panel.png)
 
 From top to bottom:
 
@@ -121,7 +121,7 @@ The Web tab configures the **Canvas Size** and responsiveness. The build produce
 - The service worker caches content for instant reloads and offline play.
 - Patches work over HTTP too: `OriLoader::Mount("https://cdn.example.com/patch_v2.ori")`.
 
-Remember the platform's limits: no native sockets (use WebSockets — see [Networking](#tutorials/networking)) and no threads.
+Remember the platform's limits: no native sockets (use WebSockets — see [Networking](/tutorials/networking)) and no threads.
 
 ## Platform macros in AngelScript
 
@@ -192,4 +192,4 @@ CometEngine.exe --export Web     --path "C:/projects/MyGame" --export-path "C:/b
 
 ## Where to go next
 
-Congratulations — you shipped! If players report a bug, you're one **Patch Base Packs** entry away from the fix. Now go back and make the game better: maybe some [2D lighting polish](#tutorials/lights)?
+Congratulations — you shipped! If players report a bug, you're one **Patch Base Packs** entry away from the fix. Now go back and make the game better: maybe some [2D lighting polish](/tutorials/lights)?

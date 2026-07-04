@@ -1,3 +1,4 @@
+import { navigate } from '../lib/router.js';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -411,7 +412,7 @@ function renderSidebar(activeId) {
     html += `
       <div class="tut-nav-category">${category}</div>
       ${visible.map(t => `
-        <a href="#tutorials/${t.id}" class="tut-nav-item ${t.id === activeId ? 'active' : ''}">
+        <a href="/tutorials/${t.id}" class="tut-nav-item ${t.id === activeId ? 'active' : ''}">
           <i class="fas ${t.icon}"></i><span>${t.title}</span>
         </a>
       `).join('')}
@@ -425,7 +426,7 @@ function renderSidebar(activeId) {
 
 function renderLanding(container) {
   const cards = TUTORIALS.map(t => `
-    <a href="#tutorials/${t.id}" class="tut-card">
+    <a href="/tutorials/${t.id}" class="tut-card">
       <div class="tut-card-icon"><i class="fas ${t.icon}"></i></div>
       <div class="tut-card-body">
         <span class="tut-card-category">${t.category}</span>
@@ -476,19 +477,19 @@ function renderTutorialPage(container, tutorial) {
       <div class="docs-content tut-content" id="tut-scroll">
         <div class="tut-page">
           <div class="tut-breadcrumb">
-            <a href="#tutorials">Tutorials</a>
+            <a href="/tutorials">Tutorials</a>
             <i class="fas fa-chevron-right"></i>
             <span>${tutorial.category}</span>
           </div>
           <div class="tut-article" id="tut-article"></div>
           <div class="tut-pager">
             ${prev ? `
-              <a href="#tutorials/${prev.id}" class="tut-pager-link tut-pager-prev">
+              <a href="/tutorials/${prev.id}" class="tut-pager-link tut-pager-prev">
                 <span class="tut-pager-dir"><i class="fas fa-arrow-left"></i> Previous</span>
                 <span class="tut-pager-title">${prev.title}</span>
               </a>` : '<span></span>'}
             ${next ? `
-              <a href="#tutorials/${next.id}" class="tut-pager-link tut-pager-next">
+              <a href="/tutorials/${next.id}" class="tut-pager-link tut-pager-next">
                 <span class="tut-pager-dir">Next <i class="fas fa-arrow-right"></i></span>
                 <span class="tut-pager-title">${next.title}</span>
               </a>` : '<span></span>'}
@@ -510,7 +511,7 @@ function renderTutorialPage(container, tutorial) {
     toc.innerHTML = `
       <div class="tut-toc-title">On this page</div>
       ${Array.from(headings).map(h => `
-        <a href="#" data-target="${h.id}" class="tut-toc-link tut-toc-${h.tagName.toLowerCase()}">${h.textContent}</a>
+        <a href="/" data-target="${h.id}" class="tut-toc-link tut-toc-${h.tagName.toLowerCase()}">${h.textContent}</a>
       `).join('')}
     `;
     const scroller = document.getElementById('tut-scroll');
@@ -549,19 +550,28 @@ function renderTutorialPage(container, tutorial) {
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
+function setTutorialMeta(title, description) {
+  document.title = title;
+  const m = document.querySelector('meta[name="description"]');
+  if (m && description) m.setAttribute('content', description);
+}
+
 export function renderTutorials(container, hash) {
   const id = decodeURIComponent(hash.replace('#tutorials', '').substring(1));
 
   if (!id) {
+    setTutorialMeta('Tutorials — Comet Engine',
+      'Step-by-step guides to every major subsystem of the Comet Engine 2D game engine — rendering, lighting, tilemaps, physics, animation, UI, audio, networking and more.');
     renderLanding(container);
     return;
   }
 
   const tutorial = TUTORIALS.find(t => t.id === id);
   if (!tutorial) {
-    window.location.hash = '#tutorials';
+    navigate('/tutorials');
     return;
   }
 
+  setTutorialMeta(`${tutorial.title} — Comet Engine`, tutorial.blurb);
   renderTutorialPage(container, tutorial);
 }

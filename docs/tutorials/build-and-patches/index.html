@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Exporting Builds &amp; Shipping Patches — Comet Engine</title>
+  <meta name="description"
+    content="Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/build-and-patches" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Exporting Builds &amp; Shipping Patches — Comet Engine" />
+  <meta property="og:description"
+    content="Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/build-and-patches" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Exporting Builds &amp; Shipping Patches — Comet Engine" />
+  <meta name="twitter:description"
+    content="Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Exporting Builds &amp; Shipping Patches</h1>
+<p>Your game runs great in the editor — time to put it in players&#39; hands. Comet exports self-contained builds for <strong>Windows, Linux, Android and Web</strong>, packs your content into memory-mapped <code>.ori</code> archives, and — the killer feature — builds <strong>incremental patches</strong> that ship only what changed since the version your players already have.</p>
+<h2>The Build Settings window</h2>
+<p>Open it from <strong>Window → Build</strong>:</p>
+<p><img src="/tutorials/build-panel.png" alt="The Build Settings window: the scene list, platform tabs, Content Packaging and Patch Base Packs."></p>
+<p>From top to bottom:</p>
+<ul>
+<li><strong>Scenes added in Build</strong> — every scene that ships. The checkbox enables/disables a scene, dragging reorders them, and the number on the right is the <strong>build index</strong>: index <code>0</code> is the scene your game boots into. <strong>Add Open Scenes</strong> grabs whatever you have open.</li>
+<li><strong>Development Build</strong> — includes debug symbols, console output and development-only tooling. Ship-to-store builds leave this off.</li>
+<li><strong>Platform tabs</strong> — Windows / Linux / Android / Web, each with its own settings such as the target <strong>Architecture</strong> (the active platform is marked). Selecting a different tab shows <strong>Switch Platform</strong>, which reimports the asset library for that target.</li>
+<li><strong>Player Settings</strong> — product name, version, icon and friends.</li>
+<li><strong>Build</strong> / <strong>Build And Run</strong> — the moment of truth.</li>
+</ul>
+<h2>What comes out the other side</h2>
+<p>Comet packs content into <strong><code>.ori</code></strong> archives — a deterministic, binary-indexed format the runtime <strong>memory-maps</strong> and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The <strong>Content Packaging</strong> dropdown picks the layout:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Single .ori pack</code></td>
+<td>The executable plus one <code>.ori</code> file next to it. The usual choice.</td>
+</tr>
+<tr>
+<td><code>Embedded in executable</code></td>
+<td>The <code>.ori</code> is appended to the executable — one single file to distribute.</td>
+</tr>
+<tr>
+<td><code>Loose content folder</code></td>
+<td>A <code>content/</code> folder with the raw blobs and manifests — convenient while iterating.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!NOTE]
+<strong>Content Packaging is a standalone (Windows/Linux) option.</strong> Android and Web decide their own layout: an Android build packs content uncompressed inside the APK so the engine can memory-map it in place, and a Web build produces a static site with the content preloaded or streamed over HTTP (see the platform notes below). The <code>Single .ori</code> / <code>Embedded</code> / <code>Loose</code> choice only applies to the desktop executable + pack you ship yourself.</p>
+</blockquote>
+<p>A typical Windows output folder:</p>
+<pre><code class="language-text">MyGame/
+├── MyGame.exe
+├── MyGame.ori          ← all packed content
+├── extra_ori/          ← drop DLC/mod packs here: auto-mounted at boot
+└── data/               ← loose files from your Data Assets folder
+</code></pre>
+<p>Anything you place in <code>extra_ori/</code> is mounted automatically at startup — a zero-code mod and DLC delivery mechanism.</p>
+<h2>Shipping a patch</h2>
+<p>Here&#39;s the workflow that saves your players from re-downloading gigabytes.</p>
+<p>A patch is built <strong>against the packs your players already have</strong>. In the platform tab you&#39;ll find <strong>Patch Base Packs</strong>:</p>
+<ol>
+<li>Ship version 1.0 — a normal full build. Keep its <code>MyGame.ori</code> somewhere safe.</li>
+<li>Keep developing: fix scenes, swap textures, add a level.</li>
+<li>In the Build window, add the shipped <code>MyGame.ori</code> to <strong>Patch Base Packs</strong> (for later patches: list the base first, then each prior patch, in order).</li>
+<li>Press <strong>Build</strong>. Comet compares every resource&#39;s content hash against the merged base packs and writes <code>MyGame_patch.ori</code> containing <strong>only what changed</strong> — plus tombstones for resources you deleted.</li>
+</ol>
+<p>Once the player has the patch file, there are two ways it gets applied, and the difference matters:</p>
+<ul>
+<li><strong>Drop it in the <code>extra_ori/</code> folder</strong> (next to the executable) and it is <strong>mounted automatically at startup</strong> — no code required. This is the zero-effort path for a launcher or auto-updater: download into <code>extra_ori/</code>, relaunch, done.</li>
+<li><strong>Put it anywhere else</strong> and you must <strong>mount it yourself from AngelScript</strong> with <code>OriLoader::Mount(&quot;path/to/patch.ori&quot;)</code> (see below). This is what you want for an in-game &quot;check for updates&quot; button, DLC the player enables in a menu, or a mod loader.</li>
+</ul>
+<p>Either way the runtime layers the patch over the base: newer packs shadow older ones, deletions apply, done. Patch metadata records which content version it targets and its sequence number, so out-of-order patches are refused instead of corrupting the game.</p>
+<blockquote>
+<p>[!NOTE]
+Patches are regular <code>.ori</code> packs. The same mechanism ships DLC: build a patch that only <em>adds</em> content and sell the file.</p>
+</blockquote>
+<h3>Mounting packs at runtime</h3>
+<p>The <code>OriLoader</code> namespace lets scripts manage packs while the game runs — the foundation for in-game patchers, DLC stores and mod loaders:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class PatchManager : CometBehaviour
+{
+    void ApplyDownloadedPatch(const string &amp;in path)
+    {
+        Debug::Log(&quot;Content version before: &quot; + formatInt(OriLoader::GetContentVersion()));
+
+        if (OriLoader::Mount(path))
+        {
+            Debug::Log(&quot;Patch mounted! Now at version &quot; + formatInt(OriLoader::GetContentVersion()));
+            // Resources loaded from now on come from the patch where it shadows the base.
+        }
+        else
+        {
+            Debug::Log(&quot;Mount failed - wrong engine version or corrupt pack.&quot;);
+        }
+    }
+
+    void ListInstalledContent()
+    {
+        array&lt;string&gt; packs = OriLoader::GetMountedPacks();
+        for (uint i = 0; i &lt; packs.length(); i++)
+        {
+            Debug::Log(&quot;[&quot; + formatInt(int(i)) + &quot;] &quot; + packs[i]);
+        }
+    }
+
+    void RemoveMod(const string &amp;in path)
+    {
+        if (OriLoader::IsMounted(path))
+        {
+            OriLoader::Unmount(path);   // resources revert to the packs below
+        }
+    }
+}
+</code></pre>
+<p><code>MountWithPriority(path, priority)</code> controls shadowing order explicitly, and <code>App::GetProductVersion()</code> / <code>App::GetEngineVersion()</code> give you the strings for your own update checks.</p>
+<h2>Platform notes</h2>
+<h3>Android</h3>
+<p>The Android tab wants your signing setup: <strong>Keystore File</strong>, <strong>Keystore Password</strong>, <strong>Key Alias</strong>, <strong>Key Password</strong>, plus <strong>Min/Target SDK Level</strong> and the target <strong>Architectures</strong> (arm64-v8a by default). Comet generates a Gradle project, builds and signs the APK, and — with a device connected over ADB — <strong>Build And Run</strong> installs and launches it directly on the phone. Game content is stored uncompressed inside the APK so the engine can memory-map it in place.</p>
+<h3>Web</h3>
+<p>The Web tab configures the <strong>Canvas Size</strong> and responsiveness. The build produces a static site — <code>index.html</code>, the WASM binary, the JS runtime, a service worker and your content:</p>
+<ul>
+<li>Small games preload everything for a hitch-free start; bigger ones preload the boot set and stream the rest.</li>
+<li>The service worker caches content for instant reloads and offline play.</li>
+<li>Patches work over HTTP too: <code>OriLoader::Mount(&quot;https://cdn.example.com/patch_v2.ori&quot;)</code>.</li>
+</ul>
+<p>Remember the platform&#39;s limits: no native sockets (use WebSockets — see <a href="/tutorials/networking">Networking</a>) and no threads.</p>
+<h2>Platform macros in AngelScript</h2>
+<p>Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines a <strong>preprocessor macro</strong> for the platform each compile targets, and you branch on it with <code>#ifdef</code> / <code>#ifndef</code> / <code>#else</code> / <code>#endif</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Macro</th>
+<th>Defined when compiling for...</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>COMET_STANDALONE</code></td>
+<td>a Windows or Linux desktop build</td>
+</tr>
+<tr>
+<td><code>COMET_ANDROID</code></td>
+<td>an Android build</td>
+</tr>
+<tr>
+<td><code>COMET_WEB</code></td>
+<td>a Web (Emscripten/WASM) build</td>
+</tr>
+<tr>
+<td><code>COMET_EDITOR</code></td>
+<td>running <strong>inside the editor</strong> (play mode / edit mode), not an exported build</td>
+</tr>
+</tbody></table>
+<p><code>COMET_EDITOR</code> is the important one: it&#39;s defined while your scripts run in the editor and <strong>absent in every exported build</strong>. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class DebugTools : CometBehaviour
+{
+    void Update()
+    {
+#ifdef COMET_EDITOR
+        // Cheat keys that only exist while developing in the editor.
+        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
+        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+#endif
+    }
+
+    void OpenSettingsFolder()
+    {
+#ifdef COMET_STANDALONE
+        // Desktop-only: browse to a folder on disk.
+        OpenNativeFileBrowser();
+#elif defined(COMET_WEB)
+        // The browser sandbox has no filesystem — show an in-game panel instead.
+        ShowInGameSettings();
+#endif
+    }
+}
+</code></pre>
+<p>The build system also lets you define your own <strong>scripting constants</strong> per platform in the Player Settings, which appear as additional <code>#ifdef</code> symbols — handy for feature flags (a <code>DEMO</code> build, a <code>CONSOLE</code> variant, and so on).</p>
+<blockquote>
+<p>[!TIP]
+<code>COMET_EDITOR</code> is true in <strong>both</strong> edit mode and play mode inside the editor. If you need &quot;only in a real build&quot;, use <code>#ifndef COMET_EDITOR</code>. If you need &quot;only on desktop&quot;, use <code>#ifdef COMET_STANDALONE</code>.</p>
+</blockquote>
+<h2>Automating builds (CI)</h2>
+<p>Everything the Build window does is available headless — perfect for nightly builds and release pipelines:</p>
+<pre><code class="language-text">CometEngine.exe --export Windows --path &quot;C:/projects/MyGame&quot; --export-path &quot;C:/builds/win64&quot;
+CometEngine.exe --export Web     --path &quot;C:/projects/MyGame&quot; --export-path &quot;C:/builds/web&quot;
+</code></pre>
+<p><code>--export</code> implies headless mode: the project loads, scripts compile, the seven-step build pipeline runs (compile scripts → setup → runtime resources → scenes → resource filtering → pre-build → pack), progress is printed per step, and the process exits <code>0</code> on success or <code>1</code> on failure — exactly what your CI wants.</p>
+<blockquote>
+<p>[!TIP]
+Configure <strong>Patch Base Packs</strong> in the project once, and your CI produces patch builds automatically: check the previous release&#39;s <code>.ori</code> packs into your release storage and point the project at them.</p>
+</blockquote>
+<h2>Pre-flight checklist</h2>
+<ul>
+<li>Every scene the game needs is in <strong>Scenes added in Build</strong>, with the right one at index <code>0</code>.</li>
+<li><strong>Development Build</strong> is <em>off</em> for store releases.</li>
+<li>Player Settings: product name, version, icon set.</li>
+<li>Test the built game, not just the editor — packed-content loading and platform quirks only show up there.</li>
+<li>Shipped a build? <strong>Archive its <code>.ori</code> packs.</strong> They are the base every future patch is built against.</li>
+</ul>
+<h2>Where to go next</h2>
+<p>Congratulations — you shipped! If players report a bug, you&#39;re one <strong>Patch Base Packs</strong> entry away from the fix. Now go back and make the game better: maybe some <a href="/tutorials/lights">2D lighting polish</a>?</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

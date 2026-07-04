@@ -2,7 +2,7 @@
 
 Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked **navigation mesh**, **A\*** path queries with funnel smoothing, and optional **RVO collision avoidance** so crowds of agents don't clip through one another.
 
-![A Navigation Region covering the scene, a Navigation Obstacle ringing the cloud, and the region's settings — including the Bake button — in the Inspector.](./tutorials/navigation-scene.png)
+![A Navigation Region covering the scene, a Navigation Obstacle ringing the cloud, and the region's settings — including the Bake button — in the Inspector.](/tutorials/navigation-scene.png)
 
 ## The building blocks
 
@@ -158,4 +158,4 @@ A **Navigation Link** joins **Start Position** and **End Position** across unwal
 
 ## Where to go next
 
-Make your navigating enemies look alive with [Animation & the Animator](#tutorials/animation), or sync their positions across the network in [Networking & Multiplayer](#tutorials/networking).
+Make your navigating enemies look alive with [Animation & the Animator](/tutorials/animation), or sync their positions across the network in [Networking & Multiplayer](/tutorials/networking).

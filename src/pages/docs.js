@@ -1,3 +1,4 @@
+import { navigate, currentRoute } from '../lib/router.js';
 let apiData = null;
 let allPaths = [];
 const expandedPaths = new Set();
@@ -169,7 +170,7 @@ function setupVersionSelector(container) {
     container.innerHTML = '<div class="loading">Switching version...</div>';
     apiData = await loadApiData();
     allPaths = getAllPaths(apiData);
-    renderDocs(container, window.location.hash);
+    renderDocs(container, currentRoute());
   });
 }
 
@@ -331,7 +332,7 @@ function parseMemberData(member, typePrefix, fullName, name, sigTypes, parentNam
 
 function renderTree(container, data, autoOpen = false) {
   container.innerHTML = '';
-  const currentPath = decodeURIComponent(window.location.hash.replace('#docs', '').substring(1));
+  const currentPath = decodeURIComponent(currentRoute().replace('#docs', '').substring(1));
 
   const createNode = (name, obj, parentPath = '') => {
     const node = document.createElement('div');
@@ -376,7 +377,7 @@ function renderTree(container, data, autoOpen = false) {
     // stops propagation, so it expands/collapses without opening the page.
     nodeEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      window.location.hash = `#docs/${nodePath}`;
+      navigate(`/docs/${nodePath}`);
     });
 
     Object.keys(obj).filter(k => k !== '_members').sort().forEach(key => {
@@ -424,7 +425,7 @@ function renderDetail(path) {
           <h3>Namespaces & Classes</h3>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
             ${childClasses.map(c => `
-              <a href="#docs/${path}::${c.name}" class="api-item" style="display:block;">
+              <a href="/docs/${path}::${c.name}" class="api-item" style="display:block;">
                 <div class="api-item-name" style="color:var(--accent-color);">${c.name}</div>
                 <div style="color:var(--text-dim);font-size:0.85rem;">${c.summary}</div>
               </a>
@@ -555,7 +556,7 @@ function linkType(type) {
   const clean = unescaped.replace(/[?*&]/g, '').trim();
   const found = allPaths.find(p => p === clean || p.endsWith(`::${clean}`));
   if (found) {
-    return `<a href="#docs/${found}" style="color:#61afef;text-decoration:underline;">${unescaped}</a>`;
+    return `<a href="/docs/${found}" style="color:#61afef;text-decoration:underline;">${unescaped}</a>`;
   }
   return `<span style="color:#61afef;">${unescaped}</span>`;
 }

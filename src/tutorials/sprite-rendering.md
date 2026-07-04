@@ -2,7 +2,7 @@
 
 Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the **Sprite Editor**, display it with a **SpriteRenderer**, and drive all of it from AngelScript — tinting, flipping, 9-slicing and swapping materials at runtime.
 
-![The Comet Engine editor: Scene view, Game view, Hierarchy, Inspector and the Project panel.](./tutorials/editor-overview.png)
+![The Comet Engine editor: Scene view, Game view, Hierarchy, Inspector and the Project panel.](/tutorials/editor-overview.png)
 
 ## Textures and sprites
 
@@ -28,7 +28,7 @@ When you drop an image into your project, select it in the **Project** panel and
 
 With a texture selected, set its **Texture Type** to `Sprite and UI` and click **Open Sprite Editor** in the Inspector.
 
-![The Sprite Editor slicing a sprite sheet into a grid of sprites.](./tutorials/sprite-editor.png)
+![The Sprite Editor slicing a sprite sheet into a grid of sprites.](/tutorials/sprite-editor.png)
 
 The Sprite Editor has four tools, selectable from its toolbar:
 
@@ -218,7 +218,7 @@ class TorchFlame : CometBehaviour
 }
 ```
 
-The frame list is edited in the Inspector (or from code with `AddSprite()` / `SetSprite()`). For anything driven by game logic — walk/run/jump blending, transitions, events — use the full **Animator** instead: see the [Animation & the Animator](#tutorials/animation) tutorial.
+The frame list is edited in the Inspector (or from code with `AddSprite()` / `SetSprite()`). For anything driven by game logic — walk/run/jump blending, transitions, events — use the full **Animator** instead: see the [Animation & the Animator](/tutorials/animation) tutorial.
 
 ## The other 2D renderers
 
@@ -232,4 +232,4 @@ All of them inherit the same sorting-layer, color and material properties from `
 
 ## Where to go next
 
-Your sprites are on screen — now light them up with [2D Lights & Shadows](#tutorials/lights), or bring them to life with the [Animator](#tutorials/animation).
+Your sprites are on screen — now light them up with [2D Lights & Shadows](/tutorials/lights), or bring them to life with the [Animator](/tutorials/animation).

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Sprite Rendering &amp; the Sprite Editor — Comet Engine</title>
+  <meta name="description"
+    content="Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the Sprite Editor, display it with a…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/sprite-rendering" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Sprite Rendering &amp; the Sprite Editor — Comet Engine" />
+  <meta property="og:description"
+    content="Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the Sprite Editor, display it with a…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/sprite-rendering" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sprite Rendering &amp; the Sprite Editor — Comet Engine" />
+  <meta name="twitter:description"
+    content="Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the Sprite Editor, display it with a…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Sprite Rendering &amp; the Sprite Editor</h1>
+<p>Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the <strong>Sprite Editor</strong>, display it with a <strong>SpriteRenderer</strong>, and drive all of it from AngelScript — tinting, flipping, 9-slicing and swapping materials at runtime.</p>
+<p><img src="/tutorials/editor-overview.png" alt="The Comet Engine editor: Scene view, Game view, Hierarchy, Inspector and the Project panel."></p>
+<h2>Textures and sprites</h2>
+<p>Comet makes a clear distinction between the two:</p>
+<ul>
+<li>A <strong>Texture</strong> is the image file you import (<code>.png</code>, <code>.jpg</code>, ...). It owns GPU memory and sampling settings.</li>
+<li>A <strong>Sprite</strong> is a rectangular <em>region</em> of a texture, plus rendering metadata: a pivot, a pixels-per-unit value and optional 9-slice borders. One texture can contain a single sprite or a whole sprite sheet.</li>
+</ul>
+<p>When you drop an image into your project, select it in the <strong>Project</strong> panel and the Inspector shows its import settings:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Texture Type</strong></td>
+<td><code>Sprite and UI</code> for regular art, <code>Normal Map</code> for lighting relief maps.</td>
+</tr>
+<tr>
+<td><strong>Filter Type</strong></td>
+<td><code>No Filter</code> (crisp pixel art), <code>Bilinear</code> or <code>Trilinear</code> (smooth scaling).</td>
+</tr>
+<tr>
+<td><strong>Wrap Mode</strong></td>
+<td><code>Repeat</code>, <code>Mirror Repeat</code>, <code>Clamp Edge</code> or <code>Clamp Border</code> — how UVs outside 0–1 sample.</td>
+</tr>
+<tr>
+<td><strong>Pixels Per Unit</strong></td>
+<td>How many texture pixels equal one world unit. A 128 px sprite at 128 PPU is exactly 1 unit wide.</td>
+</tr>
+<tr>
+<td><strong>Modify Pixels</strong></td>
+<td>Keeps a CPU-side copy so scripts can call <code>GetPixels()</code> / <code>SetPixelAt()</code>. Costs memory — leave it off unless you need it.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!TIP]
+For pixel art, set <strong>Filter Type</strong> to <code>No Filter</code> and pick a Pixels Per Unit that matches your tile size (for example 16). Your art will stay razor sharp at any zoom level.</p>
+</blockquote>
+<h2>Slicing with the Sprite Editor</h2>
+<p>With a texture selected, set its <strong>Texture Type</strong> to <code>Sprite and UI</code> and click <strong>Open Sprite Editor</strong> in the Inspector.</p>
+<p><img src="/tutorials/sprite-editor.png" alt="The Sprite Editor slicing a sprite sheet into a grid of sprites."></p>
+<p>The Sprite Editor has four tools, selectable from its toolbar:</p>
+<ol>
+<li><strong>Sprite Creation</strong> — draw and edit the sprite rectangles themselves.</li>
+<li><strong>Secondary Textures</strong> — attach a normal map so 2D lights give your sprite relief.</li>
+<li><strong>Physic Shape</strong> — author the collision polygon colliders will use for this sprite.</li>
+<li><strong>Shadow Caster</strong> — author the occluder polygon used by 2D shadow casting.</li>
+</ol>
+<h3>Automatic and grid slicing</h3>
+<p>For sprite sheets you rarely slice by hand. Open the slicing options and choose a <strong>Slice Mode</strong>:</p>
+<ul>
+<li><strong>Automatic</strong> — detects sprites from transparent gaps.</li>
+<li><strong>Grid Size</strong> — cuts the sheet into cells of a fixed pixel size.</li>
+<li><strong>Columns &amp; Rows</strong> — cuts the sheet into an exact number of divisions.</li>
+</ul>
+<p>Set the <strong>Pivot</strong> for the generated sprites (usually <code>Middle</code>, or <code>Bottom</code> for characters standing on the ground), optionally add an <strong>Offset</strong> and <strong>Padding</strong> between cells, enable <strong>Remove Empty Rects</strong> to skip blank cells, and press <strong>Apply Slice</strong>.</p>
+<h3>Manual editing, pivots and borders</h3>
+<p>Click anywhere on the texture to create a new sprite rect, then drag its corners to fit. For each sprite the Inspector shows:</p>
+<ul>
+<li><strong>Rect</strong> — position and size in pixels.</li>
+<li><strong>Pivot</strong> — the sprite&#39;s origin: <code>Middle</code>, <code>Bottom Left</code>, <code>Custom</code>... Rotation and scaling happen around it.</li>
+<li><strong>Borders</strong> — left/right/top/bottom margins in pixels, drawn as green lines. These define the 9-slice regions used by the <code>Sliced</code> and <code>Tiled</code> render modes below.</li>
+</ul>
+<h2>The SpriteRenderer component</h2>
+<p>Add one with <strong>Add Behaviour → Sprite Renderer</strong> on any entity. Its Inspector properties:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Sprite</strong></td>
+<td>The sprite to draw.</td>
+</tr>
+<tr>
+<td><strong>Render Mode</strong></td>
+<td><code>Simple</code>, <code>Sliced</code> (9-slice) or <code>Tiled</code>.</td>
+</tr>
+<tr>
+<td><strong>Size</strong></td>
+<td>Target size in world units — only used by <code>Sliced</code> and <code>Tiled</code>.</td>
+</tr>
+<tr>
+<td><strong>Color</strong></td>
+<td>Tint multiplied over the sprite (white = unchanged).</td>
+</tr>
+<tr>
+<td><strong>Flip X / Flip Y</strong></td>
+<td>Mirror the sprite on each axis.</td>
+</tr>
+<tr>
+<td><strong>Sorting Layer</strong></td>
+<td>Which named layer this renderer draws in.</td>
+</tr>
+<tr>
+<td><strong>Order in Layer</strong></td>
+<td>Draw order within that layer — higher renders on top.</td>
+</tr>
+<tr>
+<td><strong>Sort Point</strong></td>
+<td>Sort by the sprite&#39;s <code>Center</code> or its <code>Pivot</code>.</td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td>Optional custom material/shader.</td>
+</tr>
+</tbody></table>
+<h3>How sorting works</h3>
+<p>Comet renders <strong>sorting layers</strong> in the order they are defined in the project, and inside each layer sorts by <strong>Order in Layer</strong>. Two classic setups:</p>
+<ul>
+<li>Backgrounds on a <code>Background</code> layer, gameplay on <code>Default</code>, UI overlays on a front layer.</li>
+<li>A top-down game where characters sort among trees: give everything the same layer and set <strong>Sort Point</strong> to <code>Pivot</code> with pivots at the feet.</li>
+</ul>
+<h3>9-slicing: Sliced and Tiled modes</h3>
+<p>If a sprite has <strong>Borders</strong> defined in the Sprite Editor, the <code>Sliced</code> render mode stretches only the center while corners keep their size — perfect for panels and buttons of any size. <code>Tiled</code> repeats the center instead of stretching it. In both cases the <strong>Size</strong> property controls the final world-space size:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class PanelSetup : CometBehaviour
+{
+    void Start()
+    {
+        SpriteRenderer renderer = SpriteRenderer::Get(entity);
+        renderer.renderMode = SpriteRenderMode::SLICED;
+        renderer.size = Vector2(10.0F, 4.0F); // world units, borders stay crisp
+    }
+}
+</code></pre>
+<h2>Controlling sprites from AngelScript</h2>
+<p>Every behaviour can grab the renderer on its entity with the static <code>Get</code> accessor. The pattern below is used all over the engine&#39;s sample project:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class PlayerVisuals : CometBehaviour
+{
+    private SpriteRenderer spriteRenderer;
+
+    void Start()
+    {
+        spriteRenderer = SpriteRenderer::Get(entity);
+    }
+
+    void Update()
+    {
+        // Face the direction we are moving.
+        float moveX = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1).x;
+        if (moveX != 0.0F)
+        {
+            spriteRenderer.flipX = moveX &lt; 0.0F;
+        }
+
+        // Flash red while hurt.
+        if (Input::GetKeyDown(KeyCode::H))
+        {
+            spriteRenderer.color = Color(1.0F, 0.25F, 0.25F, 1.0F);
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!NOTE]
+<code>SpriteRenderer::Get(entity)</code> returns a reference to the behaviour attached to that entity — the same pattern works for every behaviour type (<code>Camera::Get</code>, <code>Animator::Get</code>, ...).</p>
+</blockquote>
+<h2>Materials: shared vs. instanced</h2>
+<p>Renderers expose two material properties with very different behaviour:</p>
+<ul>
+<li><code>sharedMaterial</code> — the material <em>asset</em>. Editing it changes <strong>every</strong> renderer that uses it.</li>
+<li><code>material</code> — a per-renderer <strong>clone</strong>, created the first time you access it. Perfect for effects on a single entity, but you own its lifetime: call <code>Material::Remove()</code> when the entity is destroyed.</li>
+</ul>
+<p>This dissolve effect from the Sandbox project animates a shader parameter on one sprite only:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class Disolve : CometBehaviour
+{
+    private Material spriteMaterial;
+    private float value = 0.0F;
+
+    void Start()
+    {
+        // Accessing .material clones the shared material for this renderer only.
+        spriteMaterial = SpriteRenderer::Get(entity).material;
+    }
+
+    void Update()
+    {
+        spriteMaterial.SetFloat(&quot;value&quot;, value);
+        value += Time::GetDeltaTime();
+    }
+
+    void OnDestroy()
+    {
+        // Instanced materials are yours to clean up.
+        Material::Remove(spriteMaterial);
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!WARNING]
+Forgetting <code>Material::Remove()</code> on an instanced material leaks it. If you only need to change the tint, prefer the <code>color</code> property — it does not clone anything.</p>
+</blockquote>
+<h2>Loading sprites at runtime</h2>
+<p>Everything you assign in the Inspector can also be loaded from code through <code>RuntimeAssets</code>. Paths are relative to your project&#39;s <code>Assets/</code> folder, without extension:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class RuntimeSpriteSwap : CometBehaviour
+{
+    void Start()
+    {
+        // Load a sprite atlas and pick a sprite from it by name.
+        SpriteAtlas atlas = cast&lt;SpriteAtlas&gt;(
+            RuntimeAssets::LoadResource(&quot;Atlases/Characters&quot;, ResourceType::SPRITE_ATLAS));
+
+        if (atlas !is null)
+        {
+            SpriteRenderer::Get(entity).sprite = atlas.GetSprite(&quot;hero_idle_0&quot;);
+        }
+    }
+}
+</code></pre>
+<p>For big assets prefer the asynchronous variant, <code>RuntimeAssets::LoadResourceAsync()</code>, which returns a <code>ResourceAsyncOperation</code> you can poll (<code>isDone</code>, <code>progress</code>, <code>resource</code>).</p>
+<h2>Quick frame animation: AnimatedSprite</h2>
+<p>When all you need is a looping flipbook — a torch, a coin, an idle loop — the <strong>AnimatedSprite</strong> behaviour replaces the sprite every frame for you, no state machine required:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class TorchFlame : CometBehaviour
+{
+    void Start()
+    {
+        AnimatedSprite anim = AnimatedSprite::Get(entity);
+        anim.speed = 12.0F;       // frames per second
+        anim.loop = true;
+        anim.randomStart = true;  // desync multiple torches
+        anim.Play();
+    }
+}
+</code></pre>
+<p>The frame list is edited in the Inspector (or from code with <code>AddSprite()</code> / <code>SetSprite()</code>). For anything driven by game logic — walk/run/jump blending, transitions, events — use the full <strong>Animator</strong> instead: see the <a href="/tutorials/animation">Animation &amp; the Animator</a> tutorial.</p>
+<h2>The other 2D renderers</h2>
+<table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TextureRectRenderer</code></td>
+<td>Drawing a sub-rectangle of a texture directly (pixels or normalized UVs) without creating sprites.</td>
+</tr>
+<tr>
+<td><code>LineRenderer</code></td>
+<td>Polylines with a width curve and color gradient — lasers, ropes, debug paths.</td>
+</tr>
+<tr>
+<td><code>RenderTextureRenderer</code></td>
+<td>Displaying a <code>RenderTexture</code> that a camera renders into — minimaps, mirrors, picture-in-picture.</td>
+</tr>
+</tbody></table>
+<p>All of them inherit the same sorting-layer, color and material properties from <code>Renderer</code>, so everything you learned above applies.</p>
+<h2>Where to go next</h2>
+<p>Your sprites are on screen — now light them up with <a href="/tutorials/lights">2D Lights &amp; Shadows</a>, or bring them to life with the <a href="/tutorials/animation">Animator</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

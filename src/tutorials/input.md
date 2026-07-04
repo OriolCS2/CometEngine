@@ -3,7 +3,7 @@
 The most direct way to know what the player is doing is to ask the hardware every frame: *is W held right now? did they just click? how far is the stick pushed?* This is **polling**, and it lives in the `CometEngine::Input` namespace. It's perfect for prototypes, game jams, fixed control schemes and touch handling.
 
 > [!TIP]
-> When you're ready for rebindable controls and first-class gamepad support, graduate to the [Input Actions system](#tutorials/input-actions) — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.
+> When you're ready for rebindable controls and first-class gamepad support, graduate to the [Input Actions system](/tutorials/input-actions) — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.
 
 ## The three verbs: Down, Pressed, Up
 
@@ -145,8 +145,8 @@ class Player : CometBehaviour
 ```
 
 > [!WARNING]
-> Notice this reads two hard-coded keys for every action, and there's no way for the player to rebind them or for a designer to tune deadzones. That's fine for a jam — but the moment you want remappable controls, "hold to charge", or clean multi-device support, it's time for [Input Actions](#tutorials/input-actions).
+> Notice this reads two hard-coded keys for every action, and there's no way for the player to rebind them or for a designer to tune deadzones. That's fine for a jam — but the moment you want remappable controls, "hold to charge", or clean multi-device support, it's time for [Input Actions](/tutorials/input-actions).
 
 ## Where to go next
 
-Turn these reads into movement with [Physics](#tutorials/physics), or step up to rebindable, designer-friendly controls with [Input Actions](#tutorials/input-actions).
+Turn these reads into movement with [Physics](/tutorials/physics), or step up to rebindable, designer-friendly controls with [Input Actions](/tutorials/input-actions).

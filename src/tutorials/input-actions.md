@@ -3,7 +3,7 @@
 Reading `KeyCode::SPACE` directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no "hold to charge" without hand-rolled timers. Comet's **Input module** fixes all of that. You define named **actions** — "Jump", "Move", "Fire" — in the editor, bind them to any keys, buttons or sticks you like, and your code just asks the action for its value. Rebinding, deadzones, hold/tap detection and multi-device support all become configuration instead of code.
 
 > [!TIP]
-> This is the layer above [raw input polling](#tutorials/input). If you only need a couple of fixed keys, polling is simpler. For a shippable game with gamepad support and remappable controls, use actions.
+> This is the layer above [raw input polling](/tutorials/input). If you only need a couple of fixed keys, polling is simpler. For a shippable game with gamepad support and remappable controls, use actions.
 
 ## The model: groups, actions, bindings
 
@@ -17,7 +17,7 @@ Three concepts nest inside each other:
 
 Open **Project Settings → Input**. This is where the whole scheme is authored:
 
-![The Input panel in Project Settings, with groups, actions and their bindings.](./tutorials/input-settings.png)
+![The Input panel in Project Settings, with groups, actions and their bindings.](/tutorials/input-settings.png)
 
 1. **Add a group** (e.g. `Gameplay`).
 2. **Add actions** to it (e.g. `Move` as a `Vector2`, `Jump` as a `Button`) and pick each one's value type.
@@ -163,7 +163,7 @@ Now `Gameplay` actions go quiet while the pause menu is up, and the `UI` group's
 
 When a binding "doesn't fire" or a stick reads the wrong axis, open **Window → Input Debugger**. It lists every group and action with its **value type**, live **phase**, and current **value**, updating in real time — so you can watch an action light up as you press the key and confirm the binding is wired the way you think.
 
-![The Input Debugger panel showing live action values in play mode.](./tutorials/input-debugger.png)
+![The Input Debugger panel showing live action values in play mode.](/tutorials/input-debugger.png)
 
 At the top it also shows the **active device** (Keyboard & Mouse or Gamepad) and the **number of connected controllers**. Live values appear once you enter **play mode** — in edit mode it prompts you to press Play.
 
@@ -172,4 +172,4 @@ At the top it also shows the **active device** (Keyboard & Mouse or Gamepad) and
 
 ## Where to go next
 
-Drive a character with actions and [Physics](#tutorials/physics), or wire the `UI` group's Navigate/Submit into your [menus](#tutorials/ui-system).
+Drive a character with actions and [Physics](/tutorials/physics), or wire the `UI` group's Navigate/Submit into your [menus](/tutorials/ui-system).

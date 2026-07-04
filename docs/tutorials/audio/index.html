@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Audio &amp; Mixers — Comet Engine</title>
+  <meta name="description"
+    content="Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/audio" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Audio &amp; Mixers — Comet Engine" />
+  <meta property="og:description"
+    content="Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/audio" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Audio &amp; Mixers — Comet Engine" />
+  <meta name="twitter:description"
+    content="Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Audio &amp; Mixers</h1>
+<p>Sound sells the scene. Comet&#39;s audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical groups and snapshot layouts, DSP effects, and a scripting API that covers everything from &quot;play a beep&quot; to runtime device switching.</p>
+<h2>The three core pieces</h2>
+<ol>
+<li><strong>AudioSample</strong> — the imported sound resource (<code>.wav</code>, <code>.ogg</code>, <code>.mp3</code>).</li>
+<li><strong>AudioSource</strong> — a behaviour that plays samples from an entity.</li>
+<li><strong>AudioListener</strong> — the &quot;ears&quot;. Add exactly one, usually on the camera. Without a listener in the scene, nothing is heard (the console warns you).</li>
+</ol>
+<p>Add them from <strong>Add Behaviour → Audio → Audio Source / Audio Listener</strong>.</p>
+<p><img src="/tutorials/audiosource-inspector.png" alt="An AudioSource inspector with a clip and mixer group assigned."></p>
+<h2>The AudioSource inspector</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Mode</strong></td>
+<td><code>2D Audio</code> (pan only) or <code>3D Audio</code> (distance attenuation + Doppler).</td>
+</tr>
+<tr>
+<td><strong>Audio Sample</strong></td>
+<td>The clip to play.</td>
+</tr>
+<tr>
+<td><strong>Audio Mixer Group</strong></td>
+<td>Where the sound routes — see Mixers below.</td>
+</tr>
+<tr>
+<td><strong>Play On Enable</strong></td>
+<td>Auto-play whenever the behaviour is enabled.</td>
+</tr>
+<tr>
+<td><strong>Loop</strong></td>
+<td>Restart when finished.</td>
+</tr>
+<tr>
+<td><strong>Mute</strong></td>
+<td>Silence without stopping.</td>
+</tr>
+<tr>
+<td><strong>Volume</strong></td>
+<td>Linear gain <code>0.0 – 1.0</code>.</td>
+</tr>
+<tr>
+<td><strong>Pitch</strong></td>
+<td>Playback speed <code>0.01 – 2.0</code>.</td>
+</tr>
+<tr>
+<td><strong>Pan</strong></td>
+<td>Stereo balance <code>-1</code> (left) to <code>1</code> (right) — 2D mode.</td>
+</tr>
+<tr>
+<td><strong>Min / Max Distance</strong></td>
+<td>3D mode: full volume inside min, silent beyond max.</td>
+</tr>
+<tr>
+<td><strong>Ignore Effects / Ignore Listener Effects</strong></td>
+<td>Skip AudioEffect behaviours on this entity / on the listener.</td>
+</tr>
+</tbody></table>
+<p>Import settings on the AudioSample itself: <strong>Preload Data</strong> (decode on load — snappy playback) and <strong>Is Stream</strong> (stream from disk — big music files without the memory cost).</p>
+<h2>Playing sounds from AngelScript</h2>
+<p>The bread-and-butter controls mirror the inspector:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class DoorBell : CometBehaviour
+{
+    private AudioSource source;
+
+    void Start()
+    {
+        source = AudioSource::Get(entity);
+        source.volume = 0.8F;
+    }
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::E))
+        {
+            source.Play();     // also: Pause(), Resume(), Stop()
+        }
+
+        if (source.isFinished)
+        {
+            Debug::Log(&quot;ding done&quot;);
+        }
+    }
+}
+</code></pre>
+<p><code>isPlaying</code>, <code>isPaused</code> and <code>isFinished</code> report state; <code>timePosition</code> reads/writes the playhead in milliseconds; <code>PlayOnce(sample)</code> fires a different clip through this source&#39;s settings without replacing its assigned sample.</p>
+<h3>Fire-and-forget one-shots</h3>
+<p>For impacts, pickups and UI clicks you don&#39;t want to manage a source at all — use the static helpers:</p>
+<pre><code class="language-angelscript">// Play a sample globally (2D):
+AudioSource::PlaySingle(explosionSample, 0.9F);
+
+// Play at a world position (3D attenuation from that point):
+AudioSource::PlaySingleAtPosition(explosionSample, transform.position, 1.0F);
+
+// Need to control it afterwards? Use the tracked variants:
+AudioSource handle = AudioSource::PlaySingleTracked(alarmSample, 1.0F);
+// ... later:
+handle.Stop();
+</code></pre>
+<p>Untracked one-shots clean themselves up when playback ends.</p>
+<blockquote>
+<p>[!NOTE]
+Assign samples to script fields through the Inspector by declaring them, e.g. <code>AudioSample explosionSample;</code> — or load them at runtime with <code>RuntimeAssets::LoadResource(&quot;Audio/Explosion&quot;, ResourceType::AUDIO)</code>.</p>
+</blockquote>
+<h2>2D vs 3D sound</h2>
+<p>Set <strong>Mode</strong> to <code>3D Audio</code> and the source attenuates linearly between <strong>Min Distance</strong> and <strong>Max Distance</strong> from the listener, pans by direction, and applies <strong>Doppler</strong> when either side moves. Three global knobs shape the whole mix:</p>
+<pre><code class="language-angelscript">AudioSystem::SetRolloffScale(1.5F);     // stronger distance falloff everywhere
+AudioSystem::SetDopplerFactor(1.0F);    // 0 = off, 1 = realistic, &gt;1 exaggerated
+AudioSystem::SetAudioSourceDefaultMinDistance3D(2.0F);   // defaults for new sources
+AudioSystem::SetAudioSourceDefaultMaxDistance3D(40.0F);
+</code></pre>
+<h2>The Audio Mixer</h2>
+<p>Routing every source straight to the speakers gets unmanageable fast. Create a mixer asset — <strong>Create Resource → Audio Mixer</strong> in the Project panel — and open it to edit its group tree:</p>
+<p><img src="/tutorials/audio-mixer.png" alt="The Audio Mixer window with Master, Music and SFX groups."></p>
+<ul>
+<li>Every mixer starts with a <strong>Master</strong> group; add children like <code>Music</code>, <code>SFX</code>, <code>UI</code>, <code>Voice</code> from the context menu.</li>
+<li>Each group has <strong>Volume</strong>, <strong>Pitch</strong>, <strong>Muted</strong> and <strong>Use Effects</strong>.</li>
+<li>Volumes multiply down the tree: a sound in <code>SFX</code> plays at <code>master.volume × sfx.volume × source.volume</code>.</li>
+<li>Point each AudioSource&#39;s <strong>Audio Mixer Group</strong> field at the right group, and your options menu suddenly needs three sliders instead of three hundred.</li>
+</ul>
+<h3>Controlling groups from script</h3>
+<p>Mixer groups are assets — reference them from a script with a serialized handle field, assign them in the Inspector, and change them live. This is the Sandbox project&#39;s audio controller, trimmed:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Audio;
+
+class AudioOptions : CometBehaviour
+{
+    [Serialize] AudioMixerGroup master;
+    [Serialize] AudioMixerGroup music;
+    [Serialize] AudioMixerGroup effects;
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::M))
+        {
+            master.muted = !master.muted;       // mute everything
+        }
+        if (Input::GetKeyDown(KeyCode::NUM_1))
+        {
+            music.volume = 0.25F;               // duck the music
+        }
+        if (Input::GetKeyDown(KeyCode::NUM_2))
+        {
+            effects.volume = 1.0F;
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!TIP]
+<code>[Serialize]</code> exposes a handle field in the Inspector so you can drag the mixer group (a sub-resource of the mixer asset) straight into it.</p>
+</blockquote>
+<h3>Layouts: mixer snapshots</h3>
+<p>A mixer can store multiple <strong>layouts</strong> — complete snapshots of every group&#39;s settings. Author a <code>Default</code> layout and a <code>Underwater</code> layout (low-passed, muffled volumes), then switch at runtime:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Audio;
+
+class WaterZone : CometBehaviour
+{
+    [Serialize] AudioMixer gameMixer;
+
+    void EnterWater()
+    {
+        array&lt;AudioMixerLayout&gt; layouts = gameMixer.GetLayouts();
+        for (uint i = 0; i &lt; layouts.length(); i++)
+        {
+            if (!layouts[i].isDefault)
+            {
+                layouts[i].Activate();   // apply the snapshot
+            }
+        }
+    }
+}
+</code></pre>
+<p>The layout marked <strong>Is Default</strong> is applied automatically when the scene loads.</p>
+<h2>Audio effects</h2>
+<p>Four DSP effects ship as behaviours under <strong>Add Behaviour → Audio/Effects</strong>: <strong>AudioEffectDistortion</strong>, <strong>AudioEffectEcho</strong>, <strong>AudioEffectFlange</strong> and <strong>AudioEffectReverb</strong>.</p>
+<ul>
+<li>On a <strong>source entity</strong>, the effect processes that source&#39;s output.</li>
+<li>On the <strong>listener entity</strong>, it processes everything the listener hears — instant cave reverb.</li>
+</ul>
+<p>Per-source opt-outs: <code>ignoreEffects</code> (skip effects on the source&#39;s own entity) and <code>ignoreListenerEffects</code> (skip the listener&#39;s).</p>
+<h2>Global playback &amp; devices</h2>
+<p><code>AudioSystem</code> also handles app-wide concerns — pausing the whole mix for your pause menu, and output-device selection for a settings screen:</p>
+<pre><code class="language-angelscript">AudioSystem::SetMasterVolume(0.5F);
+AudioSystem::PauseAll();     // pause menu opened
+AudioSystem::ResumeAll();    // and closed
+AudioSystem::StopAll();
+
+// Offer an output-device picker:
+array&lt;string&gt; devices = AudioSystem::GetOutputDevices();
+AudioSystem::SetCurrentOutputDevice(devices[0]);
+</code></pre>
+<p>Hot-plugging is signalled through <code>AudioSystem</code> delegates (<code>onOutputDeviceConnected</code>, <code>onOutputDeviceDisconnected</code>) so your settings UI can refresh itself.</p>
+<h2>Where to go next</h2>
+<p>Give your buttons click sounds in the <a href="/tutorials/ui-system">UI tutorial</a>, or trigger footsteps from animation events in <a href="/tutorials/animation">Animation &amp; the Animator</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

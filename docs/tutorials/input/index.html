@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Reading Raw Input — Comet Engine</title>
+  <meta name="description"
+    content="The most direct way to know what the player is doing is to ask the hardware every frame: is W held right now? did they just click? how far is the stick pushe…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/input" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Reading Raw Input — Comet Engine" />
+  <meta property="og:description"
+    content="The most direct way to know what the player is doing is to ask the hardware every frame: is W held right now? did they just click? how far is the stick pushe…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/input" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reading Raw Input — Comet Engine" />
+  <meta name="twitter:description"
+    content="The most direct way to know what the player is doing is to ask the hardware every frame: is W held right now? did they just click? how far is the stick pushe…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Reading Raw Input</h1>
+<p>The most direct way to know what the player is doing is to ask the hardware every frame: <em>is W held right now? did they just click? how far is the stick pushed?</em> This is <strong>polling</strong>, and it lives in the <code>CometEngine::Input</code> namespace. It&#39;s perfect for prototypes, game jams, fixed control schemes and touch handling.</p>
+<blockquote>
+<p>[!TIP]
+When you&#39;re ready for rebindable controls and first-class gamepad support, graduate to the <a href="/tutorials/input-actions">Input Actions system</a> — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.</p>
+</blockquote>
+<h2>The three verbs: Down, Pressed, Up</h2>
+<p>For every button — keyboard, mouse or controller — there are three queries, and choosing the right one is most of the battle:</p>
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>True when...</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>GetKeyDown(key)</code></strong></td>
+<td>the <strong>first frame</strong> of the press (an edge)</td>
+<td>one-shot actions: jump, shoot, confirm, toggle</td>
+</tr>
+<tr>
+<td><strong><code>GetKeyPressed(key)</code></strong></td>
+<td><strong>every frame</strong> the key is held (a level)</td>
+<td>continuous actions: walking, charging, aiming</td>
+</tr>
+<tr>
+<td><strong><code>GetKeyUp(key)</code></strong></td>
+<td>the frame it is <strong>released</strong> (an edge)</td>
+<td>release actions: release a charged shot</td>
+</tr>
+</tbody></table>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Input;
+
+class Player : CometBehaviour
+{
+    float speed = 5.0F;
+
+    void Update()
+    {
+        // Continuous movement from held keys (level).
+        Vector2 move(0, 0);
+        if (Input::GetKeyPressed(KeyCode::W)) move.y += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) move.y -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) move.x -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) move.x += 1.0F;
+
+        // Fire once per press (edge).
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            Fire();
+        }
+
+        transform.Translate(move * speed * Time::GetDeltaTime(), Space::World);
+    }
+
+    void Fire() { }
+}
+</code></pre>
+<p><code>KeyCode</code> covers the whole keyboard: letters (<code>A</code>–<code>Z</code>), digits, <code>SPACE</code>, <code>RETURN</code>, <code>ESCAPE</code>, the arrows (<code>UP</code>/<code>DOWN</code>/<code>LEFT</code>/<code>RIGHT</code>), function keys (<code>F1</code>–<code>F12</code>) and modifiers (<code>SHIFT_LEFT</code>, <code>CONTROL_LEFT</code>, ...).</p>
+<h2>Mouse</h2>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Input;
+
+Vector2 mousePos = Input::GetMousePosition();     // screen space, (0,0) top-left
+Vector2 delta = Input::GetMouseMotion();          // movement since last frame
+float wheel = Input::GetMouseScrollMotion();      // scroll delta
+
+if (Input::GetMouseButtonDown(MouseCode::LEFT))   { /* click */ }
+if (Input::GetMouseButtonPressed(MouseCode::RIGHT)) { /* hold to aim */ }
+</code></pre>
+<p><code>MouseCode</code> is <code>LEFT</code>, <code>MIDDLE</code>, <code>RIGHT</code>, <code>BUTTON_4</code>, <code>BUTTON_5</code>. Mouse position is in <strong>screen space</strong> — to convert it to world space, go through your camera.</p>
+<h2>Controllers</h2>
+<p>Comet supports up to eight controllers. Pass a <code>ControllerNumber</code> to target a specific one, or <code>CONTROLLER_ANY</code> for the first connected:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Input;
+
+// Analog stick — a Vector2 in the range -1..+1 on each axis.
+Vector2 leftStick = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+float rightTrigger = Input::GetControllerTriggerValue(ControllerTrigger::RIGHT, ControllerNumber::CONTROLLER_1);
+
+// Buttons — same Down / Pressed / Up trio as the keyboard.
+if (Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
+{
+    Jump();
+    Input::MakeControllerRumble(0.6F, 0.2F);   // strength 0..1, duration in seconds
+}
+
+// Discover what&#39;s plugged in at runtime.
+array&lt;ControllerNumber&gt; pads = Input::GetControllersConnected();
+</code></pre>
+<p><code>ControllerCode</code> names the face buttons (<code>A</code>/<code>B</code>/<code>X</code>/<code>Y</code>), the D-pad (<code>DPAD_UP</code>...), shoulders, stick clicks and analog-stick directions as virtual buttons (<code>LEFT_AXIS_UP</code>...). <code>MakeControllerRumble</code> and <code>PlayHapticPreset</code> drive vibration. <code>GetActiveInputDevice()</code> tells you whether the player is currently on keyboard-and-mouse or a gamepad, so you can swap on-screen button prompts to match.</p>
+<h2>Touch</h2>
+<p>Touch is multi-touch aware: each finger is a <code>Touch</code> with a <strong>stable <code>id</code></strong> you can follow across frames, plus <code>position</code>, <code>motion</code> and a <code>state</code> (<code>STARTED</code> / <code>MOVED</code> / <code>ENDED</code>):</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Input;
+
+uint64 touchCount = Input::GetTouchCount();
+for (uint64 i = 0; i &lt; touchCount; i++)
+{
+    Touch touch = Input::GetTouchByIndex(i);
+    if (touch.state == TouchState::ENDED) continue;
+
+    // touch.id follows this finger; touch.position is screen space.
+    Debug::Log(&quot;finger &quot; + touch.id + &quot; at &quot; + touch.position.ToString());
+}
+</code></pre>
+<p>This is how the sample project&#39;s mobile controller builds a virtual joystick — it claims the first finger that lands on the left half of the screen (tracking it by <code>id</code>) and reads its offset from the touch-down point each frame. <code>Input::IsPinching()</code> and <code>Input::GetPinchZoom()</code> give you two-finger pinch for zoom.</p>
+<h2>Reading a whole character controller</h2>
+<p>Putting the verbs together — keyboard <em>and</em> gamepad, movement <em>and</em> a one-shot fire, exactly as the sample project&#39;s <code>Player</code> script does it:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Input;
+
+class Player : CometBehaviour
+{
+    float speed = 6.0F;
+
+    void Update()
+    {
+        // Movement: keyboard OR left stick, whichever the player uses.
+        Vector2 velocity = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+        if (Input::GetKeyPressed(KeyCode::W)) velocity.y += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) velocity.y -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) velocity.x -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) velocity.x += 1.0F;
+
+        // Fire: space OR the A button, once per press.
+        if (Input::GetKeyDown(KeyCode::SPACE) ||
+            Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
+        {
+            Fire();
+        }
+
+        transform.Translate(velocity * speed * Time::GetDeltaTime(), Space::World);
+    }
+
+    void Fire() { }
+}
+</code></pre>
+<blockquote>
+<p>[!WARNING]
+Notice this reads two hard-coded keys for every action, and there&#39;s no way for the player to rebind them or for a designer to tune deadzones. That&#39;s fine for a jam — but the moment you want remappable controls, &quot;hold to charge&quot;, or clean multi-device support, it&#39;s time for <a href="/tutorials/input-actions">Input Actions</a>.</p>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Turn these reads into movement with <a href="/tutorials/physics">Physics</a>, or step up to rebindable, designer-friendly controls with <a href="/tutorials/input-actions">Input Actions</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

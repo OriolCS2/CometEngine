@@ -6,48 +6,69 @@ import { renderMarketplace } from './src/pages/marketplace.js';
 import { renderAccount } from './src/pages/account.js';
 import { initAuthUI } from './src/lib/auth-ui.js';
 import { onAuthChange } from './src/lib/marketplace-api.js';
+import { navigate, currentRoute } from './src/lib/router.js';
 
 const app = document.getElementById('app');
 const navLinks = document.querySelectorAll('.nav-links a');
 
-function handleRoute() {
-  const hash = window.location.hash || '#home';
+// Per-route <title> and description. Prerendered pages ship these baked in;
+// this keeps them correct during client-side navigation too.
+const DEFAULT_TITLE = 'Comet Engine — Free 2D Game Engine (C++ & AngelScript)';
+const DEFAULT_DESC =
+  document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
 
-  // Returning from the Google OAuth redirect: Supabase puts the tokens in the
-  // URL hash. Show a holding screen until the session is stored, then land on
-  // the account page.
-  if (hash.includes('access_token=') || hash.includes('error_description=')) {
-    handleAuthCallback(hash);
+function setMeta(title, desc) {
+  document.title = title || DEFAULT_TITLE;
+  const m = document.querySelector('meta[name="description"]');
+  if (m) m.setAttribute('content', desc || DEFAULT_DESC);
+}
+
+function handleRoute() {
+  // Supabase returns OAuth tokens in the URL hash — handle that before routing.
+  const rawHash = window.location.hash;
+  if (rawHash.includes('access_token=') || rawHash.includes('error_description=')) {
+    handleAuthCallback(rawHash);
     return;
   }
 
-  // Docs and tutorial pages use a full-height, app-like layout: lock page
-  // scroll so only the sidebar tree and content panels scroll (no double
-  // scrollbar). The tutorials landing page (#tutorials) scrolls normally.
-  document.body.classList.toggle('docs-active', hash.startsWith('#docs') || hash.startsWith('#tutorials/'));
+  const route = currentRoute();            // legacy "#path" form the pages parse
+  const path = window.location.pathname;
 
-  // Update active nav link (subpages keep their section highlighted)
+  // Docs and tutorial pages use a full-height, app-like layout: lock page
+  // scroll so only the sidebar tree and content panels scroll.
+  document.body.classList.toggle(
+    'docs-active',
+    route.startsWith('#docs') || route.startsWith('#tutorials/')
+  );
+
+  // Highlight the active top-nav link (subpages keep their section active).
   navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    const isActive = href && href.startsWith('#') && (hash === href || hash.startsWith(href + '/'));
+    const href = link.getAttribute('href') || '';
+    const isActive = href.startsWith('/') && href !== '/' &&
+      (path === href || path.startsWith(href.replace(/\/$/, '') + '/'));
     link.classList.toggle('active', Boolean(isActive));
   });
 
-  // Render page
-  if (hash === '#home') {
+  if (route === '#home') {
+    setMeta(DEFAULT_TITLE, DEFAULT_DESC);
     renderHome(app);
-  } else if (hash.startsWith('#releases')) {
-    const tag = hash.replace('#releases', '').substring(1);
+  } else if (route.startsWith('#releases')) {
+    const tag = route.replace('#releases', '').substring(1);
+    setMeta('Releases — Comet Engine', 'Download the latest Comet Engine releases and read the patch notes.');
     renderReleases(app, tag);
-  } else if (hash.startsWith('#tutorials')) {
-    renderTutorials(app, hash);
-  } else if (hash.startsWith('#docs')) {
-    renderDocs(app, hash);
-  } else if (hash.startsWith('#marketplace')) {
-    renderMarketplace(app, hash);
-  } else if (hash.startsWith('#account')) {
-    renderAccount(app, hash);
+  } else if (route.startsWith('#tutorials')) {
+    renderTutorials(app, route);           // sets its own per-tutorial title
+  } else if (route.startsWith('#docs')) {
+    setMeta('Documentation — Comet Engine', 'API reference and documentation for the Comet Engine 2D game engine.');
+    renderDocs(app, route);
+  } else if (route.startsWith('#marketplace')) {
+    setMeta('Marketplace — Comet Engine', 'Browse and download assets and packages for Comet Engine.');
+    renderMarketplace(app, route);
+  } else if (route.startsWith('#account')) {
+    setMeta('Account — Comet Engine', DEFAULT_DESC);
+    renderAccount(app, route);
   } else {
+    setMeta(DEFAULT_TITLE, DEFAULT_DESC);
     renderHome(app);
   }
 }
@@ -62,7 +83,7 @@ function handleAuthCallback(hash) {
           <i class="fas fa-triangle-exclamation"></i>
           <h2>Sign-in failed</h2>
           <p>${message.replace(/</g, '&lt;')}</p>
-          <a href="#home" class="download-btn" style="font-size: 1rem;">Back to Home</a>
+          <a href="/" class="download-btn" style="font-size: 1rem;">Back to Home</a>
         </div>
       </div></section>
     `;
@@ -75,23 +96,29 @@ function handleAuthCallback(hash) {
     </div></section>
   `;
   // supabase-js consumes the tokens from the hash automatically; once the
-  // session lands, move to the account page.
+  // session lands, move to the account page (which also clears the hash).
   const unsubscribe = onAuthChange((user) => {
     if (user) {
       unsubscribe();
-      window.location.hash = '#account';
+      navigate('/account');
     }
   });
 }
 
-window.addEventListener('hashchange', handleRoute);
+// Intercept clicks on internal links so navigation stays an SPA (no reload).
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest?.('a');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (!href || !href.startsWith('/') || href.startsWith('//')) return; // external / anchor / mailto
+  if (a.target === '_blank' || a.hasAttribute('download') || a.getAttribute('rel') === 'external') return;
+  e.preventDefault();
+  navigate(href);
+});
+
+window.addEventListener('popstate', handleRoute);   // browser back/forward
+window.addEventListener('route-change', handleRoute); // navigate()
 window.addEventListener('load', handleRoute);
 
 initAuthUI();
-
-// Global click handler for documentation links
-document.addEventListener('click', (e) => {
-  if (e.target.tagName === 'A' && e.target.getAttribute('href')?.startsWith('#docs/')) {
-    // Vite/Hash routing handles this
-  }
-});

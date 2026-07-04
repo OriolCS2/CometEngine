@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Networking &amp; Multiplayer — Comet Engine</title>
+  <meta name="description"
+    content="Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven RPCs, automatic state replication, n…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/networking" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Networking &amp; Multiplayer — Comet Engine" />
+  <meta property="og:description"
+    content="Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven RPCs, automatic state replication, n…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/networking" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Networking &amp; Multiplayer — Comet Engine" />
+  <meta name="twitter:description"
+    content="Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven RPCs, automatic state replication, n…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Networking &amp; Multiplayer</h1>
+<p>Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven <strong>RPCs</strong>, automatic <strong>state replication</strong>, networked <strong>spawning</strong>, and a host-authoritative model that scales from a LAN co-op prototype to a 4-player arena. This tutorial walks the whole pipeline using the engine&#39;s own multiplayer sample as the guide.</p>
+<p><img src="/tutorials/multiplayer-game.png" alt="A networked entity: the Multiplayer Synchronizer in the Inspector, ready to replicate its transform to every peer."></p>
+<h2>The lay of the land</h2>
+<ul>
+<li>One machine is the <strong>host</strong> (also called the server) — it owns the truth. Everyone else is a <strong>client</strong>.</li>
+<li>Every connected machine gets a <strong>unique peer id</strong>: the host is always <code>1</code>, clients get <code>2</code>, <code>3</code>, ...</li>
+<li>A <strong>transport peer</strong> object moves the bytes. You create one and hand it to the global <code>Network::Multiplayer</code> API; from then on RPCs, replication and spawning ride on it:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Transport</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ENetMultiplayerPeer</code></td>
+<td>Desktop builds — UDP with reliability channels. The default choice.</td>
+</tr>
+<tr>
+<td><code>WebSocketMultiplayerPeer</code></td>
+<td>Web builds, or mixed web+desktop games with a socket server.</td>
+</tr>
+<tr>
+<td><code>WebRTCMultiplayerPeer</code></td>
+<td>Peer-to-peer with a signaling server.</td>
+</tr>
+<tr>
+<td><code>OfflineMultiplayerPeer</code></td>
+<td>Single-player that reuses your multiplayer code paths untouched.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!WARNING]
+Web builds cannot open native UDP/TCP sockets — on the web platform use <strong>WebSocket</strong> (or WebRTC); the ENet peer is desktop-only.</p>
+</blockquote>
+<h2>Hosting and joining</h2>
+<p>This is the sample&#39;s main menu, condensed. One button hosts, the other joins the address typed into an InputField:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::UI;
+using namespace CometEngine::SceneManagement;
+
+class MenuButton : CometBehaviour, IPointerClickAction
+{
+    int port = 7777;
+    string serverAddress = &quot;127.0.0.1&quot;;
+    string roomSceneName = &quot;Room&quot;;
+
+    // Keep the peer in a member handle: it must outlive this function!
+    private CometEngine::Network::ENetMultiplayerPeer peer;
+
+    void Host()
+    {
+        peer = CometEngine::Network::ENetMultiplayerPeer();
+        if (peer.CreateServer(port, 8))                    // port, max peers
+        {
+            Network::Multiplayer::SetMultiplayerPeer(peer);
+            Debug::Log(&quot;Hosting, my id = &quot; + formatInt(Network::Multiplayer::GetUniqueId()));
+            SceneManager::LoadScene(roomSceneName);
+        }
+        else
+        {
+            Debug::Log(&quot;Could not host on port &quot; + formatInt(port));
+        }
+    }
+
+    void Join()
+    {
+        peer = CometEngine::Network::ENetMultiplayerPeer();
+        if (peer.CreateClient(ReadIp(), port))
+        {
+            Network::Multiplayer::SetMultiplayerPeer(peer);
+            SceneManager::LoadScene(roomSceneName);
+        }
+    }
+
+    void OnPointerClick(PointerEvent event)
+    {
+        if (entity.name == &quot;HostButton&quot;) Host();
+        else if (entity.name == &quot;JoinButton&quot;) Join();
+    }
+
+    string ReadIp()
+    {
+        Entity ipEntity = Entity::Find(&quot;IpInput&quot;);
+        if (ipEntity !is null)
+        {
+            InputField field = InputField::Get(ipEntity);
+            if (field !is null &amp;&amp; field.textValue.length() &gt; 0)
+            {
+                return field.textValue;
+            }
+        }
+        return serverAddress;
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!IMPORTANT]
+Store the peer in a <strong>class member</strong>, like <code>peer</code> above. A peer declared as a local variable is destroyed when the function returns — and the connection dies with it.</p>
+</blockquote>
+<h3>Reacting to peers coming and going</h3>
+<p>The host typically watches connections to manage lobby slots:</p>
+<pre><code class="language-angelscript">void Start()
+{
+    if (!Network::Multiplayer::HasMultiplayerPeer())
+    {
+        return;
+    }
+
+    Network::Multiplayer::GetOnPeerConnected().Add(CometDelegateuint64(OnPeerConnected));
+    Network::Multiplayer::GetOnPeerDisconnected().Add(CometDelegateuint64(OnPeerDisconnected));
+}
+
+void OnPeerConnected(uint64 peerId)
+{
+    if (!Network::Multiplayer::IsServer()) return;   // only the host manages slots
+    Debug::Log(&quot;Peer joined: &quot; + formatInt(peerId));
+}
+
+void OnPeerDisconnected(uint64 peerId)
+{
+    if (!Network::Multiplayer::IsServer()) return;
+    Debug::Log(&quot;Peer left: &quot; + formatInt(peerId));
+}
+</code></pre>
+<h2>RPCs: calling methods across the network</h2>
+<p>Decorate a method with <code>[Rpc(...)]</code> and it becomes remotely callable. The decorator takes up to four values:</p>
+<pre><code class="language-angelscript">[Rpc(&lt;mode&gt;, &lt;sync&gt;, &lt;transfer&gt;, channel = 0)]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Values</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mode</strong></td>
+<td><code>&quot;any_peer&quot;</code> / <code>&quot;authority&quot;</code></td>
+<td>Who may invoke it: anyone, or only the entity&#39;s authority.</td>
+</tr>
+<tr>
+<td><strong>sync</strong></td>
+<td><code>&quot;call_local&quot;</code> / <code>&quot;&quot;</code></td>
+<td>Whether the <em>caller</em> also runs it locally.</td>
+</tr>
+<tr>
+<td><strong>transfer</strong></td>
+<td><code>&quot;reliable&quot;</code> / <code>&quot;unreliable&quot;</code> / <code>&quot;unreliable_ordered&quot;</code></td>
+<td>Delivery guarantee.</td>
+</tr>
+<tr>
+<td><strong>channel</strong></td>
+<td><code>0–15</code></td>
+<td>Ordering group for reliable packets.</td>
+</tr>
+</tbody></table>
+<p>Send with the two global helpers — broadcast, or to one peer:</p>
+<pre><code class="language-angelscript">// Broadcast to everyone (including yourself thanks to call_local):
+Network::Multiplayer::Rpc(this, &quot;SyncScore&quot;, score, wave);
+
+// Only to the host (peer 1):
+Network::Multiplayer::RpcId(this, 1, &quot;RequestColor&quot;, colorIndex);
+</code></pre>
+<p>And receive on the other side:</p>
+<pre><code class="language-angelscript">// Clients ask the host for something; the host validates and answers.
+[Rpc(&quot;any_peer&quot;, &quot;reliable&quot;)]
+void RequestColor(int colorIndex)
+{
+    if (!Network::Multiplayer::IsServer()) return;
+
+    // Which client called us?
+    int clientId = Network::Multiplayer::GetRemoteSenderId();
+    Debug::Log(&quot;Peer &quot; + formatInt(clientId) + &quot; wants color &quot; + formatInt(colorIndex));
+}
+
+// The host pushes state to everyone; call_local means the host applies it too.
+[Rpc(&quot;authority&quot;, &quot;call_local&quot;, &quot;reliable&quot;)]
+void SyncScore(int score, int wave)
+{
+    UpdateHud(score, wave);
+}
+</code></pre>
+<p>Pick the transfer mode by what the data is worth: <strong>unreliable</strong> for high-frequency input and cosmetic state (drops don&#39;t matter, the next packet fixes it), <strong>reliable</strong> for anything that must not be missed — fire commands, score changes, match flow.</p>
+<h2>Replicating state automatically</h2>
+<p>Writing RPCs for every variable gets old fast. Comet replicates <strong>fields</strong> for you with two decorators:</p>
+<pre><code class="language-angelscript">class ShipController : CometBehaviour
+{
+    // Sent once, inside the spawn packet — seeds late joiners.
+    [ReplicateOnSpawn] int ownerPeerId = 0;
+    [ReplicateOnSpawn] int colorIndex = 0;
+
+    // Sent as reliable deltas whenever the value changes.
+    [Replicate(&quot;on_change&quot;)] int health = 10;
+    [Replicate(&quot;on_change&quot;)] bool alive = true;
+
+    // &quot;always&quot; mode would send every frame, unreliably - for values that
+    // change constantly anyway.
+}
+</code></pre>
+<p>For transforms, don&#39;t replicate fields by hand — add a <strong>MultiplayerSynchronizer</strong> behaviour to the entity and configure it once:</p>
+<pre><code class="language-angelscript">void Start()
+{
+    MultiplayerSynchronizer sync = MultiplayerSynchronizer::Get(entity);
+    if (sync !is null)
+    {
+        sync.AddTransformPreset();   // replicate position/rotation/scale
+        sync.interpolate = true;     // smooth over network ticks on clients
+    }
+}
+</code></pre>
+<p>The synchronizer can also hide an entity from specific peers — <code>SetVisibilityFor(peerId, false)</code> — for fog of war or per-player secrets.</p>
+<h2>Spawning entities across the network</h2>
+<p>When the host instantiates a networked entity, every client needs a copy. A <strong>MultiplayerSpawner</strong> behaviour handles it: it registers spawnable prefabs (its <code>spawnLimit</code> caps runaway counts) and mirrors spawn/despawn to everyone:</p>
+<pre><code class="language-angelscript">// HOST only: spawn one ship per occupied lobby slot.
+void StartMatch()
+{
+    for (int i = 0; i &lt; 4; i++)
+    {
+        if (slotPeer[i] == 0) continue;
+
+        Entity ship = shipSpawner.Spawn(0);   // spawnable index 0
+        if (ship !is null)
+        {
+            ShipController sc = ShipController::Get(ship);
+            sc.ownerPeerId = slotPeer[i];      // [ReplicateOnSpawn] fields...
+            sc.colorIndex  = slotColor[i];     // ...travel inside the spawn packet
+        }
+    }
+
+    Network::Multiplayer::Rpc(this, &quot;BeginMatch&quot;);
+}
+</code></pre>
+<p>Because <code>ownerPeerId</code> and <code>colorIndex</code> are <code>[ReplicateOnSpawn]</code>, every client — even one that joins later — receives the ship already configured.</p>
+<h2>Authority: who simulates what</h2>
+<p>Every entity has a <strong>multiplayer authority</strong> — the peer that simulates it. By default that&#39;s the host. Three calls on <code>Behaviour</code> manage it:</p>
+<pre><code class="language-angelscript">IsMultiplayerAuthority();          // am I the one simulating this entity?
+GetMultiplayerAuthority();         // whose is it? (peer id)
+SetMultiplayerAuthority(peerId);   // hand it over
+</code></pre>
+<p>The sample&#39;s ships stay <strong>host-authoritative</strong>, which yields the classic, cheat-resistant split — <em>owners send input, the host simulates, state replicates back</em>:</p>
+<pre><code class="language-angelscript">void Update()
+{
+    // 1. The OWNING player reads input and ships it to the host.
+    if (IsOwner() &amp;&amp; alive)
+    {
+        float mx = 0.0F, my = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::W)) my += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) my -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) mx -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) mx += 1.0F;
+
+        if (Network::Multiplayer::IsServer())
+        {
+            inX = mx; inY = my;                                   // host: apply directly
+        }
+        else
+        {
+            Network::Multiplayer::RpcId(this, 1, &quot;RecvInput&quot;, mx, my);   // client: send
+        }
+    }
+
+    // 2. The HOST simulates every ship from the latest input.
+    if (IsMultiplayerAuthority() &amp;&amp; alive)
+    {
+        transform.Translate(Vector3(inX, inY, 0) * speed * Time::GetDeltaTime(), Space::World);
+        // position replicates to everyone via the MultiplayerSynchronizer
+    }
+}
+
+bool IsOwner()
+{
+    return ownerPeerId == Network::Multiplayer::GetUniqueId();
+}
+
+[Rpc(&quot;any_peer&quot;, &quot;unreliable&quot;)]      // input: high-rate, drop-tolerant
+void RecvInput(float mx, float my)
+{
+    if (!IsMultiplayerAuthority()) return;
+    inX = mx; inY = my;
+}
+</code></pre>
+<p>Note the guard inside every RPC — <strong>never trust the network</strong>: <code>RecvInput</code> ignores calls when this peer isn&#39;t the authority, and host-side handlers validate requests before applying them.</p>
+<h2>Cheat sheet</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Call</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Install a transport</td>
+<td><code>Network::Multiplayer::SetMultiplayerPeer(peer)</code></td>
+</tr>
+<tr>
+<td>Who am I?</td>
+<td><code>GetUniqueId()</code> (host = 1), <code>IsServer()</code></td>
+</tr>
+<tr>
+<td>Broadcast an RPC</td>
+<td><code>Rpc(this, &quot;Method&quot;, args...)</code> (up to 8 args)</td>
+</tr>
+<tr>
+<td>RPC to one peer</td>
+<td><code>RpcId(this, peerId, &quot;Method&quot;, args...)</code></td>
+</tr>
+<tr>
+<td>Who called this RPC?</td>
+<td><code>GetRemoteSenderId()</code></td>
+</tr>
+<tr>
+<td>Peer joined/left</td>
+<td><code>GetOnPeerConnected() / GetOnPeerDisconnected()</code> <code>.Add(CometDelegateuint64(Handler))</code></td>
+</tr>
+<tr>
+<td>Kick a peer</td>
+<td><code>DisconnectPeer(peerId, force)</code></td>
+</tr>
+<tr>
+<td>Sync fields</td>
+<td><code>[Replicate(&quot;on_change&quot;)]</code>, <code>[Replicate(&quot;always&quot;)]</code>, <code>[ReplicateOnSpawn]</code></td>
+</tr>
+<tr>
+<td>Sync transforms</td>
+<td><code>MultiplayerSynchronizer</code> + <code>AddTransformPreset()</code></td>
+</tr>
+<tr>
+<td>Networked spawn</td>
+<td><code>MultiplayerSpawner.Spawn(index)</code> on the host</td>
+</tr>
+<tr>
+<td>Leave the session</td>
+<td><code>Network::Multiplayer::ClearMultiplayerPeer()</code></td>
+</tr>
+</tbody></table>
+<h2>Where to go next</h2>
+<p>Build the lobby screen with the <a href="/tutorials/ui-system">UI system</a>, then package a client for your friends in <a href="/tutorials/build-and-patches">Exporting Builds &amp; Shipping Patches</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

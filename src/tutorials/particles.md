@@ -2,7 +2,7 @@
 
 Fire, smoke, sparks, magic, rain, explosions — all of it comes from the **Particle System**, a modular emitter modelled after Unity's. You start with an emitter and switch on **modules** — emission, shape, colour-over-lifetime, velocity, size, texture animation — each shaping the particles a little more.
 
-![The Particle System playing in the editor with the module inspector and preview controls.](./tutorials/particles-scene.png)
+![The Particle System playing in the editor with the module inspector and preview controls.](/tutorials/particles-scene.png)
 
 ## The emitter and its modules
 
@@ -87,8 +87,8 @@ The classic recipe, all in the inspector:
 
 ## UI particles
 
-Need particles *inside* a UI canvas — confetti on a victory screen, sparkles on a button? Use **UI Particle System** instead. It's the same module set but renders in the UI layer under a `RectTransform`, so it respects canvas sorting and masks. See the [UI tutorial](#tutorials/ui-system) for the canvas basics.
+Need particles *inside* a UI canvas — confetti on a victory screen, sparkles on a button? Use **UI Particle System** instead. It's the same module set but renders in the UI layer under a `RectTransform`, so it respects canvas sorting and masks. See the [UI tutorial](/tutorials/ui-system) for the canvas basics.
 
 ## Where to go next
 
-Trigger a burst from an [animation event](#tutorials/animation), attach one to a [networked spawn](#tutorials/networking), or light it dramatically with [2D lights](#tutorials/lights).
+Trigger a burst from an [animation event](/tutorials/animation), attach one to a [networked spawn](/tutorials/networking), or light it dramatically with [2D lights](/tutorials/lights).

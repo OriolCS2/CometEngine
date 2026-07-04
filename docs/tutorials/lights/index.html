@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>2D Lights &amp; Shadows — Comet Engine</title>
+  <meta name="description"
+    content="Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/lights" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="2D Lights &amp; Shadows — Comet Engine" />
+  <meta property="og:description"
+    content="Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/lights" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="2D Lights &amp; Shadows — Comet Engine" />
+  <meta name="twitter:description"
+    content="Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>2D Lights &amp; Shadows</h1>
+<p>Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal-map support — all layer-aware and fully scriptable.</p>
+<p><img src="/tutorials/light-scene.png" alt="A Point Light on the ship&#39;s engine: the radius gizmo in the Scene view, and every light property in the Inspector."></p>
+<h2>How 2D lighting works in Comet</h2>
+<p>Lights in Comet accumulate into a per-<strong>sorting-layer</strong> light buffer. That single sentence has two important consequences:</p>
+<ol>
+<li><strong>Every light declares which sorting layers it affects.</strong> By default the <strong>All Sorting Layers</strong> toggle is on and the light reaches everything; untick it to pick specific layers — a light whose list doesn&#39;t include the layer a sprite renders on will never touch that sprite, no matter how close it is.</li>
+<li><strong>Lights compose with a blend mode</strong>, per light:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Blend Mode</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Additive</code></td>
+<td>Brightens what is below — the default for almost everything.</td>
+</tr>
+<tr>
+<td><code>Subtract</code></td>
+<td>Darkens — great for pockets of darkness or negative lights.</td>
+</tr>
+<tr>
+<td><code>Mix</code></td>
+<td>Alpha-blends the light color over the layer.</td>
+</tr>
+<tr>
+<td><code>Mask</code></td>
+<td>Multiplies — use it to reveal or hide by light shape.</td>
+</tr>
+</tbody></table>
+<p>There is no separate &quot;ambient light&quot; setting: an ambient is simply a <strong>GlobalLight</strong> with a low intensity added to your layers.</p>
+<h2>The five light types</h2>
+<p><img src="/tutorials/light-types.png" alt="All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light."></p>
+<p>All lights are behaviours added from <strong>Add Behaviour → Lighting</strong> (<code>Global Light</code>, <code>Point Light</code>, <code>Freeform Light</code>, <code>Parametric Light</code>, <code>Sprite Light</code>). They share a common base (color, intensity, blend mode, shadows, sorting layers) and each adds its own shape:</p>
+<h3>GlobalLight</h3>
+<p>A directional, sun-like light that hits everything on its layers equally, regardless of position. Use it for ambient fill and daylight. Its only extra property is <strong>Max Shadow Distance</strong> — how far from the view shadows are still rendered (<code>0</code> = unlimited).</p>
+<h3>PointLight</h3>
+<p>Light radiating from a point, with angular and radial falloff — your lamps, torches, spotlights, projectiles:</p>
+<ul>
+<li><strong>Inner / Outer Radius</strong> — full intensity inside the inner radius, fading to zero at the outer one.</li>
+<li><strong>Inner / Outer Angle</strong> — narrow these from 360° to make a cone spotlight.</li>
+<li><strong>Falloff</strong> — the shape of the fade curve (0–1).</li>
+<li><strong>Texture</strong> — optional cookie texture to mask the light.</li>
+</ul>
+<h3>FreeformLight</h3>
+<p>A light whose shape is a <strong>custom polygon</strong> you edit right in the scene view — click <strong>Edit Shape</strong> in its Inspector and drag the vertices. Ideal for light shafts through windows or oddly-shaped glowing areas. <strong>Falloff Radius</strong> controls how far the light fades past the polygon&#39;s edges.</p>
+<h3>ParametricLight</h3>
+<p>Like Freeform, but the shape is a regular polygon: pick the number of <strong>Sides</strong> (3–39, higher ≈ circle) and a <strong>Radius</strong>. Cheaper than Freeform and perfect for simple geometric glows.</p>
+<h3>SpriteLight</h3>
+<p>The light&#39;s shape <em>is a sprite</em>: its alpha channel masks the light. Stained-glass windows, glowing signs, projected logos. <strong>Cookie Scale</strong> and <strong>Cookie Offset</strong> adjust the sprite within the light.</p>
+<h2>Common light properties</h2>
+<p>Every light exposes these in the Inspector:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Color</strong></td>
+<td>The light&#39;s color.</td>
+</tr>
+<tr>
+<td><strong>Intensity</strong></td>
+<td>Multiplier over the color — values above 1 overdrive, negative values darken.</td>
+</tr>
+<tr>
+<td><strong>Sorting Layers</strong></td>
+<td>The layers this light affects — <strong>All Sorting Layers</strong> by default, or a hand-picked list.</td>
+</tr>
+<tr>
+<td><strong>Height</strong></td>
+<td>Virtual Z height used by normal-mapped sprites to fake relief. No normal map → no visible effect.</td>
+</tr>
+<tr>
+<td><strong>Blend Mode</strong></td>
+<td><code>Additive</code>, <code>Subtract</code>, <code>Mix</code> or <code>Mask</code>.</td>
+</tr>
+<tr>
+<td><strong>Cast Shadows</strong></td>
+<td>Enables shadow rendering for this light (see below).</td>
+</tr>
+</tbody></table>
+<h2>Shadows</h2>
+<p>Two pieces cooperate to produce 2D shadows:</p>
+<ol>
+<li><p><strong>Lights</strong> opt in with <strong>Cast Shadows</strong> and choose a <strong>Shadow Mode</strong>:</p>
+<ul>
+<li><code>Soft</code> — ray-marched, soft-edged penumbras. Prettier, more expensive. <strong>Shadow Softness</strong> controls the penumbra.</li>
+<li><code>Crisp</code> — sharp shadow-map shadows. Cheap and stylized.</li>
+</ul>
+<p>Both modes share <strong>Shadow Color</strong> (the tint of shadowed areas) and <strong>Shadow Strength</strong> (0 = invisible, 1 = fully dark).</p>
+</li>
+<li><p><strong>Occluders</strong> are entities with a <strong>Shadow Caster</strong> behaviour (<strong>Add Behaviour → Lighting → Shadow Caster</strong>). Its <strong>Shape Source</strong> is either:</p>
+<ul>
+<li><code>Sprite</code> — reuses the occluder polygon authored in the <a href="/tutorials/sprite-rendering">Sprite Editor&#39;s Shadow Caster tool</a>, or</li>
+<li><code>Custom</code> — a polygon you edit in the scene, with a <strong>Closed</strong> toggle and a <strong>Cull Mode</strong> for one-sided shadows.</li>
+</ul>
+<p>Shadow Casters also filter by <strong>Sorting Layers</strong>, so an occluder only blocks lights on matching layers.</p>
+</li>
+</ol>
+<p><img src="/tutorials/shadows.png" alt="A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground."></p>
+<h2>Scripting lights</h2>
+<p>Lights are regular behaviours: fetch them with the static <code>Get</code> accessor and drive any property. A flickering torch:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class TorchLight : CometBehaviour
+{
+    private PointLight torch;
+    private float time = 0.0F;
+
+    void Start()
+    {
+        torch = PointLight::Get(entity);
+        torch.color = Color(1.0F, 0.7F, 0.3F, 1.0F); // warm orange
+        torch.outerRadius = 4.0F;
+        torch.fallOff = 0.6F;
+        torch.castShadows = true;
+        torch.shadowMode = ShadowMode::SOFT;
+        torch.shadowSoftness = 0.8F;
+    }
+
+    void Update()
+    {
+        // Two overlapping sine waves make a cheap, organic flicker.
+        time += Time::GetDeltaTime();
+        torch.intensity = 1.5F + Math::Sin(time * 9.0F) * 0.15F + Math::Sin(time * 23.0F) * 0.08F;
+    }
+}
+</code></pre>
+<p>A day/night cycle driving a GlobalLight, including which layers it lights:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class DayNightCycle : CometBehaviour
+{
+    private GlobalLight sun;
+    private float dayTime = 0.0F;      // 0..1 over a full day
+    float dayLengthSeconds = 120.0F;
+
+    void Start()
+    {
+        sun = GlobalLight::Get(entity);
+
+        array&lt;string&gt; layers = {&quot;Background&quot;, &quot;Default&quot;, &quot;Characters&quot;};
+        sun.SetSortingLayers(layers);
+    }
+
+    void Update()
+    {
+        dayTime += Time::GetDeltaTime() / dayLengthSeconds;
+        if (dayTime &gt; 1.0F)
+        {
+            dayTime -= 1.0F;
+        }
+
+        // Bright warm white at noon, dim blue at midnight.
+        float daylight = (Math::Sin(dayTime * 6.2831853F) + 1.0F) * 0.5F;
+        sun.intensity = 0.25F + daylight * 0.9F;
+        sun.color = Color(0.55F + daylight * 0.45F,
+                          0.6F + daylight * 0.4F,
+                          0.8F + daylight * 0.1F,
+                          1.0F);
+    }
+}
+</code></pre>
+<p>Every light type has the same accessors as any behaviour — <code>PointLight::Get(entity)</code>, <code>PointLight::GetAll(entity)</code>, <code>PointLight::GetInParent(entity)</code>, <code>PointLight::GetInChildren(entity)</code> — and the generic <code>BaseLight::Get(entity)</code> works when you don&#39;t care which kind it is.</p>
+<h2>Normal maps and the Height property</h2>
+<p>If a sprite has a <strong>normal map</strong> assigned (via the Sprite Editor&#39;s <strong>Secondary Textures</strong> tool), lights shade it as if it had depth. The light&#39;s <strong>Height</strong> property is its virtual distance above the 2D plane: low values give dramatic, grazing relief; high values flatten the effect. Without a normal map, <code>height</code> changes nothing — don&#39;t be surprised when the slider seems dead on flat art.</p>
+<h2>Performance notes</h2>
+<ul>
+<li><strong>Crisp shadows are cheaper than Soft</strong> — reserve soft shadows for hero lights.</li>
+<li>Shape cost grows with complexity: <strong>Point &lt; Parametric &lt; Freeform</strong>.</li>
+<li>Lights only pay for the sorting layers they affect. Keep the <code>Sorting Layers</code> lists tight.</li>
+<li>A handful of lights is fine on every platform; hundreds of shadow-casting lights are not. Profile on your weakest target.</li>
+</ul>
+<h2>Where to go next</h2>
+<p>Combine lights with the sprites you set up in <a href="/tutorials/sprite-rendering">Sprite Rendering</a>, or give your scene motion with <a href="/tutorials/animation">Animation &amp; the Animator</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

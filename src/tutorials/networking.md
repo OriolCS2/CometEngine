@@ -2,7 +2,7 @@
 
 Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven **RPCs**, automatic **state replication**, networked **spawning**, and a host-authoritative model that scales from a LAN co-op prototype to a 4-player arena. This tutorial walks the whole pipeline using the engine's own multiplayer sample as the guide.
 
-![A networked entity: the Multiplayer Synchronizer in the Inspector, ready to replicate its transform to every peer.](./tutorials/multiplayer-game.png)
+![A networked entity: the Multiplayer Synchronizer in the Inspector, ready to replicate its transform to every peer.](/tutorials/multiplayer-game.png)
 
 ## The lay of the land
 
@@ -304,4 +304,4 @@ Note the guard inside every RPC — **never trust the network**: `RecvInput` ign
 
 ## Where to go next
 
-Build the lobby screen with the [UI system](#tutorials/ui-system), then package a client for your friends in [Exporting Builds & Shipping Patches](#tutorials/build-and-patches).
+Build the lobby screen with the [UI system](/tutorials/ui-system), then package a client for your friends in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).

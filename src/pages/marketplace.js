@@ -1,3 +1,4 @@
+import { navigate } from '../lib/router.js';
 import {
   CATEGORIES, isBackendConfigured, listPackages, getPackageBySlug, listVersions,
   getProfile, getZipUrl, recordDownload,
@@ -106,7 +107,7 @@ async function loadGrid(grid) {
 function packageCard(pkg) {
   const author = pkg.profiles?.display_name || 'Unknown';
   return `
-    <a href="#marketplace/${encodeURIComponent(pkg.slug)}" class="mp-card">
+    <a href="/marketplace/${encodeURIComponent(pkg.slug)}" class="mp-card">
       <div class="mp-card-top">
         ${pkg.icon_url
           ? `<img class="mp-card-icon" src="${escapeHtml(pkg.icon_url)}" alt="" loading="lazy">`
@@ -167,7 +168,7 @@ async function renderPackageDetail(container, slug) {
     <section class="mp-section">
       <div class="container">
         ${demoBanner()}
-        <a href="#marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
+        <a href="/marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
         <div id="mp-mod-bar"></div>
 
         <div class="mp-detail-header">
@@ -178,7 +179,7 @@ async function renderPackageDetail(container, slug) {
             <h1>${escapeHtml(pkg.name)}</h1>
             <p class="mp-detail-summary">${escapeHtml(pkg.summary)}</p>
             <div class="mp-detail-meta">
-              <a class="mp-author-chip" href="#marketplace/publisher/${encodeURIComponent(pkg.owner_id)}">
+              <a class="mp-author-chip" href="/marketplace/publisher/${encodeURIComponent(pkg.owner_id)}">
                 ${pkg.profiles?.avatar_url ? `<img src="${escapeHtml(pkg.profiles.avatar_url)}" alt="" referrerpolicy="no-referrer">` : '<i class="fas fa-user"></i>'}
                 ${escapeHtml(author)}
               </a>
@@ -274,8 +275,8 @@ async function renderModerationBar(container, pkg) {
       </span>
       <span class="mp-mod-actions">
         ${isOwner ? `
-          <a class="filter-btn" href="#account/edit/${encodeURIComponent(pkg.id)}"><i class="fas fa-pen"></i> Edit</a>
-          <a class="filter-btn" href="#account/version/${encodeURIComponent(pkg.id)}"><i class="fas fa-circle-up"></i> New version</a>
+          <a class="filter-btn" href="/account/edit/${encodeURIComponent(pkg.id)}"><i class="fas fa-pen"></i> Edit</a>
+          <a class="filter-btn" href="/account/version/${encodeURIComponent(pkg.id)}"><i class="fas fa-circle-up"></i> New version</a>
         ` : ''}
         <button class="filter-btn" id="mp-mod-status">
           ${isPublished ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
@@ -306,7 +307,7 @@ async function renderModerationBar(container, pkg) {
     try {
       await deletePackage(pkg);
       showToast(`"${pkg.name}" was deleted.`, 'success');
-      window.location.hash = '#marketplace';
+      navigate('/marketplace');
     } catch (err) {
       btn.disabled = false;
       showToast(`Delete failed: ${err.message}`, 'error');
@@ -409,7 +410,7 @@ async function renderPublisher(container, userId) {
       <section class="mp-section">
         <div class="container">
           ${demoBanner()}
-          <a href="#marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
+          <a href="/marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
           <div class="mp-publisher-header">
             ${profile?.avatar_url
               ? `<img src="${escapeHtml(profile.avatar_url)}" alt="" referrerpolicy="no-referrer">`
@@ -434,7 +435,7 @@ function renderError(container, message) {
   container.innerHTML = `
     <section class="mp-section">
       <div class="container">
-        <a href="#marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
+        <a href="/marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
         <div class="mp-empty"><i class="fas fa-triangle-exclamation"></i><p>${escapeHtml(message)}</p></div>
       </div>
     </section>

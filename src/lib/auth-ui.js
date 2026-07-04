@@ -1,3 +1,4 @@
+import { navigate, currentRoute } from './router.js';
 import { isBackendConfigured, onAuthChange, signInWithGoogle, signOut, ensureProfile, isCurrentUserAdmin } from './marketplace-api.js';
 import { escapeHtml, showToast } from './ui.js';
 
@@ -56,8 +57,8 @@ function render(host, user) {
     <button class="nav-avatar" id="nav-avatar" title="${escapeHtml(name)}">${avatar}</button>
     <div class="nav-menu" id="nav-menu" hidden>
       <div class="nav-menu-name">${escapeHtml(name)}</div>
-      <a href="#account"><i class="fas fa-cubes"></i> My Packages</a>
-      <a href="#account/new"><i class="fas fa-upload"></i> Upload Package</a>
+      <a href="/account"><i class="fas fa-cubes"></i> My Packages</a>
+      <a href="/account/new"><i class="fas fa-upload"></i> Upload Package</a>
       <button id="nav-signout"><i class="fas fa-right-from-bracket"></i> Sign out</button>
     </div>
   `;
@@ -88,7 +89,7 @@ function render(host, user) {
     try {
       await signOut();
       showToast('Signed out.', 'success');
-      if (window.location.hash.startsWith('#account')) window.location.hash = '#marketplace';
+      if (currentRoute().startsWith('#account')) navigate('/marketplace');
     } catch (e) {
       showToast(`Sign-out failed: ${e.message}`, 'error');
     }

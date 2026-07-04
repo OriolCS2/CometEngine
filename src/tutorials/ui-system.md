@@ -2,7 +2,7 @@
 
 Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a **Canvas** at the root, **RectTransform** on every element, and a family of widgets (Button, Text, Image, InputField, Slider...) that raise events your scripts react to.
 
-![A Canvas with a button selected, showing the RectTransform anchors in the inspector.](./tutorials/ui-canvas.png)
+![A Canvas with a button selected, showing the RectTransform anchors in the inspector.](/tutorials/ui-canvas.png)
 
 ## The Canvas
 
@@ -246,4 +246,4 @@ Text styling is per-widget regardless of the font kind: `fontSize` (or `autoFont
 
 ## Where to go next
 
-Wire your new menu to actual gameplay: start a match in [Networking & Multiplayer](#tutorials/networking), or make the settings screen control [Audio & Mixers](#tutorials/audio).
+Wire your new menu to actual gameplay: start a match in [Networking & Multiplayer](/tutorials/networking), or make the settings screen control [Audio & Mixers](/tutorials/audio).

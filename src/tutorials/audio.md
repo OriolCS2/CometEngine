@@ -10,7 +10,7 @@ Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud
 
 Add them from **Add Behaviour → Audio → Audio Source / Audio Listener**.
 
-![An AudioSource inspector with a clip and mixer group assigned.](./tutorials/audiosource-inspector.png)
+![An AudioSource inspector with a clip and mixer group assigned.](/tutorials/audiosource-inspector.png)
 
 ## The AudioSource inspector
 
@@ -101,7 +101,7 @@ AudioSystem::SetAudioSourceDefaultMaxDistance3D(40.0F);
 
 Routing every source straight to the speakers gets unmanageable fast. Create a mixer asset — **Create Resource → Audio Mixer** in the Project panel — and open it to edit its group tree:
 
-![The Audio Mixer window with Master, Music and SFX groups.](./tutorials/audio-mixer.png)
+![The Audio Mixer window with Master, Music and SFX groups.](/tutorials/audio-mixer.png)
 
 - Every mixer starts with a **Master** group; add children like `Music`, `SFX`, `UI`, `Voice` from the context menu.
 - Each group has **Volume**, **Pitch**, **Muted** and **Use Effects**.
@@ -199,4 +199,4 @@ Hot-plugging is signalled through `AudioSystem` delegates (`onOutputDeviceConnec
 
 ## Where to go next
 
-Give your buttons click sounds in the [UI tutorial](#tutorials/ui-system), or trigger footsteps from animation events in [Animation & the Animator](#tutorials/animation).
+Give your buttons click sounds in the [UI tutorial](/tutorials/ui-system), or trigger footsteps from animation events in [Animation & the Animator](/tutorials/animation).

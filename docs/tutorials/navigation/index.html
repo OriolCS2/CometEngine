@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Navigation: NavMesh, Agents &amp; Obstacles — Comet Engine</title>
+  <meta name="description"
+    content="Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked navigation mesh, A\ path queries with f…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/navigation" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Navigation: NavMesh, Agents &amp; Obstacles — Comet Engine" />
+  <meta property="og:description"
+    content="Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked navigation mesh, A\ path queries with f…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/navigation" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Navigation: NavMesh, Agents &amp; Obstacles — Comet Engine" />
+  <meta name="twitter:description"
+    content="Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked navigation mesh, A\ path queries with f…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Navigation: NavMesh, Agents &amp; Obstacles</h1>
+<p>Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked <strong>navigation mesh</strong>, <strong>A*</strong> path queries with funnel smoothing, and optional <strong>RVO collision avoidance</strong> so crowds of agents don&#39;t clip through one another.</p>
+<p><img src="/tutorials/navigation-scene.png" alt="A Navigation Region covering the scene, a Navigation Obstacle ringing the cloud, and the region&#39;s settings — including the Bake button — in the Inspector."></p>
+<h2>The building blocks</h2>
+<p>Four behaviours, all under <strong>Add Behaviour</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Navigation Region</strong></td>
+<td>Defines <em>where walking is possible</em> and bakes the navmesh.</td>
+</tr>
+<tr>
+<td><strong>Navigation Agent</strong></td>
+<td>Asks for paths and follows them; optionally avoids other agents.</td>
+</tr>
+<tr>
+<td><strong>Navigation Obstacle</strong></td>
+<td>Carves holes in the navmesh and/or pushes agents away dynamically.</td>
+</tr>
+<tr>
+<td><strong>Navigation Link</strong></td>
+<td>Connects two points that aren&#39;t walkable-between — jumps, teleporters, bridges.</td>
+</tr>
+</tbody></table>
+<h2>Setting up the walkable area</h2>
+<ol>
+<li>Create an entity and add a <strong>Navigation Region</strong>.</li>
+<li>Set its <strong>Size</strong> — the rectangle to bake — or click <strong>Edit Outline</strong> and drag the green vertices to author any closed polygon.</li>
+<li>Set <strong>Agent Radius</strong>: the mesh is inset by this amount so paths never hug walls tighter than your agents can fit.</li>
+<li>Enable <strong>Parse Geometry</strong> if you want solid (non-trigger) colliders carved out automatically, and choose which physics layers with <strong>Parse Collision Mask</strong>.</li>
+<li>Press <strong>Bake Navigation Mesh</strong>.</li>
+</ol>
+<p>The baked, walkable polygons show as a colored overlay when scene gizmos are enabled. Multiple regions connect automatically where they touch (and across small gaps if <strong>Use Edge Connections</strong> is on). Regions also support pathfinding <strong>costs</strong> — raise <strong>Travel Cost</strong> above 1 to make agents prefer going around mud, or <strong>Enter Cost</strong> to penalize entering at all.</p>
+<blockquote>
+<p>[!NOTE]
+Baking happens on background threads at runtime too: call <code>region.Bake()</code> from script after you move platforms around or spawn structures, and agents re-path automatically when the new mesh is ready.</p>
+</blockquote>
+<h2>Moving an agent</h2>
+<p>Add a <strong>Navigation Agent</strong> to your character. The core loop is: set <code>targetPosition</code>, then every physics step walk toward <code>GetNextPathPosition()</code>. This is the Sandbox project&#39;s agent, verbatim:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Navigation;
+
+class AgentTest : CometBehaviour
+{
+    Vector2 desiredPos;
+    float velocity = 7.0F;
+    NavigationAgent agent;
+
+    // Called before first frame
+    void Start()
+    {
+        agent = NavigationAgent::Get(entity);
+
+        // While avoidance is enabled the simulation reports the collision-free
+        // velocity through the onVelocityComputed signal, so the body is moved
+        // from inside that callback.
+        agent.onVelocityComputed.Add(CometDelegateVector2(OnVelocityComputed));
+
+        // Where the agent should navigate to.
+        agent.targetPosition = desiredPos;
+    }
+
+    // Called every physics update
+    void FixedUpdate()
+    {
+        if (agent.IsNavigationFinished())
+        {
+            return;
+        }
+
+        Vector2 currentPosition = Vector2(transform.position.x, transform.position.y);
+        Vector2 nextPathPosition = agent.GetNextPathPosition();
+        Vector2 newVelocity = (nextPathPosition - currentPosition).Normalized() * velocity;
+
+        if (agent.avoidanceEnabled)
+        {
+            // Submit the desired velocity; the safe velocity arrives through onVelocityComputed.
+            agent.SetVelocity(newVelocity);
+        }
+        else
+        {
+            // No avoidance: move straight away with the desired velocity.
+            OnVelocityComputed(newVelocity);
+        }
+    }
+
+    // Receives the collision-free velocity from the avoidance simulation and moves the body with it.
+    void OnVelocityComputed(Vector2 safeVelocity)
+    {
+        transform.Translate(safeVelocity * Time::GetDeltaTime(), Space::World);
+    }
+}
+</code></pre>
+<p>Three things to notice:</p>
+<ul>
+<li><strong>Setting <code>targetPosition</code> triggers the path query.</strong> Change it any time — chasing a moving player means updating it every few frames.</li>
+<li><strong><code>GetNextPathPosition()</code> is called every step</strong> and advances through the corridor as you approach each waypoint (within <code>pathDesiredDistance</code>).</li>
+<li><strong>The same movement code works with and without avoidance</strong> by funnelling both cases through one callback.</li>
+</ul>
+<h3>Knowing where you stand</h3>
+<pre><code class="language-angelscript">agent.IsNavigationFinished();   // path exhausted (arrived, or nothing reachable)
+agent.IsTargetReached();        // within targetDesiredDistance of the target
+agent.IsTargetReachable();      // can the path actually end at the target?
+agent.DistanceToTarget();       // straight-line distance
+agent.GetPathLength();          // full length of the current path
+array&lt;Vector2&gt; path = agent.GetCurrentNavigationPath();  // all waypoints, world space
+</code></pre>
+<p>And if you prefer events over polling, agents expose signals: <code>onPathChanged</code>, <code>onWaypointReached</code>, <code>onLinkReached</code>, <code>onTargetReached</code>, <code>onNavigationFinished</code> and the <code>onVelocityComputed</code> you already met.</p>
+<h2>Tuning the path</h2>
+<p>The agent inspector groups the important knobs:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Path Desired Distance</strong></td>
+<td>How close to a waypoint before advancing to the next.</td>
+</tr>
+<tr>
+<td><strong>Target Desired Distance</strong></td>
+<td>How close to the target counts as &quot;arrived&quot;.</td>
+</tr>
+<tr>
+<td><strong>Path Max Distance</strong></td>
+<td>If the agent drifts further than this from the corridor, a fresh path is queried.</td>
+</tr>
+<tr>
+<td><strong>Path Postprocessing</strong></td>
+<td><code>Corridor Funnel</code> (taut, natural paths — default), <code>Edge Centered</code> (through edge midpoints — good for grid games), <code>None</code> (raw polygon centroids).</td>
+</tr>
+<tr>
+<td><strong>Simplify Path</strong></td>
+<td>Ramer-Douglas-Peucker reduction; <strong>Simplify Epsilon</strong> sets the tolerance.</td>
+</tr>
+<tr>
+<td><strong>Navigation Layers</strong></td>
+<td>Bitmask matched against regions/links — agents only traverse matching layers.</td>
+</tr>
+</tbody></table>
+<p>Navigation layers let one navmesh serve different movement types: mark water regions with a <code>Water</code> layer and only amphibious agents will consider them.</p>
+<h2>Local avoidance (RVO)</h2>
+<p>Pathfinding keeps agents out of <em>walls</em>; avoidance keeps them out of <em>each other</em>. Tick <strong>Avoidance Enabled</strong> and configure:</p>
+<ul>
+<li><strong>Avoidance Radius</strong> — the agent&#39;s personal space.</li>
+<li><strong>Max Speed</strong> — a hard clamp the simulation may return.</li>
+<li><strong>Neighbor Distance / Max Neighbors</strong> — how far and how many other agents to consider.</li>
+<li><strong>Time Horizon Agents / Obstacles</strong> — how many seconds ahead collisions are predicted. Small = late, sharp dodges; large = early, gentle arcs.</li>
+<li><strong>Avoidance Priority</strong> — 0–1; lower-priority agents yield to higher-priority ones. Give the boss <code>1.0</code> and the minions scatter.</li>
+<li><strong>Avoidance Layers / Mask</strong> — which avoidance layers this agent occupies / respects.</li>
+</ul>
+<p>With avoidance on, <strong>you must drive movement through the callback</strong>: call <code>agent.SetVelocity(desired)</code> each step and apply only the <code>safeVelocity</code> you receive in <code>onVelocityComputed</code> — exactly like the sample above.</p>
+<h2>Dynamic obstacles</h2>
+<p>Add a <strong>Navigation Obstacle</strong> to anything agents should not walk through — a crate the player can push, a car that parks across the sidewalk. Choose its shape (<strong>Obstacle Type</strong>: <code>Circle</code> radius, <code>Box</code> size + offset, or a custom <code>Polygon</code> via <strong>Edit Shape</strong> / <code>SetVertices()</code>), then pick how it acts:</p>
+<ul>
+<li><strong>Carve Navigation Mesh</strong> — cuts a hole in every overlapping region&#39;s navmesh, so <em>paths route around it</em> from the start.</li>
+<li><strong>Avoidance Enabled</strong> — feeds it to the RVO simulation, so <em>moving agents steer around it</em> even mid-path.</li>
+</ul>
+<p>Use carving for static-ish blockers, avoidance for anything that moves, or both for heavy movable objects.</p>
+<h2>Navigation links</h2>
+<p>A <strong>Navigation Link</strong> joins <strong>Start Position</strong> and <strong>End Position</strong> across unwalkable space — a gap to jump, a ladder, a teleporter pad. Set <strong>Bidirectional</strong> off for one-way drops, and tune <strong>Enter Cost</strong> / <strong>Travel Cost</strong> so the pathfinder weighs the shortcut fairly. When an agent reaches a link waypoint, the <code>onLinkReached</code> signal fires — that&#39;s your cue to play the jump animation and move the body across.</p>
+<h2>Gotchas worth knowing</h2>
+<blockquote>
+<p>[!WARNING]</p>
+<ul>
+<li><strong>Bake before you expect paths.</strong> No baked region = no navmesh = every query fails. Bake in the editor, or call <code>Bake()</code> after loading.</li>
+<li>Custom outlines need <strong>at least 3 vertices</strong>; the editor falls back to the rectangle otherwise.</li>
+<li>Only <strong>solid, non-trigger colliders</strong> are carved by Parse Geometry.</li>
+<li>An unreachable target leaves the path empty: check <code>IsTargetReachable()</code> and design a fallback (wander, wait, growl menacingly).</li>
+</ul>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Make your navigating enemies look alive with <a href="/tutorials/animation">Animation &amp; the Animator</a>, or sync their positions across the network in <a href="/tutorials/networking">Networking &amp; Multiplayer</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

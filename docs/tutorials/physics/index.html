@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Physics: Bodies, Colliders &amp; Joints — Comet Engine</title>
+  <meta name="description"
+    content="Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on Box2D 3.x. You give an entity a Rigid Body to make it move under physics, one…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/physics" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Physics: Bodies, Colliders &amp; Joints — Comet Engine" />
+  <meta property="og:description"
+    content="Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on Box2D 3.x. You give an entity a Rigid Body to make it move under physics, one…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/physics" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Physics: Bodies, Colliders &amp; Joints — Comet Engine" />
+  <meta name="twitter:description"
+    content="Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on Box2D 3.x. You give an entity a Rigid Body to make it move under physics, one…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Physics: Bodies, Colliders &amp; Joints</h1>
+<p>Gravity, collisions, bouncing, ragdolls, vehicles — Comet&#39;s 2D physics runs on <strong>Box2D 3.x</strong>. You give an entity a <strong>Rigid Body</strong> to make it move under physics, one or more <strong>Colliders</strong> to give it shape, and optionally <strong>joints</strong> to connect bodies or <strong>effectors</strong> to push them around.</p>
+<p><img src="/tutorials/physics-scene.png" alt="A rigid body with a box collider gizmo, and the Rigid Body inspector."></p>
+<h2>The three body types</h2>
+<p>Add a <strong>Rigid Body</strong> and pick its <strong>Body Type</strong>:</p>
+<ul>
+<li><strong>Dynamic</strong> — fully simulated: gravity, forces, collisions. Your player, crates, debris.</li>
+<li><strong>Kinematic</strong> — moves only when you set its velocity/position; unstoppable by forces. Moving platforms, scripted hazards.</li>
+<li><strong>Static</strong> — never moves. Level geometry. (An entity with only a collider and no rigid body behaves as static.)</li>
+</ul>
+<p>The Rigid Body inspector exposes <strong>Mass</strong>, <strong>Gravity Scale</strong>, <strong>Linear/Angular Drag</strong>, axis <strong>constraints</strong>, <strong>Collision Detection</strong> (<code>Discrete</code> or <code>Continuous</code> for fast objects) and interpolation.</p>
+<blockquote>
+<p>[!IMPORTANT]
+Physics units are <strong>metres</strong>, and simulation runs in <strong><code>FixedUpdate</code></strong>, not <code>Update</code>. Apply forces and read velocities in <code>FixedUpdate</code> so they&#39;re consistent with the fixed timestep. If your art is in pixels, divide sizes by your pixels-per-unit (e.g. 100 px = 1 m).</p>
+</blockquote>
+<h2>Colliders</h2>
+<p>Add a collider from <strong>Add Behaviour</strong> — <strong>Box</strong>, <strong>Circle</strong>, <strong>Capsule</strong>, <strong>Edge</strong>, <strong>Polygon</strong>, <strong>Tilemap</strong> or <strong>Packer</strong> Collider. They render green outline gizmos in the scene. Each collider has:</p>
+<ul>
+<li><strong>Is Trigger</strong> — a trigger detects overlaps but doesn&#39;t physically block.</li>
+<li><strong>Friction</strong> and <strong>Bounciness</strong> (restitution), or a shared <strong>Physic Material</strong> asset carrying both.</li>
+<li><strong>Offset</strong> and shape-specific fields (Box <code>Size</code>, Circle <code>Radius</code>, ...).</li>
+</ul>
+<h2>Moving a body</h2>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class PlayerMovement : CometBehaviour
+{
+    private RigidBody body;
+    float moveSpeed = 6.0F;
+    float jumpImpulse = 8.0F;
+
+    void Start()
+    {
+        body = RigidBody::Get(entity);
+    }
+
+    void FixedUpdate()
+    {
+        // Drive horizontal motion by setting the velocity directly — snappy,
+        // predictable control that ignores mass. The vertical velocity is left
+        // untouched so gravity and jumps still work.
+        float dir = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) dir -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) dir += 1.0F;
+        body.velocity = Vector2(dir * moveSpeed, body.velocity.y);
+
+        // Jump with an instantaneous impulse.
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            body.ApplyLinearImpulse(Vector2(0.0F, jumpImpulse));
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!NOTE]
+<strong>Setting <code>velocity</code> vs. applying forces.</strong> Assigning <code>body.velocity</code> directly gives snappy, mass-independent control — ideal for a responsive player character or a kinematic platform. Forces are for physical, mass-aware motion: <strong><code>ApplyForce</code></strong> accumulates over the step (thrust, wind, gravity-like pushes) while <strong><code>ApplyLinearImpulse</code></strong> changes velocity instantly (jumps, hits, knockback). There are <code>AtPoint</code> variants that also impart spin, plus <code>ApplyTorque</code> / <code>ApplyAngularImpulse</code> for rotation. Pick velocity for arcade feel, forces for simulation feel.</p>
+</blockquote>
+<h2>Collision and trigger callbacks</h2>
+<p>Define these methods on any <code>CometBehaviour</code> and the engine calls them:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class Hazard : CometBehaviour
+{
+    // Solid collisions: Enter / Stay / Exit.
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug::Log(&quot;hit &quot; + collision.entity.name +
+                   &quot; with &quot; + collision.contactPointsCount + &quot; contacts&quot;);
+    }
+
+    // Trigger overlaps: Enter / Stay / Exit.
+    void OnTriggerEnter(Collider other)
+    {
+        Debug::Log(other.entity.name + &quot; entered the trigger&quot;);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Debug::Log(other.entity.name + &quot; left the trigger&quot;);
+    }
+}
+</code></pre>
+<p><code>OnCollisionEnter/Stay/Exit</code> fire for solid contacts and hand you a <code>Collision</code> (the colliders, bodies, entity and contact points). <code>OnTriggerEnter/Stay/Exit</code> fire for trigger colliders and hand you the other <code>Collider</code>.</p>
+<h2>Raycasts and queries</h2>
+<p>Ask the world what&#39;s along a ray or inside a box — the foundation of line-of-sight, ground checks and hitscan weapons:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class GroundCheck : CometBehaviour
+{
+    bool IsGrounded()
+    {
+        Vector2 origin = Vector2(transform.position.x, transform.position.y);
+        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(0.0F, -1.0F), 1.1F);
+        return hit !is null;
+    }
+
+    void FireLaser()
+    {
+        Vector2 origin = Vector2(transform.position.x, transform.position.y);
+        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(1.0F, 0.0F), 50.0F);
+        if (hit !is null)
+        {
+            Debug::Log(&quot;laser hit &quot; + hit.collider.entity.name +
+                       &quot; at &quot; + hit.distance + &quot;m, normal &quot; + hit.normal.ToString());
+        }
+    }
+}
+</code></pre>
+<p><code>Physics::RaycastClosest / RaycastAny / Raycast</code> (all hits) return <code>RaycastHit</code>s with <code>point</code>, <code>normal</code>, <code>distance</code>, <code>collider</code> and <code>rigidbody</code>. <code>Physics::QueryAABB(center, size, ...)</code> returns every collider in a box. All take an optional layer mask.</p>
+<h2>Collision layers</h2>
+<p>Configure which layers collide in <strong>Project Settings → Physics</strong> (a 32-layer matrix). From code, <code>Physics::IgnoreLayerCollision(a, b, true)</code> and <code>Physics::DoTheseLayersCollide(a, b)</code> manage it at runtime — e.g. make enemy projectiles pass through other enemies.</p>
+<h2>Joints and effectors</h2>
+<p><strong>Joints</strong> constrain two bodies: <strong>Hinge</strong> (rotating door, wheel axle, with an optional motor and angle limits), <strong>Distance</strong> / <strong>Spring</strong> (ropes, suspension), <strong>Slider</strong> (elevators), <strong>Wheel</strong> (vehicles), <strong>Fixed</strong>, <strong>Friction</strong>, <strong>Relative</strong> and <strong>Target</strong>. Add one, assign the <strong>Connected Rigid Body</strong>, and set its anchors. A joint fires <code>OnJointBreak(force)</code> if it exceeds its <strong>Break Force</strong>.</p>
+<p><strong>Effectors</strong> apply area forces to whatever overlaps them (the collider needs <strong>Used By Effector</strong>): <strong>Area</strong> (wind, water currents), <strong>Point</strong> (gravity wells, explosions), <strong>Platform</strong> (one-way platforms) and <strong>Surface</strong> (conveyor belts).</p>
+<h2>Physic Material assets</h2>
+<p>Create a <strong>Physic Material</strong> (<code>Create Resource → Physic Material</code>) to reuse <strong>Friction</strong> and <strong>Bounciness</strong> across colliders — an &quot;ice&quot; material, a &quot;rubber&quot; material — and choose how paired materials combine (average, min, max, multiply).</p>
+<h2>Where to go next</h2>
+<p>Drive physics from <a href="/tutorials/input">input</a>, react to hits with an <a href="/tutorials/animation">animation</a> or <a href="/tutorials/particles">particle burst</a>, or build your collision world from a <a href="/tutorials/tilemap">tilemap</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

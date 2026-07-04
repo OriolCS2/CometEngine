@@ -2,7 +2,7 @@
 
 Cutscenes, animated backgrounds, in-game screens — the **Video Player** decodes **WebM** video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture, a camera plane, or straight into your scene, with the audio routed through your mixer.
 
-![The Video Player inspector with its source, render and audio options.](./tutorials/video-inspector.png)
+![The Video Player inspector with its source, render and audio options.](/tutorials/video-inspector.png)
 
 ## Importing a video
 
@@ -35,7 +35,7 @@ Add a **Video Player** (from **Add Behaviour**) and configure:
 
 ### Where the sound goes
 
-`Direct` gives you per-track volume and mute. `Audio Source` routes each audio track through an assigned **AudioSource**, so the video's sound obeys your [mixer groups](#tutorials/audio) — duck it under a `Music` bus, apply reverb, whatever.
+`Direct` gives you per-track volume and mute. `Audio Source` routes each audio track through an assigned **AudioSource**, so the video's sound obeys your [mixer groups](/tutorials/audio) — duck it under a `Music` bus, apply reverb, whatever.
 
 ## Controlling playback from AngelScript
 
@@ -111,4 +111,4 @@ class Cutscene : CometBehaviour
 
 ## Where to go next
 
-Show your video on a [render texture in the UI](#tutorials/ui-system), route its audio through a [mixer group](#tutorials/audio), or play it as an intro before your [first scene loads](#tutorials/build-and-patches).
+Show your video on a [render texture in the UI](/tutorials/ui-system), route its audio through a [mixer group](/tutorials/audio), or play it as an intro before your [first scene loads](/tutorials/build-and-patches).

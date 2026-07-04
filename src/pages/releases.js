@@ -57,7 +57,7 @@ export async function renderReleases(container, tag) {
 
     const renderOlderList = (filtered) => {
       olderListContainer.innerHTML = filtered.map(r => `
-        <a href="#releases/${r.tag_name}" class="older-release-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); transition: var(--transition);">
+        <a href="/releases/${r.tag_name}" class="older-release-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); transition: var(--transition);">
           <div style="display: flex; align-items: center; gap: 1rem;">
             <span style="font-weight: 600; font-size: 1.1rem;">${r.name || r.tag_name}</span>
             <span class="tag ${r.prerelease ? 'tag-rc' : 'tag-stable'}" style="font-size: 0.7rem;">${r.prerelease ? 'Pre-release' : 'Stable'}</span>
@@ -142,14 +142,14 @@ function createFeaturedCard(release, label) {
       <span class="tag ${release.prerelease ? 'tag-rc' : 'tag-stable'}">${release.prerelease ? 'Pre-release' : 'Stable'}</span>
     </div>
     <div class="release-header" style="margin-bottom: 0.5rem;">
-      <h3 style="font-size: 1.8rem; margin: 0;"><a href="#releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
+      <h3 style="font-size: 1.8rem; margin: 0;"><a href="/releases/${release.tag_name}">${release.name || release.tag_name}</a></h3>
       <div style="color: var(--text-dim); font-size: 0.9rem;">${new Date(release.published_at).toLocaleDateString()}</div>
     </div>
     <div class="markdown-content" style="display: flow-root; margin: 0.75rem 0; height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
         ${mdContent}
     </div>
     <div style="margin-top: auto; padding-top: 1.5rem;">
-      <a href="#releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center; display: flex; align-items: center;">Download</a>
+      <a href="/releases/${release.tag_name}" class="download-btn" style="width: 100%; justify-content: center; display: flex; align-items: center;">Download</a>
     </div>
   `;
   return div;
@@ -190,7 +190,7 @@ async function renderReleaseDetail(container, tagName) {
       </style>
       <section class="release-detail-section" style="padding-top: 90px;">
         <div class="container">
-          <a href="#releases" style="color: var(--accent-color); margin-bottom: 1rem; display: inline-block;">
+          <a href="/releases" style="color: var(--accent-color); margin-bottom: 1rem; display: inline-block;">
             <i class="fas fa-arrow-left"></i> Back to All Releases
           </a>
           <div class="release-detail-top" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 2rem;">

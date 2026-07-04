@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Video Playback — Comet Engine</title>
+  <meta name="description"
+    content="Cutscenes, animated backgrounds, in-game screens — the Video Player decodes WebM video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture,…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/video" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Video Playback — Comet Engine" />
+  <meta property="og:description"
+    content="Cutscenes, animated backgrounds, in-game screens — the Video Player decodes WebM video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture,…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/video" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Video Playback — Comet Engine" />
+  <meta name="twitter:description"
+    content="Cutscenes, animated backgrounds, in-game screens — the Video Player decodes WebM video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture,…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Video Playback</h1>
+<p>Cutscenes, animated backgrounds, in-game screens — the <strong>Video Player</strong> decodes <strong>WebM</strong> video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture, a camera plane, or straight into your scene, with the audio routed through your mixer.</p>
+<p><img src="/tutorials/video-inspector.png" alt="The Video Player inspector with its source, render and audio options."></p>
+<h2>Importing a video</h2>
+<p>Drop a <code>.webm</code> file into your project&#39;s <code>Assets</code> folder and it imports as a <strong>Video Clip</strong> resource, exposing <code>duration</code>, <code>frameRate</code>, <code>width</code> and <code>height</code>.</p>
+<blockquote>
+<p>[!IMPORTANT]
+Comet plays <strong>WebM only</strong> (VP8/VP9 video, Opus/Vorbis audio) — not MP4/MOV/AVI. Re-encode other formats to WebM first (e.g. with <code>ffmpeg -i input.mp4 output.webm</code>). Decoding is software (libvpx), so keep large videos to a sensible resolution.</p>
+</blockquote>
+<h2>The Video Player behaviour</h2>
+<p>Add a <strong>Video Player</strong> (from <strong>Add Behaviour</strong>) and configure:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Source</strong></td>
+<td><code>Video Clip</code> (a resource) or <code>Url</code> (a file path / URL string).</td>
+</tr>
+<tr>
+<td><strong>Video Clip</strong></td>
+<td>The clip to play, when Source is <code>Video Clip</code>.</td>
+</tr>
+<tr>
+<td><strong>Play On Awake</strong></td>
+<td>Start automatically.</td>
+</tr>
+<tr>
+<td><strong>Playback Speed</strong></td>
+<td>0–10× speed.</td>
+</tr>
+<tr>
+<td><strong>Loop</strong></td>
+<td>Restart on end (gapless).</td>
+</tr>
+<tr>
+<td><strong>Skip Frames On Drop</strong></td>
+<td>Drop frames to stay in sync if decoding can&#39;t keep up.</td>
+</tr>
+<tr>
+<td><strong>Aspect Ratio</strong></td>
+<td><code>Fit Horizontally</code> (default), <code>Fit Inside</code>, <code>Stretch</code>, ...</td>
+</tr>
+<tr>
+<td><strong>Render Mode</strong></td>
+<td><code>Render Texture</code> (default), <code>Camera Near Plane</code> or <code>Camera Far Plane</code>.</td>
+</tr>
+<tr>
+<td><strong>Target Texture</strong></td>
+<td>The <code>RenderTexture</code> frames are written to (Render Texture mode).</td>
+</tr>
+<tr>
+<td><strong>Audio Output Mode</strong></td>
+<td><code>Direct</code> (per-track volume/mute), <code>Audio Source</code> (route through a mixer) or <code>None</code>.</td>
+</tr>
+</tbody></table>
+<h3>Where the picture goes</h3>
+<ul>
+<li><strong>Render Texture</strong> — frames are written into a <code>RenderTexture</code> asset. Display it anywhere a texture works: a <code>TextureRectRenderer</code>, a UI <code>Image</code>, or a material. This is the most flexible mode.</li>
+<li><strong>Camera Near / Far Plane</strong> — the video draws directly on a <code>Camera</code>&#39;s near or far plane with an adjustable <strong>Alpha</strong>, perfect for full-screen backgrounds or overlays.</li>
+</ul>
+<h3>Where the sound goes</h3>
+<p><code>Direct</code> gives you per-track volume and mute. <code>Audio Source</code> routes each audio track through an assigned <strong>AudioSource</strong>, so the video&#39;s sound obeys your <a href="/tutorials/audio">mixer groups</a> — duck it under a <code>Music</code> bus, apply reverb, whatever.</p>
+<h2>Controlling playback from AngelScript</h2>
+<p>This is the Sandbox project&#39;s video controller, verbatim — space to pause/resume, arrows to scrub:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Video;
+
+class VideoController : CometBehaviour
+{
+    float stepToMove = 0.5F;
+    private VideoPlayer videoPlayer;
+
+    void Start()
+    {
+        videoPlayer = VideoPlayer::Get(entity);
+    }
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            if (videoPlayer.isPaused) { videoPlayer.Play(); }
+            else { videoPlayer.Pause(); }
+        }
+        if (Input::GetKeyDown(KeyCode::LEFT))
+        {
+            videoPlayer.Seek(videoPlayer.currentTime - stepToMove);
+        }
+        if (Input::GetKeyDown(KeyCode::RIGHT))
+        {
+            videoPlayer.Seek(videoPlayer.currentTime + stepToMove);
+        }
+    }
+}
+</code></pre>
+<p>The API mirrors the inspector: <code>Play()</code>, <code>Pause()</code>, <code>Stop()</code>, <code>Seek(seconds)</code>, <code>Step()</code> (advance one frame), plus <code>isPlaying</code>, <code>isPaused</code>, <code>currentTime</code>, <code>duration</code>, <code>frameRate</code>. Audio tracks are toggled with <code>SetAudioTrackEnabled(i, on)</code> and <code>SetAudioTrackDirectVolume(i, v)</code>.</p>
+<h2>A skippable cutscene</h2>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Video;
+using namespace CometEngine::SceneManagement;
+
+class Cutscene : CometBehaviour
+{
+    private VideoPlayer player;
+
+    void Start()
+    {
+        player = VideoPlayer::Get(entity);
+        player.loop = false;
+        player.Play();
+    }
+
+    void Update()
+    {
+        // Advance to gameplay when the clip ends or the player skips.
+        bool finished = !player.isPlaying &amp;&amp; !player.isPaused &amp;&amp; player.currentTime &gt;= player.duration - 0.05F;
+        if (finished || Input::GetKeyDown(KeyCode::ESCAPE))
+        {
+            SceneManager::LoadScene(&quot;Level1&quot;);
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>[!NOTE]
+Web builds depend on the browser&#39;s WebM codec support (VP9 is the safest bet). There are no native sockets or threads on web, but video playback itself works — just profile large clips.</p>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Show your video on a <a href="/tutorials/ui-system">render texture in the UI</a>, route its audio through a <a href="/tutorials/audio">mixer group</a>, or play it as an intro before your <a href="/tutorials/build-and-patches">first scene loads</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -2,7 +2,7 @@
 
 Tile-based worlds — platformers, dungeons, strategy maps — are built from a **Grid** that defines the cell layout and a **TilemapRenderer** that paints **tiles** into those cells. Comet's tile system goes well beyond static sprites: animated tiles, position-seeded random tiles, and neighbour-aware **rule tiles** and **auto-tiles** that pick the right sprite automatically.
 
-![The Grid and Tilemap Renderer components in the Inspector.](./tutorials/tilemap-inspector.png)
+![The Grid and Tilemap Renderer components in the Inspector.](/tutorials/tilemap-inspector.png)
 
 ## Grid + Tilemap Renderer
 
@@ -81,11 +81,11 @@ Key `TilemapRenderer` calls: `SetTile(cell, tile)`, `SetTiles(cells, tiles)`, `G
 
 Tiles come from your sprite art. The fastest path — and the one that creates the tile assets *for* you:
 
-1. **Import and slice your tileset.** Drop a spritesheet in, set its Texture Type to `Sprite and UI`, and slice it into individual sprites in the [Sprite Editor](#tutorials/sprite-rendering) (grid slicing is ideal for a tileset).
+1. **Import and slice your tileset.** Drop a spritesheet in, set its Texture Type to `Sprite and UI`, and slice it into individual sprites in the [Sprite Editor](/tutorials/sprite-rendering) (grid slicing is ideal for a tileset).
 2. **Open the Tile Palette panel** (`Window → Tile Palette`) and **create a palette** — give it a name and a cell size matching your tiles.
 3. **Drag the sliced spritesheet onto the palette.** The panel literally invites you to *"Drag Spritesheet, Sprite or a Tile here"* — drop it and Comet **auto-creates a simple `Tile` asset for every sprite** and lays them out in the palette. That's your tile set, created in one gesture.
 
-![The Tile Palette panel with a sliced spritesheet turned into tiles.](./tutorials/tile-palette.png)
+![The Tile Palette panel with a sliced spritesheet turned into tiles.](/tutorials/tile-palette.png)
 
 ### Smarter tiles
 
@@ -104,7 +104,7 @@ With a palette ready and a tilemap entity in the scene (a **Grid** + **Tilemap R
 2. **Choose a tool** from the palette toolbar — **Brush** (single cells), **Box Brush** (drag a rectangle), **Fill** (flood-fill an area), **Picker** (eyedrop a tile already in the map) or **Rubber** (erase).
 3. **Paint into the scene.** A grid overlay snaps to cells; drag to lay down tiles.
 
-![Painting tiles into a tilemap in the scene view.](./tutorials/tilemap-painting.png)
+![Painting tiles into a tilemap in the scene view.](/tutorials/tilemap-painting.png)
 
 Rule tiles and auto-tiles update themselves as you paint — lay a strip of wall and the corners and edges resolve automatically.
 
@@ -141,4 +141,4 @@ class GlowTile : TileSingle
 
 ## Where to go next
 
-Give your tiled level depth with [2D Lights & Shadows](#tutorials/lights), collide with it using [Physics](#tutorials/physics), or let enemies path across it with [Navigation](#tutorials/navigation).
+Give your tiled level depth with [2D Lights & Shadows](/tutorials/lights), collide with it using [Physics](/tutorials/physics), or let enemies path across it with [Navigation](/tutorials/navigation).

@@ -11,13 +11,13 @@ Comet's animation stack has two levels. **Animation clips** keyframe properties 
 | Logic | Play / Pause / Stop | States, transitions, conditions, parameters, events, state scripts |
 | Best for | Torches, coins, simple loops | Characters and anything gameplay-driven |
 
-`AnimatedSprite` is covered at the end of the [Sprite Rendering tutorial](#tutorials/sprite-rendering). Everything below is about the full pipeline: **Animation → AnimatorController → Animator**.
+`AnimatedSprite` is covered at the end of the [Sprite Rendering tutorial](/tutorials/sprite-rendering). Everything below is about the full pipeline: **Animation → AnimatorController → Animator**.
 
 ## Creating an Animation clip
 
 Right-click in the **Project** panel and choose **Create Resource → Animation**. Double-click the new asset to open the **Animation Timeline** panel:
 
-![The Animation Timeline panel: transport controls, the frame ruler, samples and the Add Property track list.](./tutorials/animation-timeline.png)
+![The Animation Timeline panel: transport controls, the frame ruler, samples and the Add Property track list.](/tutorials/animation-timeline.png)
 
 The timeline works the way you'd expect:
 
@@ -77,7 +77,7 @@ The `PlayerRun` clip in the screenshot above, for instance, has two `OnFootstep`
 
 Right-click the **Project** panel → **Create Resource → Animator Controller**, then double-click it to open the **Animator** graph:
 
-![The Animator window: the parameters panel on the left, the state-machine graph with its Entry, Any State and Exit nodes on the right.](./tutorials/animator-graph.png)
+![The Animator window: the parameters panel on the left, the state-machine graph with its Entry, Any State and Exit nodes on the right.](/tutorials/animator-graph.png)
 
 The workflow, end to end:
 
@@ -231,4 +231,4 @@ From code you can inspect and edit overrides with `GetOverride()` / `SetOverride
 
 ## Where to go next
 
-Hook animation parameters to real movement in the [Navigation tutorial](#tutorials/navigation), or trigger animations across the network in [Networking & Multiplayer](#tutorials/networking).
+Hook animation parameters to real movement in the [Navigation tutorial](/tutorials/navigation), or trigger animations across the network in [Networking & Multiplayer](/tutorials/networking).

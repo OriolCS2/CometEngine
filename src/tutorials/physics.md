@@ -2,7 +2,7 @@
 
 Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on **Box2D 3.x**. You give an entity a **Rigid Body** to make it move under physics, one or more **Colliders** to give it shape, and optionally **joints** to connect bodies or **effectors** to push them around.
 
-![A rigid body with a box collider gizmo, and the Rigid Body inspector.](./tutorials/physics-scene.png)
+![A rigid body with a box collider gizmo, and the Rigid Body inspector.](/tutorials/physics-scene.png)
 
 ## The three body types
 
@@ -141,4 +141,4 @@ Create a **Physic Material** (`Create Resource → Physic Material`) to reuse **
 
 ## Where to go next
 
-Drive physics from [input](#tutorials/input), react to hits with an [animation](#tutorials/animation) or [particle burst](#tutorials/particles), or build your collision world from a [tilemap](#tutorials/tilemap).
+Drive physics from [input](/tutorials/input), react to hits with an [animation](/tutorials/animation) or [particle burst](/tutorials/particles), or build your collision world from a [tilemap](/tutorials/tilemap).

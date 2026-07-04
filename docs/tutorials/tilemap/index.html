@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Tilemaps &amp; Rule Tiles — Comet Engine</title>
+  <meta name="description"
+    content="Tile-based worlds — platformers, dungeons, strategy maps — are built from a Grid that defines the cell layout and a TilemapRenderer that paints tiles into th…" />
+  <meta name="keywords"
+    content="Comet Engine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/tilemap" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Tilemaps &amp; Rule Tiles — Comet Engine" />
+  <meta property="og:description"
+    content="Tile-based worlds — platformers, dungeons, strategy maps — are built from a Grid that defines the cell layout and a TilemapRenderer that paints tiles into th…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/tilemap" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tilemaps &amp; Rule Tiles — Comet Engine" />
+  <meta name="twitter:description"
+    content="Tile-based worlds — platformers, dungeons, strategy maps — are built from a Grid that defines the cell layout and a TilemapRenderer that paints tiles into th…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "url": "https://www.cometengine.org/",
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/#tutorials",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DSqX7gwI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Tilemaps &amp; Rule Tiles</h1>
+<p>Tile-based worlds — platformers, dungeons, strategy maps — are built from a <strong>Grid</strong> that defines the cell layout and a <strong>TilemapRenderer</strong> that paints <strong>tiles</strong> into those cells. Comet&#39;s tile system goes well beyond static sprites: animated tiles, position-seeded random tiles, and neighbour-aware <strong>rule tiles</strong> and <strong>auto-tiles</strong> that pick the right sprite automatically.</p>
+<p><img src="/tutorials/tilemap-inspector.png" alt="The Grid and Tilemap Renderer components in the Inspector."></p>
+<h2>Grid + Tilemap Renderer</h2>
+<p>Two behaviours work together, both added from <strong>Add Behaviour</strong>:</p>
+<ul>
+<li><strong>Grid</strong> — owns the cell geometry: <strong>Cell Size</strong> (world units per cell) and <strong>Cell Type</strong> (<code>Rectangular</code>, <code>Isometric</code>, <code>Hexagonal Flat</code>, <code>Hexagonal Pointed</code>). It converts between world positions and integer cell coordinates.</li>
+<li><strong>Tilemap Renderer</strong> — a <code>Renderer</code> that stores which tile sits in each cell and draws them. It has the usual sorting-layer properties plus a global <strong>Animation Frame Rate</strong> for animated tiles and a <strong>Tile Anchor</strong>.</li>
+</ul>
+<p>Cells are addressed with <strong><code>Vector2i</code></strong> integer coordinates. The renderer works on the Grid attached to the same entity.</p>
+<h2>Tiles are assets</h2>
+<p>A tile is not just a sprite — it&#39;s a <strong>tile asset</strong> (a <code>.cometObject</code>) that decides, per cell, <em>which</em> sprite to show, what colour and what collider to generate. Comet ships a whole hierarchy of tile types, all of which you can create as assets and extend:</p>
+<table>
+<thead>
+<tr>
+<th>Tile type</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tile</strong></td>
+<td>A single fixed sprite.</td>
+</tr>
+<tr>
+<td><strong>Animated Tile</strong></td>
+<td>Cycles through several sprites at a speed.</td>
+</tr>
+<tr>
+<td><strong>Random Tile</strong></td>
+<td>Picks a sprite per cell from a position-seeded hash (stable across reloads).</td>
+</tr>
+<tr>
+<td><strong>Weighted Random Tile</strong></td>
+<td>Like Random, but with per-sprite probabilities.</td>
+</tr>
+<tr>
+<td><strong>Pipeline Tile</strong></td>
+<td>Chooses a sprite from its 4 orthogonal neighbours — pipes, wires, walls.</td>
+</tr>
+<tr>
+<td><strong>Auto Tile</strong></td>
+<td>2×2 or 3×3 bitmask autotiling — the classic ~47-sprite terrain system.</td>
+</tr>
+<tr>
+<td><strong>Rule Tile</strong></td>
+<td>The most flexible: a list of rules matching neighbour cells, with rotation/mirror transforms.</td>
+</tr>
+</tbody></table>
+<p>Isometric and hexagonal variants of Rule Tile exist too (<code>Isometric Rule Tile</code>, <code>Hexagonal Rule Tile</code>).</p>
+<h2>Painting from AngelScript</h2>
+<p>Grab the renderer and set tiles by cell. <code>null</code> erases:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Tilemaps;
+
+class LevelBuilder : CometBehaviour
+{
+    TileBase groundTile;   // assign a tile asset in the Inspector
+
+    void Start()
+    {
+        Grid grid = Grid::Get(entity);
+        TilemapRenderer tilemap = TilemapRenderer::Get(entity);
+
+        // Lay a 20x3 floor.
+        array&lt;Vector2i&gt; cells;
+        array&lt;TileBase&gt; tiles;
+        for (int x = 0; x &lt; 20; x++)
+        {
+            for (int y = 0; y &lt; 3; y++)
+            {
+                cells.insertLast(Vector2i(x, y));
+                tiles.insertLast(groundTile);
+            }
+        }
+        tilemap.SetTiles(cells, tiles);
+
+        // Query and erase.
+        if (tilemap.HasTile(Vector2i(5, 2)))
+        {
+            tilemap.SetTile(Vector2i(5, 2), null);
+        }
+
+        // World &lt;-&gt; cell conversion.
+        Vector2i cellUnderMouse = grid.WorldPositionToCellPosition(Vector2(3.5F, 1.2F));
+        Vector2 cellCentre = grid.CellPositionToWorldPosition(cellUnderMouse);
+    }
+}
+</code></pre>
+<p>Key <code>TilemapRenderer</code> calls: <code>SetTile(cell, tile)</code>, <code>SetTiles(cells, tiles)</code>, <code>GetTile(cell)</code>, <code>HasTile(cell)</code>, <code>SetColor(cell, color)</code>, <code>RefreshTile(cell)</code>, <code>RefreshAllTiles()</code>, <code>ClearAllTiles()</code>.</p>
+<blockquote>
+<p>[!TIP]
+<code>SetTiles()</code> (plural) applies a whole batch in one call and is much faster than looping <code>SetTile()</code> when you generate a level procedurally.</p>
+</blockquote>
+<h2>Creating tiles</h2>
+<p>Tiles come from your sprite art. The fastest path — and the one that creates the tile assets <em>for</em> you:</p>
+<ol>
+<li><strong>Import and slice your tileset.</strong> Drop a spritesheet in, set its Texture Type to <code>Sprite and UI</code>, and slice it into individual sprites in the <a href="/tutorials/sprite-rendering">Sprite Editor</a> (grid slicing is ideal for a tileset).</li>
+<li><strong>Open the Tile Palette panel</strong> (<code>Window → Tile Palette</code>) and <strong>create a palette</strong> — give it a name and a cell size matching your tiles.</li>
+<li><strong>Drag the sliced spritesheet onto the palette.</strong> The panel literally invites you to <em>&quot;Drag Spritesheet, Sprite or a Tile here&quot;</em> — drop it and Comet <strong>auto-creates a simple <code>Tile</code> asset for every sprite</strong> and lays them out in the palette. That&#39;s your tile set, created in one gesture.</li>
+</ol>
+<p><img src="/tutorials/tile-palette.png" alt="The Tile Palette panel with a sliced spritesheet turned into tiles."></p>
+<h3>Smarter tiles</h3>
+<p>For tiles with behaviour, create the tile asset explicitly from the Project panel&#39;s create menu, then drag it into the palette:</p>
+<ul>
+<li><strong>Animated Tile</strong> — hand it a list of sprites and a speed.</li>
+<li><strong>Random / Weighted Random Tile</strong> — give it several sprites; each cell picks one (stably, seeded by position).</li>
+<li><strong>Auto Tile</strong> — supply the 16 (2×2) or ~47 (3×3) mask sprites and it picks the right edge/corner piece from its neighbours automatically.</li>
+<li><strong>Rule Tile</strong> — the most powerful. Its inspector shows a <strong>3×3 rule grid</strong>: click a neighbour cell to require it be the <strong>same tile</strong> (green), a <strong>different tile</strong> (red), or <strong>don&#39;t-care</strong> (grey), and click the center to cycle a rotation/mirror transform so one rule covers several orientations. Add rules top to bottom — the <strong>first rule that matches a cell&#39;s neighbours wins</strong>.</li>
+</ul>
+<h2>Painting a tilemap</h2>
+<p>With a palette ready and a tilemap entity in the scene (a <strong>Grid</strong> + <strong>Tilemap Renderer</strong>):</p>
+<ol>
+<li><strong>Pick a tile</strong> in the Tile Palette panel.</li>
+<li><strong>Choose a tool</strong> from the palette toolbar — <strong>Brush</strong> (single cells), <strong>Box Brush</strong> (drag a rectangle), <strong>Fill</strong> (flood-fill an area), <strong>Picker</strong> (eyedrop a tile already in the map) or <strong>Rubber</strong> (erase).</li>
+<li><strong>Paint into the scene.</strong> A grid overlay snaps to cells; drag to lay down tiles.</li>
+</ol>
+<p><img src="/tutorials/tilemap-painting.png" alt="Painting tiles into a tilemap in the scene view."></p>
+<p>Rule tiles and auto-tiles update themselves as you paint — lay a strip of wall and the corners and edges resolve automatically.</p>
+<h2>Physics: the Tilemap Collider</h2>
+<p>Add a <strong>Tilemap Collider</strong> and the solid tiles automatically get collision. Each tile asset declares its <strong>collider type</strong> — <code>Sprite</code> (outline of the sprite), <code>Grid</code> (full cell) or <code>None</code> — so decorative tiles stay walk-through while walls block. Query it from code with <code>HasColliderAt(x, y)</code>.</p>
+<h2>Writing a custom scripted tile</h2>
+<p>Because tiles are script classes, you can author your own by extending <code>TileBase</code> (or <code>TileSingle</code>) and overriding the info callbacks:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Tilemaps;
+
+class GlowTile : TileSingle
+{
+    Sprite baseSprite;
+    float glow = 0.5F;
+
+    void OnGetTileInfo(const Vector3i &amp;in position, TilemapRenderer tilemap, TileInfo tileInfo)
+    {
+        TileSingle::OnGetTileInfo(position, tilemap, tileInfo);
+        tileInfo.sprite = baseSprite;
+        tileInfo.color = Color(1.0F, 1.0F, 1.0F, 1.0F) * glow;
+    }
+}
+</code></pre>
+<p><code>OnGetTileInfo</code> fills a <code>TileInfo</code> (sprite, color, collider type, offset/rotation/scale) for each cell; <code>RefreshTile</code> lets neighbour-aware tiles react when an adjacent cell changes. This is exactly how the built-in Rule and Auto tiles are implemented.</p>
+<blockquote>
+<p>[!NOTE]
+Random, Weighted-Random and Auto tiles seed their choice from the <strong>cell position</strong>, not a live RNG — so a given cell always shows the same sprite across save/reload, which is what you want for a stable-looking world.</p>
+</blockquote>
+<h2>Where to go next</h2>
+<p>Give your tiled level depth with <a href="/tutorials/lights">2D Lights &amp; Shadows</a>, collide with it using <a href="/tutorials/physics">Physics</a>, or let enemies path across it with <a href="/tutorials/navigation">Navigation</a>.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

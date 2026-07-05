@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Extending the Editor — Comet Engine</title>
+  <meta name="description"
+    content="The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool i…" />
+  <meta name="keywords"
+    content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/extending-the-editor/" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Extending the Editor — Comet Engine" />
+  <meta property="og:description"
+    content="The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool i…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/extending-the-editor/" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+  <meta property="og:image:width" content="1754" />
+  <meta property="og:image:height" content="961" />
+  <meta property="og:image:alt" content="The Comet Engine editor with the scene view, hierarchy and inspector." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Extending the Editor — Comet Engine" />
+  <meta name="twitter:description"
+    content="The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool i…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/editor-overview.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "alternateName": "CometEngine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "alternateName": ["CometEngine", "Comet Game Engine"],
+        "url": "https://www.cometengine.org/",
+        "sameAs": [
+          "https://github.com/OriolCS2/CometEngine",
+          "https://www.youtube.com/watch?v=zLf-vsr-gkk"
+        ],
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Linux, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Linux, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/tutorials/",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-DEISBsUv.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Extending the Editor</h1>
+<p>The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool in the menu bar, a specialized inspector with a &quot;Bake&quot; button, a whole dockable window for editing your game&#39;s data — you write in script. No C++, no recompiling the engine: save the file and the editor picks it up.</p>
+<h2>Editor scripts live in an <code>Editor/</code> folder</h2>
+<p>Any folder named <strong><code>Editor</code></strong> (for example <code>Assets/Editor/</code>) is special. Scripts inside it are compiled <strong>only for the editor</strong> and stripped from every exported build — they&#39;re where your tooling goes so it never ships in the game. (Under the hood they&#39;re compiled with <code>COMET_EDITOR</code> defined; see <a href="/tutorials/build-and-patches">Exporting Builds</a>.)</p>
+<p>There are two base classes, both in the <code>CometEditor</code> namespace:</p>
+<ul>
+<li><strong><code>EditorBehaviour</code></strong> — hosts <strong>menu-bar items</strong> and <strong>custom inspectors</strong>.</li>
+<li><strong><code>EditorWindow</code></strong> — a <strong>dockable window</strong> you draw yourself.</li>
+</ul>
+<p>Every example below starts with:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEditor;
+</code></pre>
+<h2>Adding items to the main menu bar</h2>
+<p>Put <code>[MainMenuItem(&quot;Path/Name&quot;)]</code> on a method of an <code>EditorBehaviour</code> and it appears in the top menu bar. The path builds the submenu structure; the last segment is the clickable item.</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEditor;
+
+class ProjectTools : EditorBehaviour
+{
+    [MainMenuItem(&quot;Tools/Open Design Doc&quot;)]
+    void OpenDesignDoc()
+    {
+        App::OpenURL(&quot;https://docs.google.com/document/d/your-doc-here&quot;);
+    }
+
+    [MainMenuItem(&quot;Tools/Rebuild Atlas&quot;)]
+    void RebuildAtlas()
+    {
+        Debug::Log(&quot;Rebuilding atlas...&quot;);
+        // ...run your tool: read assets, write files, call Shell::ExecuteCommand, etc.
+    }
+}
+</code></pre>
+<p><code>Tools</code> becomes a top-level menu (or nests under an existing one), with <strong>Open Design Doc</strong> and <strong>Rebuild Atlas</strong> beneath it. This is the fastest way to wire a one-shot tool — an importer, a validator, a &quot;download latest localizations&quot; button — into the editor UI.</p>
+<h2>Custom inspectors</h2>
+<p>There are two levels of control over how a component looks in the <strong>Inspector</strong>.</p>
+<h3>1. Decorate the fields (the quick way)</h3>
+<p>Most of the time you don&#39;t need a full custom inspector — you just want a field labelled, clamped or hidden. Annotate the fields of your <code>CometBehaviour</code> directly:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class Enemy : CometBehaviour
+{
+    [Header(&quot;Stats&quot;)]
+    [Range(1, 100)] int health = 50;
+    [Tooltip(&quot;Seconds between attacks&quot;)] float attackCooldown = 1.5F;
+
+    [Space]
+    [Header(&quot;Visuals&quot;)]
+    [PreviewTexture] Texture portrait;
+
+    [HideInInspector] float internalTimer;   // still serialized, just not shown
+    [ReadOnly] int spawnId;                   // shown, but greyed out
+}
+</code></pre>
+<p>The field attributes:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[Header(&quot;...&quot;)]</code></td>
+<td>A bold section label above the following field.</td>
+</tr>
+<tr>
+<td><code>[Tooltip(&quot;...&quot;)]</code></td>
+<td>Hover help on the field.</td>
+</tr>
+<tr>
+<td><code>[Range(min, max)]</code></td>
+<td>Draw a slider; <code>[Min(n)]</code> / <code>[Max(n)]</code> clamp one end.</td>
+</tr>
+<tr>
+<td><code>[Space]</code></td>
+<td>A vertical gap.</td>
+</tr>
+<tr>
+<td><code>[HideInInspector]</code></td>
+<td>Keep the field serialized but hide it from the Inspector.</td>
+</tr>
+<tr>
+<td><code>[ReadOnly]</code></td>
+<td>Show the value greyed-out and non-editable.</td>
+</tr>
+<tr>
+<td><code>[PreviewTexture]</code></td>
+<td>Draw a thumbnail for a <code>Texture</code> / <code>Sprite</code> field.</td>
+</tr>
+<tr>
+<td><code>[TreeNodeDefaultOpen]</code></td>
+<td>Start a nested object expanded.</td>
+</tr>
+<tr>
+<td><code>[AssetIcon]</code></td>
+<td>Use the referenced asset&#39;s icon.</td>
+</tr>
+</tbody></table>
+<h3>2. Draw the whole inspector yourself</h3>
+<p>When you want buttons, coloured text, live previews or conditional layout, take the inspector over completely. Put <code>[CustomInspector(&quot;TargetType&quot;)]</code> on an <code>EditorBehaviour</code> and implement <code>OnCustomInspector</code>:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEditor;
+
+[CustomInspector(&quot;Enemy&quot;)]
+class EnemyInspector : EditorBehaviour
+{
+    void OnCustomInspector(Enemy target)
+    {
+        GUI::TextColored(Color::red, &quot;Enemy - danger level &quot; + target.health);
+
+        GUI::ShowProperty(&quot;health&quot;);          // the default widget for one field
+        GUI::ShowProperty(&quot;attackCooldown&quot;);
+
+        if (GUI::Button(&quot;Kill&quot;))
+            target.health = 0;
+        GUI::SameLine();
+        if (GUI::Button(&quot;Full Heal&quot;))
+            target.health = 100;
+
+        GUI::ShowTexture(target.portrait, Vector2(150, 100));
+    }
+}
+</code></pre>
+<ul>
+<li><code>[CustomInspector(&quot;Enemy&quot;)]</code> binds this drawer to the <code>Enemy</code> component by class name. Engine resource types work too — the built-in rule-tile editors use <code>[CustomInspector(&quot;CometEngine::Tilemaps::RuleTile&quot;)]</code>.</li>
+<li><code>OnCustomInspector(Enemy target)</code> runs every frame the component is selected. <code>target</code> is the <strong>live instance</strong> — read and write its fields directly and the scene updates.</li>
+<li><code>GUI::ShowProperty(&quot;name&quot;)</code> draws the default widget for a single field; <code>GUI::ShowAllProperties()</code> draws them all at once — a handy starting point you then add buttons around.</li>
+</ul>
+<h2>The <code>GUI</code> API</h2>
+<p>Everything you draw — in an inspector or a window — goes through the immediate-mode <strong><code>GUI</code></strong> namespace. You call a widget <strong>every frame</strong>, and its return value <em>is</em> the interaction: <code>GUI::Button</code> returns <code>true</code> on the frame it&#39;s clicked, input widgets return the edited value.</p>
+<pre><code class="language-angelscript">GUI::Text(&quot;A plain label&quot;);
+GUI::TextColored(Color::green, &quot;A coloured one&quot;);
+
+if (GUI::Button(&quot;Do it&quot;)) { /* clicked this frame */ }
+
+// Input widgets take the current value and return the (possibly) edited one.
+// Store that value in a member field so it survives to the next frame.
+count   = GUI::InputInt(&quot;Count&quot;, count);
+speed   = GUI::DragInt(&quot;Speed&quot;, speed, 0.1F);   // drag left/right to scrub
+enabled = GUI::Checkbox(&quot;Enabled&quot;, enabled);
+
+bool edited = false;
+name = GUI::InputText(&quot;Name&quot;, name, edited, GUI::InputTextFlags::EnterToAccept);
+if (edited) Debug::Log(&quot;Committed: &quot; + name);
+
+if (GUI::BeginCombo(&quot;Mode&quot;, mode, GUI::ComboFlags::HeightLargest))
+{
+    if (GUI::Selectable(&quot;Easy&quot;, mode == &quot;Easy&quot;)) mode = &quot;Easy&quot;;
+    if (GUI::Selectable(&quot;Hard&quot;, mode == &quot;Hard&quot;)) mode = &quot;Hard&quot;;
+    GUI::EndCombo();
+}
+</code></pre>
+<p>A few things you&#39;ll reach for constantly:</p>
+<ul>
+<li><strong>Layout</strong> — <code>GUI::SameLine()</code> keeps the next widget on the current row; <code>GUI::SetCursorPosX(x)</code> places it by hand.</li>
+<li><strong>IDs in loops</strong> — when you draw the same label inside a loop, wrap each iteration in <code>GUI::PushIDNum(i)</code> / <code>GUI::PopID()</code> so every widget keeps a unique identity (otherwise they fight over one).</li>
+<li><strong>Inspector helpers</strong> — <code>GUI::ShowProperty</code>, <code>GUI::ShowAllProperties</code>, <code>GUI::ShowTexture</code>, <code>GUI::ShowSprite</code>, and asset pickers like <code>GUI::ShowResourceProperty</code>.</li>
+<li><strong>Filtering</strong> — a <code>GUI::TextFilter</code> gives you a search box that filters a list with <code>.Pass(text)</code>.</li>
+</ul>
+<blockquote>
+<p>[!TIP]
+Bracket a change with <code>GUI::SaveState()</code> right <strong>before</strong> you mutate the target, and the edit joins the editor&#39;s undo history — Ctrl+Z restores the previous value.</p>
+</blockquote>
+<h2>Custom editor windows</h2>
+<p>For bigger tools — a level validator, an asset browser, a spawn-table editor — subclass <strong><code>EditorWindow</code></strong>. Its <code>OnGUI()</code> runs every frame the window is open, drawn with the same <code>GUI</code> API:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEditor;
+
+[MainMenuItemWindow(&quot;Tools/Spawn Editor&quot;, &quot;Spawn Editor&quot;)]
+class SpawnEditor : EditorWindow
+{
+    private array&lt;string&gt; entries = {&quot;Goblin&quot;, &quot;Slime&quot;, &quot;Bat&quot;};
+    private string filter;
+
+    void Awake()
+    {
+        saveChangesMessage = &quot;Save changes to the spawn table?&quot;;
+    }
+
+    void OnGUI()
+    {
+        GUI::Text(&quot;Spawn table&quot;);
+        filter = GUI::InputText(&quot;Filter&quot;, filter);
+        GUI::TextFilter tf = GUI::TextFilter(filter);
+
+        int toRemove = -1;
+        for (uint i = 0; i &lt; entries.length(); i++)
+        {
+            if (!tf.Pass(entries[i])) continue;
+
+            GUI::PushIDNum(i);                 // unique id per row
+            GUI::Text(entries[i]);
+            GUI::SameLine();
+            if (GUI::Button(&quot;Remove&quot;)) toRemove = int(i);
+            GUI::PopID();
+        }
+        if (toRemove &gt;= 0)                     // mutate after the loop, not during
+        {
+            entries.removeAt(toRemove);
+            hasUnsavedChanges = true;
+        }
+
+        if (GUI::Button(&quot;Add Goblin&quot;))
+        {
+            entries.insertLast(&quot;Goblin&quot;);
+            hasUnsavedChanges = true;
+        }
+    }
+
+    WindowConfig OnGetWindowConfig()
+    {
+        WindowConfig config;
+        config.initialSize = Vector2i(360, 480);
+        config.initialPositionType = WindowConfigPositionType::CENTERED;
+        config.dockable = true;
+        config.iconRaw = RawIcon::AddressBook;
+        return config;
+    }
+}
+</code></pre>
+<h3>Opening a window</h3>
+<p>Two ways, and you&#39;ll often use both:</p>
+<ul>
+<li><strong><code>[MainMenuItemWindow(&quot;Tools/Spawn Editor&quot;, &quot;Spawn Editor&quot;)]</code></strong> on the class adds a menu-bar item that opens it. The second argument is the window title.</li>
+<li><strong><code>EditorWindow::CreateOrShow(&quot;SpawnEditor&quot;, &quot;Spawn Editor&quot;)</code></strong> opens (or focuses, if it&#39;s already open) the window by class name — call it from a <code>[MainMenuItem]</code>, a button in a custom inspector, anywhere.</li>
+</ul>
+<h3>Configuring the window</h3>
+<p><code>OnGetWindowConfig()</code> is optional and sets the window up the first time it appears. Beyond the fields above, <code>WindowConfig</code> also carries <code>initialPosition</code> (with <code>WindowConfigPositionType::CUSTOM</code>), <code>resizable</code>, <code>hasMenuBar</code>, <code>hasCloseButton</code>, <code>hasTitleBar</code>, <code>canCollapse</code> and more. <code>iconRaw</code> takes a <code>RawIcon::</code> name for the tab icon.</p>
+<h3>A menu bar inside your window</h3>
+<p>Set <code>hasMenuBar</code> and draw one at the top of <code>OnGUI</code> with the menu widgets:</p>
+<pre><code class="language-angelscript">if (GUI::BeginMenuBar())
+{
+    if (GUI::BeginMenu(&quot;File&quot;))
+    {
+        if (GUI::MenuItem(&quot;Save&quot;))  Save();
+        if (GUI::MenuItem(&quot;Close&quot;)) Close();
+        GUI::EndMenu();
+    }
+    GUI::EndMenuBar();
+}
+</code></pre>
+<h3>Unsaved changes</h3>
+<p>Set <code>hasUnsavedChanges = true</code> whenever the user edits something. If they try to close the window with unsaved work, the editor shows a confirmation using your <code>saveChangesMessage</code>, then calls <strong><code>OnSaveChanges()</code></strong> or <strong><code>OnDiscardChanges()</code></strong> so you can react:</p>
+<pre><code class="language-angelscript">void OnSaveChanges()    { WriteTableToDisk(); hasUnsavedChanges = false; }
+void OnDiscardChanges() { ReloadTableFromDisk(); }
+</code></pre>
+<p>Windows also expose <code>Focus()</code>, <code>Show()</code>, <code>Hide()</code>, <code>Close()</code>, and read-only state like <code>isDocked</code>, <code>isFocused</code>, <code>isHovered</code> and <code>isVisible</code> — handy when one tool drives another.</p>
+<h2>Custom asset types on the Create menu</h2>
+<p><code>[AssetMenu(&quot;Display Name&quot;, &quot;Path/In/Create/Menu&quot;)]</code> on a <code>CometObject</code> script adds an entry to the Project panel&#39;s <strong>Create</strong> menu, so you (and your team) can make instances of your own data types right in the editor:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+[AssetMenu(&quot;Dialogue Table&quot;, &quot;Gameplay/Dialogue Table&quot;)]
+class DialogueTable : CometObject
+{
+    array&lt;string&gt; speakers;
+    array&lt;string&gt; lines;
+}
+</code></pre>
+<p>Now <strong>Create → Gameplay → Dialogue Table</strong> drops a new <code>DialogueTable</code> asset into the project, editable in the Inspector — and skinnable with a <code>[CustomInspector(&quot;DialogueTable&quot;)]</code> of its own.</p>
+<h2>Where to go next</h2>
+<p>Editor tooling compounds. A <code>[CustomInspector]</code> with a <strong>Bake</strong> button, an <code>EditorWindow</code> that lists every broken reference in your scenes, a <code>[MainMenuItem]</code> that kicks off your <a href="/tutorials/build-and-patches">export pipeline</a> — each one shaves minutes off every day. And because it all lives in an <code>Editor/</code> folder, none of it ships in the game: it exists purely to make <em>building</em> the game faster.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -201,14 +201,15 @@ Remember the platform's limits: no native sockets (use WebSockets — see [Netwo
 
 ## Platform macros in AngelScript
 
-Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines a **preprocessor macro** for the platform each compile targets, and you branch on it with `#ifdef` / `#ifndef` / `#else` / `#endif`:
+Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines **preprocessor macros** — for the target platform, and for the build configuration — and you branch on them with `#ifdef` / `#ifndef` / `#else` / `#endif`:
 
-| Macro | Defined when compiling for... |
-|-------|-------------------------------|
-| `COMET_STANDALONE` | a Windows or Linux desktop build |
-| `COMET_ANDROID` | an Android build |
-| `COMET_WEB` | a Web (Emscripten/WASM) build |
+| Macro | Defined when... |
+|-------|-----------------|
+| `COMET_STANDALONE` | compiling a Windows or Linux desktop build |
+| `COMET_ANDROID` | compiling an Android build |
+| `COMET_WEB` | compiling a Web (Emscripten/WASM) build |
 | `COMET_EDITOR` | running **inside the editor** (play mode / edit mode), not an exported build |
+| `COMET_DEVELOPMENT` | running in the editor **or** a **development build** — stripped from a shipping build |
 
 `COMET_EDITOR` is the important one: it's defined while your scripts run in the editor and **absent in every exported build**. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:
 
@@ -244,26 +245,35 @@ The build system also lets you define your own **scripting constants** per platf
 > [!TIP]
 > `COMET_EDITOR` is true in **both** edit mode and play mode inside the editor. If you need "only in a real build", use `#ifndef COMET_EDITOR`. If you need "only on desktop", use `#ifdef COMET_STANDALONE`.
 
-### Detecting a development build at runtime
+### Development-only code: `COMET_DEVELOPMENT`
 
-The `#ifdef` macros above are **compile-time** — resolved when the script is built, so they can't tell a *development* build from a *release* one (both are, say, `COMET_STANDALONE`). For that, check at **runtime** with `Debug::IsDevelopmentBuild()`: it returns `true` when the **Development Build** box was ticked and `false` in a release build. Use it to gate cheats, debug overlays or verbose logging without maintaining a separate build:
+`COMET_EDITOR` strips code from **every** exported build — perfect for editor tooling, but too aggressive when you want debug helpers that live in the **development builds** you hand to testers. That's what `COMET_DEVELOPMENT` is for: it's defined in the editor **and** in a development build (the **Development Build** box), and stripped only from a **shipping** build. So `#ifdef COMET_DEVELOPMENT` code behaves identically while you develop in the editor and in the dev build you send out — then vanishes from the release:
 
 ```angelscript
 using namespace CometEngine;
 
-class Cheats : CometBehaviour
+class DiagnosticsOverlay : CometBehaviour
 {
     void Update()
     {
-        if (!Debug::IsDevelopmentBuild()) return;   // release build: stay out of the way
-
-        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
-        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+#ifdef COMET_DEVELOPMENT
+        // Editor + development builds; compiled out of the shipping game.
+        if (Input::GetKeyDown(KeyCode::F8)) ToggleDebugOverlay();
+#endif
     }
 }
 ```
 
-It pairs naturally with the compile-time macros: wrap editor-only tooling in `#ifdef COMET_EDITOR`, and gate the debug helpers that *do* ship in dev builds behind `Debug::IsDevelopmentBuild()`.
+Need the same test at **runtime** rather than compile time — to flip a flag or log a line without wrapping it in an `#ifdef`? `Debug::IsDevelopmentBuild()` returns the identical truth: `true` in the editor and development builds, `false` in a shipping build.
+
+```angelscript
+if (Debug::IsDevelopmentBuild())
+{
+    Debug::Log("Development build - verbose diagnostics enabled");
+}
+```
+
+Rule of thumb: **`COMET_EDITOR`** for editor-only tooling, **`COMET_DEVELOPMENT`** (or `Debug::IsDevelopmentBuild()`) for anything that should run while you develop *and* in test builds, but never in the game you ship.
 
 ## Automating builds (CI)
 

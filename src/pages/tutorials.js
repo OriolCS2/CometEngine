@@ -17,6 +17,7 @@ import audioMd from '../tutorials/audio.md?raw';
 import navigationMd from '../tutorials/navigation.md?raw';
 import networkingMd from '../tutorials/networking.md?raw';
 import nodeGraphMd from '../tutorials/node-graph.md?raw';
+import editorMd from '../tutorials/extending-the-editor.md?raw';
 import buildMd from '../tutorials/build-and-patches.md?raw';
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -144,6 +145,14 @@ const TUTORIALS = [
     md: nodeGraphMd,
   },
   {
+    id: 'extending-the-editor',
+    title: 'Extending the Editor',
+    icon: 'fa-puzzle-piece',
+    category: 'Editor Tooling',
+    blurb: 'Build custom editor windows, inspectors and menu-bar tools in AngelScript.',
+    md: editorMd,
+  },
+  {
     id: 'build-and-patches',
     title: 'Exporting Builds & Shipping Patches',
     icon: 'fa-box-open',
@@ -153,7 +162,7 @@ const TUTORIALS = [
   },
 ];
 
-const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Shipping'];
+const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Editor Tooling', 'Shipping'];
 
 let sidebarFilter = '';
 

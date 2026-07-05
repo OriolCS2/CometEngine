@@ -86,7 +86,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-0yaqExtq.js"></script>
+  <script type="module" crossorigin src="/assets/index-DEISBsUv.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-CYcEEQRb.css">
 </head>
 
@@ -353,29 +353,33 @@ class PatchManager : CometBehaviour
 </ul>
 <p>Remember the platform&#39;s limits: no native sockets (use WebSockets — see <a href="/tutorials/networking">Networking</a>) and no threads.</p>
 <h2>Platform macros in AngelScript</h2>
-<p>Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines a <strong>preprocessor macro</strong> for the platform each compile targets, and you branch on it with <code>#ifdef</code> / <code>#ifndef</code> / <code>#else</code> / <code>#endif</code>:</p>
+<p>Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines <strong>preprocessor macros</strong> — for the target platform, and for the build configuration — and you branch on them with <code>#ifdef</code> / <code>#ifndef</code> / <code>#else</code> / <code>#endif</code>:</p>
 <table>
 <thead>
 <tr>
 <th>Macro</th>
-<th>Defined when compiling for...</th>
+<th>Defined when...</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>COMET_STANDALONE</code></td>
-<td>a Windows or Linux desktop build</td>
+<td>compiling a Windows or Linux desktop build</td>
 </tr>
 <tr>
 <td><code>COMET_ANDROID</code></td>
-<td>an Android build</td>
+<td>compiling an Android build</td>
 </tr>
 <tr>
 <td><code>COMET_WEB</code></td>
-<td>a Web (Emscripten/WASM) build</td>
+<td>compiling a Web (Emscripten/WASM) build</td>
 </tr>
 <tr>
 <td><code>COMET_EDITOR</code></td>
 <td>running <strong>inside the editor</strong> (play mode / edit mode), not an exported build</td>
+</tr>
+<tr>
+<td><code>COMET_DEVELOPMENT</code></td>
+<td>running in the editor <strong>or</strong> a <strong>development build</strong> — stripped from a shipping build</td>
 </tr>
 </tbody></table>
 <p><code>COMET_EDITOR</code> is the important one: it&#39;s defined while your scripts run in the editor and <strong>absent in every exported build</strong>. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:</p>
@@ -409,22 +413,28 @@ class DebugTools : CometBehaviour
 <p>[!TIP]
 <code>COMET_EDITOR</code> is true in <strong>both</strong> edit mode and play mode inside the editor. If you need &quot;only in a real build&quot;, use <code>#ifndef COMET_EDITOR</code>. If you need &quot;only on desktop&quot;, use <code>#ifdef COMET_STANDALONE</code>.</p>
 </blockquote>
-<h3>Detecting a development build at runtime</h3>
-<p>The <code>#ifdef</code> macros above are <strong>compile-time</strong> — resolved when the script is built, so they can&#39;t tell a <em>development</em> build from a <em>release</em> one (both are, say, <code>COMET_STANDALONE</code>). For that, check at <strong>runtime</strong> with <code>Debug::IsDevelopmentBuild()</code>: it returns <code>true</code> when the <strong>Development Build</strong> box was ticked and <code>false</code> in a release build. Use it to gate cheats, debug overlays or verbose logging without maintaining a separate build:</p>
+<h3>Development-only code: <code>COMET_DEVELOPMENT</code></h3>
+<p><code>COMET_EDITOR</code> strips code from <strong>every</strong> exported build — perfect for editor tooling, but too aggressive when you want debug helpers that live in the <strong>development builds</strong> you hand to testers. That&#39;s what <code>COMET_DEVELOPMENT</code> is for: it&#39;s defined in the editor <strong>and</strong> in a development build (the <strong>Development Build</strong> box), and stripped only from a <strong>shipping</strong> build. So <code>#ifdef COMET_DEVELOPMENT</code> code behaves identically while you develop in the editor and in the dev build you send out — then vanishes from the release:</p>
 <pre><code class="language-angelscript">using namespace CometEngine;
 
-class Cheats : CometBehaviour
+class DiagnosticsOverlay : CometBehaviour
 {
     void Update()
     {
-        if (!Debug::IsDevelopmentBuild()) return;   // release build: stay out of the way
-
-        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
-        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+#ifdef COMET_DEVELOPMENT
+        // Editor + development builds; compiled out of the shipping game.
+        if (Input::GetKeyDown(KeyCode::F8)) ToggleDebugOverlay();
+#endif
     }
 }
 </code></pre>
-<p>It pairs naturally with the compile-time macros: wrap editor-only tooling in <code>#ifdef COMET_EDITOR</code>, and gate the debug helpers that <em>do</em> ship in dev builds behind <code>Debug::IsDevelopmentBuild()</code>.</p>
+<p>Need the same test at <strong>runtime</strong> rather than compile time — to flip a flag or log a line without wrapping it in an <code>#ifdef</code>? <code>Debug::IsDevelopmentBuild()</code> returns the identical truth: <code>true</code> in the editor and development builds, <code>false</code> in a shipping build.</p>
+<pre><code class="language-angelscript">if (Debug::IsDevelopmentBuild())
+{
+    Debug::Log(&quot;Development build - verbose diagnostics enabled&quot;);
+}
+</code></pre>
+<p>Rule of thumb: <strong><code>COMET_EDITOR</code></strong> for editor-only tooling, <strong><code>COMET_DEVELOPMENT</code></strong> (or <code>Debug::IsDevelopmentBuild()</code>) for anything that should run while you develop <em>and</em> in test builds, but never in the game you ship.</p>
 <h2>Automating builds (CI)</h2>
 <p>Everything the Build window does is available headless — perfect for nightly builds and release pipelines:</p>
 <pre><code class="language-text">CometEngine.exe --export Windows --path &quot;C:/projects/MyGame&quot; --export-path &quot;C:/builds/win64&quot;

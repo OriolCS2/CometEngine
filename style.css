@@ -1817,6 +1817,7 @@ footer {
   .docs-layout {
     flex-direction: column;
     height: auto;
+    margin-top: 160px;   /* clear the taller wrapped mobile nav (matches the hero offset) */
   }
 
   .docs-sidebar {
@@ -2014,6 +2015,11 @@ footer {
 
 .tut-sidebar {
   width: 300px;
+}
+
+/* The "Browse tutorials" collapse toggle only exists on mobile (see below). */
+.tut-nav-toggle {
+  display: none;
 }
 
 .tut-nav-category {
@@ -2455,5 +2461,59 @@ footer {
 
   .tut-hero h1 {
     font-size: 2.2rem;
+  }
+}
+
+/* ─── Mobile: collapse the tutorial sidebar so the article shows first ─── */
+@media (max-width: 768px) {
+  .tut-sidebar {
+    height: auto;                 /* override .docs-sidebar's fixed 400px */
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .tut-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    background: var(--bg-secondary);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  .tut-nav-toggle > span {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .tut-nav-toggle-chevron {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    transition: transform 0.2s ease;
+  }
+
+  .tut-sidebar.open .tut-nav-toggle-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Collapsed by default: only the toggle bar shows, article sits right below. */
+  .tut-sidebar .docs-sidebar-search,
+  .tut-sidebar .docs-sidebar-tree {
+    display: none;
+  }
+
+  .tut-sidebar.open .docs-sidebar-search {
+    display: block;
+  }
+
+  .tut-sidebar.open .docs-sidebar-tree {
+    display: block;
+    max-height: 65vh;
+    overflow-y: auto;
   }
 }

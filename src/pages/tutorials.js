@@ -477,7 +477,11 @@ function renderTutorialPage(container, tutorial) {
 
   container.innerHTML = `
     <div class="docs-layout">
-      <div class="docs-sidebar tut-sidebar">
+      <div class="docs-sidebar tut-sidebar" id="tut-sidebar">
+        <button class="tut-nav-toggle" id="tut-nav-toggle" type="button" aria-expanded="false">
+          <span><i class="fas fa-bars"></i> Browse tutorials</span>
+          <i class="fas fa-chevron-down tut-nav-toggle-chevron"></i>
+        </button>
         <div class="docs-sidebar-search">
           <input type="text" id="tut-search" class="search-box" placeholder="Filter tutorials..." style="margin-bottom: 0;" value="${sidebarFilter.replace(/"/g, '&quot;')}">
         </div>
@@ -553,6 +557,17 @@ function renderTutorialPage(container, tutorial) {
     sidebarFilter = e.target.value;
     document.getElementById('tut-nav').innerHTML = renderSidebar(tutorial.id);
   });
+
+  // Mobile: the sidebar collapses into a "Browse tutorials" toggle so the
+  // article is what you see first; tapping it drops down the nav tree.
+  const navToggle = document.getElementById('tut-nav-toggle');
+  const sidebarEl = document.getElementById('tut-sidebar');
+  if (navToggle && sidebarEl) {
+    navToggle.addEventListener('click', () => {
+      const open = sidebarEl.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
   document.getElementById('tut-scroll').scrollTop = 0;
 }

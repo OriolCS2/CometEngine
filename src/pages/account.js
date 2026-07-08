@@ -1,11 +1,11 @@
 import { navigate, currentRoute } from '../lib/router.js';
 import {
   CATEGORIES, MAX_ZIP_BYTES, MAX_SCREENSHOTS,
-  isBackendConfigured, getUser, signInWithGoogle, isCurrentUserAdmin,
+  isBackendConfigured, getUser, signInWithGoogle, isCurrentUserAdmin, getMyProfile,
   listMyPackages, listAllPackagesAdmin, getPackageById, getPackageBySlug, listVersions,
   createPackage, updatePackage, publishVersion, setPackageStatus, deletePackage,
-  setVersionDeprecated, setPackageDeprecated, setPackageFeatured,
-  findExistingSlugs, getDailyDownloads,
+  setVersionDeprecated, setPackageDeprecated,
+  findExistingSlugs, getDailyDownloads, updateMyBio,
 } from '../lib/marketplace-api.js';
 import {
   escapeHtml, renderMarkdown, formatBytes, formatDownloads, formatDate,
@@ -119,6 +119,7 @@ async function renderDashboard(container, user) {
   const meta = user.user_metadata || {};
   const name = meta.full_name || meta.name || user.email || 'Account';
   const isAdmin = await isCurrentUserAdmin();
+  const profile = await getMyProfile();
 
   container.innerHTML = `
     <section class="mp-section">
@@ -139,11 +140,29 @@ async function renderDashboard(container, user) {
             <a href="/account/admin" class="filter-btn"><i class="fas fa-list-check"></i> Manage all packages</a>
           </div>
         ` : ''}
+        <div class="acc-bio-row">
+          <input type="text" id="acc-bio" class="search-box" maxlength="200"
+                 placeholder="Public publisher bio (shown on your publisher page)..."
+                 value="${escapeHtml(profile?.bio || '')}">
+          <button class="filter-btn" id="acc-bio-save"><i class="fas fa-floppy-disk"></i> Save bio</button>
+        </div>
         <h2 class="acc-section-title">My Packages</h2>
         <div id="acc-list"><div class="loading">Loading your packages...</div></div>
       </div>
     </section>
   `;
+
+  container.querySelector('#acc-bio-save').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    try {
+      await updateMyBio(user.id, container.querySelector('#acc-bio').value.trim() || null);
+      showToast('Bio saved.', 'success');
+    } catch (err) {
+      showToast(`Could not save the bio: ${err.message}`, 'error');
+    }
+    btn.disabled = false;
+  });
 
   const list = container.querySelector('#acc-list');
   try {
@@ -160,35 +179,40 @@ async function renderDashboard(container, user) {
     }
 
     list.innerHTML = packages.map(pkg => `
-      <div class="acc-pkg-row" data-id="${escapeHtml(pkg.id)}">
-        <div class="acc-pkg-info">
-          ${pkg.icon_url ? `<img src="${escapeHtml(pkg.icon_url)}" alt="">` : '<div class="mp-card-icon-fallback acc-pkg-icon-fallback"><i class="fas fa-cube"></i></div>'}
-          <div>
-            <strong>${escapeHtml(pkg.name)}</strong>
-            <div class="acc-pkg-meta">
-              <span class="mp-badge ${pkg.status === 'published' ? 'mp-badge-green' : 'mp-badge-dim'}">${pkg.status === 'published' ? 'Published' : 'Draft (hidden)'}</span>
-              <span><i class="fas fa-tag"></i> v${escapeHtml(pkg.latest_version || '—')}</span>
-              <span><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)}</span>
-              <span>Updated ${formatDate(pkg.updated_at)}</span>
+      <div class="acc-pkg-block" data-id="${escapeHtml(pkg.id)}">
+        <div class="acc-pkg-row">
+          <div class="acc-pkg-info">
+            ${pkg.icon_url ? `<img src="${escapeHtml(pkg.icon_url)}" alt="">` : '<div class="mp-card-icon-fallback acc-pkg-icon-fallback"><i class="fas fa-cube"></i></div>'}
+            <div>
+              <strong>${escapeHtml(pkg.name)}</strong>
+              <div class="acc-pkg-meta">
+                <span class="mp-badge ${pkg.status === 'published' ? 'mp-badge-green' : 'mp-badge-dim'}">${pkg.status === 'published' ? 'Published' : 'Draft (hidden)'}</span>
+                ${pkg.deprecated ? '<span class="mp-badge mp-badge-warn">Deprecated</span>' : ''}
+                <span><i class="fas fa-tag"></i> v${escapeHtml(pkg.latest_version || '—')}</span>
+                <span><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)}</span>
+                <span>Updated ${formatDate(pkg.updated_at)}</span>
+              </div>
             </div>
           </div>
+          <div class="acc-pkg-actions">
+            <a class="filter-btn" href="/marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i></a>
+            <a class="filter-btn" href="/account/version/${encodeURIComponent(pkg.id)}" title="Publish new version"><i class="fas fa-circle-up"></i> New version</a>
+            <a class="filter-btn" href="/account/edit/${encodeURIComponent(pkg.id)}" title="Edit presentation"><i class="fas fa-pen"></i> Edit</a>
+            <button class="filter-btn acc-expand" title="Versions and stats"><i class="fas fa-chart-line"></i> Manage</button>
+            <button class="filter-btn acc-toggle-status" title="${pkg.status === 'published' ? 'Hide from the marketplace' : 'Make public'}">
+              ${pkg.status === 'published' ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
+            </button>
+            <button class="filter-btn acc-delete" title="Delete package"><i class="fas fa-trash"></i></button>
+          </div>
         </div>
-        <div class="acc-pkg-actions">
-          <a class="filter-btn" href="/marketplace/${encodeURIComponent(pkg.slug)}" title="View public page"><i class="fas fa-eye"></i></a>
-          <a class="filter-btn" href="/account/version/${encodeURIComponent(pkg.id)}" title="Publish new version"><i class="fas fa-circle-up"></i> New version</a>
-          <a class="filter-btn" href="/account/edit/${encodeURIComponent(pkg.id)}" title="Edit metadata"><i class="fas fa-pen"></i> Edit</a>
-          <button class="filter-btn acc-toggle-status" title="${pkg.status === 'published' ? 'Hide from the marketplace' : 'Make public'}">
-            ${pkg.status === 'published' ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
-          </button>
-          <button class="filter-btn acc-delete" title="Delete package"><i class="fas fa-trash"></i></button>
-        </div>
+        <div class="acc-pkg-details" hidden></div>
       </div>
     `).join('');
 
-    list.querySelectorAll('.acc-pkg-row').forEach(row => {
-      const pkg = packages.find(p => String(p.id) === row.dataset.id);
+    list.querySelectorAll('.acc-pkg-block').forEach(block => {
+      const pkg = packages.find(p => String(p.id) === block.dataset.id);
 
-      row.querySelector('.acc-toggle-status').addEventListener('click', async (e) => {
+      block.querySelector('.acc-toggle-status').addEventListener('click', async (e) => {
         const btn = e.currentTarget;
         btn.disabled = true;
         try {
@@ -202,7 +226,7 @@ async function renderDashboard(container, user) {
         }
       });
 
-      row.querySelector('.acc-delete').addEventListener('click', async (e) => {
+      block.querySelector('.acc-delete').addEventListener('click', async (e) => {
         if (!confirm(`Delete "${pkg.name}" permanently?\n\nThis removes the package, ALL its versions and all its files. This cannot be undone.`)) return;
         const btn = e.currentTarget;
         btn.disabled = true;
@@ -215,10 +239,131 @@ async function renderDashboard(container, user) {
           showToast(`Delete failed: ${err.message}`, 'error');
         }
       });
+
+      block.querySelector('.acc-expand').addEventListener('click', async () => {
+        const details = block.querySelector('.acc-pkg-details');
+        if (!details.hidden) {
+          details.hidden = true;
+          return;
+        }
+        details.hidden = false;
+        details.innerHTML = '<div class="loading">Loading versions and stats...</div>';
+        await renderPackageManage(details, container, user, pkg);
+      });
     });
   } catch (e) {
     list.innerHTML = `<div class="mp-empty"><i class="fas fa-triangle-exclamation"></i><p>Error loading packages: ${escapeHtml(e.message)}</p></div>`;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Per-package manage view: daily download sparkline + version deprecation
+// ---------------------------------------------------------------------------
+
+function sparklineSvg(days) {
+  if (!days || days.length === 0) {
+    return '<p class="acc-spark-empty">No downloads in the last 30 days.</p>';
+  }
+  const values = days.map(d => Number(d.downloads) || 0);
+  const max = Math.max(...values, 1);
+  const width = 320;
+  const height = 48;
+  const step = values.length > 1 ? width / (values.length - 1) : width;
+  const points = values.map((v, i) => `${(i * step).toFixed(1)},${(height - (v / max) * (height - 4) - 2).toFixed(1)}`).join(' ');
+  const total = values.reduce((s, v) => s + v, 0);
+  return `
+    <div class="acc-spark">
+      <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points="${points}" fill="none" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      <span>${total} download${total === 1 ? '' : 's'} · last ${days.length} day${days.length === 1 ? '' : 's'}</span>
+    </div>
+  `;
+}
+
+async function renderPackageManage(host, container, user, pkg) {
+  let versions = [];
+  let days = [];
+  try {
+    [versions, days] = await Promise.all([listVersions(pkg.id), getDailyDownloads(pkg.id, 30)]);
+  } catch (e) {
+    host.innerHTML = `<div class="form-error">${escapeHtml(e.message)}</div>`;
+    return;
+  }
+
+  host.innerHTML = `
+    ${sparklineSvg(days)}
+    <div class="acc-pkg-deprecate">
+      <button class="filter-btn" id="acc-pkg-deprecate-btn">
+        ${pkg.deprecated ? '<i class="fas fa-rotate-left"></i> Un-deprecate package' : '<i class="fas fa-ban"></i> Deprecate package'}
+      </button>
+      ${pkg.deprecated && pkg.deprecated_message ? `<span class="acc-deprecate-msg">${escapeHtml(pkg.deprecated_message)}</span>` : ''}
+    </div>
+    <table class="pub-deps-table acc-versions-table">
+      <thead><tr><th>Version</th><th>Published</th><th>Downloads</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        ${versions.map(v => `
+          <tr data-version-id="${escapeHtml(v.id)}">
+            <td>${v.deprecated ? `<s>v${escapeHtml(v.version)}</s>` : `v${escapeHtml(v.version)}`}</td>
+            <td>${formatDate(v.created_at)}</td>
+            <td>${formatDownloads(v.download_count)}</td>
+            <td>${v.deprecated ? `<span class="mp-badge mp-badge-warn" title="${escapeHtml(v.deprecated_message || '')}">Deprecated</span>` : '<span class="mp-badge mp-badge-green">Active</span>'}</td>
+            <td><button class="filter-btn acc-ver-deprecate">${v.deprecated ? 'Un-deprecate' : 'Deprecate'}</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  host.querySelector('#acc-pkg-deprecate-btn').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    try {
+      if (pkg.deprecated) {
+        await setPackageDeprecated(pkg.id, false, null);
+        showToast(`"${pkg.name}" is no longer deprecated.`, 'success');
+      } else {
+        const message = prompt(`Deprecate "${pkg.name}"?\n\nOptional message shown to users (e.g. "Superseded by acme-ui-kit-2"):`);
+        if (message === null) {
+          btn.disabled = false;
+          return;
+        }
+        await setPackageDeprecated(pkg.id, true, message.trim() || null);
+        showToast(`"${pkg.name}" is now deprecated.`, 'success');
+      }
+      renderDashboard(container, user);
+    } catch (err) {
+      btn.disabled = false;
+      showToast(`Could not change the deprecation: ${err.message}`, 'error');
+    }
+  });
+
+  host.querySelectorAll('.acc-ver-deprecate').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const row = e.currentTarget.closest('tr');
+      const version = versions.find(v => String(v.id) === row.dataset.versionId);
+      if (!version) return;
+      e.currentTarget.disabled = true;
+      try {
+        if (version.deprecated) {
+          await setVersionDeprecated(version.id, false, null);
+          showToast(`v${version.version} is active again.`, 'success');
+        } else {
+          const message = prompt(`Deprecate v${version.version}?\n\nOptional message shown to users:`);
+          if (message === null) {
+            e.currentTarget.disabled = false;
+            return;
+          }
+          await setVersionDeprecated(version.id, true, message.trim() || null);
+          showToast(`v${version.version} is now deprecated.`, 'success');
+        }
+        await renderPackageManage(host, container, user, pkg);
+      } catch (err) {
+        e.currentTarget.disabled = false;
+        showToast(`Could not change the deprecation: ${err.message}`, 'error');
+      }
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------

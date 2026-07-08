@@ -1,13 +1,21 @@
 import { navigate } from '../lib/router.js';
 import {
-  CATEGORIES, isBackendConfigured, listPackages, getPackageBySlug, listVersions,
-  getProfile, getZipUrl, recordDownload,
-  getUser, isCurrentUserAdmin, setPackageStatus, deletePackage,
+  CATEGORIES, isBackendConfigured, listPackages, listFeaturedPackages, listPackagesDependingOn,
+  getPackageBySlug, listVersions, getProfile, getZipUrl, recordDownload,
+  getUser, isCurrentUserAdmin, setPackageStatus, setPackageFeatured, deletePackage,
 } from '../lib/marketplace-api.js';
 import {
   escapeHtml, renderMarkdown, formatBytes, formatDownloads, formatDate,
   showToast, openLightbox,
 } from '../lib/ui.js';
+import { versionChannel } from '../lib/package-manifest.js';
+
+function channelBadge(version) {
+  const channel = versionChannel(version || '');
+  if (channel === 'pre') return '<span class="mp-badge mp-badge-accent">Pre-release</span>';
+  if (channel === 'exp') return '<span class="mp-badge mp-badge-dim">Experimental</span>';
+  return '';
+}
 
 // Routes handled here:
 //   #marketplace                      → store front (search / filter / sort)
@@ -30,7 +38,8 @@ export async function renderMarketplace(container, hash) {
 // Store front
 // ---------------------------------------------------------------------------
 
-const storeState = { search: '', category: '', sort: 'newest' };
+const PAGE_SIZE = 24;
+const storeState = { search: '', category: '', sort: 'newest', packageType: '', offset: 0, rows: [], hasMore: false };
 
 function renderStoreFront(container) {
   container.innerHTML = `
@@ -39,11 +48,16 @@ function renderStoreFront(container) {
         ${demoBanner()}
         <div class="mp-header">
           <h1>Marketplace</h1>
-          <p>Free community add-ons for Comet Engine: tools, art, audio, templates and more.</p>
+          <p>Free community add-ons for Comet Engine: tools, art, audio, templates and more. Install them straight from the editor's <strong>Package Manager</strong>.</p>
         </div>
         <div class="mp-toolbar">
           <input type="text" id="mp-search" class="search-box mp-search" placeholder="Search packages..."
                  value="${escapeHtml(storeState.search)}">
+          <div class="mp-type-toggle" id="mp-type">
+            <button class="filter-btn ${storeState.packageType === '' ? 'active' : ''}" data-type="">All</button>
+            <button class="filter-btn ${storeState.packageType === 'package' ? 'active' : ''}" data-type="package">Packages</button>
+            <button class="filter-btn ${storeState.packageType === 'assetPack' ? 'active' : ''}" data-type="assetPack">Asset Packs</button>
+          </div>
           <select id="mp-category" class="search-box mp-select">
             <option value="">All categories</option>
             ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${storeState.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
@@ -55,8 +69,12 @@ function renderStoreFront(container) {
             <option value="name" ${storeState.sort === 'name' ? 'selected' : ''}>Name (A-Z)</option>
           </select>
         </div>
+        <div id="mp-featured"></div>
         <div id="mp-grid" class="mp-grid">
           <div class="loading">Loading packages...</div>
+        </div>
+        <div class="mp-load-more" id="mp-more" hidden>
+          <button class="filter-btn" id="mp-more-btn"><i class="fas fa-angles-down"></i> Load more</button>
         </div>
       </div>
     </section>
@@ -66,29 +84,75 @@ function renderStoreFront(container) {
   const categorySelect = container.querySelector('#mp-category');
   const sortSelect = container.querySelector('#mp-sort');
   const grid = container.querySelector('#mp-grid');
+  const featuredHost = container.querySelector('#mp-featured');
+  const moreHost = container.querySelector('#mp-more');
+
+  const reload = () => {
+    storeState.offset = 0;
+    storeState.rows = [];
+    loadGrid(grid, moreHost, featuredHost, false);
+  };
 
   let debounce = null;
   searchInput.addEventListener('input', () => {
     storeState.search = searchInput.value;
     clearTimeout(debounce);
-    debounce = setTimeout(() => loadGrid(grid), 300);
+    debounce = setTimeout(reload, 300);
+  });
+  container.querySelectorAll('#mp-type .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('#mp-type .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      storeState.packageType = btn.dataset.type;
+      reload();
+    });
   });
   categorySelect.addEventListener('change', () => {
     storeState.category = categorySelect.value;
-    loadGrid(grid);
+    reload();
   });
   sortSelect.addEventListener('change', () => {
     storeState.sort = sortSelect.value;
-    loadGrid(grid);
+    reload();
+  });
+  container.querySelector('#mp-more-btn').addEventListener('click', () => {
+    storeState.offset += PAGE_SIZE;
+    loadGrid(grid, moreHost, featuredHost, true);
   });
 
-  loadGrid(grid);
+  loadGrid(grid, moreHost, featuredHost, false);
 }
 
-async function loadGrid(grid) {
+async function loadGrid(grid, moreHost, featuredHost, append) {
   try {
-    const packages = await listPackages(storeState);
-    if (packages.length === 0) {
+    const page = await listPackages({
+      search: storeState.search,
+      category: storeState.category,
+      sort: storeState.sort,
+      packageType: storeState.packageType,
+      limit: PAGE_SIZE,
+      offset: storeState.offset,
+    });
+    storeState.rows = append ? [...storeState.rows, ...page] : page;
+    storeState.hasMore = page.length === PAGE_SIZE;
+    moreHost.hidden = !storeState.hasMore;
+
+    const noFilters = !storeState.search && !storeState.category && !storeState.packageType;
+    if (featuredHost && !append) {
+      featuredHost.innerHTML = '';
+      if (noFilters) {
+        const featured = await listFeaturedPackages();
+        if (featured.length > 0) {
+          featuredHost.innerHTML = `
+            <h2 class="mp-featured-title"><i class="fas fa-star"></i> Featured</h2>
+            <div class="mp-grid mp-featured-grid">${featured.map(packageCard).join('')}</div>
+            <h2 class="mp-featured-title">All packages</h2>
+          `;
+        }
+      }
+    }
+
+    if (storeState.rows.length === 0) {
       grid.innerHTML = `
         <div class="mp-empty">
           <i class="fas fa-box-open"></i>
@@ -97,7 +161,7 @@ async function loadGrid(grid) {
       `;
       return;
     }
-    grid.innerHTML = packages.map(packageCard).join('');
+    grid.innerHTML = storeState.rows.map(packageCard).join('');
   } catch (e) {
     console.error(e);
     grid.innerHTML = `<div class="mp-empty"><i class="fas fa-triangle-exclamation"></i><p>Error loading packages: ${escapeHtml(e.message)}</p></div>`;
@@ -113,16 +177,20 @@ function packageCard(pkg) {
           ? `<img class="mp-card-icon" src="${escapeHtml(pkg.icon_url)}" alt="" loading="lazy">`
           : `<div class="mp-card-icon mp-card-icon-fallback"><i class="fas fa-cube"></i></div>`}
         <div class="mp-card-title">
-          <h3>${escapeHtml(pkg.name)}</h3>
+          <h3>${escapeHtml(pkg.name)} ${pkg.deprecated ? '<span class="mp-badge mp-badge-warn">Deprecated</span>' : ''}</h3>
           <span class="mp-card-author">by ${escapeHtml(author)}</span>
         </div>
       </div>
       <p class="mp-card-summary">${escapeHtml(pkg.summary)}</p>
       <div class="mp-card-footer">
         <span class="mp-badge">${escapeHtml(pkg.category)}</span>
+        ${pkg.package_type === 'assetPack' ? '<span class="mp-badge mp-badge-green">Asset Pack</span>' : ''}
+        ${channelBadge(pkg.latest_version)}
         <span class="mp-card-meta">
           <span title="Downloads"><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)}</span>
           <span title="Latest version"><i class="fas fa-tag"></i> ${escapeHtml(pkg.latest_version || '—')}</span>
+          ${pkg.min_engine_version ? `<span title="Minimum engine version"><i class="fas fa-gear"></i> ${escapeHtml(pkg.min_engine_version)}+</span>` : ''}
+          <span title="Last updated"><i class="fas fa-clock"></i> ${formatDate(pkg.updated_at)}</span>
         </span>
       </div>
     </a>
@@ -163,6 +231,8 @@ async function renderPackageDetail(container, slug) {
   const latest = versions[0] || null;
   const author = pkg.profiles?.display_name || 'Unknown';
   const shots = pkg.screenshots || [];
+  const latestDeps = latest ? Object.entries(latest.dependencies || {}) : [];
+  const depString = latest ? `${pkg.slug}@${versionChannel(latest.version) === 'release' ? '^' : ''}${latest.version}` : pkg.slug;
 
   container.innerHTML = `
     <section class="mp-section">
@@ -170,6 +240,17 @@ async function renderPackageDetail(container, slug) {
         ${demoBanner()}
         <a href="/marketplace" class="mp-back"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
         <div id="mp-mod-bar"></div>
+
+        ${pkg.deprecated ? `
+          <div class="mp-deprecated-banner">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>
+              <strong>This package is deprecated.</strong>
+              ${pkg.deprecated_message ? `<div>${escapeHtml(pkg.deprecated_message)}</div>` : ''}
+              <div>Projects that already installed it keep working, but it is excluded from new installs.</div>
+            </div>
+          </div>
+        ` : ''}
 
         <div class="mp-detail-header">
           ${pkg.icon_url
@@ -184,6 +265,8 @@ async function renderPackageDetail(container, slug) {
                 ${escapeHtml(author)}
               </a>
               <span class="mp-badge">${escapeHtml(pkg.category)}</span>
+              ${pkg.package_type === 'assetPack' ? '<span class="mp-badge mp-badge-green">Asset Pack</span>' : ''}
+              ${channelBadge(pkg.latest_version)}
               <span class="mp-meta-item"><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)} downloads</span>
             </div>
           </div>
@@ -201,13 +284,14 @@ async function renderPackageDetail(container, slug) {
               </div>` : ''}
 
             <div class="mp-tabs">
-              <button class="mp-tab-btn active" data-tab="overview">Overview</button>
+              <button class="mp-tab-btn active" data-tab="overview">Description</button>
               <button class="mp-tab-btn" data-tab="versions">Versions <span class="mp-tab-count">${versions.length}</span></button>
+              <button class="mp-tab-btn" data-tab="deps">Dependencies ${latestDeps.length ? `<span class="mp-tab-count">${latestDeps.length}</span>` : ''}</button>
             </div>
 
             <div id="mp-tab-overview" class="mp-tab-panel">
               <div class="markdown-content mp-description">
-                ${pkg.description_md ? renderMarkdown(pkg.description_md) : '<p style="color: var(--text-dim);">No description provided.</p>'}
+                ${(pkg.readme_md || pkg.description_md) ? renderMarkdown(pkg.readme_md || pkg.description_md) : '<p style="color: var(--text-dim);">No description provided.</p>'}
               </div>
             </div>
 
@@ -216,14 +300,37 @@ async function renderPackageDetail(container, slug) {
                 ? '<p style="color: var(--text-dim);">No versions published yet.</p>'
                 : versions.map((v, i) => versionCard(v, i === 0)).join('')}
             </div>
+
+            <div id="mp-tab-deps" class="mp-tab-panel" hidden>
+              <h3 class="mp-deps-heading">Depends on</h3>
+              ${latestDeps.length === 0
+                ? '<p style="color: var(--text-dim);">The latest version has no dependencies.</p>'
+                : `<table class="pub-deps-table"><thead><tr><th>Package</th><th>Range</th></tr></thead><tbody>
+                    ${latestDeps.map(([depSlug, range]) => `
+                      <tr>
+                        <td><a href="/marketplace/${encodeURIComponent(depSlug)}">${escapeHtml(depSlug)}</a></td>
+                        <td><code>${escapeHtml(range)}</code></td>
+                      </tr>`).join('')}
+                  </tbody></table>`}
+              <h3 class="mp-deps-heading">Used by</h3>
+              <div id="mp-used-by"><p style="color: var(--text-dim);">Loading...</p></div>
+            </div>
           </div>
 
           <aside class="mp-detail-sidebar">
+            <div class="mp-install-card">
+              <div class="mp-install-title"><i class="fas fa-plug"></i> Install in Comet</div>
+              <div class="mp-install-path">Package Manager → Marketplace → <strong>${escapeHtml(pkg.name)}</strong></div>
+              <button class="filter-btn mp-copy-dep" id="mp-copy-dep" title="Copy the dependency string">
+                <i class="fas fa-copy"></i> <code>${escapeHtml(depString)}</code>
+              </button>
+            </div>
+
             <button class="download-btn mp-download-main" id="mp-download-latest" ${latest ? '' : 'disabled'}>
               <i class="fas fa-download"></i>
               <span>Download${latest ? ` v${escapeHtml(latest.version)}` : ''}</span>
             </button>
-            ${latest ? `<div class="mp-download-sub">${formatBytes(latest.zip_size)} · ZIP archive</div>` : ''}
+            ${latest ? `<div class="mp-download-sub">${formatBytes(latest.zip_size)} · .cometpkg archive</div>` : ''}
 
             <div class="mp-info-list">
               <div><span>Latest version</span><strong>${escapeHtml(pkg.latest_version || '—')}</strong></div>
@@ -231,6 +338,7 @@ async function renderPackageDetail(container, slug) {
               <div><span>Published</span><strong>${formatDate(pkg.created_at)}</strong></div>
               <div><span>License</span><strong>${escapeHtml(pkg.license || '—')}</strong></div>
               <div><span>Engine version</span><strong>${pkg.min_engine_version ? escapeHtml(pkg.min_engine_version) + '+' : 'Any'}</strong></div>
+              <div><span>Type</span><strong>${pkg.package_type === 'assetPack' ? 'Asset Pack (imports into Assets/)' : 'Package (read-only in Packages/)'}</strong></div>
             </div>
 
             ${(pkg.homepage_url || pkg.repo_url) ? `
@@ -243,6 +351,10 @@ async function renderPackageDetail(container, slug) {
               <div class="mp-tags">
                 ${pkg.tags.map(t => `<span class="mp-tag">${escapeHtml(t)}</span>`).join('')}
               </div>` : ''}
+
+            <a class="mp-report" href="mailto:contrasnya@gmail.com?subject=${encodeURIComponent(`[Comet Marketplace] Report: ${pkg.slug}`)}">
+              <i class="fas fa-flag"></i> Report this package
+            </a>
           </aside>
         </div>
       </div>
@@ -251,6 +363,22 @@ async function renderPackageDetail(container, slug) {
 
   wireDetailPage(container, pkg, versions, shots);
   renderModerationBar(container, pkg);
+  loadUsedBy(container, pkg.slug);
+}
+
+async function loadUsedBy(container, slug) {
+  const host = container.querySelector('#mp-used-by');
+  if (!host) return;
+  const dependents = await listPackagesDependingOn(slug);
+  if (dependents.length === 0) {
+    host.innerHTML = '<p style="color: var(--text-dim);">No published package depends on this one.</p>';
+    return;
+  }
+  host.innerHTML = dependents.map(d => `
+    <a class="mp-used-by-row" href="/marketplace/${encodeURIComponent(d.slug)}">
+      <i class="fas fa-cube"></i> ${escapeHtml(d.name)} <span class="mp-card-author">(${escapeHtml(d.slug)})</span>
+    </a>
+  `).join('');
 }
 
 // Owner: quick links to manage the package. Admin: moderation controls on any
@@ -278,6 +406,11 @@ async function renderModerationBar(container, pkg) {
           <a class="filter-btn" href="/account/edit/${encodeURIComponent(pkg.id)}"><i class="fas fa-pen"></i> Edit</a>
           <a class="filter-btn" href="/account/version/${encodeURIComponent(pkg.id)}"><i class="fas fa-circle-up"></i> New version</a>
         ` : ''}
+        ${isAdmin ? `
+          <button class="filter-btn" id="mp-mod-feature">
+            ${pkg.featured ? '<i class="fas fa-star"></i> Unfeature' : '<i class="far fa-star"></i> Feature'}
+          </button>
+        ` : ''}
         <button class="filter-btn" id="mp-mod-status">
           ${isPublished ? '<i class="fas fa-eye-slash"></i> Unpublish' : '<i class="fas fa-globe"></i> Publish'}
         </button>
@@ -285,6 +418,21 @@ async function renderModerationBar(container, pkg) {
       </span>
     </div>
   `;
+
+  const featureBtn = host.querySelector('#mp-mod-feature');
+  if (featureBtn) {
+    featureBtn.addEventListener('click', async () => {
+      featureBtn.disabled = true;
+      try {
+        await setPackageFeatured(pkg.id, !pkg.featured);
+        showToast(pkg.featured ? `"${pkg.name}" is no longer featured.` : `"${pkg.name}" is now featured on the store front.`, 'success');
+        renderPackageDetail(container, pkg.slug);
+      } catch (err) {
+        featureBtn.disabled = false;
+        showToast(`Could not change the featured flag: ${err.message}`, 'error');
+      }
+    });
+  }
 
   host.querySelector('#mp-mod-status').addEventListener('click', async (e) => {
     const btn = e.currentTarget;
@@ -317,21 +465,26 @@ async function renderModerationBar(container, pkg) {
 
 function versionCard(v, isLatest) {
   return `
-    <div class="mp-version-card">
+    <div class="mp-version-card ${v.deprecated ? 'mp-version-deprecated' : ''}">
       <div class="mp-version-head">
         <div class="mp-version-title">
-          <strong>v${escapeHtml(v.version)}</strong>
+          <strong>${v.deprecated ? `<s>v${escapeHtml(v.version)}</s>` : `v${escapeHtml(v.version)}`}</strong>
           ${isLatest ? '<span class="mp-badge mp-badge-accent">Latest</span>' : ''}
+          ${channelBadge(v.version)}
+          ${v.deprecated ? '<span class="mp-badge mp-badge-warn">Deprecated</span>' : ''}
         </div>
         <div class="mp-version-meta">
           <span>${formatDate(v.created_at)}</span>
           <span>${formatBytes(v.zip_size)}</span>
+          ${v.min_engine_version ? `<span title="Minimum engine version"><i class="fas fa-gear"></i> ${escapeHtml(v.min_engine_version)}+</span>` : ''}
           <span><i class="fas fa-download"></i> ${formatDownloads(v.download_count)}</span>
+          ${v.sha256 ? `<button class="filter-btn mp-copy-sha" data-sha="${escapeHtml(v.sha256)}" title="Copy the sha256 integrity hash"><i class="fas fa-fingerprint"></i> sha256</button>` : ''}
           <button class="filter-btn mp-version-dl" data-version-id="${escapeHtml(v.id)}">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
       </div>
+      ${v.deprecated && v.deprecated_message ? `<div class="mp-version-deprecated-msg"><i class="fas fa-triangle-exclamation"></i> ${escapeHtml(v.deprecated_message)}</div>` : ''}
       <div class="markdown-content mp-changelog">
         ${v.changelog_md ? renderMarkdown(v.changelog_md) : '<p style="color: var(--text-dim);">No changelog provided.</p>'}
       </div>
@@ -361,6 +514,22 @@ function wireDetailPage(container, pkg, versions, shots) {
       btn.classList.add('active');
       container.querySelector('#mp-tab-overview').hidden = btn.dataset.tab !== 'overview';
       container.querySelector('#mp-tab-versions').hidden = btn.dataset.tab !== 'versions';
+      container.querySelector('#mp-tab-deps').hidden = btn.dataset.tab !== 'deps';
+    });
+  });
+
+  // Copy actions
+  const copyDep = container.querySelector('#mp-copy-dep');
+  if (copyDep) {
+    copyDep.addEventListener('click', () => {
+      navigator.clipboard.writeText(copyDep.querySelector('code').textContent);
+      showToast('Dependency string copied.', 'success');
+    });
+  }
+  container.querySelectorAll('.mp-copy-sha').forEach(btn => {
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(btn.dataset.sha);
+      showToast('sha256 copied.', 'success');
     });
   });
 
@@ -418,6 +587,7 @@ async function renderPublisher(container, userId) {
             <div>
               <h1>${escapeHtml(name)}</h1>
               <p>${packages.length} package${packages.length === 1 ? '' : 's'} · ${formatDownloads(packages.reduce((s, p) => s + (p.download_count || 0), 0))} total downloads</p>
+              ${profile?.bio ? `<p class="mp-publisher-bio">${escapeHtml(profile.bio)}</p>` : ''}
             </div>
           </div>
           <div class="mp-grid">

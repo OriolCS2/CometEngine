@@ -210,6 +210,23 @@ create policy "Owners can update versions"
     where p.id = package_id and p.owner_id = auth.uid()
   ));
 
+-- Reverse dependency lookup ("Used by" on package pages).
+create or replace function public.packages_depending_on(dep_slug text)
+returns table (slug text, name text)
+language sql stable
+as $$
+  select distinct p.slug, p.name
+  from public.packages p
+  join public.package_versions v on v.package_id = p.id
+  where p.status = 'published' and v.dependencies ? dep_slug;
+$$;
+
+grant execute on function public.packages_depending_on(text) to anon, authenticated;
+
+-- Publisher bio shown on the publisher page.
+alter table public.profiles add column if not exists bio text;
+grant update (display_name, avatar_url, bio) on table public.profiles to authenticated;
+
 -- ----------------------------------------------------------------------------
 -- 3c. Registry settings (caps the engine and the site read at runtime)
 -- ----------------------------------------------------------------------------

@@ -114,12 +114,13 @@ export async function ensureProfile(user) {
 
 const PACKAGE_SELECT = '*, profiles:owner_id (display_name, avatar_url)';
 
-export async function listPackages({ search = '', category = '', sort = 'newest', ownerId = null } = {}) {
+export async function listPackages({ search = '', category = '', sort = 'newest', ownerId = null, packageType = '', limit = 0, offset = 0 } = {}) {
   const client = getClient();
   if (!client) {
     let rows = MOCK_PACKAGES.slice();
     if (ownerId) rows = rows.filter(p => p.owner_id === ownerId);
     if (category) rows = rows.filter(p => p.category === category);
+    if (packageType) rows = rows.filter(p => (p.package_type || 'package') === packageType);
     if (search) {
       const q = search.toLowerCase();
       rows = rows.filter(p =>
@@ -127,24 +128,81 @@ export async function listPackages({ search = '', category = '', sort = 'newest'
         p.summary.toLowerCase().includes(q) ||
         p.tags.some(t => t.toLowerCase().includes(q)));
     }
-    return sortPackages(rows, sort);
+    rows = sortPackages(rows, sort);
+    return limit > 0 ? rows.slice(offset, offset + limit) : rows;
   }
 
-  let query = client.from('packages').select(PACKAGE_SELECT).eq('status', 'published');
-  if (ownerId) query = query.eq('owner_id', ownerId);
-  if (category) query = query.eq('category', category);
+  const buildQuery = (useFts) => {
+    let query = client.from('packages').select(PACKAGE_SELECT).eq('status', 'published');
+    if (ownerId) query = query.eq('owner_id', ownerId);
+    if (category) query = query.eq('category', category);
+    if (packageType) query = query.eq('package_type', packageType);
+    if (search) {
+      const q = search.replace(/[%,()]/g, ' ').trim();
+      if (q) {
+        if (useFts) {
+          query = query.textSearch('fts', q, { type: 'websearch', config: 'simple' });
+        } else {
+          query = query.or(`name.ilike.%${q}%,summary.ilike.%${q}%,slug.ilike.%${q}%`);
+        }
+      }
+    }
+    if (sort === 'downloads') query = query.order('download_count', { ascending: false });
+    else if (sort === 'updated') query = query.order('updated_at', { ascending: false });
+    else if (sort === 'name') query = query.order('name', { ascending: true });
+    else query = query.order('created_at', { ascending: false });
+    if (limit > 0) query = query.range(offset, offset + limit - 1);
+    return query;
+  };
+
+  // Full-text search first (schema v2); pattern match against older schemas.
   if (search) {
-    const q = search.replace(/[%,()]/g, ' ').trim();
-    if (q) query = query.or(`name.ilike.%${q}%,summary.ilike.%${q}%`);
+    const { data, error } = await buildQuery(true);
+    if (!error) return data || [];
   }
-  if (sort === 'downloads') query = query.order('download_count', { ascending: false });
-  else if (sort === 'updated') query = query.order('updated_at', { ascending: false });
-  else if (sort === 'name') query = query.order('name', { ascending: true });
-  else query = query.order('created_at', { ascending: false });
-
-  const { data, error } = await query;
+  const { data, error } = await buildQuery(false);
   if (error) throw error;
   return data || [];
+}
+
+export async function listFeaturedPackages(limit = 6) {
+  const client = getClient();
+  if (!client) return [];
+  const { data, error } = await client
+    .from('packages')
+    .select(PACKAGE_SELECT)
+    .eq('status', 'published')
+    .eq('featured', true)
+    .order('download_count', { ascending: false })
+    .limit(limit);
+  if (error) return [];
+  return data || [];
+}
+
+export async function listPackagesDependingOn(slug) {
+  const client = getClient();
+  if (!client) return [];
+  const { data, error } = await client.rpc('packages_depending_on', { dep_slug: slug });
+  if (error) return [];
+  return data || [];
+}
+
+export async function getRegistryLimits() {
+  const client = getClient();
+  const fallback = { maxZipBytes: MAX_ZIP_BYTES, maxImageBytes: 5 * 1024 * 1024 };
+  if (!client) return fallback;
+  try {
+    const { data } = await client.from('registry_settings').select('value').eq('key', 'limits').maybeSingle();
+    return { ...fallback, ...(data?.value || {}) };
+  } catch (e) {
+    return fallback;
+  }
+}
+
+export async function updateMyBio(userId, bio) {
+  const client = requireClient();
+  const { error } = await client.from('profiles').update({ bio }).eq('id', userId);
+  if (error) throw error;
 }
 
 function sortPackages(rows, sort) {
@@ -255,7 +313,7 @@ export async function getDailyDownloads(packageId, days = 30) {
     .eq('package_id', packageId)
     .gte('day', since.toISOString().slice(0, 10))
     .order('day', { ascending: true });
-  if (error) throw error;
+  if (error) return [];
   return data || [];
 }
 

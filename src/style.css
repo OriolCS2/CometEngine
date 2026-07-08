@@ -369,3 +369,69 @@ code {
 }
 
 .mp-badge-warn { background: rgba(241, 196, 15, 0.15); color: #f1c40f; }
+
+/* ============================================================================
+   Store v2: type toggle, featured, deprecation, install card, manage view
+   ============================================================================ */
+
+.mp-type-toggle { display: inline-flex; gap: 0.35rem; }
+.mp-type-toggle .filter-btn.active { border-color: var(--accent-color); color: var(--accent-color); }
+
+.mp-featured-title { margin: 1.4rem 0 0.8rem; font-size: 1.15rem; }
+.mp-featured-title i { color: #f1c40f; margin-right: 0.35rem; }
+.mp-featured-grid { margin-bottom: 0.6rem; }
+
+.mp-load-more { text-align: center; margin: 1.2rem 0; }
+
+.mp-deprecated-banner {
+  display: flex; gap: 0.8rem; align-items: flex-start;
+  border: 1px solid rgba(241, 196, 15, 0.5);
+  background: rgba(241, 196, 15, 0.08);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin: 0.8rem 0 1.2rem;
+}
+.mp-deprecated-banner i { color: #f1c40f; margin-top: 0.2rem; }
+
+.mp-install-card {
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+.mp-install-title { font-weight: 600; margin-bottom: 0.4rem; }
+.mp-install-title i { color: var(--accent-color); margin-right: 0.3rem; }
+.mp-install-path { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 0.6rem; }
+.mp-copy-dep { width: 100%; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mp-copy-dep code { font-size: 0.82rem; }
+
+.mp-deps-heading { margin: 1rem 0 0.5rem; font-size: 1.02rem; }
+.mp-used-by-row { display: block; padding: 0.45rem 0.2rem; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.07)); }
+.mp-used-by-row i { color: var(--accent-color); margin-right: 0.3rem; }
+
+.mp-report { display: inline-block; margin-top: 1rem; color: var(--text-dim); font-size: 0.85rem; }
+.mp-report:hover { color: #e74c3c; }
+
+.mp-version-deprecated { opacity: 0.75; }
+.mp-version-deprecated-msg { color: #f1c40f; font-size: 0.88rem; margin: 0.3rem 0 0.5rem; }
+
+.mp-publisher-bio { margin-top: 0.4rem; max-width: 640px; color: var(--text-dim); }
+
+.acc-bio-row { display: flex; gap: 0.6rem; margin: 0.6rem 0 1.4rem; }
+.acc-bio-row input { flex: 1; }
+
+.acc-pkg-block { margin-bottom: 0.6rem; }
+.acc-pkg-details {
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 0.9rem 1.1rem;
+}
+.acc-spark { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; color: var(--accent-color); }
+.acc-spark svg { width: 320px; max-width: 60%; height: 48px; }
+.acc-spark span { color: var(--text-dim); font-size: 0.85rem; }
+.acc-spark-empty { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.8rem; }
+.acc-pkg-deprecate { margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; }
+.acc-deprecate-msg { color: #f1c40f; font-size: 0.88rem; }
+.acc-versions-table td s { color: var(--text-dim); }

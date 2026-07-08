@@ -1,14 +1,18 @@
 import { navigate, currentRoute } from '../lib/router.js';
 import {
-  CATEGORIES, LICENSES, MAX_ZIP_BYTES, MAX_SCREENSHOTS,
+  CATEGORIES, MAX_ZIP_BYTES, MAX_SCREENSHOTS,
   isBackendConfigured, getUser, signInWithGoogle, isCurrentUserAdmin,
-  listMyPackages, listAllPackagesAdmin, getPackageById, listVersions,
+  listMyPackages, listAllPackagesAdmin, getPackageById, getPackageBySlug, listVersions,
   createPackage, updatePackage, publishVersion, setPackageStatus, deletePackage,
+  setVersionDeprecated, setPackageDeprecated, setPackageFeatured,
+  findExistingSlugs, getDailyDownloads,
 } from '../lib/marketplace-api.js';
 import {
   escapeHtml, renderMarkdown, formatBytes, formatDownloads, formatDate,
-  isValidSemver, semverCompare, slugify, showToast,
+  semverCompare, showToast,
 } from '../lib/ui.js';
+import { inspectPackageArchive } from '../lib/package-archive.js';
+import { compareSemver, versionChannel } from '../lib/package-manifest.js';
 
 // Routes handled here:
 //   #account               → my packages dashboard
@@ -45,13 +49,13 @@ export async function renderAccount(container, hash) {
   if (parts[0] === 'admin') {
     await renderAdminPanel(container, user, parts[1] ? decodeURIComponent(parts[1]) : null);
   } else if (parts[0] === 'new') {
-    renderPackageForm(container, user, null);
+    await renderPublishFlow(container, user, null);
   } else if (parts[0] === 'edit' && parts[1]) {
     const pkg = await getOwnPackage(container, user, parts[1]);
     if (pkg) renderPackageForm(container, user, pkg);
   } else if (parts[0] === 'version' && parts[1]) {
     const pkg = await getOwnPackage(container, user, parts[1]);
-    if (pkg) renderVersionForm(container, user, pkg);
+    if (pkg) await renderPublishFlow(container, user, pkg);
   } else {
     await renderDashboard(container, user);
   }
@@ -261,164 +265,64 @@ function wireMdEditors(root) {
 }
 
 // ---------------------------------------------------------------------------
-// ZIP picker with the 25 MB cap
-// ---------------------------------------------------------------------------
-
-function zipFieldHtml(id, required) {
-  return `
-    <div class="form-field">
-      <label for="${id}">Package ZIP${required ? ' <span class="req">*</span>' : ''}</label>
-      <div class="form-help">The add-on archive users will download. Maximum size: <strong>25 MB</strong>.</div>
-      <input type="file" id="${id}" accept=".zip,application/zip,application/x-zip-compressed" ${required ? 'required' : ''}>
-      <div class="form-error" id="${id}-error" hidden></div>
-      <div class="form-file-info" id="${id}-info" hidden></div>
-    </div>
-  `;
-}
-
-function wireZipField(root, id) {
-  const input = root.querySelector(`#${id}`);
-  const error = root.querySelector(`#${id}-error`);
-  const info = root.querySelector(`#${id}-info`);
-
-  input.addEventListener('change', () => {
-    error.hidden = true;
-    info.hidden = true;
-    const file = input.files[0];
-    if (!file) return;
-    if (!/\.zip$/i.test(file.name)) {
-      error.textContent = 'The package file must be a .zip archive.';
-      error.hidden = false;
-      input.value = '';
-      return;
-    }
-    if (file.size > MAX_ZIP_BYTES) {
-      error.textContent = `Maximum ZIP size is 25 MB (your file is ${formatBytes(file.size)}).`;
-      error.hidden = false;
-      input.value = '';
-      return;
-    }
-    info.innerHTML = `<i class="fas fa-file-zipper"></i> ${escapeHtml(file.name)} · ${formatBytes(file.size)}`;
-    info.hidden = false;
-  });
-}
-
-// ---------------------------------------------------------------------------
-// New / edit package form
+// Edit package (presentation only: metadata comes from the package manifest)
 // ---------------------------------------------------------------------------
 
 function renderPackageForm(container, user, pkg) {
-  const isEdit = Boolean(pkg);
-
   container.innerHTML = `
     <section class="mp-section">
       <div class="container mp-narrow">
         <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
-        <h1 class="acc-form-title">${isEdit ? `Edit "${escapeHtml(pkg.name)}"` : 'Publish a New Package'}</h1>
-        ${isEdit ? '' : '<p class="acc-form-subtitle">Fill in the details below. Fields marked with <span class="req">*</span> are required. Everything can be edited later except the URL id.</p>'}
+        <h1 class="acc-form-title">Edit "${escapeHtml(pkg.name)}"</h1>
+        <p class="acc-form-subtitle">
+          Name, description, license and dependencies come from the <code>package.cometPackage</code> manifest inside the
+          uploaded archive — publish a new version to change them. Here you edit how the package is presented.
+        </p>
 
         <form id="pkg-form" class="mp-form" novalidate>
-          <h3 class="form-section-title"><i class="fas fa-circle-info"></i> Basic information</h3>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label for="f-name">Package name <span class="req">*</span></label>
-              <input type="text" id="f-name" maxlength="80" required placeholder="e.g. Comet Particles Pro"
-                     value="${escapeHtml(isEdit ? pkg.name : '')}">
-            </div>
-            <div class="form-field">
-              <label for="f-slug">URL id (slug) <span class="req">*</span></label>
-              <div class="form-help">${isEdit ? 'The URL id cannot be changed after publishing.' : 'Lowercase letters, numbers and dashes. Used in the package URL.'}</div>
-              <input type="text" id="f-slug" maxlength="60" required pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                     placeholder="comet-particles-pro" value="${escapeHtml(isEdit ? pkg.slug : '')}" ${isEdit ? 'disabled' : ''}>
-            </div>
+          <h3 class="form-section-title"><i class="fas fa-circle-info"></i> From the manifest (read-only)</h3>
+          <div class="pub-review-grid">
+            <div><span>Name</span><strong>${escapeHtml(pkg.name)}</strong></div>
+            <div><span>Slug</span><strong>${escapeHtml(pkg.slug)}</strong></div>
+            <div><span>Latest version</span><strong>${escapeHtml(pkg.latest_version || '—')}</strong></div>
+            <div><span>License</span><strong>${escapeHtml(pkg.license || '—')}</strong></div>
+            <div><span>Type</span><strong>${escapeHtml(pkg.package_type || 'package')}</strong></div>
+            <div><span>Min engine</span><strong>${escapeHtml(pkg.min_engine_version || '—')}</strong></div>
           </div>
 
-          <div class="form-field">
-            <label for="f-summary">Short description <span class="req">*</span></label>
-            <div class="form-help">One sentence shown on the package card (10–160 characters).</div>
-            <input type="text" id="f-summary" maxlength="160" required
-                   placeholder="A short, catchy summary of what your add-on does."
-                   value="${escapeHtml(isEdit ? pkg.summary : '')}">
-          </div>
-
-          ${mdEditorHtml('f-description', 'Full description', isEdit ? pkg.description_md : '',
-            '# My Package\n\nDescribe what it does, what it includes and how to use it...', true,
-            'The main description shown on the package page.')}
-
+          <h3 class="form-section-title"><i class="fas fa-sliders"></i> Presentation</h3>
           <div class="form-row">
             <div class="form-field">
               <label for="f-category">Category <span class="req">*</span></label>
               <select id="f-category" required>
-                ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${isEdit && pkg.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
+                ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${pkg.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
               </select>
             </div>
-            <div class="form-field">
-              <label for="f-license">License <span class="req">*</span></label>
-              <select id="f-license" required>
-                ${LICENSES.map(l => `<option value="${escapeHtml(l)}" ${isEdit && pkg.license === l ? 'selected' : ''}>${escapeHtml(l)}</option>`).join('')}
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-field">
               <label for="f-tags">Tags</label>
-              <div class="form-help">Comma-separated, up to 8. E.g. "particles, vfx, 2d".</div>
-              <input type="text" id="f-tags" placeholder="particles, vfx, 2d"
-                     value="${escapeHtml(isEdit ? (pkg.tags || []).join(', ') : '')}">
-            </div>
-            <div class="form-field">
-              <label for="f-engine">Minimum engine version</label>
-              <input type="text" id="f-engine" placeholder="e.g. 2.1" value="${escapeHtml(isEdit ? (pkg.min_engine_version || '') : '')}">
+              <div class="form-help">Comma-separated, up to 8.</div>
+              <input type="text" id="f-tags" placeholder="particles, vfx, 2d" value="${escapeHtml((pkg.tags || []).join(', '))}">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-field">
-              <label for="f-homepage">Website URL</label>
-              <input type="url" id="f-homepage" placeholder="https://..." value="${escapeHtml(isEdit ? (pkg.homepage_url || '') : '')}">
-            </div>
-            <div class="form-field">
-              <label for="f-repo">Repository URL</label>
-              <input type="url" id="f-repo" placeholder="https://github.com/..." value="${escapeHtml(isEdit ? (pkg.repo_url || '') : '')}">
-            </div>
-          </div>
-
-          <h3 class="form-section-title"><i class="fas fa-image"></i> Media</h3>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label for="f-icon">Icon ${isEdit ? '' : '(recommended)'}</label>
-              <div class="form-help">Square image, PNG/JPG, max 4 MB.${isEdit && pkg.icon_url ? ' Leave empty to keep the current icon.' : ''}</div>
+              <label for="f-icon">Icon</label>
+              <div class="form-help">Square image, PNG/JPG, max 4 MB.${pkg.icon_url ? ' Leave empty to keep the current icon.' : ''}</div>
               <input type="file" id="f-icon" accept="image/png,image/jpeg,image/webp,image/gif">
             </div>
             <div class="form-field">
               <label for="f-shots">Screenshots</label>
-              <div class="form-help">Up to ${MAX_SCREENSHOTS} images, max 4 MB each.${isEdit && (pkg.screenshots || []).length ? ' Selecting new files replaces ALL current screenshots.' : ''}</div>
+              <div class="form-help">Up to ${MAX_SCREENSHOTS} images, max 4 MB each.${(pkg.screenshots || []).length ? ' Selecting new files replaces ALL current screenshots.' : ''}</div>
               <input type="file" id="f-shots" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
             </div>
           </div>
-
-          ${isEdit ? '' : `
-            <h3 class="form-section-title"><i class="fas fa-tag"></i> First version</h3>
-            <div class="form-row">
-              <div class="form-field">
-                <label for="f-version">Version <span class="req">*</span></label>
-                <div class="form-help">Semantic version: MAJOR.MINOR.PATCH, e.g. 1.0.0.</div>
-                <input type="text" id="f-version" required placeholder="1.0.0" value="1.0.0">
-              </div>
-            </div>
-            ${mdEditorHtml('f-changelog', 'Changelog', '', '## 1.0.0\n\n- Initial release', true,
-              'What\'s in this version. Shown in the version history.')}
-            ${zipFieldHtml('f-zip', true)}
-          `}
 
           <div class="form-error" id="form-error" hidden></div>
 
           <div class="form-actions">
             <button type="submit" class="download-btn" id="form-submit" style="font-size: 1.05rem;">
-              <i class="fas fa-${isEdit ? 'floppy-disk' : 'rocket'}"></i> ${isEdit ? 'Save changes' : 'Publish package'}
+              <i class="fas fa-floppy-disk"></i> Save changes
             </button>
             <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
           </div>
@@ -427,20 +331,6 @@ function renderPackageForm(container, user, pkg) {
     </section>
   `;
 
-  wireMdEditors(container);
-  if (!isEdit) wireZipField(container, 'f-zip');
-
-  // Auto-fill the slug from the name until the user edits the slug manually.
-  const nameInput = container.querySelector('#f-name');
-  const slugInput = container.querySelector('#f-slug');
-  if (!isEdit) {
-    let slugTouched = false;
-    slugInput.addEventListener('input', () => { slugTouched = true; });
-    nameInput.addEventListener('input', () => {
-      if (!slugTouched) slugInput.value = slugify(nameInput.value);
-    });
-  }
-
   const form = container.querySelector('#pkg-form');
   const formError = container.querySelector('#form-error');
   const submitBtn = container.querySelector('#form-submit');
@@ -448,98 +338,26 @@ function renderPackageForm(container, user, pkg) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     formError.hidden = true;
-
     try {
-      const fields = collectCommonFields(container);
-
-      if (isEdit) {
-        setBusy(submitBtn, true, 'Saving...');
-        await updatePackage(user, pkg, toDbColumns(fields), {
-          iconFile: container.querySelector('#f-icon').files[0] || null,
-          screenshotFiles: limitedShots(container),
-        });
-        showToast('Package updated.', 'success');
-        navigate('/account');
-      } else {
-        const version = container.querySelector('#f-version').value.trim();
-        if (!isValidSemver(version)) throw new Error('Version must follow the MAJOR.MINOR.PATCH format, e.g. 1.0.0.');
-        const changelogMd = container.querySelector('#f-changelog').value.trim();
-        if (!changelogMd) throw new Error('Please write a changelog for the first version.');
-        const zipFile = container.querySelector('#f-zip').files[0];
-        if (!zipFile) throw new Error('Please select the package ZIP file.');
-        if (zipFile.size > MAX_ZIP_BYTES) throw new Error(`Maximum ZIP size is 25 MB (your file is ${formatBytes(zipFile.size)}).`);
-
-        setBusy(submitBtn, true, 'Uploading...');
-        await createPackage(user, {
-          ...fields,
-          slug: slugInput.value.trim(),
-          status: 'published',
-          iconFile: container.querySelector('#f-icon').files[0] || null,
-          screenshotFiles: limitedShots(container),
-          version,
-          changelogMd,
-          zipFile,
-        });
-        showToast('Your package is live!', 'success');
-        navigate('/account');
-      }
+      const tags = container.querySelector('#f-tags').value
+        .split(',').map(t => t.trim().toLowerCase()).filter(Boolean).slice(0, 8);
+      setBusy(submitBtn, true, 'Saving...');
+      await updatePackage(user, pkg, {
+        category: container.querySelector('#f-category').value,
+        tags,
+      }, {
+        iconFile: container.querySelector('#f-icon').files[0] || null,
+        screenshotFiles: limitedShots(container),
+      });
+      showToast('Package updated.', 'success');
+      navigate('/account');
     } catch (err) {
       console.error(err);
       formError.textContent = err.message;
       formError.hidden = false;
-      formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setBusy(submitBtn, false, isEdit ? 'Save changes' : 'Publish package');
+      setBusy(submitBtn, false, 'Save changes');
     }
   });
-}
-
-function collectCommonFields(root) {
-  const name = root.querySelector('#f-name').value.trim();
-  const summary = root.querySelector('#f-summary').value.trim();
-  const descriptionMd = root.querySelector('#f-description').value.trim();
-  const slugEl = root.querySelector('#f-slug');
-
-  if (name.length < 3) throw new Error('The package name must be at least 3 characters long.');
-  if (!slugEl.disabled && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slugEl.value.trim())) {
-    throw new Error('The URL id may only contain lowercase letters, numbers and dashes (e.g. "my-cool-addon").');
-  }
-  if (summary.length < 10) throw new Error('The short description must be at least 10 characters long.');
-  if (!descriptionMd) throw new Error('Please write a full description.');
-
-  const tags = root.querySelector('#f-tags').value
-    .split(',').map(t => t.trim().toLowerCase()).filter(Boolean).slice(0, 8);
-
-  for (const id of ['f-homepage', 'f-repo']) {
-    const value = root.querySelector(`#${id}`).value.trim();
-    if (value && !/^https?:\/\//i.test(value)) throw new Error('Links must start with http:// or https://.');
-  }
-
-  return {
-    name,
-    summary,
-    descriptionMd,
-    category: root.querySelector('#f-category').value,
-    license: root.querySelector('#f-license').value,
-    tags,
-    minEngineVersion: root.querySelector('#f-engine').value.trim() || null,
-    homepageUrl: root.querySelector('#f-homepage').value.trim() || null,
-    repoUrl: root.querySelector('#f-repo').value.trim() || null,
-  };
-}
-
-// Map the form fields to their database column names.
-function toDbColumns(fields) {
-  return {
-    name: fields.name,
-    summary: fields.summary,
-    description_md: fields.descriptionMd,
-    category: fields.category,
-    license: fields.license,
-    tags: fields.tags,
-    min_engine_version: fields.minEngineVersion,
-    homepage_url: fields.homepageUrl,
-    repo_url: fields.repoUrl,
-  };
 }
 
 function limitedShots(root) {
@@ -558,99 +376,289 @@ function setBusy(btn, busy, label) {
 }
 
 // ---------------------------------------------------------------------------
-// New version form
+// Manifest-first publish flow (new package and new version).
+// Drop the .cometpkg → the manifest inside is parsed, validated and reviewed —
+// there is no manual metadata entry, so registry rows can never drift from
+// what the engine reads at install time.
 // ---------------------------------------------------------------------------
 
-async function renderVersionForm(container, user, pkg) {
-  container.innerHTML = `<section class="mp-section"><div class="container mp-narrow"><div class="loading">Loading...</div></div></section>`;
-
-  let versions = [];
-  try {
-    versions = await listVersions(pkg.id);
-  } catch (e) {
-    console.error(e);
+async function renderPublishFlow(container, user, pkg) {
+  const isNewVersion = Boolean(pkg);
+  let latest = null;
+  if (isNewVersion) {
+    try {
+      const versions = await listVersions(pkg.id);
+      latest = versions[0] || null;
+    } catch (e) {
+      console.error(e);
+    }
   }
-  const latest = versions[0] || null;
 
   container.innerHTML = `
     <section class="mp-section">
       <div class="container mp-narrow">
         <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
-        <h1 class="acc-form-title">New version of "${escapeHtml(pkg.name)}"</h1>
+        <h1 class="acc-form-title">${isNewVersion ? `New version of "${escapeHtml(pkg.name)}"` : 'Publish a New Package'}</h1>
         <p class="acc-form-subtitle">
-          Current latest version: <strong>${latest ? `v${escapeHtml(latest.version)}` : 'none'}</strong>${latest ? ` (published ${formatDate(latest.created_at)})` : ''}.
-          Users will download the new version by default; older versions stay available in the history.
+          Drop the <strong>.cometpkg</strong> exported by the Comet editor (<em>Package Manager → Export package…</em>).
+          Every metadata field — name, version, description, license, dependencies — is read from the
+          <code>package.cometPackage</code> manifest inside the archive.
+          ${isNewVersion && latest ? `Current latest version: <strong>v${escapeHtml(latest.version)}</strong>.` : ''}
         </p>
 
-        <form id="ver-form" class="mp-form" novalidate>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="v-version">New version <span class="req">*</span></label>
-              <div class="form-help">Must be higher than ${latest ? `v${escapeHtml(latest.version)}` : 'previous versions'} (MAJOR.MINOR.PATCH).</div>
-              <input type="text" id="v-version" required placeholder="${latest ? suggestNext(latest.version) : '1.0.0'}"
-                     value="${latest ? suggestNext(latest.version) : '1.0.0'}">
-            </div>
-          </div>
-
-          ${mdEditorHtml('v-changelog', 'Changelog', '', '## What\'s new\n\n- Added ...\n- Fixed ...', true,
-            'Tell users what changed in this version (Markdown).')}
-
-          ${zipFieldHtml('v-zip', true)}
-
-          <div class="form-error" id="ver-error" hidden></div>
-
-          <div class="form-actions">
-            <button type="submit" class="download-btn" id="ver-submit" style="font-size: 1.05rem;">
-              <i class="fas fa-circle-up"></i> Publish version
-            </button>
-            <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
-          </div>
-        </form>
+        <div class="pub-dropzone" id="pub-drop">
+          <i class="fas fa-file-zipper"></i>
+          <p><strong>Drop the .cometpkg here</strong> or click to pick it</p>
+          <p class="pub-dropzone-hint">.cometpkg or .zip · max 25 MB</p>
+          <input type="file" id="pub-file" accept=".cometpkg,.zip,application/zip,application/x-zip-compressed" hidden>
+        </div>
+        <div class="form-error" id="pub-error" hidden></div>
+        <div id="pub-review" hidden></div>
       </div>
     </section>
   `;
 
-  wireMdEditors(container);
-  wireZipField(container, 'v-zip');
+  const drop = container.querySelector('#pub-drop');
+  const fileInput = container.querySelector('#pub-file');
+  const errorBox = container.querySelector('#pub-error');
+  const reviewHost = container.querySelector('#pub-review');
 
-  const form = container.querySelector('#ver-form');
-  const error = container.querySelector('#ver-error');
-  const submitBtn = container.querySelector('#ver-submit');
+  const fail = (message) => {
+    errorBox.textContent = message;
+    errorBox.hidden = false;
+    reviewHost.hidden = true;
+    reviewHost.innerHTML = '';
+  };
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    error.hidden = true;
+  const handleFile = async (file) => {
+    errorBox.hidden = true;
+    reviewHost.hidden = true;
+    if (!file) return;
+    if (!/\.(cometpkg|zip)$/i.test(file.name)) return fail('The package must be a .cometpkg (or .zip) archive.');
+    if (file.size > MAX_ZIP_BYTES) return fail(`Maximum archive size is 25 MB (your file is ${formatBytes(file.size)}).`);
 
+    drop.classList.add('pub-dropzone-busy');
     try {
-      const version = container.querySelector('#v-version').value.trim();
-      if (!isValidSemver(version)) throw new Error('Version must follow the MAJOR.MINOR.PATCH format, e.g. 1.2.0.');
-      if (latest && semverCompare(version, latest.version) <= 0) {
-        throw new Error(`The new version must be higher than the current latest (v${latest.version}).`);
+      const inspection = await inspectPackageArchive(file);
+      const problems = [...inspection.manifestErrors];
+      const manifest = inspection.manifest;
+
+      if (manifest && !problems.length) {
+        if (isNewVersion) {
+          if (manifest.slug !== pkg.slug) {
+            problems.push(`The archive is the package "${manifest.slug}", but you are publishing a version of "${pkg.slug}".`);
+          }
+          if (latest && compareSemver(manifest.version, latest.version) <= 0) {
+            problems.push(`The manifest version (${manifest.version}) must be higher than the current latest (v${latest.version}).`);
+          }
+        } else {
+          const existing = await getPackageBySlug(manifest.slug);
+          if (existing) {
+            problems.push(`The slug "${manifest.slug}" is already taken on this registry${existing.owner_id === user.id ? ' by one of your packages — publish a new version of it instead' : ''}.`);
+          }
+        }
       }
-      const changelogMd = container.querySelector('#v-changelog').value.trim();
-      if (!changelogMd) throw new Error('Please write a changelog so users know what changed.');
-      const zipFile = container.querySelector('#v-zip').files[0];
-      if (!zipFile) throw new Error('Please select the new package ZIP file.');
-      if (zipFile.size > MAX_ZIP_BYTES) throw new Error(`Maximum ZIP size is 25 MB (your file is ${formatBytes(zipFile.size)}).`);
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-      await publishVersion(user, pkg, { version, changelogMd, zipFile });
-      showToast(`v${version} published!`, 'success');
-      navigate('/account');
-    } catch (err) {
-      console.error(err);
-      error.textContent = err.message;
-      error.hidden = false;
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-circle-up"></i> Publish version';
+      let missingDeps = [];
+      if (manifest && Object.keys(manifest.dependencies || {}).length > 0) {
+        const wanted = Object.keys(manifest.dependencies);
+        const existing = await findExistingSlugs(wanted);
+        missingDeps = wanted.filter(slug => !existing.has(slug));
+      }
+
+      renderReview(file, inspection, problems, missingDeps);
+    } catch (e) {
+      console.error(e);
+      fail(e.message);
+    } finally {
+      drop.classList.remove('pub-dropzone-busy');
     }
-  });
-}
+  };
 
-function suggestNext(version) {
-  const core = version.split('-')[0].split('.').map(Number);
-  return `${core[0]}.${core[1]}.${(core[2] || 0) + 1}`;
+  drop.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('pub-dropzone-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('pub-dropzone-over'));
+  drop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    drop.classList.remove('pub-dropzone-over');
+    handleFile(e.dataTransfer.files[0]);
+  });
+
+  function renderReview(file, inspection, problems, missingDeps) {
+    const manifest = inspection.manifest;
+    const blocked = problems.length > 0;
+    const channel = manifest ? versionChannel(manifest.version) : 'release';
+    const deps = manifest ? Object.entries(manifest.dependencies || {}) : [];
+
+    reviewHost.innerHTML = `
+      ${blocked ? `
+        <div class="pub-problems">
+          <h3><i class="fas fa-triangle-exclamation"></i> This archive cannot be published</h3>
+          <ul>${problems.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+        </div>
+      ` : `
+        <h3 class="form-section-title"><i class="fas fa-file-circle-check"></i> From the manifest (read-only)</h3>
+        <div class="pub-review-grid">
+          <div><span>Name</span><strong>${escapeHtml(manifest.displayName)}</strong></div>
+          <div><span>Slug</span><strong>${escapeHtml(manifest.slug)}</strong></div>
+          <div><span>Version</span><strong>${escapeHtml(manifest.version)}</strong> ${channel !== 'release' ? `<span class="mp-badge ${channel === 'pre' ? 'mp-badge-accent' : 'mp-badge-dim'}">${channel === 'pre' ? 'Pre-release' : 'Experimental'}</span>` : ''}</div>
+          <div><span>Type</span><strong>${escapeHtml(manifest.packageType || 'package')}</strong></div>
+          <div><span>License</span><strong>${escapeHtml(manifest.license || '—')}</strong></div>
+          <div><span>Min engine</span><strong>${escapeHtml(manifest.minEngineVersion || '—')}</strong></div>
+          <div><span>Author</span><strong>${escapeHtml(manifest.author?.name || '—')}</strong></div>
+          <div><span>Archive</span><strong>${escapeHtml(file.name)} · ${formatBytes(file.size)} · ${inspection.fileCount} files</strong></div>
+          <div class="pub-grid-wide"><span>Summary</span><strong>${escapeHtml(manifest.summary)}</strong></div>
+          <div class="pub-grid-wide"><span>sha256</span><code class="pub-sha">${escapeHtml(inspection.sha256)}</code></div>
+        </div>
+
+        ${deps.length > 0 ? `
+          <h3 class="form-section-title"><i class="fas fa-diagram-project"></i> Dependencies</h3>
+          <table class="pub-deps-table">
+            <thead><tr><th>Package</th><th>Range</th><th>On this registry</th></tr></thead>
+            <tbody>
+              ${deps.map(([slug, range]) => `
+                <tr>
+                  <td>${escapeHtml(slug)}</td>
+                  <td><code>${escapeHtml(range)}</code></td>
+                  <td>${missingDeps.includes(slug) ? '<span class="mp-badge mp-badge-warn"><i class="fas fa-triangle-exclamation"></i> Missing</span>' : '<span class="mp-badge mp-badge-green"><i class="fas fa-check"></i> Found</span>'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          ${missingDeps.length > 0 ? `
+            <label class="pub-ack">
+              <input type="checkbox" id="pub-ack-deps">
+              Publish anyway — I know consumers cannot resolve ${missingDeps.length === 1 ? 'this dependency' : 'these dependencies'} until ${missingDeps.length === 1 ? 'it is' : 'they are'} published here.
+            </label>
+          ` : ''}
+        ` : ''}
+
+        ${inspection.versionChangelog ? `
+          <h3 class="form-section-title"><i class="fas fa-scroll"></i> Changelog for ${escapeHtml(manifest.version)} (from CHANGELOG.md)</h3>
+          <div class="markdown-content pub-changelog">${renderMarkdown(inspection.versionChangelog)}</div>
+        ` : `
+          <div class="form-help" style="margin: 0.75rem 0;"><i class="fas fa-circle-info"></i> The archive's CHANGELOG.md has no section for ${escapeHtml(manifest?.version || 'this version')}; the version will be published without a changelog.</div>
+        `}
+
+        <h3 class="form-section-title"><i class="fas fa-sliders"></i> Presentation</h3>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="pub-category">Category <span class="req">*</span></label>
+            <select id="pub-category" required>
+              ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${((manifest.category && manifest.category === c) || (!manifest.category && c === 'Other') || (isNewVersion && pkg.category === c)) ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="pub-tags">Extra tags</label>
+            <div class="form-help">Added to the manifest tags (${escapeHtml((manifest.tags || []).join(', ') || 'none')}).</div>
+            <input type="text" id="pub-tags" placeholder="particles, vfx" value="${escapeHtml(isNewVersion ? (pkg.tags || []).join(', ') : '')}">
+          </div>
+        </div>
+        ${isNewVersion ? '' : `
+          <div class="form-row">
+            <div class="form-field">
+              <label for="pub-icon">Icon (recommended)</label>
+              <div class="form-help">Square image, PNG/JPG, max 4 MB.</div>
+              <input type="file" id="pub-icon" accept="image/png,image/jpeg,image/webp,image/gif">
+            </div>
+            <div class="form-field">
+              <label for="pub-shots">Screenshots</label>
+              <div class="form-help">Up to ${MAX_SCREENSHOTS} images, max 4 MB each.</div>
+              <input type="file" id="pub-shots" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
+            </div>
+          </div>
+        `}
+
+        <div class="form-error" id="pub-submit-error" hidden></div>
+        <div class="form-actions">
+          <button type="button" class="download-btn" id="pub-submit" style="font-size: 1.05rem;">
+            <i class="fas fa-rocket"></i> ${isNewVersion ? `Publish v${escapeHtml(manifest.version)}` : 'Publish package'}
+          </button>
+          <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
+        </div>
+      `}
+    `;
+    reviewHost.hidden = false;
+    if (blocked) return;
+
+    const submitBtn = reviewHost.querySelector('#pub-submit');
+    const submitError = reviewHost.querySelector('#pub-submit-error');
+    submitBtn.addEventListener('click', async () => {
+      submitError.hidden = true;
+      try {
+        if (missingDeps.length > 0 && !reviewHost.querySelector('#pub-ack-deps')?.checked) {
+          throw new Error('Some dependencies are not on this registry yet — tick the checkbox to publish anyway.');
+        }
+        const extraTags = reviewHost.querySelector('#pub-tags').value
+          .split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+        const tags = [...new Set([...(manifest.tags || []).map(t => String(t).toLowerCase()), ...extraTags])].slice(0, 8);
+        const category = reviewHost.querySelector('#pub-category').value;
+        const changelogMd = inspection.versionChangelog || '';
+
+        setBusy(submitBtn, true, 'Uploading...');
+        if (isNewVersion) {
+          await publishVersion(user, pkg, {
+            version: manifest.version,
+            changelogMd,
+            zipFile: file,
+            dependencies: manifest.dependencies || {},
+            minEngineVersion: manifest.minEngineVersion || null,
+            sha256: inspection.sha256,
+            manifest,
+            samples: manifest.samples || [],
+            assemblies: manifest.assemblies || [],
+            packageUpdates: {
+              name: manifest.displayName,
+              summary: manifest.summary,
+              description_md: manifest.description || inspection.readme || manifest.summary,
+              readme_md: inspection.readme || null,
+              license: manifest.license || 'See LICENSE.md',
+              min_engine_version: manifest.minEngineVersion || null,
+              homepage_url: manifest.homepageUrl || null,
+              repo_url: manifest.repoUrl || null,
+              category,
+              tags,
+            },
+          });
+          showToast(`v${manifest.version} published!`, 'success');
+        } else {
+          await createPackage(user, {
+            name: manifest.displayName,
+            slug: manifest.slug,
+            summary: manifest.summary,
+            descriptionMd: manifest.description || inspection.readme || manifest.summary,
+            readmeMd: inspection.readme || null,
+            category,
+            tags,
+            license: manifest.license || 'See LICENSE.md',
+            homepageUrl: manifest.homepageUrl || null,
+            repoUrl: manifest.repoUrl || null,
+            minEngineVersion: manifest.minEngineVersion || null,
+            packageType: manifest.packageType || 'package',
+            status: 'published',
+            iconFile: reviewHost.querySelector('#pub-icon')?.files[0] || null,
+            screenshotFiles: Array.from(reviewHost.querySelector('#pub-shots')?.files || []).slice(0, MAX_SCREENSHOTS),
+            version: manifest.version,
+            changelogMd,
+            zipFile: file,
+            dependencies: manifest.dependencies || {},
+            sha256: inspection.sha256,
+            manifest,
+            samples: manifest.samples || [],
+            assemblies: manifest.assemblies || [],
+          });
+          showToast('Your package is live!', 'success');
+        }
+        navigate('/account');
+      } catch (err) {
+        console.error(err);
+        submitError.textContent = err.message;
+        submitError.hidden = false;
+        setBusy(submitBtn, false, isNewVersion ? `Publish v${manifest.version}` : 'Publish package');
+      }
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------

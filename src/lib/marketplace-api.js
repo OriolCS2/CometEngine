@@ -230,6 +230,35 @@ export function getZipUrl(zipPath) {
   return client.storage.from(ZIPS_BUCKET).getPublicUrl(zipPath).data.publicUrl;
 }
 
+// Which of the given slugs exist as published packages on this registry.
+// Used to validate a manifest's dependencies before publishing.
+export async function findExistingSlugs(slugs) {
+  const client = getClient();
+  if (!client || slugs.length === 0) return new Set();
+  const { data, error } = await client
+    .from('packages')
+    .select('slug')
+    .in('slug', slugs)
+    .eq('status', 'published');
+  if (error) throw error;
+  return new Set((data || []).map(row => row.slug));
+}
+
+export async function getDailyDownloads(packageId, days = 30) {
+  const client = getClient();
+  if (!client) return [];
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+  const { data, error } = await client
+    .from('package_downloads_daily')
+    .select('day, downloads')
+    .eq('package_id', packageId)
+    .gte('day', since.toISOString().slice(0, 10))
+    .order('day', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
 export async function recordDownload(packageId, versionId) {
   const client = getClient();
   if (!client) return;
@@ -274,9 +303,13 @@ function safeName(name) {
   return name.replace(/[^A-Za-z0-9._-]+/g, '_');
 }
 
-// data: { name, slug, summary, descriptionMd, category, tags, license,
-//         homepageUrl, repoUrl, minEngineVersion, status,
-//         iconFile, screenshotFiles, version, changelogMd, zipFile }
+// data: { name, slug, summary, descriptionMd, readmeMd, category, tags, license,
+//         homepageUrl, repoUrl, minEngineVersion, packageType, status,
+//         iconFile, screenshotFiles,
+//         version, changelogMd, zipFile,
+//         dependencies, sha256, manifest, samples, assemblies }
+// Everything except the presentation fields (icon/screenshots/category/tags)
+// comes from the package.cometPackage manifest inside the zip.
 export async function createPackage(user, data) {
   const client = requireClient();
   validateZipFile(data.zipFile);
@@ -307,12 +340,14 @@ export async function createPackage(user, data) {
     name: data.name,
     summary: data.summary,
     description_md: data.descriptionMd,
+    readme_md: data.readmeMd || null,
     category: data.category,
     tags: data.tags,
     license: data.license,
     homepage_url: data.homepageUrl || null,
     repo_url: data.repoUrl || null,
     min_engine_version: data.minEngineVersion || null,
+    package_type: data.packageType || 'package',
     icon_url: iconUrl,
     screenshots,
     status: data.status || 'published',
@@ -329,6 +364,12 @@ export async function createPackage(user, data) {
     changelog_md: data.changelogMd,
     zip_path: zipPath,
     zip_size: data.zipFile.size,
+    dependencies: data.dependencies || {},
+    min_engine_version: data.minEngineVersion || null,
+    sha256: data.sha256 || null,
+    manifest: data.manifest || null,
+    samples: data.samples || [],
+    assemblies: data.assemblies || [],
   });
   if (verError) {
     // Don't leave a package without any downloadable version behind.
@@ -361,7 +402,7 @@ export async function updatePackage(user, pkg, fields, { iconFile = null, screen
   if (error) throw error;
 }
 
-export async function publishVersion(user, pkg, { version, changelogMd, zipFile }) {
+export async function publishVersion(user, pkg, { version, changelogMd, zipFile, dependencies, minEngineVersion, sha256, manifest, samples, assemblies, packageUpdates }) {
   const client = requireClient();
   validateZipFile(zipFile);
 
@@ -374,6 +415,12 @@ export async function publishVersion(user, pkg, { version, changelogMd, zipFile 
     changelog_md: changelogMd,
     zip_path: zipPath,
     zip_size: zipFile.size,
+    dependencies: dependencies || {},
+    min_engine_version: minEngineVersion || null,
+    sha256: sha256 || null,
+    manifest: manifest || null,
+    samples: samples || [],
+    assemblies: assemblies || [],
   });
   if (verError) {
     if (verError.code === '23505') throw new Error(`Version ${version} already exists for this package.`);
@@ -383,8 +430,34 @@ export async function publishVersion(user, pkg, { version, changelogMd, zipFile 
   const { error: pkgError } = await client.from('packages').update({
     latest_version: version,
     updated_at: new Date().toISOString(),
+    ...(packageUpdates || {}),
   }).eq('id', pkg.id);
   if (pkgError) throw pkgError;
+}
+
+export async function setVersionDeprecated(versionId, deprecated, message) {
+  const client = requireClient();
+  const { error } = await client.from('package_versions').update({
+    deprecated,
+    deprecated_message: deprecated ? (message || null) : null,
+  }).eq('id', versionId);
+  if (error) throw error;
+}
+
+export async function setPackageDeprecated(packageId, deprecated, message) {
+  const client = requireClient();
+  const { error } = await client.from('packages').update({
+    deprecated,
+    deprecated_message: deprecated ? (message || null) : null,
+    updated_at: new Date().toISOString(),
+  }).eq('id', packageId);
+  if (error) throw error;
+}
+
+export async function setPackageFeatured(packageId, featured) {
+  const client = requireClient();
+  const { error } = await client.from('packages').update({ featured }).eq('id', packageId);
+  if (error) throw error;
 }
 
 export async function setPackageStatus(packageId, status) {

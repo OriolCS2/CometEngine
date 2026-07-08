@@ -294,3 +294,78 @@ code {
     border-right-color: var(--border);
   }
 }
+
+/* ============================================================================
+   Manifest-first publish flow (account)
+   ============================================================================ */
+
+.pub-dropzone {
+  border: 2px dashed var(--border-color, rgba(255, 255, 255, 0.2));
+  border-radius: 12px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  margin-bottom: 1rem;
+}
+.pub-dropzone i {
+  font-size: 2rem;
+  color: var(--accent-color);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.pub-dropzone p { margin: 0.15rem 0; }
+.pub-dropzone-hint { color: var(--text-dim); font-size: 0.85rem; }
+.pub-dropzone-over,
+.pub-dropzone:hover { border-color: var(--accent-color); background: rgba(255, 255, 255, 0.03); }
+.pub-dropzone-busy { opacity: 0.6; pointer-events: none; }
+
+.pub-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.pub-review-grid > div {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+}
+.pub-review-grid span { display: block; color: var(--text-dim); font-size: 0.78rem; margin-bottom: 0.15rem; }
+.pub-grid-wide { grid-column: 1 / -1; }
+.pub-sha { font-size: 0.78rem; word-break: break-all; }
+
+.pub-deps-table { width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; }
+.pub-deps-table th, .pub-deps-table td {
+  text-align: left;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  font-size: 0.9rem;
+}
+.pub-deps-table th { color: var(--text-dim); font-weight: 600; }
+
+.pub-problems {
+  border: 1px solid rgba(231, 76, 60, 0.5);
+  background: rgba(231, 76, 60, 0.08);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.pub-problems h3 { margin: 0 0 0.5rem; color: #e74c3c; font-size: 1rem; }
+.pub-problems ul { margin: 0; padding-left: 1.2rem; }
+.pub-problems li { margin: 0.25rem 0; }
+
+.pub-ack { display: flex; gap: 0.5rem; align-items: flex-start; margin: 0.6rem 0 1rem; color: var(--text-dim); font-size: 0.9rem; cursor: pointer; }
+.pub-ack input { margin-top: 0.2rem; }
+
+.pub-changelog {
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.mp-badge-warn { background: rgba(241, 196, 15, 0.15); color: #f1c40f; }

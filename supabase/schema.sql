@@ -142,6 +142,109 @@ create policy "Owners can delete versions"
   ));
 
 -- ----------------------------------------------------------------------------
+-- 3b. Registry schema v2 — package-manager columns
+--     The engine's package manager resolves dependencies from these columns
+--     without downloading archives, verifies downloads against sha256, gates
+--     installs on min_engine_version and honours deprecation. The upload flow
+--     fills them from the package.cometPackage manifest inside the zip.
+-- ----------------------------------------------------------------------------
+alter table public.packages
+  add column if not exists package_type text not null default 'package'
+    check (package_type in ('package', 'assetPack')),
+  add column if not exists deprecated boolean not null default false,
+  add column if not exists deprecated_message text,
+  add column if not exists featured boolean not null default false,
+  add column if not exists readme_md text;
+
+alter table public.package_versions
+  add column if not exists dependencies jsonb not null default '{}'::jsonb,
+  add column if not exists min_engine_version text,
+  add column if not exists sha256 text,
+  add column if not exists manifest jsonb,
+  add column if not exists samples jsonb not null default '[]'::jsonb,
+  add column if not exists assemblies jsonb not null default '[]'::jsonb,
+  add column if not exists deprecated boolean not null default false,
+  add column if not exists deprecated_message text;
+
+-- Release channel derived from the semver string: experimental (0.x or -exp),
+-- pre-release (any other -tag) or release.
+create or replace function public.version_channel(version text)
+returns text
+language sql immutable
+as $$
+  select case
+    when split_part(version, '.', 1) = '0' or version like '%-exp%' then 'exp'
+    when position('-' in version) > 0 then 'pre'
+    else 'release'
+  end;
+$$;
+
+alter table public.package_versions
+  add column if not exists channel text generated always as (public.version_channel(version)) stored;
+
+create index if not exists package_versions_dependencies_idx
+  on public.package_versions using gin (dependencies);
+
+-- Full-text search over name + summary + tags (websearch queries from the
+-- engine and the store front: ?fts=wfts.<query>).
+create or replace function public.package_fts(name text, summary text, tags text[])
+returns tsvector
+language sql immutable
+as $$
+  select to_tsvector('simple',
+    coalesce(name, '') || ' ' || coalesce(summary, '') || ' ' || coalesce(array_to_string(tags, ' '), ''));
+$$;
+
+alter table public.packages
+  add column if not exists fts tsvector generated always as (public.package_fts(name, summary, tags)) stored;
+
+create index if not exists packages_fts_idx on public.packages using gin (fts);
+create index if not exists packages_featured_idx on public.packages (featured) where featured;
+
+-- Owners can deprecate/un-deprecate their own versions (row updates).
+drop policy if exists "Owners can update versions" on public.package_versions;
+create policy "Owners can update versions"
+  on public.package_versions for update
+  using (exists (
+    select 1 from public.packages p
+    where p.id = package_id and p.owner_id = auth.uid()
+  ));
+
+-- ----------------------------------------------------------------------------
+-- 3c. Registry settings (caps the engine and the site read at runtime)
+-- ----------------------------------------------------------------------------
+create table if not exists public.registry_settings (
+  key text primary key,
+  value jsonb not null
+);
+
+alter table public.registry_settings enable row level security;
+
+drop policy if exists "Registry settings are readable by everyone" on public.registry_settings;
+create policy "Registry settings are readable by everyone"
+  on public.registry_settings for select using (true);
+
+insert into public.registry_settings (key, value)
+values ('limits', '{"maxZipBytes": 26214400, "maxImageBytes": 5242880}'::jsonb)
+on conflict (key) do nothing;
+
+-- ----------------------------------------------------------------------------
+-- 3d. Daily download rollups (the publisher dashboard sparkline)
+-- ----------------------------------------------------------------------------
+create table if not exists public.package_downloads_daily (
+  package_id uuid not null references public.packages (id) on delete cascade,
+  day date not null default current_date,
+  downloads bigint not null default 0,
+  primary key (package_id, day)
+);
+
+alter table public.package_downloads_daily enable row level security;
+
+drop policy if exists "Download stats are readable by everyone" on public.package_downloads_daily;
+create policy "Download stats are readable by everyone"
+  on public.package_downloads_daily for select using (true);
+
+-- ----------------------------------------------------------------------------
 -- 4. Download counter (called anonymously from the site, so security definer)
 -- ----------------------------------------------------------------------------
 create or replace function public.increment_download(p_package uuid, p_version uuid)
@@ -151,6 +254,9 @@ security definer set search_path = public
 as $$
   update public.packages set download_count = download_count + 1 where id = p_package;
   update public.package_versions set download_count = download_count + 1 where id = p_version;
+  insert into public.package_downloads_daily (package_id, day, downloads)
+  values (p_package, current_date, 1)
+  on conflict (package_id, day) do update set downloads = public.package_downloads_daily.downloads + 1;
 $$;
 
 grant execute on function public.increment_download(uuid, uuid) to anon, authenticated;

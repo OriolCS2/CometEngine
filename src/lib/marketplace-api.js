@@ -365,7 +365,7 @@ function safeName(name) {
 //         homepageUrl, repoUrl, minEngineVersion, packageType, status,
 //         iconFile, screenshotFiles,
 //         version, changelogMd, zipFile,
-//         dependencies, sha256, manifest, samples, assemblies }
+//         dependencies, sha256, manifest, samples }
 // Everything except the presentation fields (icon/screenshots/category/tags)
 // comes from the package.cometPackage manifest inside the zip.
 export async function createPackage(user, data) {
@@ -427,7 +427,6 @@ export async function createPackage(user, data) {
     sha256: data.sha256 || null,
     manifest: data.manifest || null,
     samples: data.samples || [],
-    assemblies: data.assemblies || [],
   });
   if (verError) {
     // Don't leave a package without any downloadable version behind.
@@ -460,7 +459,7 @@ export async function updatePackage(user, pkg, fields, { iconFile = null, screen
   if (error) throw error;
 }
 
-export async function publishVersion(user, pkg, { version, changelogMd, zipFile, dependencies, minEngineVersion, sha256, manifest, samples, assemblies, packageUpdates }) {
+export async function publishVersion(user, pkg, { version, changelogMd, zipFile, dependencies, minEngineVersion, sha256, manifest, samples, packageUpdates }) {
   const client = requireClient();
   validateZipFile(zipFile);
 
@@ -478,7 +477,6 @@ export async function publishVersion(user, pkg, { version, changelogMd, zipFile,
     sha256: sha256 || null,
     manifest: manifest || null,
     samples: samples || [],
-    assemblies: assemblies || [],
   });
   if (verError) {
     if (verError.code === '23505') throw new Error(`Version ${version} already exists for this package.`);

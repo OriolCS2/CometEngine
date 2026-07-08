@@ -752,7 +752,6 @@ async function renderPublishFlow(container, user, pkg) {
             sha256: inspection.sha256,
             manifest,
             samples: manifest.samples || [],
-            assemblies: manifest.assemblies || [],
             packageUpdates: {
               name: manifest.displayName,
               summary: manifest.summary,
@@ -791,7 +790,6 @@ async function renderPublishFlow(container, user, pkg) {
             sha256: inspection.sha256,
             manifest,
             samples: manifest.samples || [],
-            assemblies: manifest.assemblies || [],
           });
           showToast('Your package is live!', 'success');
         }

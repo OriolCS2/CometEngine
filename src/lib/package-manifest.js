@@ -163,11 +163,6 @@ export function parsePackageManifest(text) {
     }
   }
 
-  for (const assembly of manifest.assemblies || []) {
-    if (!isSafeRelativePath(assembly?.path)) {
-      errors.push(`The assembly path "${assembly?.path}" must be a safe relative path.`);
-    }
-  }
   for (const sample of manifest.samples || []) {
     if (!isSafeRelativePath(sample?.path)) {
       errors.push(`The sample path "${sample?.path}" must be a safe relative path.`);

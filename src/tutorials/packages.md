@@ -8,7 +8,7 @@ This tutorial covers the whole system: the Package Manager window, every way to 
 
 ## What a package is
 
-On disk, a package is simply a folder with a `package.cometPackage` manifest at its root. The manifest gives it an identity (a **slug** like `platformer-toolkit`), a semantic **version** like `1.2.0`, presentation metadata, and declarations for everything it ships: dependencies, script assemblies, importable samples.
+On disk, a package is simply a folder with a `package.cometPackage` manifest at its root. The manifest gives it an identity (a **slug** like `platformer-toolkit`), a semantic **version** like `1.2.0`, presentation metadata, and declarations for everything it ships: dependencies and importable samples.
 
 There are two package types:
 
@@ -166,7 +166,7 @@ Every file, in detail:
 
 **`LICENSE.md`** — the license text your `license` field points at.
 
-**`Runtime/`, `Editor/` and `.cometAssembly` files** — an **assembly** groups the scripts in its folder into one compilation unit. The `.cometAssembly` file itself is a small JSON (`{ "Shared": false, "Platforms": -1 }`) whose platform mask (`-1` means every platform) you edit through its inspector — untick platforms the scripts shouldn't compile for. Assemblies under `Editor/` (declared `editorOnly` in the manifest) exist only in the editor and are stripped from every exported game. Declare each assembly in the manifest's `assemblies` array so the package system knows about it.
+**`Runtime/`, `Editor/` and `.cometAssembly` files** — an **assembly** groups the scripts in its folder into one compilation unit. The `.cometAssembly` file itself is a small JSON (`{ "Shared": false, "Platforms": -1 }`) whose platform mask (`-1` means every platform) you edit through its inspector — untick platforms the scripts shouldn't compile for. Assemblies under `Editor/` exist only in the editor and are stripped from every exported game.
 
 **`.meta` files** — every asset in a package carries its `.meta` with a stable asset ID, exactly like assets in `Assets/`. Stable IDs are what let scenes reference package assets across installs and updates. If an incoming package's ID collides with something already in the project, the installer remaps the copy and records the remap in the lock.
 
@@ -205,10 +205,6 @@ The manifest is JSON (comments are tolerated when read). A complete example:
     "dependencies": {
         "ui-extensions": "^1.0.0"
     },
-    "assemblies": [
-        { "path": "Runtime/DialogueSystem.cometAssembly", "includedPlatforms": "ALL", "editorOnly": false },
-        { "path": "Editor/DialogueSystemEditor.cometAssembly", "editorOnly": true }
-    ],
     "samples": [
         {
             "displayName": "Basic",
@@ -240,16 +236,15 @@ The manifest is JSON (comments are tolerated when read). A complete example:
 | `changelogUrl` | string | External changelog; falls back to the in-package `CHANGELOG.md`. |
 | `minEngineVersion` | string | Lowest engine version the package works with (semver, optional). Older engines refuse to install it, and a project containing it won't build on an older engine. |
 | `dependencies` | object | Direct dependencies: `{ "slug": "range" }`. See [version ranges](#version-ranges). |
-| `assemblies` | array | Script assemblies the package ships: `path` (relative to the package root, forward slashes), `includedPlatforms` (`"ALL"` or a platform filter), `editorOnly` (bool). |
 | `samples` | array | Importable samples: `displayName`, `description`, `path` (usually under `Samples/`). |
 | `hiddenFolders` | string[] | Package-root folders excluded from the asset database (samples, documentation). |
 | `hideInEditor` | bool | Hides the package's assets from object pickers — a helper for asset packs. |
 
 All content paths are validated: relative, forward slashes, no `..` or absolute segments — a manifest can never point outside its package.
 
-You rarely edit this JSON by hand: selecting a `package.cometPackage` in the **Project** panel shows the **manifest inspector**, a form with sections for information, description, dependencies, assemblies and samples, with **Apply / Revert** buttons and validation as you type.
+You rarely edit this JSON by hand: selecting a `package.cometPackage` in the **Project** panel shows the **manifest inspector**, a form with sections for information, description, dependencies and samples, with **Apply / Revert** buttons and validation as you type.
 
-![The manifest inspector: the Information, Description, Dependencies, Assemblies and Samples sections of package.cometPackage as an editable form.](/tutorials/pm-manifest-inspector.png)
+![The manifest inspector: the Information, Description, Dependencies and Samples sections of package.cometPackage as an editable form.](/tutorials/pm-manifest-inspector.png)
 
 Packages live in their own **Packages** section of the Project panel, right below Assets:
 

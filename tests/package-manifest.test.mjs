@@ -53,7 +53,6 @@ const good = {
   packageType: 'package',
   summary: 'Widgets and helpers for the Comet UI system.',
   dependencies: { 'acme-core': '^2.0.0' },
-  assemblies: [{ path: 'Runtime/AcmeUiKit.cometAssembly' }],
   samples: [{ displayName: 'Basic', path: 'Samples/Basic' }],
   hiddenFolders: ['Samples'],
   minEngineVersion: '2.8.2',
@@ -64,7 +63,6 @@ check('bad version rejected', parsePackageManifest(JSON.stringify({ ...good, ver
 check('short summary rejected', parsePackageManifest(JSON.stringify({ ...good, summary: 'short' })).errors.length > 0);
 check('bad range rejected', parsePackageManifest(JSON.stringify({ ...good, dependencies: { a: 'latest' } })).errors.length > 0);
 check('self dependency rejected', parsePackageManifest(JSON.stringify({ ...good, dependencies: { 'acme-ui-kit': '^1.0.0' } })).errors.length > 0);
-check('unsafe assembly path rejected', parsePackageManifest(JSON.stringify({ ...good, assemblies: [{ path: '../evil' }] })).errors.length > 0);
 check('unknown type rejected', parsePackageManifest(JSON.stringify({ ...good, packageType: 'plugin' })).errors.length > 0);
 check('newer schema rejected', parsePackageManifest(JSON.stringify({ ...good, schemaVersion: 99 })).errors.length > 0);
 check('jsonc manifest accepted', parsePackageManifest('{\n// comment\n' + JSON.stringify(good).slice(1)).errors.length === 0);

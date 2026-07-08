@@ -86,7 +86,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-Bn1JDPql.js"></script>
+  <script type="module" crossorigin src="/assets/index-DLiRnTD9.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index--h935l_P.css">
 </head>
 
@@ -117,7 +117,7 @@
 <p>This tutorial covers the whole system: the Package Manager window, every way to install and remove packages, how dependency resolution and version locking work, how to create a package of your own, every file a package contains and every field of those files, and how to export and publish to the Marketplace.</p>
 <p><img src="/tutorials/pm-window.png" alt="The Package Manager window: source navigation on the left, the package list in the middle, and the selected package&#39;s details on the right."></p>
 <h2>What a package is</h2>
-<p>On disk, a package is simply a folder with a <code>package.cometPackage</code> manifest at its root. The manifest gives it an identity (a <strong>slug</strong> like <code>platformer-toolkit</code>), a semantic <strong>version</strong> like <code>1.2.0</code>, presentation metadata, and declarations for everything it ships: dependencies, script assemblies, importable samples.</p>
+<p>On disk, a package is simply a folder with a <code>package.cometPackage</code> manifest at its root. The manifest gives it an identity (a <strong>slug</strong> like <code>platformer-toolkit</code>), a semantic <strong>version</strong> like <code>1.2.0</code>, presentation metadata, and declarations for everything it ships: dependencies and importable samples.</p>
 <p>There are two package types:</p>
 <ul>
 <li><strong><code>package</code></strong> — the normal kind. It installs under <code>Packages/&lt;slug&gt;/</code> in your project and is treated as <strong>read-only</strong>: the editor won&#39;t let you accidentally modify a library you&#39;d lose changes to on the next update.</li>
@@ -254,7 +254,7 @@ If a live-linked folder contains an asset whose ID collides with one already in 
 <p><strong><code>README.md</code></strong> — the long-form introduction. When you publish, the Marketplace reads it out of the archive and uses it as the store page body.</p>
 <p><strong><code>CHANGELOG.md</code></strong> — the version history in <a href="https://keepachangelog.com">Keep a Changelog</a> format: one <code>## [x.y.z]</code> section per version. The exporter checks that a section exists for the version you&#39;re exporting, and the Marketplace extracts that section as the per-version changelog shown in the Versions tab.</p>
 <p><strong><code>LICENSE.md</code></strong> — the license text your <code>license</code> field points at.</p>
-<p><strong><code>Runtime/</code>, <code>Editor/</code> and <code>.cometAssembly</code> files</strong> — an <strong>assembly</strong> groups the scripts in its folder into one compilation unit. The <code>.cometAssembly</code> file itself is a small JSON (<code>{ &quot;Shared&quot;: false, &quot;Platforms&quot;: -1 }</code>) whose platform mask (<code>-1</code> means every platform) you edit through its inspector — untick platforms the scripts shouldn&#39;t compile for. Assemblies under <code>Editor/</code> (declared <code>editorOnly</code> in the manifest) exist only in the editor and are stripped from every exported game. Declare each assembly in the manifest&#39;s <code>assemblies</code> array so the package system knows about it.</p>
+<p><strong><code>Runtime/</code>, <code>Editor/</code> and <code>.cometAssembly</code> files</strong> — an <strong>assembly</strong> groups the scripts in its folder into one compilation unit. The <code>.cometAssembly</code> file itself is a small JSON (<code>{ &quot;Shared&quot;: false, &quot;Platforms&quot;: -1 }</code>) whose platform mask (<code>-1</code> means every platform) you edit through its inspector — untick platforms the scripts shouldn&#39;t compile for. Assemblies under <code>Editor/</code> exist only in the editor and are stripped from every exported game.</p>
 <p><strong><code>.meta</code> files</strong> — every asset in a package carries its <code>.meta</code> with a stable asset ID, exactly like assets in <code>Assets/</code>. Stable IDs are what let scenes reference package assets across installs and updates. If an incoming package&#39;s ID collides with something already in the project, the installer remaps the copy and records the remap in the lock.</p>
 <p><strong><code>Samples/</code></strong> — content users can <em>optionally</em> import (a demo scene, example prefabs). Samples are declared in the manifest and their folder is listed in <code>hiddenFolders</code>, so they don&#39;t clutter the asset database until imported. The <strong>Samples</strong> tab imports one into <code>Assets/Samples/&lt;package&gt;/&lt;version&gt;/&lt;sample&gt;/</code> as editable copies with fresh asset IDs — safe to re-import (an existing import is replaced).</p>
 <p><strong><code>Documentation/</code></strong> — reference docs, also hidden via <code>hiddenFolders</code>. The Description tab&#39;s <em>Documentation</em> button prefers the manifest&#39;s <code>documentationUrl</code> and falls back to this folder.</p>
@@ -285,10 +285,6 @@ If a live-linked folder contains an asset whose ID collides with one already in 
     &quot;dependencies&quot;: {
         &quot;ui-extensions&quot;: &quot;^1.0.0&quot;
     },
-    &quot;assemblies&quot;: [
-        { &quot;path&quot;: &quot;Runtime/DialogueSystem.cometAssembly&quot;, &quot;includedPlatforms&quot;: &quot;ALL&quot;, &quot;editorOnly&quot;: false },
-        { &quot;path&quot;: &quot;Editor/DialogueSystemEditor.cometAssembly&quot;, &quot;editorOnly&quot;: true }
-    ],
     &quot;samples&quot;: [
         {
             &quot;displayName&quot;: &quot;Basic&quot;,
@@ -394,11 +390,6 @@ If a live-linked folder contains an asset whose ID collides with one already in 
 <td>Direct dependencies: <code>{ &quot;slug&quot;: &quot;range&quot; }</code>. See <a href="#version-ranges">version ranges</a>.</td>
 </tr>
 <tr>
-<td><code>assemblies</code></td>
-<td>array</td>
-<td>Script assemblies the package ships: <code>path</code> (relative to the package root, forward slashes), <code>includedPlatforms</code> (<code>&quot;ALL&quot;</code> or a platform filter), <code>editorOnly</code> (bool).</td>
-</tr>
-<tr>
 <td><code>samples</code></td>
 <td>array</td>
 <td>Importable samples: <code>displayName</code>, <code>description</code>, <code>path</code> (usually under <code>Samples/</code>).</td>
@@ -415,8 +406,8 @@ If a live-linked folder contains an asset whose ID collides with one already in 
 </tr>
 </tbody></table>
 <p>All content paths are validated: relative, forward slashes, no <code>..</code> or absolute segments — a manifest can never point outside its package.</p>
-<p>You rarely edit this JSON by hand: selecting a <code>package.cometPackage</code> in the <strong>Project</strong> panel shows the <strong>manifest inspector</strong>, a form with sections for information, description, dependencies, assemblies and samples, with <strong>Apply / Revert</strong> buttons and validation as you type.</p>
-<p><img src="/tutorials/pm-manifest-inspector.png" alt="The manifest inspector: the Information, Description, Dependencies, Assemblies and Samples sections of package.cometPackage as an editable form."></p>
+<p>You rarely edit this JSON by hand: selecting a <code>package.cometPackage</code> in the <strong>Project</strong> panel shows the <strong>manifest inspector</strong>, a form with sections for information, description, dependencies and samples, with <strong>Apply / Revert</strong> buttons and validation as you type.</p>
+<p><img src="/tutorials/pm-manifest-inspector.png" alt="The manifest inspector: the Information, Description, Dependencies and Samples sections of package.cometPackage as an editable form."></p>
 <p>Packages live in their own <strong>Packages</strong> section of the Project panel, right below Assets:</p>
 <p><img src="/tutorials/pm-project-packages.png" alt="The Project panel browsing Packages ▸ platformer-toolkit: Documentation, Runtime and Samples folders next to the CHANGELOG, LICENSE, README and package manifest files."></p>
 <h3>Script namespaces</h3>

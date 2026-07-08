@@ -18,6 +18,7 @@ import navigationMd from '../tutorials/navigation.md?raw';
 import networkingMd from '../tutorials/networking.md?raw';
 import nodeGraphMd from '../tutorials/node-graph.md?raw';
 import editorMd from '../tutorials/extending-the-editor.md?raw';
+import packagesMd from '../tutorials/packages.md?raw';
 import buildMd from '../tutorials/build-and-patches.md?raw';
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -153,6 +154,14 @@ const TUTORIALS = [
     md: editorMd,
   },
   {
+    id: 'packages',
+    title: 'Packages & the Package Manager',
+    icon: 'fa-cubes',
+    category: 'Packages',
+    blurb: 'Install add-ons from the Marketplace, resolve versions and locks, and create, export and publish packages of your own.',
+    md: packagesMd,
+  },
+  {
     id: 'build-and-patches',
     title: 'Exporting Builds & Shipping Patches',
     icon: 'fa-box-open',
@@ -162,7 +171,7 @@ const TUTORIALS = [
   },
 ];
 
-const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Editor Tooling', 'Shipping'];
+const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Editor Tooling', 'Packages', 'Shipping'];
 
 let sidebarFilter = '';
 

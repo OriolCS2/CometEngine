@@ -3479,9 +3479,9 @@ A project **won't export a game build** while its packages are in a bad state �
 
 ## Package settings & preferences
 
-The gear menu's **Package settings…** edits this project's \`manifest.cometManifest\` knobs:
+The gear menu's **Package settings…** opens the **Packages** page of Project Settings, which edits this project's \`manifest.cometManifest\` knobs:
 
-![The Package Settings dialog: the registries list, resolution strategy, pre-release visibility, lock toggle, pinned packages and the lock reset action.](/tutorials/pm-settings.png)
+![The Packages page in Project Settings: the registries list, resolution strategy, pre-release visibility, lock toggle, pinned packages and the lock reset action.](/tutorials/pm-settings.png)
 
 - **Registries** — add, remove and reorder registries (with their scopes). Priority order decides who serves a slug both registries claim.
 - **Resolution ▸ Strategy** — the resolver escalation policy described above.

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>Native Plugins &amp; the FFI — Comet Engine</title>
+  <meta name="description"
+    content="Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet's native plugin system lets yo…" />
+  <meta name="keywords"
+    content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/native-plugins/" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Native Plugins &amp; the FFI — Comet Engine" />
+  <meta property="og:description"
+    content="Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet's native plugin system lets yo…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/native-plugins/" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/native-plugin-inspector.png" />
+  <meta property="og:image:width" content="456" />
+  <meta property="og:image:height" content="256" />
+  <meta property="og:image:alt" content="The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown." />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Native Plugins &amp; the FFI — Comet Engine" />
+  <meta name="twitter:description"
+    content="Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet's native plugin system lets yo…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/native-plugin-inspector.png" />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.cometengine.org/#website",
+        "name": "Comet Engine",
+        "alternateName": "CometEngine",
+        "url": "https://www.cometengine.org/",
+        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Comet Engine",
+        "alternateName": ["CometEngine", "Comet Game Engine"],
+        "url": "https://www.cometengine.org/",
+        "sameAs": [
+          "https://github.com/OriolCS2/CometEngine",
+          "https://www.youtube.com/watch?v=zLf-vsr-gkk"
+        ],
+        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Linux, Web and Android.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, Linux, Web, Android",
+        "softwareHelp": "https://www.cometengine.org/tutorials/",
+        "author": {
+          "@type": "Person",
+          "name": "Oriol Capdevila",
+          "url": "https://www.linkedin.com/in/oriol-capdevila/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-BKauaki6.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index--h935l_P.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Native Plugins &amp; the FFI</h1>
+<p>Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet&#39;s <strong>native plugin</strong> system lets you ship that <code>.dll</code> / <code>.so</code> / <code>.dylib</code> alongside your game and call straight into it from AngelScript, no engine recompile required. It&#39;s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.</p>
+<blockquote>
+<p>[!WARNING]
+Native calls are unsafe by nature: you&#39;re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you&#39;d give any dependency.</p>
+</blockquote>
+<h2>Importing a plugin</h2>
+<p>Drop the binary <strong>anywhere in your project</strong> and Comet imports it as a <strong>Native Plugin</strong> asset — every <code>.dll</code>, <code>.so</code> or <code>.dylib</code> under <code>Assets/</code> (or inside any installed <a href="/tutorials/packages">package</a>) is picked up.</p>
+<p>Organise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:</p>
+<pre><code>Assets/MyMath/
+├── MyMath.as              ← the AngelScript wrapper
+├── x86_64/
+│   ├── mymath.dll         ← Windows, x86_64
+│   └── libmymath.so       ← Linux / Android, x86_64
+└── arm64-v8a/
+    └── libmymath.so       ← Android, arm64-v8a
+</code></pre>
+<p>The importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:</p>
+<table>
+<thead>
+<tr>
+<th>The file…</th>
+<th>…imports as</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ends in <code>.dll</code></td>
+<td><strong>Windows</strong> + <strong>Editor</strong></td>
+</tr>
+<tr>
+<td>ends in <code>.so</code></td>
+<td><strong>Linux</strong> + <strong>Android</strong> + <strong>Editor</strong></td>
+</tr>
+<tr>
+<td>ends in <code>.dylib</code></td>
+<td><strong>Editor</strong> only</td>
+</tr>
+<tr>
+<td>sits in a <code>Windows/</code>, <code>Linux/</code> or <code>Android/</code> folder</td>
+<td>narrows to that platform</td>
+</tr>
+<tr>
+<td>sits in an <code>x86_64/</code>, <code>x86/</code>, <code>arm64-v8a/</code> or <code>armeabi-v7a/</code> folder</td>
+<td>sets that <strong>Architecture</strong></td>
+</tr>
+</tbody></table>
+<h2>The plugin Inspector</h2>
+<p>Select the imported plugin to see its import settings. This is where you tell Comet <strong>which builds the binary belongs in</strong> — only matching plugins are shipped.</p>
+<p><img src="/tutorials/native-plugin-inspector.png" alt="The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown."></p>
+<p><strong>Platforms</strong> — four checkboxes: <strong>Windows</strong>, <strong>Linux</strong>, <strong>Android</strong> and <strong>Editor</strong>. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. <strong>Editor</strong> controls whether the library is loadable while you&#39;re in the editor and in play mode — handy to keep on so you can test without exporting.</p>
+<p><strong>Architecture</strong> — a dropdown: <strong>Any</strong>, <strong>x86_64</strong>, <strong>x86</strong>, <strong>arm64-v8a</strong> or <strong>armeabi-v7a</strong>.</p>
+<ul>
+<li>Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in <code>Plugins/&lt;architecture&gt;/</code>.</li>
+<li>Choose <strong>Any</strong> for an architecture-agnostic file (rare for native code) — it ships with every architecture.</li>
+</ul>
+<blockquote>
+<p>[!TIP]
+One &quot;plugin&quot; is usually <em>several</em> imported files — a Windows <code>.dll</code>, a Linux <code>.so</code>, an Android <code>.so</code> per ABI — each with its own Platforms/Architecture settings. <code>NativeLibrary::Load(&quot;mymath&quot;)</code> picks the right one for wherever the game is running.</p>
+</blockquote>
+<h2>Loading a plugin from AngelScript</h2>
+<p>The scripting API lives in the <code>CometEngine::Native</code> namespace. Load a library by <strong>logical name</strong> — no <code>lib</code> prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a <code>Plugins/</code> folder next to the game, so the loader searches <code>Plugins/&lt;arch&gt;/</code> and <code>Plugins/</code>, then falls back to the operating-system search path.</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+using namespace CometEngine::Native;
+
+class PluginDemo : CometBehaviour
+{
+    void Start()
+    {
+        // Load never returns null — always check IsLoaded().
+        NativeLibrary@ lib = NativeLibrary::Load(&quot;mymath&quot;);
+        if (!lib.IsLoaded())
+        {
+            Debug::LogError(&quot;plugin failed: &quot; + lib.GetError());
+            return;
+        }
+        Debug::Log(&quot;loaded from &quot; + lib.GetPath());
+
+        // Resolve a function by its exported symbol + C prototype:
+        NativeFunction@ add = lib.GetFunction(&quot;my_add&quot;, &quot;int(int,int)&quot;);
+        if (add.IsValid())
+        {
+            int sum = add.Call().Int(20).Int(22).InvokeInt();
+            Debug::Log(&quot;my_add(20, 22) = &quot; + sum);   // 42
+        }
+    }
+}
+</code></pre>
+<h3>Describing a function: the signature</h3>
+<p>A signature is a C prototype written as <code>returnType(argType, argType, …)</code> from these tokens:</p>
+<p><code>void</code> · <code>bool</code> · <code>int</code> · <code>uint</code> · <code>int64</code> · <code>uint64</code> · <code>float</code> · <code>double</code> · <code>ptr</code> · <code>str</code></p>
+<p><code>ptr</code> passes a raw address as a <code>uint64</code> (a buffer, a resolved symbol, or <code>0</code> for null); <code>str</code> marshals an AngelScript <code>string</code> as a UTF-8 <code>const char*</code> valid for the duration of the call. So <code>&quot;bool(ptr,str)&quot;</code> is <code>bool fn(void*, const char*)</code>.</p>
+<h3>Making the call</h3>
+<p><code>GetFunction</code> gives you a <code>NativeFunction</code>. Start a call with <code>Call()</code>, push the arguments <strong>in order</strong> with the chainable <code>Int</code>/<code>UInt</code>/<code>Int64</code>/<code>UInt64</code>/<code>Bool</code>/<code>Float</code>/<code>Double</code>/<code>Ptr</code>/<code>Str</code> methods, then finish with the <code>Invoke*</code> that matches the return type:</p>
+<pre><code class="language-angelscript">lib.GetFunction(&quot;set_volume&quot;, &quot;void(float)&quot;).Call().Float(0.8f).InvokeVoid();
+
+bool ok = lib.GetFunction(&quot;init&quot;, &quot;bool()&quot;).Call().InvokeBool();
+
+// A function that returns &#39;const char*&#39; returns a pointer — read it back:
+uint64 ptr = lib.GetFunction(&quot;get_name&quot;, &quot;ptr()&quot;).Call().InvokePtr();
+string name = Native::ReadCString(ptr);
+</code></pre>
+<p>The pushed argument count must match the signature or the call is rejected and returns a zero value.</p>
+<h3>Structs, out-parameters and raw memory</h3>
+<p>For functions that read or write a struct, allocate a <strong><code>NativeBuffer</code></strong> — a bounds-checked block of native memory — pass its address as a <code>ptr</code>, then read the fields back by byte offset:</p>
+<pre><code class="language-angelscript">// struct Vec2 { float x, y; };  void get_position(Vec2* out);
+NativeBuffer@ buf = NativeBuffer::Create(8);        // two floats
+lib.GetFunction(&quot;get_position&quot;, &quot;void(ptr)&quot;).Call().Ptr(buf.GetAddress()).InvokeVoid();
+
+float x = buf.Float(0);
+float y = buf.Float(4);
+</code></pre>
+<p>The <code>Native::</code> namespace also has free helpers to peek raw addresses returned by a call — <code>ReadInt32</code>, <code>ReadFloat</code>, <code>ReadCString</code>, <code>ReadBytes(addr, len)</code> and the <code>Write*</code> counterparts.</p>
+<h3>Is it even supported here?</h3>
+<p>Native calls work on Windows, Linux and Android. They&#39;re <strong>not</strong> available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with <code>Native::IsSupported()</code> and provide a fallback:</p>
+<pre><code class="language-angelscript">if (!Native::IsSupported())
+    return;   // e.g. a Web build — no native plugins here
+
+Debug::Log(&quot;running on &quot; + Native::GetOS() + &quot; / &quot; + Native::GetArchitecture());
+</code></pre>
+<h2>How plugins ship</h2>
+<p>When you <a href="/tutorials/build-and-patches">export a build</a>, Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Where the binary lands</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Windows / Linux</strong></td>
+<td>a <code>Plugins/</code> folder next to the game executable</td>
+</tr>
+<tr>
+<td><strong>Android</strong></td>
+<td>packed into the APK/AAB&#39;s <code>jniLibs/&lt;abi&gt;/</code>, so the system loader finds it by name</td>
+</tr>
+<tr>
+<td><strong>Web</strong></td>
+<td>not supported for now — browsers can&#39;t load native binaries</td>
+</tr>
+</tbody></table>
+<p>The runtime loader mirrors this: in a build it searches <code>Plugins/&lt;arch&gt;/</code>, <code>Plugins/</code>, then the executable&#39;s own folder; on Android it resolves the library straight out of the packed native libraries.</p>
+<blockquote>
+<p>[!NOTE]
+<strong>Android naming.</strong> Android loads native libraries by their <code>lib…​.so</code> name. Name the file <code>lib&lt;something&gt;.so</code> (e.g. <code>libmymath.so</code>) and load it with the logical name — <code>NativeLibrary::Load(&quot;mymath&quot;)</code> — and Comet adds the <code>lib</code> prefix and <code>.so</code> suffix for you.</p>
+</blockquote>
+<h2>Cleaning up</h2>
+<p>A loaded library and its resolved functions stay alive as long as your script holds the handles. Call <code>lib.Unload()</code> to free the OS module early — every <code>NativeFunction</code> resolved from it becomes unusable afterward — or just let the handle go out of scope.</p>
+<h2>Where to go next</h2>
+<p>Native plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable <a href="/tutorials/packages">package</a> — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you&#39;re ready to distribute, the <a href="/tutorials/build-and-patches">Exporting Builds</a> tutorial covers how the matching plugins are bundled for each platform.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

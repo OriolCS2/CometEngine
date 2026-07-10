@@ -19,6 +19,7 @@ import networkingMd from '../tutorials/networking.md?raw';
 import nodeGraphMd from '../tutorials/node-graph.md?raw';
 import editorMd from '../tutorials/extending-the-editor.md?raw';
 import packagesMd from '../tutorials/packages.md?raw';
+import nativePluginsMd from '../tutorials/native-plugins.md?raw';
 import buildMd from '../tutorials/build-and-patches.md?raw';
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -160,6 +161,14 @@ const TUTORIALS = [
     category: 'Packages',
     blurb: 'Install add-ons from the Marketplace, resolve versions and locks, and create, export and publish packages of your own.',
     md: packagesMd,
+  },
+  {
+    id: 'native-plugins',
+    title: 'Native Plugins & the FFI',
+    icon: 'fa-plug',
+    category: 'Packages',
+    blurb: 'Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.',
+    md: nativePluginsMd,
   },
   {
     id: 'build-and-patches',

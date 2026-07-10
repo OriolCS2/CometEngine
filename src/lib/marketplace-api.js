@@ -13,7 +13,7 @@ export const MAX_ZIP_BYTES = 25 * 1024 * 1024;
 export const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 export const MAX_SCREENSHOTS = 6;
 
-export const CATEGORIES = ['Tools', 'Scripts', '2D Art', 'UI', 'Audio', 'Shaders & Materials', 'Templates', 'Other'];
+export const CATEGORIES = ['Tools', 'Scripts', '2D Art', 'UI', 'Audio', 'Shaders & Materials', 'Templates', 'Integration', 'Other'];
 export const LICENSES = ['MIT', 'Apache-2.0', 'GPL-3.0', 'BSD-3-Clause', 'CC0-1.0', 'CC-BY-4.0', 'Proprietary (free to use)'];
 
 const ZIPS_BUCKET = 'package-zips';

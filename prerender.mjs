@@ -41,39 +41,62 @@ function pngSize(file) {
   return null;
 }
 
-function pageHtml({ title, description, url, contentHtml, image }) {
+function pageHtml({ title, description, url, contentHtml, image, breadcrumbs }) {
   const full = `${title} — Comet Engine`;
+  const imgData = image || { url: `${SITE}/logo.png`, alt: full };
+
+  // 1. Purge all existing SEO/Social/JSON-LD tags to avoid any overlap or multi-line issues
   let html = shell
-    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(full)}</title>`)
-    .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
-    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/i, `$1${url}$2`)
-    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/i, `$1${url}$2`)
-    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/i, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
-    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/i, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
+    .replace(/<title>[\s\S]*?<\/title>/, '')
+    .replace(/<meta\s+name="description"[\s\S]*?\/>/gi, '')
+    .replace(/<link\s+rel="canonical"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+property="og:[^"]*"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+name="twitter:[^"]*"[\s\S]*?\/>/gi, '')
+    .replace(/<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/gi, '') // Purge shell's LD+JSON
     .replace(/(<main\s+id="app">)[\s\S]*?(<\/main>)/i, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
 
-  // Force clean existing image tags to avoid duplicates or multi-line issues
-  html = html
-    .replace(/<meta\s+property="og:image"[\s\S]*?\/>/gi, '')
-    .replace(/<meta\s+name="twitter:image"[\s\S]*?\/>/gi, '')
-    .replace(/<meta\s+property="og:image:width"[\s\S]*?\/>/gi, '')
-    .replace(/<meta\s+property="og:image:height"[\s\S]*?\/>/gi, '')
-    .replace(/<meta\s+property="og:image:alt"[\s\S]*?\/>/gi, '');
+  // 2. Build fresh JSON-LD (Breadcrumbs help sitelinks)
+  let ldJson = '';
+  if (breadcrumbs) {
+    ldJson = `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": ${JSON.stringify(breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": b.name,
+        "item": b.url
+      })))}
+    }
+    </script>`;
+  }
 
-  const imgData = image || { url: `${SITE}/logo.png`, alt: full };
-  const headEnd = html.indexOf('</head>');
-
+  // 3. Build a fresh block of metas.
   const newMetas = `
+  <title>${escapeAttr(full)}</title>
+  <meta name="description" content="${escapeAttr(description)}" />
+  <link rel="canonical" href="${url}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="${escapeAttr(full)}" />
+  <meta property="og:description" content="${escapeAttr(description)}" />
+  <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${imgData.url}" />
-  <meta name="twitter:image" content="${imgData.url}" />
   <meta property="og:image:alt" content="${escapeAttr(imgData.alt || full)}" />
   ${imgData.w ? `<meta property="og:image:width" content="${imgData.w}" />` : ''}
   ${imgData.h ? `<meta property="og:image:height" content="${imgData.h}" />` : ''}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapeAttr(full)}" />
+  <meta name="twitter:description" content="${escapeAttr(description)}" />
+  <meta name="twitter:image" content="${imgData.url}" />
+  ${ldJson}
   `;
 
-  html = html.slice(0, headEnd) + newMetas + html.slice(headEnd);
+  // 4. Inject at the start of <head>
+  const headPos = html.indexOf('<head>') + 6;
+  html = html.slice(0, headPos) + newMetas + html.slice(headPos);
 
   return html;
 }
@@ -104,9 +127,18 @@ for (const file of readdirSync(TUT_SRC).filter(f => f.endsWith('.md'))) {
     image = { url: SITE + m[2], alt: m[1], w: size?.w, h: size?.h };
   }
 
-  writePage(`tutorials/${id}`, pageHtml({ title, description, url, contentHtml: marked.parse(md), image }));
+  writePage(`tutorials/${id}`, pageHtml({
+    title, description, url,
+    contentHtml: marked.parse(md),
+    image,
+    breadcrumbs: [
+      { name: 'Home', url: `${SITE}/` },
+      { name: 'Tutorials', url: `${SITE}/tutorials/` },
+      { name: title, url }
+    ]
+  }));
   urls.push(`/tutorials/${id}/`);
-  cards.push(`<li><a href="/tutorials/${id}">${escapeAttr(title)}</a> — ${escapeAttr(description)}</li>`);
+  cards.push(`<li><a href="/tutorials/${id}/">${escapeAttr(title)}</a> — ${escapeAttr(description)}</li>`);
   count++;
 }
 
@@ -115,7 +147,11 @@ writePage('tutorials', pageHtml({
   title: 'Tutorials',
   description: 'Step-by-step guides to every major subsystem of the Comet Engine 2D game engine.',
   url: `${SITE}/tutorials/`,
-  contentHtml: `<h1>Comet Engine Tutorials</h1><ul>${cards.join('')}</ul>`,
+  contentHtml: `<h1>Comet Engine Tutorials</h1><p>Learn how to use Comet Engine with these step-by-step guides covering lighting, physics, scripting, and more.</p><ul>${cards.join('')}</ul>`,
+  breadcrumbs: [
+    { name: 'Home', url: `${SITE}/` },
+    { name: 'Tutorials', url: `${SITE}/tutorials/` }
+  ]
 }));
 
 // Top-level section shells so those routes return HTTP 200 (indexable) with
@@ -123,14 +159,31 @@ writePage('tutorials', pageHtml({
 // Their content is filled in by the client; deeper sub-routes (e.g.
 // /marketplace/<slug>) still use the 404 SPA fallback below.
 const sections = [
-  { path: 'marketplace', title: 'Marketplace', description: 'Browse and download assets, templates and packages for the Comet Engine 2D game engine.' },
-  { path: 'releases', title: 'Releases', description: 'Download the latest Comet Engine releases and read the patch notes.' },
-  { path: 'docs', title: 'Documentation', description: 'API reference and documentation for the Comet Engine 2D game engine.' },
+  {
+    path: 'marketplace', title: 'Marketplace',
+    description: 'Browse and download assets, templates and packages for the Comet Engine 2D game engine.',
+    content: '<p>Explore community-made packages, plugins, and assets to extend your Comet Engine projects.</p>'
+  },
+  {
+    path: 'releases', title: 'Releases',
+    description: 'Download the latest Comet Engine releases and read the patch notes.',
+    content: '<p>Get the latest version of Comet Engine for Windows, Linux, and more.</p>'
+  },
+  {
+    path: 'docs', title: 'Documentation',
+    description: 'API reference and documentation for the Comet Engine 2D game engine.',
+    content: '<p>Comprehensive API reference and manual for Comet Engine developers.</p>'
+  },
 ];
 for (const s of sections) {
   writePage(s.path, pageHtml({
     title: s.title, description: s.description,
-    url: `${SITE}/${s.path}/`, contentHtml: `<h1>${escapeAttr(s.title)}</h1>`,
+    url: `${SITE}/${s.path}/`,
+    contentHtml: `<h1>${escapeAttr(s.title)}</h1>${s.content}`,
+    breadcrumbs: [
+      { name: 'Home', url: `${SITE}/` },
+      { name: s.title, url: `${SITE}/${s.path}/` }
+    ]
   }));
 }
 
@@ -144,6 +197,10 @@ const spaShell = pageHtml({
   url: `${SITE}/marketplace/`,
   contentHtml: '<h1>Loading Comet Engine...</h1>',
   // No image passed here, so it will use defaults in pageHtml
+  breadcrumbs: [
+    { name: 'Home', url: `${SITE}/` },
+    { name: 'Marketplace', url: `${SITE}/marketplace/` }
+  ]
 });
 writeFileSync(join(DOCS, '404.html'), spaShell, 'utf8');
 

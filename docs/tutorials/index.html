@@ -2,84 +2,68 @@
 <html lang="en">
 
 <head>
+  <title>Tutorials — Comet Engine</title>
+  <meta name="description" content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Tutorials — Comet Engine" />
+  <meta property="og:description" content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/" />
+  <meta property="og:image" content="https://www.cometengine.org/logo.png" />
+  <meta property="og:image:alt" content="Tutorials — Comet Engine" />
+  
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tutorials — Comet Engine" />
+  <meta name="twitter:description" content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
+  <meta name="twitter:image" content="https://www.cometengine.org/logo.png" />
+  
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{"@type":"ListItem","position":1,"name":"Home","item":"https://www.cometengine.org/"},{"@type":"ListItem","position":2,"name":"Tutorials","item":"https://www.cometengine.org/tutorials/"}]
+    }
+    </script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary SEO -->
-  <title>Tutorials — Comet Engine</title>
-  <meta name="description"
-    content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
+  
+  
   <meta name="keywords"
     content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
   <meta name="author" content="Oriol Capdevila" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#0f1420" />
   <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
-  <link rel="canonical" href="https://www.cometengine.org/tutorials/" />
+  
 
   <!-- Icons -->
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="apple-touch-icon" href="/logo.png" />
 
   <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Comet Engine" />
-  <meta property="og:title" content="Tutorials — Comet Engine" />
-  <meta property="og:description"
-    content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
-  <meta property="og:url" content="https://www.cometengine.org/tutorials/" />
+  
+  
+  
+  
+  
   
   
   
   
 
   <!-- Twitter / X card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Tutorials — Comet Engine" />
-  <meta name="twitter:description"
-    content="Step-by-step guides to every major subsystem of the Comet Engine 2D game engine." />
+  
+  
+  
   
 
   <!-- Structured data for search engines -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://www.cometengine.org/#website",
-        "name": "Comet Engine",
-        "alternateName": "CometEngine",
-        "url": "https://www.cometengine.org/",
-        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Comet Engine",
-        "alternateName": ["CometEngine", "Comet Game Engine"],
-        "url": "https://www.cometengine.org/",
-        "sameAs": [
-          "https://github.com/OriolCS2/CometEngine",
-          "https://www.youtube.com/watch?v=zLf-vsr-gkk"
-        ],
-        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Linux, Web and Android.",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Windows, Linux, Web, Android",
-        "softwareHelp": "https://www.cometengine.org/tutorials/",
-        "author": {
-          "@type": "Person",
-          "name": "Oriol Capdevila",
-          "url": "https://www.linkedin.com/in/oriol-capdevila/"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
-      }
-    ]
-  }
-  </script>
+  
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,13 +71,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script type="module" crossorigin src="/assets/index-CFZnoF-H.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-DgJfKFc8.css">
-
-  <meta property="og:image" content="https://www.cometengine.org/logo.png" />
-  <meta name="twitter:image" content="https://www.cometengine.org/logo.png" />
-  <meta property="og:image:alt" content="Tutorials — Comet Engine" />
-  
-  
-  </head>
+</head>
 
 <body>
   <nav>
@@ -117,7 +95,7 @@
     </div>
   </nav>
 
-  <main id="app"><article class="tut-prerender"><h1>Comet Engine Tutorials</h1><ul><li><a href="/tutorials/animation">Animation &amp; the Animator</a> — Comet's animation stack has two levels. Animation clips keyframe properties over time; the Animator plays those clips through a visual state machine with par…</li><li><a href="/tutorials/audio">Audio &amp; Mixers</a> — Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical…</li><li><a href="/tutorials/bezier">Bézier Curves &amp; Paths</a> — Moving platforms that sweep along a smooth arc, a camera that glides through a level, a projectile that curves to its target — all of these follow a Bézier c…</li><li><a href="/tutorials/build-and-patches">Exporting Builds &amp; Shipping Patches</a> — Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…</li><li><a href="/tutorials/extending-the-editor">Extending the Editor</a> — The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool i…</li><li><a href="/tutorials/input-actions">Input Actions: The Input Module</a> — Reading KeyCode::SPACE directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timer…</li><li><a href="/tutorials/input">Reading Raw Input</a> — The most direct way to know what the player is doing is to ask the hardware every frame: is W held right now? did they just click? how far is the stick pushe…</li><li><a href="/tutorials/lights">2D Lights &amp; Shadows</a> — Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal…</li><li><a href="/tutorials/native-plugins">Native Plugins &amp; the FFI</a> — Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet's native plugin system lets yo…</li><li><a href="/tutorials/navigation">Navigation: NavMesh, Agents &amp; Obstacles</a> — Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked navigation mesh, A\ path queries with f…</li><li><a href="/tutorials/networking">Networking &amp; Multiplayer</a> — Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven RPCs, automatic state replication, n…</li><li><a href="/tutorials/node-graph">Visual Scripting with Node Graphs</a> — Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…</li><li><a href="/tutorials/packages">Packages &amp; the Package Manager</a> — A package is a versioned, self-contained folder of assets and scripts that can be shared between projects and between people: a dialogue system, a shader col…</li><li><a href="/tutorials/particles">Particle Systems</a> — Fire, smoke, sparks, magic, rain, explosions — all of it comes from the Particle System, a modular emitter modelled after Unity's. You start with an emitter…</li><li><a href="/tutorials/physics">Physics: Bodies, Colliders &amp; Joints</a> — Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on Box2D 3.x. You give an entity a Rigid Body to make it move under physics, one…</li><li><a href="/tutorials/sprite-rendering">Sprite Rendering &amp; the Sprite Editor</a> — Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the Sprite Editor, display it with a…</li><li><a href="/tutorials/tilemap">Tilemaps &amp; Rule Tiles</a> — Tile-based worlds — platformers, dungeons, strategy maps — are built from a Grid that defines the cell layout and a TilemapRenderer that paints tiles into th…</li><li><a href="/tutorials/ui-system">Building User Interfaces</a> — Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a Canvas at the root, Rec…</li><li><a href="/tutorials/video">Video Playback</a> — Cutscenes, animated backgrounds, in-game screens — the Video Player decodes WebM video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture,…</li></ul></article></main>
+  <main id="app"><article class="tut-prerender"><h1>Comet Engine Tutorials</h1><p>Learn how to use Comet Engine with these step-by-step guides covering lighting, physics, scripting, and more.</p><ul><li><a href="/tutorials/animation/">Animation &amp; the Animator</a> — Comet's animation stack has two levels. Animation clips keyframe properties over time; the Animator plays those clips through a visual state machine with par…</li><li><a href="/tutorials/audio/">Audio &amp; Mixers</a> — Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical…</li><li><a href="/tutorials/bezier/">Bézier Curves &amp; Paths</a> — Moving platforms that sweep along a smooth arc, a camera that glides through a level, a projectile that curves to its target — all of these follow a Bézier c…</li><li><a href="/tutorials/build-and-patches/">Exporting Builds &amp; Shipping Patches</a> — Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for Windows, Linux, Android and Web, packs your co…</li><li><a href="/tutorials/extending-the-editor/">Extending the Editor</a> — The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool i…</li><li><a href="/tutorials/input-actions/">Input Actions: The Input Module</a> — Reading KeyCode::SPACE directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no &quot;hold to charge&quot; without hand-rolled timer…</li><li><a href="/tutorials/input/">Reading Raw Input</a> — The most direct way to know what the player is doing is to ask the hardware every frame: is W held right now? did they just click? how far is the stick pushe…</li><li><a href="/tutorials/lights/">2D Lights &amp; Shadows</a> — Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal…</li><li><a href="/tutorials/native-plugins/">Native Plugins &amp; the FFI</a> — Sometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet's native plugin system lets yo…</li><li><a href="/tutorials/navigation/">Navigation: NavMesh, Agents &amp; Obstacles</a> — Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked navigation mesh, A\ path queries with f…</li><li><a href="/tutorials/networking/">Networking &amp; Multiplayer</a> — Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven RPCs, automatic state replication, n…</li><li><a href="/tutorials/node-graph/">Visual Scripting with Node Graphs</a> — Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…</li><li><a href="/tutorials/packages/">Packages &amp; the Package Manager</a> — A package is a versioned, self-contained folder of assets and scripts that can be shared between projects and between people: a dialogue system, a shader col…</li><li><a href="/tutorials/particles/">Particle Systems</a> — Fire, smoke, sparks, magic, rain, explosions — all of it comes from the Particle System, a modular emitter modelled after Unity's. You start with an emitter…</li><li><a href="/tutorials/physics/">Physics: Bodies, Colliders &amp; Joints</a> — Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on Box2D 3.x. You give an entity a Rigid Body to make it move under physics, one…</li><li><a href="/tutorials/sprite-rendering/">Sprite Rendering &amp; the Sprite Editor</a> — Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the Sprite Editor, display it with a…</li><li><a href="/tutorials/tilemap/">Tilemaps &amp; Rule Tiles</a> — Tile-based worlds — platformers, dungeons, strategy maps — are built from a Grid that defines the cell layout and a TilemapRenderer that paints tiles into th…</li><li><a href="/tutorials/ui-system/">Building User Interfaces</a> — Menus, HUDs, dialogs, settings screens — Comet's UI system is a retained, anchor-based layout system in the spirit of Unity's uGUI: a Canvas at the root, Rec…</li><li><a href="/tutorials/video/">Video Playback</a> — Cutscenes, animated backgrounds, in-game screens — the Video Player decodes WebM video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture,…</li></ul></article></main>
 
   <footer>
     <div class="container">

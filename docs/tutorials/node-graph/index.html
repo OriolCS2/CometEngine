@@ -2,84 +2,68 @@
 <html lang="en">
 
 <head>
+  <title>Visual Scripting with Node Graphs — Comet Engine</title>
+  <meta name="description" content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/node-graph/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Visual Scripting with Node Graphs — Comet Engine" />
+  <meta property="og:description" content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/node-graph/" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/node-graph.png" />
+  <meta property="og:image:alt" content="A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node." />
+  <meta property="og:image:width" content="1332" />
+  <meta property="og:image:height" content="585" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Visual Scripting with Node Graphs — Comet Engine" />
+  <meta name="twitter:description" content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/node-graph.png" />
+  
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{"@type":"ListItem","position":1,"name":"Home","item":"https://www.cometengine.org/"},{"@type":"ListItem","position":2,"name":"Tutorials","item":"https://www.cometengine.org/tutorials/"},{"@type":"ListItem","position":3,"name":"Visual Scripting with Node Graphs","item":"https://www.cometengine.org/tutorials/node-graph/"}]
+    }
+    </script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary SEO -->
-  <title>Visual Scripting with Node Graphs — Comet Engine</title>
-  <meta name="description"
-    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  
+  
   <meta name="keywords"
     content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
   <meta name="author" content="Oriol Capdevila" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#0f1420" />
   <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
-  <link rel="canonical" href="https://www.cometengine.org/tutorials/node-graph/" />
+  
 
   <!-- Icons -->
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="apple-touch-icon" href="/logo.png" />
 
   <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Comet Engine" />
-  <meta property="og:title" content="Visual Scripting with Node Graphs — Comet Engine" />
-  <meta property="og:description"
-    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
-  <meta property="og:url" content="https://www.cometengine.org/tutorials/node-graph/" />
+  
+  
+  
+  
+  
   
   
   
   
 
   <!-- Twitter / X card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Visual Scripting with Node Graphs — Comet Engine" />
-  <meta name="twitter:description"
-    content="Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a node graph: boxes wired…" />
+  
+  
+  
   
 
   <!-- Structured data for search engines -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://www.cometengine.org/#website",
-        "name": "Comet Engine",
-        "alternateName": "CometEngine",
-        "url": "https://www.cometengine.org/",
-        "description": "Free, lightweight 2D game engine built in C++ with AngelScript scripting."
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Comet Engine",
-        "alternateName": ["CometEngine", "Comet Game Engine"],
-        "url": "https://www.cometengine.org/",
-        "sameAs": [
-          "https://github.com/OriolCS2/CometEngine",
-          "https://www.youtube.com/watch?v=zLf-vsr-gkk"
-        ],
-        "description": "A free, lightweight 2D game engine built in C++ with AngelScript scripting, with a full editor, 2D lighting and shadows, tilemaps, physics, particles, animation and visual scripting, exporting to Windows, Linux, Web and Android.",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Windows, Linux, Web, Android",
-        "softwareHelp": "https://www.cometengine.org/tutorials/",
-        "author": {
-          "@type": "Person",
-          "name": "Oriol Capdevila",
-          "url": "https://www.linkedin.com/in/oriol-capdevila/"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
-      }
-    ]
-  }
-  </script>
+  
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,13 +71,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script type="module" crossorigin src="/assets/index-CFZnoF-H.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-DgJfKFc8.css">
-
-  <meta property="og:image" content="https://www.cometengine.org/tutorials/node-graph.png" />
-  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/node-graph.png" />
-  <meta property="og:image:alt" content="A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node." />
-  <meta property="og:image:width" content="1332" />
-  <meta property="og:image:height" content="585" />
-  </head>
+</head>
 
 <body>
   <nav>

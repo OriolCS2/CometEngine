@@ -426,13 +426,15 @@ function renderPackageForm(container, user, pkg) {
 
         <form id="pkg-form" class="mp-form" novalidate>
           <h3 class="form-section-title"><i class="fas fa-circle-info"></i> From the manifest (read-only)</h3>
-          <div class="pub-review-grid">
-            <div><span>Name</span><strong>${escapeHtml(pkg.name)}</strong></div>
-            <div><span>Slug</span><strong>${escapeHtml(pkg.slug)}</strong></div>
-            <div><span>Latest version</span><strong>${escapeHtml(pkg.latest_version || '—')}</strong></div>
-            <div><span>License</span><strong>${escapeHtml(pkg.license || '—')}</strong></div>
-            <div><span>Type</span><strong>${escapeHtml(pkg.package_type || 'package')}</strong></div>
-            <div><span>Min engine</span><strong>${escapeHtml(pkg.min_engine_version || '—')}</strong></div>
+          <div class="pub-info-card">
+            <div class="pub-review-grid">
+              <div class="pub-info-row"><span>Name</span><strong>${escapeHtml(pkg.name)}</strong></div>
+              <div class="pub-info-row"><span>Slug</span><strong>${escapeHtml(pkg.slug)}</strong></div>
+              <div class="pub-info-row"><span>Latest version</span><strong>${escapeHtml(pkg.latest_version || '—')}</strong></div>
+              <div class="pub-info-row"><span>License</span><strong>${escapeHtml(pkg.license || '—')}</strong></div>
+              <div class="pub-info-row"><span>Type</span><strong>${escapeHtml(pkg.package_type || 'package')}</strong></div>
+              <div class="pub-info-row"><span>Min engine</span><strong>${escapeHtml(pkg.min_engine_version || '—')}</strong></div>
+            </div>
           </div>
 
           <h3 class="form-section-title"><i class="fas fa-sliders"></i> Presentation</h3>

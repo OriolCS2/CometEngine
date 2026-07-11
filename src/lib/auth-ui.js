@@ -70,7 +70,7 @@ function render(host, user) {
   isCurrentUserAdmin().then(isAdmin => {
     if (!isAdmin || menu.querySelector('.nav-menu-admin')) return;
     const link = document.createElement('a');
-    link.href = '#account/admin';
+    link.href = '/account/admin';
     link.className = 'nav-menu-admin';
     link.innerHTML = '<i class="fas fa-shield-halved"></i> Admin panel';
     link.addEventListener('click', () => { menu.hidden = true; });

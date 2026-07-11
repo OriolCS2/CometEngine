@@ -414,97 +414,168 @@ function wireMdEditors(root) {
 // ---------------------------------------------------------------------------
 
 function renderPackageForm(container, user, pkg) {
-  container.innerHTML = `
-    <section class="mp-section">
-      <div class="container mp-narrow">
-        <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
-        <h1 class="acc-form-title">Edit "${escapeHtml(pkg.name)}"</h1>
-        <p class="acc-form-subtitle">
-          Name, description, license and dependencies come from the <code>package.cometPackage</code> manifest inside the
-          uploaded archive — publish a new version to change them. Here you edit how the package is presented.
-        </p>
+  let currentScreenshots = [...(pkg.screenshots || [])];
+  let iconRemoved = false;
 
-        <form id="pkg-form" class="mp-form" novalidate>
-          <h3 class="form-section-title"><i class="fas fa-circle-info"></i> From the manifest (read-only)</h3>
-          <div class="pub-info-card">
-            <div class="pub-review-grid">
-              <div class="pub-info-row"><span>Name</span><strong>${escapeHtml(pkg.name)}</strong></div>
-              <div class="pub-info-row"><span>Slug</span><strong>${escapeHtml(pkg.slug)}</strong></div>
-              <div class="pub-info-row"><span>Latest version</span><strong>${escapeHtml(pkg.latest_version || '—')}</strong></div>
-              <div class="pub-info-row"><span>License</span><strong>${escapeHtml(pkg.license || '—')}</strong></div>
-              <div class="pub-info-row"><span>Type</span><strong>${escapeHtml(pkg.package_type || 'package')}</strong></div>
-              <div class="pub-info-row"><span>Min engine</span><strong>${escapeHtml(pkg.min_engine_version || '—')}</strong></div>
-            </div>
-          </div>
+  const renderForm = () => {
+    // Preserve current values if the form already exists
+    const oldCat = container.querySelector('#f-category')?.value;
+    const oldTags = container.querySelector('#f-tags')?.value;
 
-          <h3 class="form-section-title"><i class="fas fa-sliders"></i> Presentation</h3>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="f-category">Category <span class="req">*</span></label>
-              <select id="f-category" required>
-                ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${pkg.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="f-tags">Tags</label>
-              <div class="form-help">Comma-separated, up to 8.</div>
-              <input type="text" id="f-tags" placeholder="particles, vfx, 2d" value="${escapeHtml((pkg.tags || []).join(', '))}">
-            </div>
-          </div>
+    container.innerHTML = `
+      <section class="mp-section">
+        <div class="container mp-narrow">
+          <a href="/account" class="mp-back"><i class="fas fa-arrow-left"></i> Back to My Packages</a>
+          <h1 class="acc-form-title">Edit "${escapeHtml(pkg.name)}"</h1>
+          <p class="acc-form-subtitle">
+            Presentation and media management for your package.
+          </p>
 
-          <div class="form-row">
+          <form id="pkg-form" class="mp-form" novalidate>
+            <h3 class="form-section-title"><i class="fas fa-sliders"></i> Presentation</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="f-category">Category <span class="req">*</span></label>
+                <select id="f-category" required>
+                  ${CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${(oldCat ? oldCat === c : pkg.category === c) ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="f-tags">Tags</label>
+                <div class="form-help">Comma-separated, up to 8.</div>
+                <input type="text" id="f-tags" placeholder="particles, vfx, 2d" value="${escapeHtml(oldTags !== undefined ? oldTags : (pkg.tags || []).join(', '))}">
+              </div>
+            </div>
+
             <div class="form-field">
-              <label for="f-icon">Icon</label>
-              <div class="form-help">Square image, PNG/JPG, max 4 MB.${pkg.icon_url ? ' Leave empty to keep the current icon.' : ''}</div>
+              <label>Icon</label>
+              <div class="form-help">Square image, PNG/JPG, max 4 MB.</div>
+              ${pkg.icon_url && !iconRemoved ? `
+                <div class="edit-icon-preview">
+                  <img src="${pkg.icon_url}" class="edit-icon-img" alt="Current icon">
+                  <button type="button" class="filter-btn acc-delete" id="remove-icon-btn"><i class="fas fa-trash-can"></i> Remove current icon</button>
+                </div>
+              ` : ''}
               <input type="file" id="f-icon" accept="image/png,image/jpeg,image/webp,image/gif">
             </div>
+
             <div class="form-field">
-              <label for="f-shots">Screenshots</label>
-              <div class="form-help">Up to ${MAX_SCREENSHOTS} images, max 4 MB each.${(pkg.screenshots || []).length ? ' Selecting new files replaces ALL current screenshots.' : ''}</div>
+              <label>Screenshots</label>
+              <div class="form-help">Manage current screenshots (drag to reorder) or upload new ones. Max ${MAX_SCREENSHOTS} total.</div>
+              <div class="edit-media-preview" id="shot-preview-list">
+                ${currentScreenshots.map((url, idx) => `
+                  <div class="edit-media-item" draggable="true" data-idx="${idx}">
+                    <img src="${url}" alt="Screenshot">
+                    <button type="button" class="edit-media-delete" title="Delete screenshot"><i class="fas fa-times"></i></button>
+                  </div>
+                `).join('')}
+              </div>
               <input type="file" id="f-shots" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
             </div>
-          </div>
 
-          <div class="form-error" id="form-error" hidden></div>
+            <div class="form-error" id="form-error" hidden></div>
 
-          <div class="form-actions">
-            <button type="submit" class="download-btn" id="form-submit" style="font-size: 1.05rem;">
-              <i class="fas fa-floppy-disk"></i> Save changes
-            </button>
-            <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
-          </div>
-        </form>
-      </div>
-    </section>
-  `;
+            <div class="form-actions">
+              <button type="submit" class="download-btn" id="form-submit" style="font-size: 1.05rem;">
+                <i class="fas fa-floppy-disk"></i> Save changes
+              </button>
+              <a href="/account" class="filter-btn" style="padding: 0.85rem 1.5rem;">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    `;
 
-  const form = container.querySelector('#pkg-form');
-  const formError = container.querySelector('#form-error');
-  const submitBtn = container.querySelector('#form-submit');
+    const form = container.querySelector('#pkg-form');
+    const formError = container.querySelector('#form-error');
+    const submitBtn = container.querySelector('#form-submit');
+    const removeIconBtn = container.querySelector('#remove-icon-btn');
+    const shotPreviewList = container.querySelector('#shot-preview-list');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    formError.hidden = true;
-    try {
-      const tags = container.querySelector('#f-tags').value
-        .split(',').map(t => t.trim().toLowerCase()).filter(Boolean).slice(0, 8);
-      setBusy(submitBtn, true, 'Saving...');
-      await updatePackage(user, pkg, {
-        category: container.querySelector('#f-category').value,
-        tags,
-      }, {
-        iconFile: container.querySelector('#f-icon').files[0] || null,
-        screenshotFiles: limitedShots(container),
+    if (removeIconBtn) {
+      removeIconBtn.addEventListener('click', () => {
+        iconRemoved = true;
+        renderForm();
       });
-      showToast('Package updated.', 'success');
-      navigate('/account');
-    } catch (err) {
-      console.error(err);
-      formError.textContent = err.message;
-      formError.hidden = false;
-      setBusy(submitBtn, false, 'Save changes');
     }
-  });
+
+    // Screenshot deletion
+    shotPreviewList.querySelectorAll('.edit-media-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.closest('.edit-media-item').dataset.idx);
+        currentScreenshots.splice(idx, 1);
+        renderForm();
+      });
+    });
+
+    // Drag and Drop reordering
+    let draggedItem = null;
+    shotPreviewList.querySelectorAll('.edit-media-item').forEach(item => {
+      item.addEventListener('dragstart', () => {
+        draggedItem = item;
+        setTimeout(() => item.classList.add('dragging'), 0);
+      });
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        draggedItem = null;
+        // Update the array based on new DOM order
+        const newOrder = Array.from(shotPreviewList.querySelectorAll('.edit-media-item'))
+          .map(el => currentScreenshots[parseInt(el.dataset.idx)]);
+        currentScreenshots = newOrder;
+        // Re-render to normalize indices
+        renderForm();
+      });
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const overItem = e.currentTarget;
+        if (overItem && overItem !== draggedItem) {
+          const rect = overItem.getBoundingClientRect();
+          const midpoint = rect.left + rect.width / 2;
+          if (e.clientX < midpoint) {
+            shotPreviewList.insertBefore(draggedItem, overItem);
+          } else {
+            shotPreviewList.insertBefore(draggedItem, overItem.nextSibling);
+          }
+        }
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError.hidden = true;
+      try {
+        const newlyUploaded = Array.from(container.querySelector('#f-shots').files || []);
+        if (currentScreenshots.length + newlyUploaded.length > MAX_SCREENSHOTS) {
+          throw new Error(`Total screenshots cannot exceed ${MAX_SCREENSHOTS}. You current have ${currentScreenshots.length} and are trying to upload ${newlyUploaded.length}.`);
+        }
+
+        const tags = container.querySelector('#f-tags').value
+          .split(',').map(t => t.trim().toLowerCase()).filter(Boolean).slice(0, 8);
+        setBusy(submitBtn, true, 'Saving...');
+
+        // newScreenshots contains existing URLs first, then new Files
+        const newScreenshots = [...currentScreenshots, ...newlyUploaded];
+
+        await updatePackage(user, pkg, {
+          category: container.querySelector('#f-category').value,
+          tags,
+        }, {
+          iconFile: container.querySelector('#f-icon').files[0] || null,
+          removeIcon: iconRemoved,
+          newScreenshots,
+        });
+        showToast('Package updated.', 'success');
+        navigate('/account');
+      } catch (err) {
+        console.error(err);
+        formError.textContent = err.message;
+        formError.hidden = false;
+        setBusy(submitBtn, false, 'Save changes');
+      }
+    });
+  };
+
+  renderForm();
 }
 
 function limitedShots(root) {

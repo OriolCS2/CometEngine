@@ -1,4 +1,5 @@
 import { navigate } from '../lib/router.js';
+import { setMeta } from '../../main.js';
 import {
   CATEGORIES, isBackendConfigured, listPackages, listFeaturedPackages, listPackagesDependingOn,
   getPackageBySlug, listVersions, getProfile, getZipUrl, recordDownload,
@@ -231,6 +232,14 @@ async function renderPackageDetail(container, slug) {
   const latest = versions[0] || null;
   const author = pkg.profiles?.display_name || 'Unknown';
   const shots = pkg.screenshots || [];
+
+  // Update meta tags with package info for nice social previews (Discord, etc.)
+  setMeta(
+    `${pkg.name} — Comet Marketplace`,
+    pkg.summary,
+    shots.length > 0 ? shots[0] : pkg.icon_url
+  );
+
   const latestDeps = latest ? Object.entries(latest.dependencies || {}) : [];
   const depString = latest ? `${pkg.slug}@${versionChannel(latest.version) === 'release' ? '^' : ''}${latest.version}` : pkg.slug;
 

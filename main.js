@@ -16,11 +16,34 @@ const navLinks = document.querySelectorAll('.nav-links a');
 const DEFAULT_TITLE = 'Comet Engine — Free 2D Game Engine (C++ & AngelScript)';
 const DEFAULT_DESC =
   document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+const DEFAULT_IMAGE =
+  document.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
 
-function setMeta(title, desc) {
+export function setMeta(title, desc, image) {
   document.title = title || DEFAULT_TITLE;
-  const m = document.querySelector('meta[name="description"]');
-  if (m) m.setAttribute('content', desc || DEFAULT_DESC);
+
+  // Primary SEO & LinkedIn/Discord (OG)
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', desc || DEFAULT_DESC);
+
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', title || DEFAULT_TITLE);
+
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', desc || DEFAULT_DESC);
+
+  const ogImage = document.querySelector('meta[property="og:image"]');
+  if (ogImage) ogImage.setAttribute('content', image || DEFAULT_IMAGE);
+
+  // Twitter
+  const twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', title || DEFAULT_TITLE);
+
+  const twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', desc || DEFAULT_DESC);
+
+  const twImage = document.querySelector('meta[name="twitter:image"]');
+  if (twImage) twImage.setAttribute('content', image || DEFAULT_IMAGE);
 }
 
 function handleRoute() {

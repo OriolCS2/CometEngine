@@ -437,16 +437,33 @@ export async function createPackage(user, data) {
   return packageId;
 }
 
-export async function updatePackage(user, pkg, fields, { iconFile = null, screenshotFiles = [] } = {}) {
+export async function updatePackage(user, pkg, fields, { iconFile = null, screenshotFiles = [], removeIcon = false, newScreenshots = null } = {}) {
   const client = requireClient();
   const base = `${user.id}/${pkg.id}`;
   const updates = { ...fields, updated_at: new Date().toISOString() };
 
-  if (iconFile) {
+  if (removeIcon) {
+    updates.icon_url = null;
+  } else if (iconFile) {
     validateImageFile(iconFile, 'Icon');
     updates.icon_url = (await uploadFile(MEDIA_BUCKET, `${base}/icon-${safeName(iconFile.name)}`, iconFile)).publicUrl;
   }
-  if (screenshotFiles.length > 0) {
+
+  if (newScreenshots !== null) {
+    // If newScreenshots is provided, it's an array of either URLs (existing) or File objects (new)
+    const screenshots = [];
+    for (let i = 0; i < newScreenshots.length; i++) {
+      const item = newScreenshots[i];
+      if (typeof item === 'string') {
+        screenshots.push(item);
+      } else {
+        validateImageFile(item, `Screenshot ${i + 1}`);
+        screenshots.push((await uploadFile(MEDIA_BUCKET, `${base}/shots/${Date.now()}-${safeName(item.name)}`, item)).publicUrl);
+      }
+    }
+    updates.screenshots = screenshots;
+  } else if (screenshotFiles.length > 0) {
+    // Legacy behavior: replaces all
     const screenshots = [];
     for (let i = 0; i < screenshotFiles.length; i++) {
       validateImageFile(screenshotFiles[i], `Screenshot ${i + 1}`);

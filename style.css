@@ -119,6 +119,7 @@ nav {
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #fff 0%, #aaa 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -750,6 +751,7 @@ footer {
   margin-bottom: 1.25rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1568,6 +1570,66 @@ footer {
 
 .form-field input[type="file"]::file-selector-button:hover {
   border-color: var(--accent-color);
+}
+
+.edit-media-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.edit-media-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-color);
+  cursor: grab;
+}
+.edit-media-item.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+.edit-media-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.edit-media-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(220, 53, 69, 0.9);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.edit-media-delete:hover {
+  background: #dc3545;
+  transform: scale(1.1);
+}
+.edit-icon-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.edit-icon-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  object-fit: cover;
 }
 
 .form-error {

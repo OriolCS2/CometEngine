@@ -45,25 +45,36 @@ function pageHtml({ title, description, url, contentHtml, image }) {
   const full = `${title} — Comet Engine`;
   let html = shell
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(full)}</title>`)
-    .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<main\s+id="app">)[\s\S]*?(<\/main>)/, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
-  if (image) {
-    html = html
-      .replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/, `$1${image.url}$2`)
-      .replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*(")/, `$1${image.url}$2`)
-      .replace(/(<meta\s+property="og:image:alt"\s+content=")[^"]*(")/, `$1${escapeAttr(image.alt || full)}$2`);
-    if (image.w && image.h) {
-      html = html
-        .replace(/(<meta\s+property="og:image:width"\s+content=")[^"]*(")/, `$1${image.w}$2`)
-        .replace(/(<meta\s+property="og:image:height"\s+content=")[^"]*(")/, `$1${image.h}$2`);
-    }
-  }
+    .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
+    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/i, `$1${url}$2`)
+    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/i, `$1${url}$2`)
+    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/i, `$1${escapeAttr(full)}$2`)
+    .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
+    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/i, `$1${escapeAttr(full)}$2`)
+    .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/i, `$1${escapeAttr(description)}$2`)
+    .replace(/(<main\s+id="app">)[\s\S]*?(<\/main>)/i, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
+
+  // Force clean existing image tags to avoid duplicates or multi-line issues
+  html = html
+    .replace(/<meta\s+property="og:image"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+name="twitter:image"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+property="og:image:width"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+property="og:image:height"[\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+property="og:image:alt"[\s\S]*?\/>/gi, '');
+
+  const imgData = image || { url: `${SITE}/logo.png`, alt: full };
+  const headEnd = html.indexOf('</head>');
+
+  const newMetas = `
+  <meta property="og:image" content="${imgData.url}" />
+  <meta name="twitter:image" content="${imgData.url}" />
+  <meta property="og:image:alt" content="${escapeAttr(imgData.alt || full)}" />
+  ${imgData.w ? `<meta property="og:image:width" content="${imgData.w}" />` : ''}
+  ${imgData.h ? `<meta property="og:image:height" content="${imgData.h}" />` : ''}
+  `;
+
+  html = html.slice(0, headEnd) + newMetas + html.slice(headEnd);
+
   return html;
 }
 
@@ -132,7 +143,7 @@ const spaShell = pageHtml({
   description: 'Explore community-made packages, assets, and tools for the Comet Engine.',
   url: `${SITE}/marketplace/`,
   contentHtml: '<h1>Loading Comet Engine...</h1>',
-  image: { url: `${SITE}/logo.png`, alt: 'Comet Engine' }
+  // No image passed here, so it will use defaults in pageHtml
 });
 writeFileSync(join(DOCS, '404.html'), spaShell, 'utf8');
 

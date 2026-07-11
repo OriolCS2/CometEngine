@@ -308,32 +308,44 @@ code {
   transition: border-color 0.15s ease, background 0.15s ease;
   margin-bottom: 1rem;
 }
-.pub-dropzone i {
+.pub-dropzone > i {
   font-size: 2rem;
   color: var(--accent-color);
   margin-bottom: 0.6rem;
   display: block;
 }
 .pub-dropzone p { margin: 0.15rem 0; }
+.pub-dropzone #pub-upload-btn { margin: 0.9rem 0 0.4rem; }
 .pub-dropzone-hint { color: var(--text-dim); font-size: 0.85rem; }
 .pub-dropzone-over,
 .pub-dropzone:hover { border-color: var(--accent-color); background: rgba(255, 255, 255, 0.03); }
 .pub-dropzone-busy { opacity: 0.6; pointer-events: none; }
 
+.pub-info-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  padding: 0.4rem 1.1rem;
+  margin-bottom: 1.2rem;
+}
 .pub-review-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.6rem 1.2rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  column-gap: 1.5rem;
 }
-.pub-review-grid > div {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 8px;
-  padding: 0.55rem 0.8rem;
+.pub-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
 }
-.pub-review-grid span { display: block; color: var(--text-dim); font-size: 0.78rem; margin-bottom: 0.15rem; }
-.pub-grid-wide { grid-column: 1 / -1; }
+.pub-info-row:last-child { border-bottom: none; }
+.pub-info-row span { color: var(--text-dim); font-size: 0.85rem; flex-shrink: 0; }
+.pub-info-row strong { text-align: right; font-weight: 600; }
+.pub-info-row-wide { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+.pub-info-row-wide strong { text-align: left; }
 .pub-sha { font-size: 0.78rem; word-break: break-all; }
 
 .pub-deps-table { width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; }

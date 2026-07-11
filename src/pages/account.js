@@ -553,8 +553,9 @@ async function renderPublishFlow(container, user, pkg) {
 
         <div class="pub-dropzone" id="pub-drop">
           <i class="fas fa-file-zipper"></i>
-          <p><strong>Drop the .cometpkg here</strong> or click to pick it</p>
-          <p class="pub-dropzone-hint">.cometpkg or .zip · max 25 MB</p>
+          <p>Upload a <strong>.cometpkg</strong> or <strong>.zip</strong> package, or drag and drop it here</p>
+          <button type="button" class="download-btn" id="pub-upload-btn"><i class="fas fa-upload"></i> Upload package</button>
+          <p class="pub-dropzone-hint">max 25 MB</p>
           <input type="file" id="pub-file" accept=".cometpkg,.zip,application/zip,application/x-zip-compressed" hidden>
         </div>
         <div class="form-error" id="pub-error" hidden></div>
@@ -644,17 +645,19 @@ async function renderPublishFlow(container, user, pkg) {
         </div>
       ` : `
         <h3 class="form-section-title"><i class="fas fa-file-circle-check"></i> From the manifest (read-only)</h3>
-        <div class="pub-review-grid">
-          <div><span>Name</span><strong>${escapeHtml(manifest.displayName)}</strong></div>
-          <div><span>Slug</span><strong>${escapeHtml(manifest.slug)}</strong></div>
-          <div><span>Version</span><strong>${escapeHtml(manifest.version)}</strong> ${channel !== 'release' ? `<span class="mp-badge ${channel === 'pre' ? 'mp-badge-accent' : 'mp-badge-dim'}">${channel === 'pre' ? 'Pre-release' : 'Experimental'}</span>` : ''}</div>
-          <div><span>Type</span><strong>${escapeHtml(manifest.packageType || 'package')}</strong></div>
-          <div><span>License</span><strong>${escapeHtml(manifest.license || '—')}</strong></div>
-          <div><span>Min engine</span><strong>${escapeHtml(manifest.minEngineVersion || '—')}</strong></div>
-          <div><span>Author</span><strong>${escapeHtml(manifest.author?.name || '—')}</strong></div>
-          <div><span>Archive</span><strong>${escapeHtml(file.name)} · ${formatBytes(file.size)} · ${inspection.fileCount} files</strong></div>
-          <div class="pub-grid-wide"><span>Summary</span><strong>${escapeHtml(manifest.summary)}</strong></div>
-          <div class="pub-grid-wide"><span>sha256</span><code class="pub-sha">${escapeHtml(inspection.sha256)}</code></div>
+        <div class="pub-info-card">
+          <div class="pub-review-grid">
+            <div class="pub-info-row"><span>Name</span><strong>${escapeHtml(manifest.displayName)}</strong></div>
+            <div class="pub-info-row"><span>Slug</span><strong>${escapeHtml(manifest.slug)}</strong></div>
+            <div class="pub-info-row"><span>Version</span><strong>${escapeHtml(manifest.version)} ${channel !== 'release' ? `<span class="mp-badge ${channel === 'pre' ? 'mp-badge-accent' : 'mp-badge-dim'}">${channel === 'pre' ? 'Pre-release' : 'Experimental'}</span>` : ''}</strong></div>
+            <div class="pub-info-row"><span>Type</span><strong>${escapeHtml(manifest.packageType || 'package')}</strong></div>
+            <div class="pub-info-row"><span>License</span><strong>${escapeHtml(manifest.license || '—')}</strong></div>
+            <div class="pub-info-row"><span>Min engine</span><strong>${escapeHtml(manifest.minEngineVersion || '—')}</strong></div>
+            <div class="pub-info-row"><span>Author</span><strong>${escapeHtml(manifest.author?.name || '—')}</strong></div>
+            <div class="pub-info-row"><span>Archive</span><strong>${escapeHtml(file.name)} · ${formatBytes(file.size)} · ${inspection.fileCount} files</strong></div>
+          </div>
+          <div class="pub-info-row pub-info-row-wide"><span>Summary</span><strong>${escapeHtml(manifest.summary)}</strong></div>
+          <div class="pub-info-row pub-info-row-wide"><span>sha256</span><code class="pub-sha">${escapeHtml(inspection.sha256)}</code></div>
         </div>
 
         ${deps.length > 0 ? `

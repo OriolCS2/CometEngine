@@ -330,9 +330,9 @@ export async function recordDownload(packageId, versionId) {
 // --- Validation ---------------------------------------------------------------
 
 export function validateZipFile(file) {
-  if (!file) throw new Error('Please select a ZIP file.');
-  if (!/\.zip$/i.test(file.name)) throw new Error('The package file must be a .zip archive.');
-  if (file.size > MAX_ZIP_BYTES) throw new Error('Maximum ZIP size is 25 MB.');
+  if (!file) throw new Error('Please select a package file.');
+  if (!/\.(zip|cometpkg)$/i.test(file.name)) throw new Error('The package file must be a .cometpkg (or .zip) archive.');
+  if (file.size > MAX_ZIP_BYTES) throw new Error('Maximum archive size is 25 MB.');
 }
 
 export function validateImageFile(file, label) {

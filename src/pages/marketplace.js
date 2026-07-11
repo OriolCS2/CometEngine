@@ -234,10 +234,11 @@ async function renderPackageDetail(container, slug) {
   const shots = pkg.screenshots || [];
 
   // Update meta tags with package info for nice social previews (Discord, etc.)
+  const previewImg = shots.length > 0 ? shots[0] : (pkg.icon_url || null);
   setMeta(
     `${pkg.name} — Comet Marketplace`,
     pkg.summary,
-    shots.length > 0 ? shots[0] : pkg.icon_url
+    previewImg
   );
 
   const latestDeps = latest ? Object.entries(latest.dependencies || {}) : [];

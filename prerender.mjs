@@ -125,7 +125,16 @@ for (const s of sections) {
 
 // SPA fallback: any remaining path with no static file serves the app shell,
 // which client-renders the route (sub-routes, /account, unknown URLs, ...).
-copyFileSync(join(DOCS, 'index.html'), join(DOCS, '404.html'));
+// We set generic Marketplace metas here so shared package links look decent
+// even without full SSR/prerendering.
+const spaShell = pageHtml({
+  title: 'Marketplace',
+  description: 'Explore community-made packages, assets, and tools for the Comet Engine.',
+  url: `${SITE}/marketplace/`,
+  contentHtml: '<h1>Loading Comet Engine...</h1>',
+  image: { url: `${SITE}/logo.png`, alt: 'Comet Engine' }
+});
+writeFileSync(join(DOCS, '404.html'), spaShell, 'utf8');
 
 // Sitemap covering the home page, the section pages and every tutorial.
 const sitemap =

@@ -1,4 +1,5 @@
 import { navigate } from '../lib/router.js';
+import { setMeta } from '../../main.js';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -592,10 +593,8 @@ function renderTutorialPage(container, tutorial) {
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
-function setTutorialMeta(title, description) {
-  document.title = title;
-  const m = document.querySelector('meta[name="description"]');
-  if (m && description) m.setAttribute('content', description);
+function setTutorialMeta(title, description, image = null) {
+  setMeta(title, description, image);
 }
 
 export function renderTutorials(container, hash) {
@@ -614,6 +613,9 @@ export function renderTutorials(container, hash) {
     return;
   }
 
-  setTutorialMeta(`${tutorial.title} — Comet Engine`, tutorial.blurb);
+  // Tutorial images are local URLs like /tutorials/lights.png
+  // We need the full absolute URL for social previews.
+  const image = tutorial.image ? (window.location.origin + tutorial.image) : null;
+  setTutorialMeta(`${tutorial.title} — Comet Engine`, tutorial.blurb, image);
   renderTutorialPage(container, tutorial);
 }

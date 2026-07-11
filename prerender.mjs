@@ -45,23 +45,23 @@ function pageHtml({ title, description, url, contentHtml, image }) {
   const full = `${title} — Comet Engine`;
   let html = shell
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(full)}</title>`)
-    .replace(/(<meta name="description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta property="og:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
-    .replace(/(<meta name="twitter:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
-    .replace(/(<main id="app">)[\s\S]*?(<\/main>)/, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
+    .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
+    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${url}$2`)
+    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${url}$2`)
+    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
+    .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
+    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/, `$1${escapeAttr(full)}$2`)
+    .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/, `$1${escapeAttr(description)}$2`)
+    .replace(/(<main\s+id="app">)[\s\S]*?(<\/main>)/, `$1<article class="tut-prerender">${contentHtml}</article>$2`);
   if (image) {
     html = html
-      .replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${image.url}$2`)
-      .replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${image.url}$2`)
-      .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, `$1${escapeAttr(image.alt || full)}$2`);
+      .replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/, `$1${image.url}$2`)
+      .replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*(")/, `$1${image.url}$2`)
+      .replace(/(<meta\s+property="og:image:alt"\s+content=")[^"]*(")/, `$1${escapeAttr(image.alt || full)}$2`);
     if (image.w && image.h) {
       html = html
-        .replace(/(<meta property="og:image:width" content=")[^"]*(")/, `$1${image.w}$2`)
-        .replace(/(<meta property="og:image:height" content=")[^"]*(")/, `$1${image.h}$2`);
+        .replace(/(<meta\s+property="og:image:width"\s+content=")[^"]*(")/, `$1${image.w}$2`)
+        .replace(/(<meta\s+property="og:image:height"\s+content=")[^"]*(")/, `$1${image.h}$2`);
     }
   }
   return html;

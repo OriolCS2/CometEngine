@@ -458,7 +458,9 @@ export async function updatePackage(user, pkg, fields, { iconFile = null, screen
         screenshots.push(item);
       } else {
         validateImageFile(item, `Screenshot ${i + 1}`);
-        screenshots.push((await uploadFile(MEDIA_BUCKET, `${base}/shots/${Date.now()}-${safeName(item.name)}`, item)).publicUrl);
+        // Include the index so several files uploaded in the same millisecond
+        // can't collide onto the same storage path.
+        screenshots.push((await uploadFile(MEDIA_BUCKET, `${base}/shots/${Date.now()}-${i}-${safeName(item.name)}`, item)).publicUrl);
       }
     }
     updates.screenshots = screenshots;
@@ -474,6 +476,39 @@ export async function updatePackage(user, pkg, fields, { iconFile = null, screen
 
   const { error } = await client.from('packages').update(updates).eq('id', pkg.id);
   if (error) throw error;
+
+  // Delete any media files in storage that the package no longer references.
+  // Removed/replaced screenshots and icons would otherwise pile up as orphans
+  // (rows are the source of truth, so this is best-effort).
+  const referencedUrls = [
+    'icon_url' in updates ? updates.icon_url : pkg.icon_url,
+    ...('screenshots' in updates ? updates.screenshots : (pkg.screenshots || [])),
+  ];
+  await cleanupOrphanMedia(client, base, referencedUrls);
+}
+
+// Extract the storage path (the part after "/<bucket>/") from a public URL.
+function storagePathFromUrl(bucket, url) {
+  if (typeof url !== 'string' || !url) return null;
+  const marker = `/${bucket}/`;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return decodeURIComponent(url.slice(idx + marker.length).split('?')[0]);
+}
+
+// Remove every file under the package's media folder that isn't in the
+// referenced set. Never throws — cleanup failures must not fail the save.
+async function cleanupOrphanMedia(client, base, referencedUrls) {
+  try {
+    const keep = new Set(
+      referencedUrls.map(u => storagePathFromUrl(MEDIA_BUCKET, u)).filter(Boolean)
+    );
+    const paths = await listAllFiles(client, MEDIA_BUCKET, base);
+    const orphans = paths.filter(p => !keep.has(p));
+    if (orphans.length > 0) await client.storage.from(MEDIA_BUCKET).remove(orphans);
+  } catch (e) {
+    console.warn('Orphan media cleanup failed:', e);
+  }
 }
 
 export async function publishVersion(user, pkg, { version, changelogMd, zipFile, dependencies, minEngineVersion, sha256, manifest, samples, packageUpdates }) {

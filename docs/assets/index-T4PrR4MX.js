@@ -387,2406 +387,2406 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
     </div>
   `}function At(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function jt(e){if(Array.isArray(e))return e}function Mt(e,t){var n=e==null?null:typeof Symbol<`u`&&e[Symbol.iterator]||e[`@@iterator`];if(n!=null){var r,i,a,o,s=[],c=!0,l=!1;try{if(a=(n=n.call(e)).next,t!==0)for(;!(c=(r=a.call(n)).done)&&(s.push(r.value),s.length!==t);c=!0);}catch(e){l=!0,i=e}finally{try{if(!c&&n.return!=null&&(o=n.return(),Object(o)!==o))return}finally{if(l)throw i}}return s}}function Nt(){throw TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Pt(e,t){return jt(e)||Mt(e,t)||Ft(e,t)||Nt()}function Ft(e,t){if(e){if(typeof e==`string`)return At(e,t);var n={}.toString.call(e).slice(8,-1);return n===`Object`&&e.constructor&&(n=e.constructor.name),n===`Map`||n===`Set`?Array.from(e):n===`Arguments`||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?At(e,t):void 0}}var It=Object.entries,Lt=Object.setPrototypeOf,Rt=Object.isFrozen,zt=Object.getPrototypeOf,Bt=Object.getOwnPropertyDescriptor,Vt=Object.freeze,Ht=Object.seal,Ut=Object.create,Wt=typeof Reflect<`u`&&Reflect,Gt=Wt.apply,Kt=Wt.construct;Vt||=function(e){return e},Ht||=function(e){return e},Gt||=function(e,t){var n=[...arguments].slice(2);return e.apply(t,n)},Kt||=function(e){return new e(...[...arguments].slice(1))};var qt=pn(Array.prototype.forEach),Jt=pn(Array.prototype.lastIndexOf),Yt=pn(Array.prototype.pop),Xt=pn(Array.prototype.push),Zt=pn(Array.prototype.splice),Qt=Array.isArray,$t=pn(String.prototype.toLowerCase),en=pn(String.prototype.toString),tn=pn(String.prototype.match),nn=pn(String.prototype.replace),rn=pn(String.prototype.indexOf),an=pn(String.prototype.trim),on=pn(Number.prototype.toString),sn=pn(Boolean.prototype.toString),cn=typeof BigInt>`u`?null:pn(BigInt.prototype.toString),ln=typeof Symbol>`u`?null:pn(Symbol.prototype.toString),W=pn(Object.prototype.hasOwnProperty),un=pn(Object.prototype.toString),dn=pn(RegExp.prototype.test),fn=mn(TypeError);function pn(e){return function(t){t instanceof RegExp&&(t.lastIndex=0);var n=[...arguments].slice(1);return Gt(e,t,n)}}function mn(e){return function(){return Kt(e,[...arguments])}}function G(e,t){let n=arguments.length>2&&arguments[2]!==void 0?arguments[2]:$t;if(Lt&&Lt(e,null),!Qt(t))return e;let r=t.length;for(;r--;){let i=t[r];if(typeof i==`string`){let e=n(i);e!==i&&(Rt(t)||(t[r]=e),i=e)}e[i]=!0}return e}function hn(e){for(let t=0;t<e.length;t++)W(e,t)||(e[t]=null);return e}function gn(e){let t=Ut(null);for(let r of It(e)){var n=Pt(r,2);let i=n[0],a=n[1];W(e,i)&&(Qt(a)?t[i]=hn(a):a&&typeof a==`object`&&a.constructor===Object?t[i]=gn(a):t[i]=a)}return t}function _n(e){switch(typeof e){case`string`:return e;case`number`:return on(e);case`boolean`:return sn(e);case`bigint`:return cn?cn(e):`0`;case`symbol`:return ln?ln(e):`Symbol()`;case`undefined`:return un(e);case`function`:case`object`:{if(e===null)return un(e);let t=e,n=vn(t,`toString`);if(typeof n==`function`){let e=n(t);return typeof e==`string`?e:un(e)}return un(e)}default:return un(e)}}function vn(e,t){for(;e!==null;){let n=Bt(e,t);if(n){if(n.get)return pn(n.get);if(typeof n.value==`function`)return pn(n.value)}e=zt(e)}function n(){return null}return n}function yn(e){try{return dn(e,``),!0}catch{return!1}}var bn=Vt(`a.abbr.acronym.address.area.article.aside.audio.b.bdi.bdo.big.blink.blockquote.body.br.button.canvas.caption.center.cite.code.col.colgroup.content.data.datalist.dd.decorator.del.details.dfn.dialog.dir.div.dl.dt.element.em.fieldset.figcaption.figure.font.footer.form.h1.h2.h3.h4.h5.h6.head.header.hgroup.hr.html.i.img.input.ins.kbd.label.legend.li.main.map.mark.marquee.menu.menuitem.meter.nav.nobr.ol.optgroup.option.output.p.picture.pre.progress.q.rp.rt.ruby.s.samp.search.section.select.shadow.slot.small.source.spacer.span.strike.strong.style.sub.summary.sup.table.tbody.td.template.textarea.tfoot.th.thead.time.tr.track.tt.u.ul.var.video.wbr`.split(`.`)),xn=Vt(`svg.a.altglyph.altglyphdef.altglyphitem.animatecolor.animatemotion.animatetransform.circle.clippath.defs.desc.ellipse.enterkeyhint.exportparts.filter.font.g.glyph.glyphref.hkern.image.inputmode.line.lineargradient.marker.mask.metadata.mpath.part.path.pattern.polygon.polyline.radialgradient.rect.stop.style.switch.symbol.text.textpath.title.tref.tspan.view.vkern`.split(`.`)),Sn=Vt([`feBlend`,`feColorMatrix`,`feComponentTransfer`,`feComposite`,`feConvolveMatrix`,`feDiffuseLighting`,`feDisplacementMap`,`feDistantLight`,`feDropShadow`,`feFlood`,`feFuncA`,`feFuncB`,`feFuncG`,`feFuncR`,`feGaussianBlur`,`feImage`,`feMerge`,`feMergeNode`,`feMorphology`,`feOffset`,`fePointLight`,`feSpecularLighting`,`feSpotLight`,`feTile`,`feTurbulence`]),Cn=Vt([`animate`,`color-profile`,`cursor`,`discard`,`font-face`,`font-face-format`,`font-face-name`,`font-face-src`,`font-face-uri`,`foreignobject`,`hatch`,`hatchpath`,`mesh`,`meshgradient`,`meshpatch`,`meshrow`,`missing-glyph`,`script`,`set`,`solidcolor`,`unknown`,`use`]),wn=Vt(`math.menclose.merror.mfenced.mfrac.mglyph.mi.mlabeledtr.mmultiscripts.mn.mo.mover.mpadded.mphantom.mroot.mrow.ms.mspace.msqrt.mstyle.msub.msup.msubsup.mtable.mtd.mtext.mtr.munder.munderover.mprescripts`.split(`.`)),Tn=Vt([`maction`,`maligngroup`,`malignmark`,`mlongdiv`,`mscarries`,`mscarry`,`msgroup`,`mstack`,`msline`,`msrow`,`semantics`,`annotation`,`annotation-xml`,`mprescripts`,`none`]),En=Vt([`#text`]),Dn=Vt(`accept.action.align.alt.autocapitalize.autocomplete.autopictureinpicture.autoplay.background.bgcolor.border.capture.cellpadding.cellspacing.checked.cite.class.clear.color.cols.colspan.command.commandfor.controls.controlslist.coords.crossorigin.datetime.decoding.default.dir.disabled.disablepictureinpicture.disableremoteplayback.download.draggable.enctype.enterkeyhint.exportparts.face.for.headers.height.hidden.high.href.hreflang.id.inert.inputmode.integrity.ismap.kind.label.lang.list.loading.loop.low.max.maxlength.media.method.min.minlength.multiple.muted.name.nonce.noshade.novalidate.nowrap.open.optimum.part.pattern.placeholder.playsinline.popover.popovertarget.popovertargetaction.poster.preload.pubdate.radiogroup.readonly.rel.required.rev.reversed.role.rows.rowspan.spellcheck.scope.selected.shape.size.sizes.slot.span.srclang.start.src.srcset.step.style.summary.tabindex.title.translate.type.usemap.valign.value.width.wrap.xmlns`.split(`.`)),On=Vt(`accent-height.accumulate.additive.alignment-baseline.amplitude.ascent.attributename.attributetype.azimuth.basefrequency.baseline-shift.begin.bias.by.class.clip.clippathunits.clip-path.clip-rule.color.color-interpolation.color-interpolation-filters.color-profile.color-rendering.cx.cy.d.dx.dy.diffuseconstant.direction.display.divisor.dur.edgemode.elevation.end.exponent.fill.fill-opacity.fill-rule.filter.filterunits.flood-color.flood-opacity.font-family.font-size.font-size-adjust.font-stretch.font-style.font-variant.font-weight.fx.fy.g1.g2.glyph-name.glyphref.gradientunits.gradienttransform.height.href.id.image-rendering.in.in2.intercept.k.k1.k2.k3.k4.kerning.keypoints.keysplines.keytimes.lang.lengthadjust.letter-spacing.kernelmatrix.kernelunitlength.lighting-color.local.marker-end.marker-mid.marker-start.markerheight.markerunits.markerwidth.maskcontentunits.maskunits.max.mask.mask-type.media.method.mode.min.name.numoctaves.offset.operator.opacity.order.orient.orientation.origin.overflow.paint-order.path.pathlength.patterncontentunits.patterntransform.patternunits.points.preservealpha.preserveaspectratio.primitiveunits.r.rx.ry.radius.refx.refy.repeatcount.repeatdur.restart.result.rotate.scale.seed.shape-rendering.slope.specularconstant.specularexponent.spreadmethod.startoffset.stddeviation.stitchtiles.stop-color.stop-opacity.stroke-dasharray.stroke-dashoffset.stroke-linecap.stroke-linejoin.stroke-miterlimit.stroke-opacity.stroke.stroke-width.style.surfacescale.systemlanguage.tabindex.tablevalues.targetx.targety.transform.transform-origin.text-anchor.text-decoration.text-rendering.textlength.type.u1.u2.unicode.values.viewbox.visibility.version.vert-adv-y.vert-origin-x.vert-origin-y.width.word-spacing.wrap.writing-mode.xchannelselector.ychannelselector.x.x1.x2.xmlns.y.y1.y2.z.zoomandpan`.split(`.`)),kn=Vt(`accent.accentunder.align.bevelled.close.columnalign.columnlines.columnspacing.columnspan.denomalign.depth.dir.display.displaystyle.encoding.fence.frame.height.href.id.largeop.length.linethickness.lquote.lspace.mathbackground.mathcolor.mathsize.mathvariant.maxsize.minsize.movablelimits.notation.numalign.open.rowalign.rowlines.rowspacing.rowspan.rspace.rquote.scriptlevel.scriptminsize.scriptsizemultiplier.selection.separator.separators.stretchy.subscriptshift.supscriptshift.symmetric.voffset.width.xmlns`.split(`.`)),An=Vt([`xlink:href`,`xml:id`,`xlink:title`,`xml:space`,`xmlns:xlink`]),jn=Ht(/{{[\w\W]*|^[\w\W]*}}/g),Mn=Ht(/<%[\w\W]*|^[\w\W]*%>/g),Nn=Ht(/\${[\w\W]*/g),Pn=Ht(/^data-[\-\w.\u00B7-\uFFFF]+$/),Fn=Ht(/^aria-[\-\w]+$/),In=Ht(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i),Ln=Ht(/^(?:\w+script|data):/i),Rn=Ht(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g),zn=Ht(/^html$/i),Bn=Ht(/^[a-z][.\w]*(-[.\w]+)+$/i),Vn={element:1,attribute:2,text:3,cdataSection:4,entityReference:5,entityNode:6,progressingInstruction:7,comment:8,document:9,documentType:10,documentFragment:11,notation:12},Hn=function(){return typeof window>`u`?null:window},Un=function(e,t){if(typeof e!=`object`||typeof e.createPolicy!=`function`)return null;let n=null,r=`data-tt-policy-suffix`;t&&t.hasAttribute(r)&&(n=t.getAttribute(r));let i=`dompurify`+(n?`#`+n:``);try{return e.createPolicy(i,{createHTML(e){return e},createScriptURL(e){return e}})}catch{return console.warn(`TrustedTypes policy `+i+` could not be created.`),null}},Wn=function(){return{afterSanitizeAttributes:[],afterSanitizeElements:[],afterSanitizeShadowDOM:[],beforeSanitizeAttributes:[],beforeSanitizeElements:[],beforeSanitizeShadowDOM:[],uponSanitizeAttribute:[],uponSanitizeElement:[],uponSanitizeShadowNode:[]}};function Gn(){let e=arguments.length>0&&arguments[0]!==void 0?arguments[0]:Hn(),t=e=>Gn(e);if(t.version=`3.4.9`,t.removed=[],!e||!e.document||e.document.nodeType!==Vn.document||!e.Element)return t.isSupported=!1,t;let n=e.document,r=n,i=r.currentScript;e.DocumentFragment;let a=e.HTMLTemplateElement,o=e.Node,s=e.Element,c=e.NodeFilter;e.NamedNodeMap===void 0&&(e.NamedNodeMap||e.MozNamedAttrMap),e.HTMLFormElement;let l=e.DOMParser,u=e.trustedTypes,d=s.prototype,f=vn(d,`cloneNode`),p=vn(d,`remove`),m=vn(d,`nextSibling`),h=vn(d,`childNodes`),g=vn(d,`parentNode`),_=vn(d,`shadowRoot`),v=vn(d,`attributes`),y=o&&o.prototype?vn(o.prototype,`nodeType`):null,b=o&&o.prototype?vn(o.prototype,`nodeName`):null;if(typeof a==`function`){let e=n.createElement(`template`);e.content&&e.content.ownerDocument&&(n=e.content.ownerDocument)}let x,S=``,C,w=!1,T=0,E=function(){if(T>0)throw fn(`A configured TRUSTED_TYPES_POLICY callback (createHTML or createScriptURL) must not call DOMPurify.sanitize, as that causes infinite recursion. Do not pass a policy whose callbacks wrap DOMPurify as TRUSTED_TYPES_POLICY; see the "DOMPurify and Trusted Types" section of the README.`)},D=function(e){E(),T++;try{return x.createHTML(e)}finally{T--}},O=function(e){E(),T++;try{return x.createScriptURL(e)}finally{T--}},k=function(){return w||=(C=Un(u,i),!0),C},A=n,j=A.implementation,M=A.createNodeIterator,ee=A.createDocumentFragment,te=A.getElementsByTagName,N=r.importNode,P=Wn();t.isSupported=typeof It==`function`&&typeof g==`function`&&j&&j.createHTMLDocument!==void 0;let F=jn,I=Mn,L=Nn,R=Pn,ne=Fn,re=Ln,ie=Rn,ae=Bn,oe=In,z=null,se=G({},[...bn,...xn,...Sn,...wn,...En]),B=null,ce=G({},[...Dn,...On,...kn,...An]),V=Object.seal(Ut(null,{tagNameCheck:{writable:!0,configurable:!1,enumerable:!0,value:null},attributeNameCheck:{writable:!0,configurable:!1,enumerable:!0,value:null},allowCustomizedBuiltInElements:{writable:!0,configurable:!1,enumerable:!0,value:!1}})),le=null,ue=null,de=Object.seal(Ut(null,{tagCheck:{writable:!0,configurable:!1,enumerable:!0,value:null},attributeCheck:{writable:!0,configurable:!1,enumerable:!0,value:null}})),fe=!0,pe=!0,me=!1,he=!0,ge=!1,_e=!0,ve=!1,ye=!1,be=!1,xe=!1,Se=!1,Ce=!1,we=!0,Te=!1,Ee=`user-content-`,De=!0,Oe=!1,ke={},Ae=null,je=G({},`annotation-xml.audio.colgroup.desc.foreignobject.head.iframe.math.mi.mn.mo.ms.mtext.noembed.noframes.noscript.plaintext.script.selectedcontent.style.svg.template.thead.title.video.xmp`.split(`.`)),Me=null,Ne=G({},[`audio`,`video`,`img`,`source`,`image`,`track`]),Pe=null,Fe=G({},[`alt`,`class`,`for`,`id`,`label`,`name`,`pattern`,`placeholder`,`role`,`summary`,`title`,`value`,`style`,`xmlns`]),Ie=`http://www.w3.org/1998/Math/MathML`,Le=`http://www.w3.org/2000/svg`,Re=`http://www.w3.org/1999/xhtml`,ze=Re,Be=!1,Ve=null,He=G({},[Ie,Le,Re],en),Ue=G({},[`mi`,`mo`,`mn`,`ms`,`mtext`]),We=G({},[`annotation-xml`]),Ge=G({},[`title`,`style`,`font`,`a`,`script`]),Ke=null,qe=[`application/xhtml+xml`,`text/html`],H=null,Je=null,Ye=n.createElement(`form`),Xe=function(e){return e instanceof RegExp||e instanceof Function},Ze=function(){let e=arguments.length>0&&arguments[0]!==void 0?arguments[0]:{};if(Je&&Je===e)return;(!e||typeof e!=`object`)&&(e={}),e=gn(e),Ke=qe.indexOf(e.PARSER_MEDIA_TYPE)===-1?`text/html`:e.PARSER_MEDIA_TYPE,H=Ke===`application/xhtml+xml`?en:$t,z=W(e,`ALLOWED_TAGS`)&&Qt(e.ALLOWED_TAGS)?G({},e.ALLOWED_TAGS,H):se,B=W(e,`ALLOWED_ATTR`)&&Qt(e.ALLOWED_ATTR)?G({},e.ALLOWED_ATTR,H):ce,Ve=W(e,`ALLOWED_NAMESPACES`)&&Qt(e.ALLOWED_NAMESPACES)?G({},e.ALLOWED_NAMESPACES,en):He,Pe=W(e,`ADD_URI_SAFE_ATTR`)&&Qt(e.ADD_URI_SAFE_ATTR)?G(gn(Fe),e.ADD_URI_SAFE_ATTR,H):Fe,Me=W(e,`ADD_DATA_URI_TAGS`)&&Qt(e.ADD_DATA_URI_TAGS)?G(gn(Ne),e.ADD_DATA_URI_TAGS,H):Ne,Ae=W(e,`FORBID_CONTENTS`)&&Qt(e.FORBID_CONTENTS)?G({},e.FORBID_CONTENTS,H):je,le=W(e,`FORBID_TAGS`)&&Qt(e.FORBID_TAGS)?G({},e.FORBID_TAGS,H):gn({}),ue=W(e,`FORBID_ATTR`)&&Qt(e.FORBID_ATTR)?G({},e.FORBID_ATTR,H):gn({}),ke=W(e,`USE_PROFILES`)?e.USE_PROFILES&&typeof e.USE_PROFILES==`object`?gn(e.USE_PROFILES):e.USE_PROFILES:!1,fe=e.ALLOW_ARIA_ATTR!==!1,pe=e.ALLOW_DATA_ATTR!==!1,me=e.ALLOW_UNKNOWN_PROTOCOLS||!1,he=e.ALLOW_SELF_CLOSE_IN_ATTR!==!1,ge=e.SAFE_FOR_TEMPLATES||!1,_e=e.SAFE_FOR_XML!==!1,ve=e.WHOLE_DOCUMENT||!1,xe=e.RETURN_DOM||!1,Se=e.RETURN_DOM_FRAGMENT||!1,Ce=e.RETURN_TRUSTED_TYPE||!1,be=e.FORCE_BODY||!1,we=e.SANITIZE_DOM!==!1,Te=e.SANITIZE_NAMED_PROPS||!1,De=e.KEEP_CONTENT!==!1,Oe=e.IN_PLACE||!1,oe=yn(e.ALLOWED_URI_REGEXP)?e.ALLOWED_URI_REGEXP:In,ze=typeof e.NAMESPACE==`string`?e.NAMESPACE:Re,Ue=W(e,`MATHML_TEXT_INTEGRATION_POINTS`)&&e.MATHML_TEXT_INTEGRATION_POINTS&&typeof e.MATHML_TEXT_INTEGRATION_POINTS==`object`?gn(e.MATHML_TEXT_INTEGRATION_POINTS):G({},[`mi`,`mo`,`mn`,`ms`,`mtext`]),We=W(e,`HTML_INTEGRATION_POINTS`)&&e.HTML_INTEGRATION_POINTS&&typeof e.HTML_INTEGRATION_POINTS==`object`?gn(e.HTML_INTEGRATION_POINTS):G({},[`annotation-xml`]);let t=W(e,`CUSTOM_ELEMENT_HANDLING`)&&e.CUSTOM_ELEMENT_HANDLING&&typeof e.CUSTOM_ELEMENT_HANDLING==`object`?gn(e.CUSTOM_ELEMENT_HANDLING):Ut(null);if(V=Ut(null),W(t,`tagNameCheck`)&&Xe(t.tagNameCheck)&&(V.tagNameCheck=t.tagNameCheck),W(t,`attributeNameCheck`)&&Xe(t.attributeNameCheck)&&(V.attributeNameCheck=t.attributeNameCheck),W(t,`allowCustomizedBuiltInElements`)&&typeof t.allowCustomizedBuiltInElements==`boolean`&&(V.allowCustomizedBuiltInElements=t.allowCustomizedBuiltInElements),ge&&(pe=!1),Se&&(xe=!0),ke&&(z=G({},En),B=Ut(null),ke.html===!0&&(G(z,bn),G(B,Dn)),ke.svg===!0&&(G(z,xn),G(B,On),G(B,An)),ke.svgFilters===!0&&(G(z,Sn),G(B,On),G(B,An)),ke.mathMl===!0&&(G(z,wn),G(B,kn),G(B,An))),de.tagCheck=null,de.attributeCheck=null,W(e,`ADD_TAGS`)&&(typeof e.ADD_TAGS==`function`?de.tagCheck=e.ADD_TAGS:Qt(e.ADD_TAGS)&&(z===se&&(z=gn(z)),G(z,e.ADD_TAGS,H))),W(e,`ADD_ATTR`)&&(typeof e.ADD_ATTR==`function`?de.attributeCheck=e.ADD_ATTR:Qt(e.ADD_ATTR)&&(B===ce&&(B=gn(B)),G(B,e.ADD_ATTR,H))),W(e,`ADD_URI_SAFE_ATTR`)&&Qt(e.ADD_URI_SAFE_ATTR)&&G(Pe,e.ADD_URI_SAFE_ATTR,H),W(e,`FORBID_CONTENTS`)&&Qt(e.FORBID_CONTENTS)&&(Ae===je&&(Ae=gn(Ae)),G(Ae,e.FORBID_CONTENTS,H)),W(e,`ADD_FORBID_CONTENTS`)&&Qt(e.ADD_FORBID_CONTENTS)&&(Ae===je&&(Ae=gn(Ae)),G(Ae,e.ADD_FORBID_CONTENTS,H)),De&&(z[`#text`]=!0),ve&&G(z,[`html`,`head`,`body`]),z.table&&(G(z,[`tbody`]),delete le.tbody),e.TRUSTED_TYPES_POLICY){if(typeof e.TRUSTED_TYPES_POLICY.createHTML!=`function`)throw fn(`TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.`);if(typeof e.TRUSTED_TYPES_POLICY.createScriptURL!=`function`)throw fn(`TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.`);let t=x;x=e.TRUSTED_TYPES_POLICY;try{S=D(``)}catch(e){throw x=t,e}}else e.TRUSTED_TYPES_POLICY===null?(x=void 0,S=``):(x===void 0&&(x=k()),x&&typeof S==`string`&&(S=D(``)));(P.uponSanitizeElement.length>0||P.uponSanitizeAttribute.length>0)&&z===se&&(z=gn(z)),P.uponSanitizeAttribute.length>0&&B===ce&&(B=gn(B)),Vt&&Vt(e),Je=e},Qe=G({},[...xn,...Sn,...Cn]),$e=G({},[...wn,...Tn]),et=function(e){let t=g(e);(!t||!t.tagName)&&(t={namespaceURI:ze,tagName:`template`});let n=$t(e.tagName),r=$t(t.tagName);return Ve[e.namespaceURI]?e.namespaceURI===Le?t.namespaceURI===Re?n===`svg`:t.namespaceURI===Ie?n===`svg`&&(r===`annotation-xml`||Ue[r]):!!Qe[n]:e.namespaceURI===Ie?t.namespaceURI===Re?n===`math`:t.namespaceURI===Le?n===`math`&&We[r]:!!$e[n]:e.namespaceURI===Re?t.namespaceURI===Le&&!We[r]||t.namespaceURI===Ie&&!Ue[r]?!1:!$e[n]&&(Ge[n]||!Qe[n]):!!(Ke===`application/xhtml+xml`&&Ve[e.namespaceURI]):!1},U=function(e){Xt(t.removed,{element:e});try{g(e).removeChild(e)}catch{if(p(e),!g(e))throw fn(`a node selected for removal could not be detached from its tree and cannot be safely returned; refusing to sanitize in place`)}},tt=function(e){let t=h?h(e):e.childNodes;if(t){let e=[];qt(t,t=>{Xt(e,t)}),qt(e,e=>{try{p(e)}catch{}})}let n=v?v(e):null;if(n)for(let t=n.length-1;t>=0;--t){let r=n[t],i=r&&r.name;if(typeof i==`string`)try{e.removeAttribute(i)}catch{}}},nt=function(e,n){try{Xt(t.removed,{attribute:n.getAttributeNode(e),from:n})}catch{Xt(t.removed,{attribute:null,from:n})}if(n.removeAttribute(e),e===`is`)if(xe||Se)try{U(n)}catch{}else try{n.setAttribute(e,``)}catch{}},rt=function(e){let t=v?v(e):e.attributes;if(t)for(let n=t.length-1;n>=0;--n){let r=t[n],i=r&&r.name;if(!(typeof i!=`string`||B[H(i)]))try{e.removeAttribute(i)}catch{}}},it=function(e){let t=[e];for(;t.length>0;){let e=t.pop();(y?y(e):e.nodeType)===Vn.element&&rt(e);let n=h?h(e):e.childNodes;if(n)for(let e=n.length-1;e>=0;--e)t.push(n[e])}},at=function(e){let t=null,r=null;if(be)e=`<remove></remove>`+e;else{let t=tn(e,/^[\r\n\t ]+/);r=t&&t[0]}Ke===`application/xhtml+xml`&&ze===Re&&(e=`<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>`+e+`</body></html>`);let i=x?D(e):e;if(ze===Re)try{t=new l().parseFromString(i,Ke)}catch{}if(!t||!t.documentElement){t=j.createDocument(ze,`template`,null);try{t.documentElement.innerHTML=Be?S:i}catch{}}let a=t.body||t.documentElement;return e&&r&&a.insertBefore(n.createTextNode(r),a.childNodes[0]||null),ze===Re?te.call(t,ve?`html`:`body`)[0]:ve?t.documentElement:a},ot=function(e){return M.call(e.ownerDocument||e,e,c.SHOW_ELEMENT|c.SHOW_COMMENT|c.SHOW_TEXT|c.SHOW_PROCESSING_INSTRUCTION|c.SHOW_CDATA_SECTION,null)},st=function(e){e.normalize();let t=M.call(e.ownerDocument||e,e,c.SHOW_TEXT|c.SHOW_COMMENT|c.SHOW_CDATA_SECTION|c.SHOW_PROCESSING_INSTRUCTION,null),n=t.nextNode();for(;n;){let e=n.data;qt([F,I,L],t=>{e=nn(e,t,` `)}),n.data=e,n=t.nextNode()}let r=e.querySelectorAll?.call(e,`template`)??[];qt(Array.from(r),e=>{lt(e.content)&&st(e.content)})},ct=function(e){let t=b?b(e):null;return typeof t!=`string`||H(t)!==`form`?!1:typeof e.nodeName!=`string`||typeof e.textContent!=`string`||typeof e.removeChild!=`function`||e.attributes!==v(e)||typeof e.removeAttribute!=`function`||typeof e.setAttribute!=`function`||typeof e.namespaceURI!=`string`||typeof e.insertBefore!=`function`||typeof e.hasChildNodes!=`function`||e.nodeType!==y(e)||e.childNodes!==h(e)},lt=function(e){if(!y||typeof e!=`object`||!e)return!1;try{return y(e)===Vn.documentFragment}catch{return!1}},ut=function(e){if(!y||typeof e!=`object`||!e)return!1;try{return typeof y(e)==`number`}catch{return!1}};function dt(e,n,r){qt(e,e=>{e.call(t,n,r,Je)})}let ft=function(e){let n=null;if(dt(P.beforeSanitizeElements,e,null),ct(e))return U(e),!0;let r=H(b?b(e):e.nodeName);if(dt(P.uponSanitizeElement,e,{tagName:r,allowedTags:z}),_e&&e.hasChildNodes()&&!ut(e.firstElementChild)&&dn(/<[/\w!]/g,e.innerHTML)&&dn(/<[/\w!]/g,e.textContent)||_e&&e.namespaceURI===Re&&r===`style`&&ut(e.firstElementChild)||e.nodeType===Vn.progressingInstruction||_e&&e.nodeType===Vn.comment&&dn(/<[/\w]/g,e.data))return U(e),!0;if(le[r]||!(de.tagCheck instanceof Function&&de.tagCheck(r))&&!z[r]){if(!le[r]&&ht(r)&&(V.tagNameCheck instanceof RegExp&&dn(V.tagNameCheck,r)||V.tagNameCheck instanceof Function&&V.tagNameCheck(r)))return!1;if(De&&!Ae[r]){let t=g(e),n=h(e);if(n&&t){let r=n.length;for(let i=r-1;i>=0;--i){let r=Oe?n[i]:f(n[i],!0);t.insertBefore(r,m(e))}}}return U(e),!0}return(y?y(e):e.nodeType)===Vn.element&&!et(e)||(r===`noscript`||r===`noembed`||r===`noframes`)&&dn(/<\/no(script|embed|frames)/i,e.innerHTML)?(U(e),!0):(ge&&e.nodeType===Vn.text&&(n=e.textContent,qt([F,I,L],e=>{n=nn(n,e,` `)}),e.textContent!==n&&(Xt(t.removed,{element:e.cloneNode()}),e.textContent=n)),dt(P.afterSanitizeElements,e,null),!1)},pt=function(e,t,r){if(ue[t]||we&&(t===`id`||t===`name`)&&(r in n||r in Ye))return!1;let i=B[t]||de.attributeCheck instanceof Function&&de.attributeCheck(t,e);if(!(pe&&!ue[t]&&dn(R,t))&&!(fe&&dn(ne,t))){if(!i||ue[t]){if(!(ht(e)&&(V.tagNameCheck instanceof RegExp&&dn(V.tagNameCheck,e)||V.tagNameCheck instanceof Function&&V.tagNameCheck(e))&&(V.attributeNameCheck instanceof RegExp&&dn(V.attributeNameCheck,t)||V.attributeNameCheck instanceof Function&&V.attributeNameCheck(t,e))||t===`is`&&V.allowCustomizedBuiltInElements&&(V.tagNameCheck instanceof RegExp&&dn(V.tagNameCheck,r)||V.tagNameCheck instanceof Function&&V.tagNameCheck(r))))return!1}else if(!Pe[t]&&!dn(oe,nn(r,ie,``))&&!((t===`src`||t===`xlink:href`||t===`href`)&&e!==`script`&&rn(r,`data:`)===0&&Me[e])&&!(me&&!dn(re,nn(r,ie,``)))&&r)return!1}return!0},mt=G({},[`annotation-xml`,`color-profile`,`font-face`,`font-face-format`,`font-face-name`,`font-face-src`,`font-face-uri`,`missing-glyph`]),ht=function(e){return!mt[$t(e)]&&dn(ae,e)},gt=function(e){dt(P.beforeSanitizeAttributes,e,null);let n=e.attributes;if(!n||ct(e))return;let r={attrName:``,attrValue:``,keepAttr:!0,allowedAttributes:B,forceKeepAttr:void 0},i=n.length;for(;i--;){let a=n[i],o=a.name,s=a.namespaceURI,c=a.value,l=H(o),d=c,f=o===`value`?d:an(d);if(r.attrName=l,r.attrValue=f,r.keepAttr=!0,r.forceKeepAttr=void 0,dt(P.uponSanitizeAttribute,e,r),f=r.attrValue,Te&&(l===`id`||l===`name`)&&rn(f,Ee)!==0&&(nt(o,e),f=Ee+f),_e&&dn(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i,f)){nt(o,e);continue}if(l===`attributename`&&tn(f,`href`)){nt(o,e);continue}if(r.forceKeepAttr)continue;if(!r.keepAttr){nt(o,e);continue}if(!he&&dn(/\/>/i,f)){nt(o,e);continue}ge&&qt([F,I,L],e=>{f=nn(f,e,` `)});let p=H(e.nodeName);if(!pt(p,l,f)){nt(o,e);continue}if(x&&typeof u==`object`&&typeof u.getAttributeType==`function`&&!s)switch(u.getAttributeType(p,l)){case`TrustedHTML`:f=D(f);break;case`TrustedScriptURL`:f=O(f);break}if(f!==d)try{s?e.setAttributeNS(s,o,f):e.setAttribute(o,f),ct(e)?U(e):Yt(t.removed)}catch{nt(o,e)}}dt(P.afterSanitizeAttributes,e,null)},_t=function(e){let t=null,n=ot(e);for(dt(P.beforeSanitizeShadowDOM,e,null);t=n.nextNode();)if(dt(P.uponSanitizeShadowNode,t,null),ft(t),gt(t),lt(t.content)&&_t(t.content),(y?y(t):t.nodeType)===Vn.element){let e=_?_(t):t.shadowRoot;lt(e)&&(vt(e),_t(e))}dt(P.afterSanitizeShadowDOM,e,null)},vt=function(e){let t=[{node:e,shadow:null}];for(;t.length>0;){let e=t.pop();if(e.shadow){_t(e.shadow);continue}let n=e.node,r=(y?y(n):n.nodeType)===Vn.element,i=h?h(n):n.childNodes;if(i)for(let e=i.length-1;e>=0;--e)t.push({node:i[e],shadow:null});if(r){let e=b?b(n):null;if(typeof e==`string`&&H(e)===`template`){let e=n.content;lt(e)&&t.push({node:e,shadow:null})}}if(r){let e=_?_(n):n.shadowRoot;lt(e)&&t.push({node:null,shadow:e},{node:e,shadow:null})}}};return t.sanitize=function(e){let n=arguments.length>1&&arguments[1]!==void 0?arguments[1]:{},i=null,a=null,o=null,s=null;if(Be=!e,Be&&(e=`<!-->`),typeof e!=`string`&&!ut(e)&&(e=_n(e),typeof e!=`string`))throw fn(`dirty is not a string, aborting`);if(!t.isSupported)return e;ye||Ze(n),t.removed=[];let c=Oe&&typeof e!=`string`&&ut(e);if(c){let t=b?b(e):e.nodeName;if(typeof t==`string`){let e=H(t);if(!z[e]||le[e])throw fn(`root node is forbidden and cannot be sanitized in-place`)}if(ct(e))throw fn(`root node is clobbered and cannot be sanitized in-place`);try{vt(e)}catch(t){throw tt(e),t}}else if(ut(e))i=at(`<!---->`),a=i.ownerDocument.importNode(e,!0),a.nodeType===Vn.element&&a.nodeName===`BODY`||a.nodeName===`HTML`?i=a:i.appendChild(a),vt(a);else{if(!xe&&!ge&&!ve&&e.indexOf(`<`)===-1)return x&&Ce?D(e):e;if(i=at(e),!i)return xe?null:Ce?S:``}i&&be&&U(i.firstChild);let l=ot(c?e:i);try{for(;o=l.nextNode();)ft(o),gt(o),lt(o.content)&&_t(o.content)}catch(t){throw c&&tt(e),t}if(c)return qt(t.removed,e=>{e.element&&it(e.element)}),ge&&st(e),e;if(xe){if(ge&&st(i),Se)for(s=ee.call(i.ownerDocument);i.firstChild;)s.appendChild(i.firstChild);else s=i;return(B.shadowroot||B.shadowrootmode)&&(s=N.call(r,s,!0)),s}let u=ve?i.outerHTML:i.innerHTML;return ve&&z[`!doctype`]&&i.ownerDocument&&i.ownerDocument.doctype&&i.ownerDocument.doctype.name&&dn(zn,i.ownerDocument.doctype.name)&&(u=`<!DOCTYPE `+i.ownerDocument.doctype.name+`>
-`+u),ge&&qt([F,I,L],e=>{u=nn(u,e,` `)}),x&&Ce?D(u):u},t.setConfig=function(){Ze(arguments.length>0&&arguments[0]!==void 0?arguments[0]:{}),ye=!0},t.clearConfig=function(){Je=null,ye=!1,x=C,S=``},t.isValidAttribute=function(e,t,n){return Je||Ze({}),pt(H(e),H(t),n)},t.addHook=function(e,t){typeof t==`function`&&Xt(P[e],t)},t.removeHook=function(e,t){if(t!==void 0){let n=Jt(P[e],t);return n===-1?void 0:Zt(P[e],n,1)[0]}return Yt(P[e])},t.removeHooks=function(e){P[e]=[]},t.removeAllHooks=function(){P=Wn()},t}var Kn=Gn(),qn=[{id:`sprite-rendering`,title:`Sprite Rendering & the Sprite Editor`,icon:`fa-image`,category:`2D Graphics`,blurb:`Textures, sprites, atlases, 9-slicing and everything the SpriteRenderer can do.`,md:`# Sprite Rendering & the Sprite Editor\r
-\r
-Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the **Sprite Editor**, display it with a **SpriteRenderer**, and drive all of it from AngelScript — tinting, flipping, 9-slicing and swapping materials at runtime.\r
-\r
-![The Comet Engine editor: Scene view, Game view, Hierarchy, Inspector and the Project panel.](/tutorials/editor-overview.png)\r
-\r
-## Textures and sprites\r
-\r
-Comet makes a clear distinction between the two:\r
-\r
-- A **Texture** is the image file you import (\`.png\`, \`.jpg\`, ...). It owns GPU memory and sampling settings.\r
-- A **Sprite** is a rectangular *region* of a texture, plus rendering metadata: a pivot, a pixels-per-unit value and optional 9-slice borders. One texture can contain a single sprite or a whole sprite sheet.\r
-\r
-When you drop an image into your project, select it in the **Project** panel and the Inspector shows its import settings:\r
-\r
-| Setting | What it does |\r
-|---------|--------------|\r
-| **Texture Type** | \`Sprite and UI\` for regular art, \`Normal Map\` for lighting relief maps. |\r
-| **Filter Type** | \`No Filter\` (crisp pixel art), \`Bilinear\` or \`Trilinear\` (smooth scaling). |\r
-| **Wrap Mode** | \`Repeat\`, \`Mirror Repeat\`, \`Clamp Edge\` or \`Clamp Border\` — how UVs outside 0–1 sample. |\r
-| **Pixels Per Unit** | How many texture pixels equal one world unit. A 128 px sprite at 128 PPU is exactly 1 unit wide. |\r
-| **Modify Pixels** | Keeps a CPU-side copy so scripts can call \`GetPixels()\` / \`SetPixelAt()\`. Costs memory — leave it off unless you need it. |\r
-\r
-> [!TIP]\r
-> For pixel art, set **Filter Type** to \`No Filter\` and pick a Pixels Per Unit that matches your tile size (for example 16). Your art will stay razor sharp at any zoom level.\r
-\r
-## Slicing with the Sprite Editor\r
-\r
-With a texture selected, set its **Texture Type** to \`Sprite and UI\` and click **Open Sprite Editor** in the Inspector.\r
-\r
-![The Sprite Editor slicing a sprite sheet into a grid of sprites.](/tutorials/sprite-editor.png)\r
-\r
-The Sprite Editor has four tools, selectable from its toolbar:\r
-\r
-1. **Sprite Creation** — draw and edit the sprite rectangles themselves.\r
-2. **Secondary Textures** — attach a normal map so 2D lights give your sprite relief.\r
-3. **Physic Shape** — author the collision polygon colliders will use for this sprite.\r
-4. **Shadow Caster** — author the occluder polygon used by 2D shadow casting.\r
-\r
-### Automatic and grid slicing\r
-\r
-For sprite sheets you rarely slice by hand. Open the slicing options and choose a **Slice Mode**:\r
-\r
-- **Automatic** — detects sprites from transparent gaps.\r
-- **Grid Size** — cuts the sheet into cells of a fixed pixel size.\r
-- **Columns & Rows** — cuts the sheet into an exact number of divisions.\r
-\r
-Set the **Pivot** for the generated sprites (usually \`Middle\`, or \`Bottom\` for characters standing on the ground), optionally add an **Offset** and **Padding** between cells, enable **Remove Empty Rects** to skip blank cells, and press **Apply Slice**.\r
-\r
-### Manual editing, pivots and borders\r
-\r
-Click anywhere on the texture to create a new sprite rect, then drag its corners to fit. For each sprite the Inspector shows:\r
-\r
-- **Rect** — position and size in pixels.\r
-- **Pivot** — the sprite's origin: \`Middle\`, \`Bottom Left\`, \`Custom\`... Rotation and scaling happen around it.\r
-- **Borders** — left/right/top/bottom margins in pixels, drawn as green lines. These define the 9-slice regions used by the \`Sliced\` and \`Tiled\` render modes below.\r
-\r
-## The SpriteRenderer component\r
-\r
-Add one with **Add Behaviour → Sprite Renderer** on any entity. Its Inspector properties:\r
-\r
-| Property | Meaning |\r
-|----------|---------|\r
-| **Sprite** | The sprite to draw. |\r
-| **Render Mode** | \`Simple\`, \`Sliced\` (9-slice) or \`Tiled\`. |\r
-| **Size** | Target size in world units — only used by \`Sliced\` and \`Tiled\`. |\r
-| **Color** | Tint multiplied over the sprite (white = unchanged). |\r
-| **Flip X / Flip Y** | Mirror the sprite on each axis. |\r
-| **Sorting Layer** | Which named layer this renderer draws in. |\r
-| **Order in Layer** | Draw order within that layer — higher renders on top. |\r
-| **Sort Point** | Sort by the sprite's \`Center\` or its \`Pivot\`. |\r
-| **Material** | Optional custom material/shader. |\r
-\r
-### How sorting works\r
-\r
-Comet renders **sorting layers** in the order they are defined in the project, and inside each layer sorts by **Order in Layer**. Two classic setups:\r
-\r
-- Backgrounds on a \`Background\` layer, gameplay on \`Default\`, UI overlays on a front layer.\r
-- A top-down game where characters sort among trees: give everything the same layer and set **Sort Point** to \`Pivot\` with pivots at the feet.\r
-\r
-### 9-slicing: Sliced and Tiled modes\r
-\r
-If a sprite has **Borders** defined in the Sprite Editor, the \`Sliced\` render mode stretches only the center while corners keep their size — perfect for panels and buttons of any size. \`Tiled\` repeats the center instead of stretching it. In both cases the **Size** property controls the final world-space size:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class PanelSetup : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        SpriteRenderer renderer = SpriteRenderer::Get(entity);\r
-        renderer.renderMode = SpriteRenderMode::SLICED;\r
-        renderer.size = Vector2(10.0F, 4.0F); // world units, borders stay crisp\r
-    }\r
-}\r
-\`\`\`\r
-\r
-## Controlling sprites from AngelScript\r
-\r
-Every behaviour can grab the renderer on its entity with the static \`Get\` accessor. The pattern below is used all over the engine's sample project:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class PlayerVisuals : CometBehaviour\r
-{\r
-    private SpriteRenderer spriteRenderer;\r
-\r
-    void Start()\r
-    {\r
-        spriteRenderer = SpriteRenderer::Get(entity);\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        // Face the direction we are moving.\r
-        float moveX = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1).x;\r
-        if (moveX != 0.0F)\r
-        {\r
-            spriteRenderer.flipX = moveX < 0.0F;\r
-        }\r
-\r
-        // Flash red while hurt.\r
-        if (Input::GetKeyDown(KeyCode::H))\r
-        {\r
-            spriteRenderer.color = Color(1.0F, 0.25F, 0.25F, 1.0F);\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!NOTE]\r
-> \`SpriteRenderer::Get(entity)\` returns a reference to the behaviour attached to that entity — the same pattern works for every behaviour type (\`Camera::Get\`, \`Animator::Get\`, ...).\r
-\r
-## Materials: shared vs. instanced\r
-\r
-Renderers expose two material properties with very different behaviour:\r
-\r
-- \`sharedMaterial\` — the material *asset*. Editing it changes **every** renderer that uses it.\r
-- \`material\` — a per-renderer **clone**, created the first time you access it. Perfect for effects on a single entity, but you own its lifetime: call \`Material::Remove()\` when the entity is destroyed.\r
-\r
-This dissolve effect from the Sandbox project animates a shader parameter on one sprite only:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class Disolve : CometBehaviour\r
-{\r
-    private Material spriteMaterial;\r
-    private float value = 0.0F;\r
-\r
-    void Start()\r
-    {\r
-        // Accessing .material clones the shared material for this renderer only.\r
-        spriteMaterial = SpriteRenderer::Get(entity).material;\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        spriteMaterial.SetFloat("value", value);\r
-        value += Time::GetDeltaTime();\r
-    }\r
-\r
-    void OnDestroy()\r
-    {\r
-        // Instanced materials are yours to clean up.\r
-        Material::Remove(spriteMaterial);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!WARNING]\r
-> Forgetting \`Material::Remove()\` on an instanced material leaks it. If you only need to change the tint, prefer the \`color\` property — it does not clone anything.\r
-\r
-## Loading sprites at runtime\r
-\r
-Everything you assign in the Inspector can also be loaded from code through \`RuntimeAssets\`. Paths are relative to your project's \`Assets/\` folder, without extension:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class RuntimeSpriteSwap : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        // Load a sprite atlas and pick a sprite from it by name.\r
-        SpriteAtlas atlas = cast<SpriteAtlas>(\r
-            RuntimeAssets::LoadResource("Atlases/Characters", ResourceType::SPRITE_ATLAS));\r
-\r
-        if (atlas !is null)\r
-        {\r
-            SpriteRenderer::Get(entity).sprite = atlas.GetSprite("hero_idle_0");\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-For big assets prefer the asynchronous variant, \`RuntimeAssets::LoadResourceAsync()\`, which returns a \`ResourceAsyncOperation\` you can poll (\`isDone\`, \`progress\`, \`resource\`).\r
-\r
-## Quick frame animation: AnimatedSprite\r
-\r
-When all you need is a looping flipbook — a torch, a coin, an idle loop — the **AnimatedSprite** behaviour replaces the sprite every frame for you, no state machine required:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class TorchFlame : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        AnimatedSprite anim = AnimatedSprite::Get(entity);\r
-        anim.speed = 12.0F;       // frames per second\r
-        anim.loop = true;\r
-        anim.randomStart = true;  // desync multiple torches\r
-        anim.Play();\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The frame list is edited in the Inspector (or from code with \`AddSprite()\` / \`SetSprite()\`). For anything driven by game logic — walk/run/jump blending, transitions, events — use the full **Animator** instead: see the [Animation & the Animator](/tutorials/animation) tutorial.\r
-\r
-## The other 2D renderers\r
-\r
-| Behaviour | Use it for |\r
-|-----------|-----------|\r
-| \`TextureRectRenderer\` | Drawing a sub-rectangle of a texture directly (pixels or normalized UVs) without creating sprites. |\r
-| \`LineRenderer\` | Polylines with a width curve and color gradient — lasers, ropes, debug paths. |\r
-| \`RenderTextureRenderer\` | Displaying a \`RenderTexture\` that a camera renders into — minimaps, mirrors, picture-in-picture. |\r
-\r
-All of them inherit the same sorting-layer, color and material properties from \`Renderer\`, so everything you learned above applies.\r
-\r
-## Where to go next\r
-\r
-Your sprites are on screen — now light them up with [2D Lights & Shadows](/tutorials/lights), or bring them to life with the [Animator](/tutorials/animation).\r
-`},{id:`lights`,title:`2D Lights & Shadows`,icon:`fa-lightbulb`,category:`2D Graphics`,blurb:`Light your scenes with global, point, sprite and custom-shaped lights, plus 2D shadows.`,md:`# 2D Lights & Shadows\r
-\r
-Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal-map support — all layer-aware and fully scriptable.\r
-\r
-![A Point Light on the ship's engine: the radius gizmo in the Scene view, and every light property in the Inspector.](/tutorials/light-scene.png)\r
-\r
-## How 2D lighting works in Comet\r
-\r
-Lights in Comet accumulate into a per-**sorting-layer** light buffer. That single sentence has two important consequences:\r
-\r
-1. **Every light declares which sorting layers it affects.** By default the **All Sorting Layers** toggle is on and the light reaches everything; untick it to pick specific layers — a light whose list doesn't include the layer a sprite renders on will never touch that sprite, no matter how close it is.\r
-2. **Lights compose with a blend mode**, per light:\r
-\r
-| Blend Mode | Effect |\r
-|------------|--------|\r
-| \`Additive\` | Brightens what is below — the default for almost everything. |\r
-| \`Subtract\` | Darkens — great for pockets of darkness or negative lights. |\r
-| \`Mix\` | Alpha-blends the light color over the layer. |\r
-| \`Mask\` | Multiplies — use it to reveal or hide by light shape. |\r
-\r
-There is no separate "ambient light" setting: an ambient is simply a **GlobalLight** with a low intensity added to your layers.\r
-\r
-## The five light types\r
-\r
-![All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light.](/tutorials/light-types.png)\r
-\r
-All lights are behaviours added from **Add Behaviour → Lighting** (\`Global Light\`, \`Point Light\`, \`Freeform Light\`, \`Parametric Light\`, \`Sprite Light\`). They share a common base (color, intensity, blend mode, shadows, sorting layers) and each adds its own shape:\r
-\r
-### GlobalLight\r
-\r
-A directional, sun-like light that hits everything on its layers equally, regardless of position. Use it for ambient fill and daylight. Its only extra property is **Max Shadow Distance** — how far from the view shadows are still rendered (\`0\` = unlimited).\r
-\r
-### PointLight\r
-\r
-Light radiating from a point, with angular and radial falloff — your lamps, torches, spotlights, projectiles:\r
-\r
-- **Inner / Outer Radius** — full intensity inside the inner radius, fading to zero at the outer one.\r
-- **Inner / Outer Angle** — narrow these from 360° to make a cone spotlight.\r
-- **Falloff** — the shape of the fade curve (0–1).\r
-- **Texture** — optional cookie texture to mask the light.\r
-\r
-### FreeformLight\r
-\r
-A light whose shape is a **custom polygon** you edit right in the scene view — click **Edit Shape** in its Inspector and drag the vertices. Ideal for light shafts through windows or oddly-shaped glowing areas. **Falloff Radius** controls how far the light fades past the polygon's edges.\r
-\r
-### ParametricLight\r
-\r
-Like Freeform, but the shape is a regular polygon: pick the number of **Sides** (3–39, higher ≈ circle) and a **Radius**. Cheaper than Freeform and perfect for simple geometric glows.\r
-\r
-### SpriteLight\r
-\r
-The light's shape *is a sprite*: its alpha channel masks the light. Stained-glass windows, glowing signs, projected logos. **Cookie Scale** and **Cookie Offset** adjust the sprite within the light.\r
-\r
-## Common light properties\r
-\r
-Every light exposes these in the Inspector:\r
-\r
-| Property | Meaning |\r
-|----------|---------|\r
-| **Color** | The light's color. |\r
-| **Intensity** | Multiplier over the color — values above 1 overdrive, negative values darken. |\r
-| **Sorting Layers** | The layers this light affects — **All Sorting Layers** by default, or a hand-picked list. |\r
-| **Height** | Virtual Z height used by normal-mapped sprites to fake relief. No normal map → no visible effect. |\r
-| **Blend Mode** | \`Additive\`, \`Subtract\`, \`Mix\` or \`Mask\`. |\r
-| **Cast Shadows** | Enables shadow rendering for this light (see below). |\r
-\r
-## Shadows\r
-\r
-Two pieces cooperate to produce 2D shadows:\r
-\r
-1. **Lights** opt in with **Cast Shadows** and choose a **Shadow Mode**:\r
-   - \`Soft\` — ray-marched, soft-edged penumbras. Prettier, more expensive. **Shadow Softness** controls the penumbra.\r
-   - \`Crisp\` — sharp shadow-map shadows. Cheap and stylized.\r
-\r
-   Both modes share **Shadow Color** (the tint of shadowed areas) and **Shadow Strength** (0 = invisible, 1 = fully dark).\r
-\r
-2. **Occluders** are entities with a **Shadow Caster** behaviour (**Add Behaviour → Lighting → Shadow Caster**). Its **Shape Source** is either:\r
-   - \`Sprite\` — reuses the occluder polygon authored in the [Sprite Editor's Shadow Caster tool](/tutorials/sprite-rendering), or\r
-   - \`Custom\` — a polygon you edit in the scene, with a **Closed** toggle and a **Cull Mode** for one-sided shadows.\r
-\r
-   Shadow Casters also filter by **Sorting Layers**, so an occluder only blocks lights on matching layers.\r
-\r
-![A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground.](/tutorials/shadows.png)\r
-\r
-## Scripting lights\r
-\r
-Lights are regular behaviours: fetch them with the static \`Get\` accessor and drive any property. A flickering torch:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class TorchLight : CometBehaviour\r
-{\r
-    private PointLight torch;\r
-    private float time = 0.0F;\r
-\r
-    void Start()\r
-    {\r
-        torch = PointLight::Get(entity);\r
-        torch.color = Color(1.0F, 0.7F, 0.3F, 1.0F); // warm orange\r
-        torch.outerRadius = 4.0F;\r
-        torch.fallOff = 0.6F;\r
-        torch.castShadows = true;\r
-        torch.shadowMode = ShadowMode::SOFT;\r
-        torch.shadowSoftness = 0.8F;\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        // Two overlapping sine waves make a cheap, organic flicker.\r
-        time += Time::GetDeltaTime();\r
-        torch.intensity = 1.5F + Math::Sin(time * 9.0F) * 0.15F + Math::Sin(time * 23.0F) * 0.08F;\r
-    }\r
-}\r
-\`\`\`\r
-\r
-A day/night cycle driving a GlobalLight, including which layers it lights:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class DayNightCycle : CometBehaviour\r
-{\r
-    private GlobalLight sun;\r
-    private float dayTime = 0.0F;      // 0..1 over a full day\r
-    float dayLengthSeconds = 120.0F;\r
-\r
-    void Start()\r
-    {\r
-        sun = GlobalLight::Get(entity);\r
-\r
-        array<string> layers = {"Background", "Default", "Characters"};\r
-        sun.SetSortingLayers(layers);\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        dayTime += Time::GetDeltaTime() / dayLengthSeconds;\r
-        if (dayTime > 1.0F)\r
-        {\r
-            dayTime -= 1.0F;\r
-        }\r
-\r
-        // Bright warm white at noon, dim blue at midnight.\r
-        float daylight = (Math::Sin(dayTime * 6.2831853F) + 1.0F) * 0.5F;\r
-        sun.intensity = 0.25F + daylight * 0.9F;\r
-        sun.color = Color(0.55F + daylight * 0.45F,\r
-                          0.6F + daylight * 0.4F,\r
-                          0.8F + daylight * 0.1F,\r
-                          1.0F);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-Every light type has the same accessors as any behaviour — \`PointLight::Get(entity)\`, \`PointLight::GetAll(entity)\`, \`PointLight::GetInParent(entity)\`, \`PointLight::GetInChildren(entity)\` — and the generic \`BaseLight::Get(entity)\` works when you don't care which kind it is.\r
-\r
-## Normal maps and the Height property\r
-\r
-If a sprite has a **normal map** assigned (via the Sprite Editor's **Secondary Textures** tool), lights shade it as if it had depth. The light's **Height** property is its virtual distance above the 2D plane: low values give dramatic, grazing relief; high values flatten the effect. Without a normal map, \`height\` changes nothing — don't be surprised when the slider seems dead on flat art.\r
-\r
-## Performance notes\r
-\r
-- **Crisp shadows are cheaper than Soft** — reserve soft shadows for hero lights.\r
-- Shape cost grows with complexity: **Point < Parametric < Freeform**.\r
-- Lights only pay for the sorting layers they affect. Keep the \`Sorting Layers\` lists tight.\r
-- A handful of lights is fine on every platform; hundreds of shadow-casting lights are not. Profile on your weakest target.\r
-\r
-## Where to go next\r
-\r
-Combine lights with the sprites you set up in [Sprite Rendering](/tutorials/sprite-rendering), or give your scene motion with [Animation & the Animator](/tutorials/animation).\r
-`},{id:`tilemap`,title:`Tilemaps & Rule Tiles`,icon:`fa-border-all`,category:`2D Graphics`,blurb:`Paint worlds with grids, animated tiles, auto-tiles and neighbour-aware rule tiles.`,md:`# Tilemaps & Rule Tiles\r
-\r
-Tile-based worlds — platformers, dungeons, strategy maps — are built from a **Grid** that defines the cell layout and a **TilemapRenderer** that paints **tiles** into those cells. Comet's tile system goes well beyond static sprites: animated tiles, position-seeded random tiles, and neighbour-aware **rule tiles** and **auto-tiles** that pick the right sprite automatically.\r
-\r
-![The Grid and Tilemap Renderer components in the Inspector.](/tutorials/tilemap-inspector.png)\r
-\r
-## Grid + Tilemap Renderer\r
-\r
-Two behaviours work together, both added from **Add Behaviour**:\r
-\r
-- **Grid** — owns the cell geometry: **Cell Size** (world units per cell) and **Cell Type** (\`Rectangular\`, \`Isometric\`, \`Hexagonal Flat\`, \`Hexagonal Pointed\`). It converts between world positions and integer cell coordinates.\r
-- **Tilemap Renderer** — a \`Renderer\` that stores which tile sits in each cell and draws them. It has the usual sorting-layer properties plus a global **Animation Frame Rate** for animated tiles and a **Tile Anchor**.\r
-\r
-Cells are addressed with **\`Vector2i\`** integer coordinates. The renderer works on the Grid attached to the same entity.\r
-\r
-## Tiles are assets\r
-\r
-A tile is not just a sprite — it's a **tile asset** (a \`.cometObject\`) that decides, per cell, *which* sprite to show, what colour and what collider to generate. Comet ships a whole hierarchy of tile types, all of which you can create as assets and extend:\r
-\r
-| Tile type | What it does |\r
-|-----------|--------------|\r
-| **Tile** | A single fixed sprite. |\r
-| **Animated Tile** | Cycles through several sprites at a speed. |\r
-| **Random Tile** | Picks a sprite per cell from a position-seeded hash (stable across reloads). |\r
-| **Weighted Random Tile** | Like Random, but with per-sprite probabilities. |\r
-| **Pipeline Tile** | Chooses a sprite from its 4 orthogonal neighbours — pipes, wires, walls. |\r
-| **Auto Tile** | 2×2 or 3×3 bitmask autotiling — the classic ~47-sprite terrain system. |\r
-| **Rule Tile** | The most flexible: a list of rules matching neighbour cells, with rotation/mirror transforms. |\r
-\r
-Isometric and hexagonal variants of Rule Tile exist too (\`Isometric Rule Tile\`, \`Hexagonal Rule Tile\`).\r
-\r
-## Painting from AngelScript\r
-\r
-Grab the renderer and set tiles by cell. \`null\` erases:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Tilemaps;\r
-\r
-class LevelBuilder : CometBehaviour\r
-{\r
-    TileBase groundTile;   // assign a tile asset in the Inspector\r
-\r
-    void Start()\r
-    {\r
-        Grid grid = Grid::Get(entity);\r
-        TilemapRenderer tilemap = TilemapRenderer::Get(entity);\r
-\r
-        // Lay a 20x3 floor.\r
-        array<Vector2i> cells;\r
-        array<TileBase> tiles;\r
-        for (int x = 0; x < 20; x++)\r
-        {\r
-            for (int y = 0; y < 3; y++)\r
-            {\r
-                cells.insertLast(Vector2i(x, y));\r
-                tiles.insertLast(groundTile);\r
-            }\r
-        }\r
-        tilemap.SetTiles(cells, tiles);\r
-\r
-        // Query and erase.\r
-        if (tilemap.HasTile(Vector2i(5, 2)))\r
-        {\r
-            tilemap.SetTile(Vector2i(5, 2), null);\r
-        }\r
-\r
-        // World <-> cell conversion.\r
-        Vector2i cellUnderMouse = grid.WorldPositionToCellPosition(Vector2(3.5F, 1.2F));\r
-        Vector2 cellCentre = grid.CellPositionToWorldPosition(cellUnderMouse);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-Key \`TilemapRenderer\` calls: \`SetTile(cell, tile)\`, \`SetTiles(cells, tiles)\`, \`GetTile(cell)\`, \`HasTile(cell)\`, \`SetColor(cell, color)\`, \`RefreshTile(cell)\`, \`RefreshAllTiles()\`, \`ClearAllTiles()\`.\r
-\r
-> [!TIP]\r
-> \`SetTiles()\` (plural) applies a whole batch in one call and is much faster than looping \`SetTile()\` when you generate a level procedurally.\r
-\r
-## Creating tiles\r
-\r
-Tiles come from your sprite art. The fastest path — and the one that creates the tile assets *for* you:\r
-\r
-1. **Import and slice your tileset.** Drop a spritesheet in, set its Texture Type to \`Sprite and UI\`, and slice it into individual sprites in the [Sprite Editor](/tutorials/sprite-rendering) (grid slicing is ideal for a tileset).\r
-2. **Open the Tile Palette panel** (\`Window → Tile Palette\`) and **create a palette** — give it a name and a cell size matching your tiles.\r
-3. **Drag the sliced spritesheet onto the palette.** The panel literally invites you to *"Drag Spritesheet, Sprite or a Tile here"* — drop it and Comet **auto-creates a simple \`Tile\` asset for every sprite** and lays them out in the palette. That's your tile set, created in one gesture.\r
-\r
-![The Tile Palette panel with a sliced spritesheet turned into tiles.](/tutorials/tile-palette.png)\r
-\r
-### Smarter tiles\r
-\r
-For tiles with behaviour, create the tile asset explicitly from the Project panel's create menu, then drag it into the palette:\r
-\r
-- **Animated Tile** — hand it a list of sprites and a speed.\r
-- **Random / Weighted Random Tile** — give it several sprites; each cell picks one (stably, seeded by position).\r
-- **Auto Tile** — supply the 16 (2×2) or ~47 (3×3) mask sprites and it picks the right edge/corner piece from its neighbours automatically.\r
-- **Rule Tile** — the most powerful. Its inspector shows a **3×3 rule grid**: click a neighbour cell to require it be the **same tile** (green), a **different tile** (red), or **don't-care** (grey), and click the center to cycle a rotation/mirror transform so one rule covers several orientations. Add rules top to bottom — the **first rule that matches a cell's neighbours wins**.\r
-\r
-## Painting a tilemap\r
-\r
-With a palette ready and a tilemap entity in the scene (a **Grid** + **Tilemap Renderer**):\r
-\r
-1. **Pick a tile** in the Tile Palette panel.\r
-2. **Choose a tool** from the palette toolbar — **Brush** (single cells), **Box Brush** (drag a rectangle), **Fill** (flood-fill an area), **Picker** (eyedrop a tile already in the map) or **Rubber** (erase).\r
-3. **Paint into the scene.** A grid overlay snaps to cells; drag to lay down tiles.\r
-\r
-![Painting tiles into a tilemap in the scene view.](/tutorials/tilemap-painting.png)\r
-\r
-Rule tiles and auto-tiles update themselves as you paint — lay a strip of wall and the corners and edges resolve automatically.\r
-\r
-## Physics: the Tilemap Collider\r
-\r
-Add a **Tilemap Collider** and the solid tiles automatically get collision. Each tile asset declares its **collider type** — \`Sprite\` (outline of the sprite), \`Grid\` (full cell) or \`None\` — so decorative tiles stay walk-through while walls block. Query it from code with \`HasColliderAt(x, y)\`.\r
-\r
-## Writing a custom scripted tile\r
-\r
-Because tiles are script classes, you can author your own by extending \`TileBase\` (or \`TileSingle\`) and overriding the info callbacks:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Tilemaps;\r
-\r
-class GlowTile : TileSingle\r
-{\r
-    Sprite baseSprite;\r
-    float glow = 0.5F;\r
-\r
-    void OnGetTileInfo(const Vector3i &in position, TilemapRenderer tilemap, TileInfo tileInfo)\r
-    {\r
-        TileSingle::OnGetTileInfo(position, tilemap, tileInfo);\r
-        tileInfo.sprite = baseSprite;\r
-        tileInfo.color = Color(1.0F, 1.0F, 1.0F, 1.0F) * glow;\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`OnGetTileInfo\` fills a \`TileInfo\` (sprite, color, collider type, offset/rotation/scale) for each cell; \`RefreshTile\` lets neighbour-aware tiles react when an adjacent cell changes. This is exactly how the built-in Rule and Auto tiles are implemented.\r
-\r
-> [!NOTE]\r
-> Random, Weighted-Random and Auto tiles seed their choice from the **cell position**, not a live RNG — so a given cell always shows the same sprite across save/reload, which is what you want for a stable-looking world.\r
-\r
-## Where to go next\r
-\r
-Give your tiled level depth with [2D Lights & Shadows](/tutorials/lights), collide with it using [Physics](/tutorials/physics), or let enemies path across it with [Navigation](/tutorials/navigation).\r
-`},{id:`particles`,title:`Particle Systems`,icon:`fa-fire`,category:`2D Graphics`,blurb:`Fire, smoke, sparks and magic with a modular, Unity-style particle system.`,md:`# Particle Systems\r
-\r
-Fire, smoke, sparks, magic, rain, explosions — all of it comes from the **Particle System**, a modular emitter modelled after Unity's. You start with an emitter and switch on **modules** — emission, shape, colour-over-lifetime, velocity, size, texture animation — each shaping the particles a little more.\r
-\r
-![The Particle System playing in the editor with the module inspector and preview controls.](/tutorials/particles-scene.png)\r
-\r
-## The emitter and its modules\r
-\r
-Add a **Particle System** from **Add Behaviour** and it starts emitting immediately in the editor, with a preview overlay (**Play / Pause / Stop**, playback speed and a scrubber) in the scene view.\r
-\r
-The top of the inspector is the **System** block — the properties every particle is born with:\r
-\r
-- **Duration** and **Loop** — the length of one emission cycle and whether it repeats.\r
-- **Start Lifetime / Start Speed / Start Size / Start Rotation / Start Color** — initial values. Each is a **value selector**: a constant, a random range, or a curve/gradient over the cycle.\r
-- **Gravity Scale**, **Max Particles**, **Simulation Space** (\`Local\` follows the emitter, \`World\` leaves particles behind), and **Play On Awake**.\r
-\r
-Below that sit the toggleable **modules**, each with an enable checkbox:\r
-\r
-| Module | Effect |\r
-|--------|--------|\r
-| **Emission** | Rate-per-second plus timed **Bursts**. |\r
-| **Shape** | Where particles spawn: \`Circle\`, \`Rectangle\` or \`Edge\`. |\r
-| **Velocity / Force / Limit Velocity over Lifetime** | Push, drag and steer particles as they age. |\r
-| **Color / Size / Rotation over Lifetime** | Fade, grow and spin over each particle's life. |\r
-| **Color / Size / Rotation by Speed** | Modulate by how fast a particle is moving. |\r
-| **Texture Animation** | Flipbook the particle sprite from a sheet or sprite list. |\r
-| **Renderer** | Draw mode (\`Chunk\` batches, \`Individual\` allows per-particle material) and sort order. |\r
-\r
-## Value selectors and gradients\r
-\r
-The recurring pattern is the **value selector** — wherever you see a property like Start Size or a lifetime curve, it can be a **constant**, a **random between two values**, or a **curve** (float) / **gradient** (colour) sampled over the particle's normalized age. This is what makes a flame fade from white to orange to transparent, or embers shrink as they rise.\r
-\r
-## Controlling it from AngelScript\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::ParticleSystemModule;\r
-\r
-class Explosion : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        ParticleSystem particles = ParticleSystem::Get(entity);\r
-        particles.loop = false;\r
-        particles.maxParticles = 500;\r
-\r
-        // Configure emission with a one-shot burst of debris.\r
-        ParticlePropertyEmission emission = particles.emission;\r
-        emission.enabled = true;\r
-\r
-        Burst burst;\r
-        burst.time = 0.0F;\r
-        burst.probability = 1.0F;\r
-        burst.count.constant = 60;\r
-        emission.AddBurst(burst);\r
-\r
-        particles.Play();\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        ParticleSystem particles = ParticleSystem::Get(entity);\r
-        // Emit a puff of smoke on demand.\r
-        if (Input::GetKeyDown(KeyCode::SPACE))\r
-        {\r
-            particles.Emit(20);\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`Play()\`, \`Pause()\`, \`Stop()\`, \`Clear()\` and \`Emit(count)\` drive playback; \`Simulate(time, restart)\` fast-forwards the simulation (handy for pre-warming an effect so it looks established the instant it appears). Read-only \`isPlaying\`, \`isEmitting\`, \`particleCount\` and \`isAlive\` report state.\r
-\r
-> [!TIP]\r
-> \`simulationSpace = ParticleSystemSimulationSpace::WORLD\` is the difference between a torch flame that drags a trail as the torch moves (World) and one that stays glued to the torch (Local). Pick per effect.\r
-\r
-## Building a fire effect\r
-\r
-The classic recipe, all in the inspector:\r
-\r
-1. **Shape** → small \`Circle\` at the base.\r
-2. **Start Color** → bright yellow; **Color over Lifetime** → gradient yellow → orange → transparent.\r
-3. **Start Size** → medium; **Size over Lifetime** → curve shrinking to zero.\r
-4. **Velocity over Lifetime** → upward, with a little turbulence via the random-between mode.\r
-5. **Emission** → a steady rate, no bursts.\r
-6. **Renderer** → an additive material so overlapping particles glow.\r
-\r
-## UI particles\r
-\r
-Need particles *inside* a UI canvas — confetti on a victory screen, sparkles on a button? Use **UI Particle System** instead. It's the same module set but renders in the UI layer under a \`RectTransform\`, so it respects canvas sorting and masks. See the [UI tutorial](/tutorials/ui-system) for the canvas basics.\r
-\r
-## Where to go next\r
-\r
-Trigger a burst from an [animation event](/tutorials/animation), attach one to a [networked spawn](/tutorials/networking), or light it dramatically with [2D lights](/tutorials/lights).\r
-`},{id:`video`,title:`Video Playback`,icon:`fa-film`,category:`2D Graphics`,blurb:`Play WebM video onto a render texture or camera plane, with audio routed through a mixer.`,md:`# Video Playback\r
-\r
-Cutscenes, animated backgrounds, in-game screens — the **Video Player** decodes **WebM** video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture, a camera plane, or straight into your scene, with the audio routed through your mixer.\r
-\r
-![The Video Player inspector with its source, render and audio options.](/tutorials/video-inspector.png)\r
-\r
-## Importing a video\r
-\r
-Drop a \`.webm\` file into your project's \`Assets\` folder and it imports as a **Video Clip** resource, exposing \`duration\`, \`frameRate\`, \`width\` and \`height\`.\r
-\r
-> [!IMPORTANT]\r
-> Comet plays **WebM only** (VP8/VP9 video, Opus/Vorbis audio) — not MP4/MOV/AVI. Re-encode other formats to WebM first (e.g. with \`ffmpeg -i input.mp4 output.webm\`). Decoding is software (libvpx), so keep large videos to a sensible resolution.\r
-\r
-## The Video Player behaviour\r
-\r
-Add a **Video Player** (from **Add Behaviour**) and configure:\r
-\r
-| Field | Meaning |\r
-|-------|---------|\r
-| **Source** | \`Video Clip\` (a resource) or \`Url\` (a file path / URL string). |\r
-| **Video Clip** | The clip to play, when Source is \`Video Clip\`. |\r
-| **Play On Awake** | Start automatically. |\r
-| **Playback Speed** | 0–10× speed. |\r
-| **Loop** | Restart on end (gapless). |\r
-| **Skip Frames On Drop** | Drop frames to stay in sync if decoding can't keep up. |\r
-| **Aspect Ratio** | \`Fit Horizontally\` (default), \`Fit Inside\`, \`Stretch\`, ... |\r
-| **Render Mode** | \`Render Texture\` (default), \`Camera Near Plane\` or \`Camera Far Plane\`. |\r
-| **Target Texture** | The \`RenderTexture\` frames are written to (Render Texture mode). |\r
-| **Audio Output Mode** | \`Direct\` (per-track volume/mute), \`Audio Source\` (route through a mixer) or \`None\`. |\r
-\r
-### Where the picture goes\r
-\r
-- **Render Texture** — frames are written into a \`RenderTexture\` asset. Display it anywhere a texture works: a \`TextureRectRenderer\`, a UI \`Image\`, or a material. This is the most flexible mode.\r
-- **Camera Near / Far Plane** — the video draws directly on a \`Camera\`'s near or far plane with an adjustable **Alpha**, perfect for full-screen backgrounds or overlays.\r
-\r
-### Where the sound goes\r
-\r
-\`Direct\` gives you per-track volume and mute. \`Audio Source\` routes each audio track through an assigned **AudioSource**, so the video's sound obeys your [mixer groups](/tutorials/audio) — duck it under a \`Music\` bus, apply reverb, whatever.\r
-\r
-## Controlling playback from AngelScript\r
-\r
-This is the Sandbox project's video controller, verbatim — space to pause/resume, arrows to scrub:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Video;\r
-\r
-class VideoController : CometBehaviour\r
-{\r
-    float stepToMove = 0.5F;\r
-    private VideoPlayer videoPlayer;\r
-\r
-    void Start()\r
-    {\r
-        videoPlayer = VideoPlayer::Get(entity);\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        if (Input::GetKeyDown(KeyCode::SPACE))\r
-        {\r
-            if (videoPlayer.isPaused) { videoPlayer.Play(); }\r
-            else { videoPlayer.Pause(); }\r
-        }\r
-        if (Input::GetKeyDown(KeyCode::LEFT))\r
-        {\r
-            videoPlayer.Seek(videoPlayer.currentTime - stepToMove);\r
-        }\r
-        if (Input::GetKeyDown(KeyCode::RIGHT))\r
-        {\r
-            videoPlayer.Seek(videoPlayer.currentTime + stepToMove);\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The API mirrors the inspector: \`Play()\`, \`Pause()\`, \`Stop()\`, \`Seek(seconds)\`, \`Step()\` (advance one frame), plus \`isPlaying\`, \`isPaused\`, \`currentTime\`, \`duration\`, \`frameRate\`. Audio tracks are toggled with \`SetAudioTrackEnabled(i, on)\` and \`SetAudioTrackDirectVolume(i, v)\`.\r
-\r
-## A skippable cutscene\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Video;\r
-using namespace CometEngine::SceneManagement;\r
-\r
-class Cutscene : CometBehaviour\r
-{\r
-    private VideoPlayer player;\r
-\r
-    void Start()\r
-    {\r
-        player = VideoPlayer::Get(entity);\r
-        player.loop = false;\r
-        player.Play();\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        // Advance to gameplay when the clip ends or the player skips.\r
-        bool finished = !player.isPlaying && !player.isPaused && player.currentTime >= player.duration - 0.05F;\r
-        if (finished || Input::GetKeyDown(KeyCode::ESCAPE))\r
-        {\r
-            SceneManager::LoadScene("Level1");\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!NOTE]\r
-> Web builds depend on the browser's WebM codec support (VP9 is the safest bet). There are no native sockets or threads on web, but video playback itself works — just profile large clips.\r
-\r
-## Where to go next\r
-\r
-Show your video on a [render texture in the UI](/tutorials/ui-system), route its audio through a [mixer group](/tutorials/audio), or play it as an intro before your [first scene loads](/tutorials/build-and-patches).\r
-`},{id:`animation`,title:`Animation & the Animator`,icon:`fa-person-running`,category:`Animation`,blurb:`Animation clips, keyframes, events, the state machine editor, parameters and transitions.`,md:`# Animation & the Animator\r
-\r
-Comet's animation stack has two levels. **Animation clips** keyframe properties over time; the **Animator** plays those clips through a visual state machine with parameters and transitions — idle to run, run to jump, jump to fall — exactly the workflow you know from big engines, tailored to 2D.\r
-\r
-## Choosing your tool\r
-\r
-| | **AnimatedSprite** | **Animator** |\r
-|---|---|---|\r
-| What it does | Cycles through a list of sprites at a fixed FPS | Plays Animation clips through a state machine |\r
-| Can animate | Sprite frames only | Any keyframeable property: transform, sprite, colors, your script fields |\r
-| Logic | Play / Pause / Stop | States, transitions, conditions, parameters, events, state scripts |\r
-| Best for | Torches, coins, simple loops | Characters and anything gameplay-driven |\r
-\r
-\`AnimatedSprite\` is covered at the end of the [Sprite Rendering tutorial](/tutorials/sprite-rendering). Everything below is about the full pipeline: **Animation → AnimatorController → Animator**.\r
-\r
-## Creating an Animation clip\r
-\r
-Right-click in the **Project** panel and choose **Create Resource → Animation**. Double-click the new asset to open the **Animation Timeline** panel:\r
-\r
-![The Animation Timeline panel: transport controls, the frame ruler, samples and the Add Property track list.](/tutorials/animation-timeline.png)\r
-\r
-The timeline works the way you'd expect:\r
-\r
-1. **Add Property** — pick any animatable property from the behaviours on the target entity: \`Transform\` position/rotation/scale, \`SpriteRenderer\` color or flips, even public fields of your own scripts.\r
-2. Move the **scrubber** to a frame.\r
-3. Change the value — in the Inspector or by moving the entity in the scene — and **record a keyframe**. Keyframes show as diamonds on the track.\r
-4. Values between keyframes are interpolated with editable curves.\r
-\r
-Clip-level settings live on the Animation resource itself:\r
-\r
-- **Samples** — timeline resolution in frames per second (default 60).\r
-- **Loop** — whether the clip wraps around or plays once.\r
-- \`length\` is derived from your last keyframe.\r
-\r
-### Animation events\r
-\r
-Keyframes change *what the sprite looks like*; **animation events** make things *happen* at exact moments in the clip. An event calls a method on one of the entity's scripts when playback crosses a specific frame — the reliable way to sync gameplay to animation: a footstep sound on the frame the foot lands, a hitbox spawned on the exact frame of a sword swing, a screen shake when a monster stomps.\r
-\r
-In the Animation Timeline, each animated entity has an **event track** running along the top. To add an event:\r
-\r
-1. Move the scrubber to the frame where it should fire.\r
-2. Right-click the event track (or use its **Add Event** control) at that frame.\r
-3. Pick the target **behaviour**, the **method** to call, and fill in any argument values the method takes.\r
-\r
-A diamond marker appears on the event track at that frame. The method is just an ordinary function on one of your scripts — no special attribute needed:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class Player : CometBehaviour\r
-{\r
-    AudioSample footstepSound;   // assigned in the Inspector\r
-\r
-    // Called by the animation event on the foot-plant frames.\r
-    void OnFootstep()\r
-    {\r
-        AudioSource::PlaySingle(footstepSound, 0.6F);\r
-    }\r
-\r
-    // Events can pass arguments configured in the timeline.\r
-    void SpawnHitbox(int damage)\r
-    {\r
-        Debug::Log("swing hitbox active for " + damage + " damage");\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The \`PlayerRun\` clip in the screenshot above, for instance, has two \`OnFootstep\` events — one on each frame where a foot hits the ground — so the footstep audio stays perfectly in step with the run cycle no matter how the animation's speed is scaled.\r
-\r
-> [!NOTE]\r
-> Events fire when playback *crosses* their frame during normal play. When you \`Seek()\` to scrub the animator deterministically (for a network correction, say), pass \`fireEvents = false\` so you don't retrigger sounds and hitboxes while jumping through the timeline.\r
-\r
-> [!WARNING]\r
-> An event calls a method **by name** on the target behaviour. If you rename or remove that method in your script, the event silently stops firing — so keep event-target method names stable, or update the event when you refactor.\r
-\r
-## Building the state machine\r
-\r
-Right-click the **Project** panel → **Create Resource → Animator Controller**, then double-click it to open the **Animator** graph:\r
-\r
-![The Animator window: the parameters panel on the left, the state-machine graph with its Entry, Any State and Exit nodes on the right.](/tutorials/animator-graph.png)\r
-\r
-The workflow, end to end:\r
-\r
-1. **Create states** — right-click the background → **Create State**. Assign each state an Animation clip and a name (\`Idle\`, \`Run\`, \`Jump\`...).\r
-2. **Pick the entry state** — right-click a state → **Set as Entry**. This is where the machine starts.\r
-3. **Connect them** — right-click a state → **Create Transition To**, then click the target state.\r
-4. **Add parameters** — in the **Parameters** panel, click **+ Add Parameter** and choose a type:\r
-\r
-   | Type | Use for |\r
-   |------|---------|\r
-   | \`Float\` | Continuous values — speed, aim angle. |\r
-   | \`Int\` | Discrete values — weapon id, combo step. |\r
-   | \`Bool\` | Persistent flags — grounded, crouching. |\r
-   | \`Trigger\` | One-shot events — jump, hit. Consumed automatically when a transition uses it. |\r
-\r
-5. **Add conditions to transitions** — right-click a transition → **Edit Conditions**. Combine parameter checks (\`speed\` greater than \`0.1\`, \`isGrounded\` is true...); *all* conditions must pass. Enable **Exit Time** on a transition to also require the current animation to finish first — ideal for attack chains that must not cut off mid-swing.\r
-\r
-For big graphs, group states into **sub-state machines** (right-click → **Create State Machine**, double-click to enter). States inside are addressed with a slash path like \`"Combat/Attack1"\`.\r
-\r
-> [!TIP]\r
-> The controller's **Conditions Check Mode** decides *when* transitions are evaluated: only when a parameter changes or an animation ends (cheap, default) or every animation update (reactive, a bit costlier).\r
-\r
-## Playing it on an entity\r
-\r
-Select your entity, **Add Behaviour → Animator**, and drop the controller into the **Animator Controller** field. Useful inspector options:\r
-\r
-- **Speed** — global playback multiplier for this entity.\r
-- **Update Time Mode** — \`Scaled Time\` (respects \`Time\` scaling and pauses), \`Unscaled Time\` (UI, pause menus) or \`Physics Time\` (sync with FixedUpdate).\r
-- **Keep State On Disable** — when re-enabled, resume where it left off instead of restarting from entry.\r
-\r
-## Driving the Animator from AngelScript\r
-\r
-Your gameplay code never plays clips directly — it feeds **parameters** and lets the state machine decide:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class PlayerAnimation : CometBehaviour\r
-{\r
-    private Animator animator;\r
-\r
-    void Start()\r
-    {\r
-        animator = Animator::Get(entity);\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        float moveX = 0.0F;\r
-        if (Input::GetKeyPressed(KeyCode::A)) moveX -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::D)) moveX += 1.0F;\r
-\r
-        animator.SetFloat("speed", Math::Abs(moveX));\r
-        animator.SetBool("isMoving", moveX != 0.0F);\r
-\r
-        if (Input::GetKeyDown(KeyCode::SPACE))\r
-        {\r
-            animator.SetTrigger("jump"); // consumed by the Idle->Jump transition\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-You can also query and force states directly:\r
-\r
-\`\`\`angelscript\r
-// What is playing right now?\r
-AnimatorStateInfo state = animator.GetCurrentState();\r
-if (state !is null)\r
-{\r
-    Debug::Log(state.name + " at " + state.normalizedTime);\r
-}\r
-\r
-// Bypass transitions entirely (cutscenes, deaths):\r
-animator.Play("Death", 0.0F);            // state name\r
-animator.Play("Combat/Attack1", 0.0F);   // state inside a sub-machine\r
-\r
-// Deterministically scrub to a point in the current state (e.g. after a\r
-// network correction). fireEvents = false skips animation events on the way.\r
-animator.Seek(0.5F, false);\r
-\`\`\`\r
-\r
-> [!TIP]\r
-> \`SetFloat("speed", ...)\` hashes the parameter name every call. In hot loops, resolve the ID once and reuse it:\r
->\r
-> \`\`\`angelscript\r
-> private uint64 speedId;\r
-> void Start() { speedId = animator.GetParameterID("speed"); }\r
-> void Update() { animator.SetFloat(speedId, currentSpeed); }\r
-> \`\`\`\r
-\r
-## State machine behaviours\r
-\r
-Sometimes logic belongs to a *state*, not to the entity — "play a sound while in \`Alert\`", "enable the hitbox during \`Attack\`". Right-click a state → **Add Script → AnimatorStateBehaviour** and Comet generates a script skeleton for you:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class AlertState : AnimatorStateBehaviour\r
-{\r
-    // Called when the animator enters this state.\r
-    void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo)\r
-    {\r
-        Debug::Log(animator.entity.name + " entered " + stateInfo.name);\r
-    }\r
-\r
-    // Called every animation update while this state is active.\r
-    void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo)\r
-    {\r
-    }\r
-\r
-    // Called when the animator leaves this state.\r
-    void OnStateExit(Animator animator, AnimatorStateInfo stateInfo)\r
-    {\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The instance lives as long as the controller is in use, and \`Awake()\` / \`OnDestroy()\` bracket its lifetime.\r
-\r
-## Reusing a controller: Animator Overrides\r
-\r
-An **Animator Controller Override** (\`Create Resource → Animator Controller Override\`) wraps an existing controller and swaps its clips while keeping every state, transition and parameter. Build the state machine once for "humanoid enemy", then create overrides for the goblin, the skeleton and the knight that only replace the animations:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class SkinSwapper : CometBehaviour\r
-{\r
-    void ApplySkin(AnimatorControllerOverride skin)\r
-    {\r
-        Animator::Get(entity).animatorController = skin;\r
-    }\r
-}\r
-\`\`\`\r
-\r
-From code you can inspect and edit overrides with \`GetOverride()\` / \`SetOverride(original, replacement)\`.\r
-\r
-## Animator quick reference\r
-\r
-| Task | Call |\r
-|------|------|\r
-| Set parameters | \`SetFloat / SetInt / SetBool (name or id, value)\` |\r
-| Fire a trigger | \`SetTrigger("jump")\`, cancel with \`ResetTrigger("jump")\` |\r
-| Read parameters | \`GetFloat / GetInt / GetBool / GetTrigger\` |\r
-| Current state | \`GetCurrentState()\` → \`name\`, \`fullName\`, \`normalizedTime\` |\r
-| Force a state | \`Play("StateName", normalizedTime)\` |\r
-| Scrub deterministically | \`Seek(normalizedTime, fireEvents)\` |\r
-| Playback speed | \`speed\` property |\r
-| Reset parameters | \`SetDefaultParameterValues()\` |\r
-\r
-## Where to go next\r
-\r
-Hook animation parameters to real movement in the [Navigation tutorial](/tutorials/navigation), or trigger animations across the network in [Networking & Multiplayer](/tutorials/networking).\r
-`},{id:`bezier`,title:`Bézier Curves & Paths`,icon:`fa-bezier-curve`,category:`Animation`,blurb:`Author smooth paths and move platforms, cameras and projectiles along them.`,md:`# Bézier Curves & Paths\r
-\r
-Moving platforms that sweep along a smooth arc, a camera that glides through a level, a projectile that curves to its target — all of these follow a **Bézier curve**. Comet gives you a **Bézier Curve** behaviour to author the path and a **Bézier Curve Follower** to move any transform along it.\r
-\r
-![The Bézier Curve and Bézier Curve Follower components in the Inspector.](/tutorials/bezier-inspector.png)\r
-\r
-## The two components\r
-\r
-Both are added from **Add Behaviour → Diverse**:\r
-\r
-- **Bézier Curve** — stores the path as a cubic spline: a list of **control points**, each with an anchor and two tangent handles. Its inspector has a small toolbar to **Move Points**, **Move Control Points**, **Add Points** and **Remove Points** directly in the scene view, plus a **Bake Interval** (how finely the curve is sampled for fast lookups).\r
-- **Bézier Curve Follower** — moves a transform along a target curve, optionally rotating to face the direction of travel.\r
-\r
-## Authoring a curve in the editor\r
-\r
-1. Add a **Bézier Curve** to an entity and select it.\r
-2. Click **Add Points** in its inspector toolbar, then click in the scene to drop anchor points — the green spline appears between them.\r
-3. Switch to **Move Control Points** and drag the tangent handles to bend each segment.\r
-4. Tweak the **Bake Interval** down for a smoother, more accurate follow (at a small memory cost).\r
-\r
-![A Bézier curve in the Scene view: blue anchor points, red tangent handles and the smooth spline drawn between them.](/tutorials/bezier-curve.png)\r
-\r
-## Following a curve\r
-\r
-Add a **Bézier Curve Follower**, set **Curve to Follow** to your curve, then advance it every frame. You drive the distance yourself, which keeps movement speed independent of the curve's length:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class Platform : CometBehaviour\r
-{\r
-    private BezierCurveFollower follower;\r
-    private float distance = 0.0F;\r
-    float speed = 2.0F;   // world units per second\r
-\r
-    void Start()\r
-    {\r
-        follower = BezierCurveFollower::Get(entity);\r
-        follower.loop = true;          // wrap around at the ends\r
-        follower.applyRotation = false; // a platform stays level\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        distance += speed * Time::GetDeltaTime();\r
-        follower.MoveAt(distance, transform);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-- **\`MoveAt(distance, transform)\`** places the transform at an absolute arc-length distance along the curve. With **\`loop = true\`** the distance wraps; with \`loop = false\` it clamps at the ends.\r
-- **\`MoveAtNormalized(t, transform)\`** takes \`t\` from 0 to 1 instead — handy when you're driving progress from an animation or a timer rather than a speed.\r
-\r
-## Facing the direction of travel\r
-\r
-For a projectile or a character, tick **Apply Rotation** and the follower rotates the transform to point along the curve's tangent. **Look Ahead** sets how far along the curve it samples that tangent — smaller for fast, twitchy followers; larger for slow, smooth ones. **Rotation Offset** adds a fixed angle (if your sprite faces up instead of right), and **Position Offset** shifts it along/perpendicular to the path.\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class HomingMissile : CometBehaviour\r
-{\r
-    private BezierCurveFollower follower;\r
-    private float distance = 0.0F;\r
-    float speed = 12.0F;\r
-\r
-    void Start()\r
-    {\r
-        follower = BezierCurveFollower::Get(entity);\r
-        follower.applyRotation = true;   // nose follows the curve\r
-        follower.lookAhead = 0.03F;\r
-        follower.loop = false;\r
-\r
-        BezierCurve curve = BezierCurve::Get(entity);\r
-        float length = curve.curve.length;\r
-        Debug::Log("flight path is " + length + "m long");\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        distance += speed * Time::GetDeltaTime();\r
-        follower.MoveAt(distance, transform);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!TIP]\r
-> The follower does **not** move on its own — you accumulate \`distance\` and call \`MoveAt\` each frame. That's deliberate: it lets you ease, reverse, pause or ping-pong the motion however you like, and drive several followers along the same shared curve at different speeds.\r
-\r
-## Building a curve from code\r
-\r
-You can author the path entirely in script — useful for procedural levels or runtime-generated trajectories:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class RuntimePath : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        Curve curve = BezierCurve::Get(entity).curve;\r
-        curve.AddPoint(Vector2(0.0F, 0.0F), -1);   // -1 appends\r
-        curve.AddPoint(Vector2(5.0F, 3.0F), -1);\r
-        curve.AddPoint(Vector2(10.0F, 0.0F), -1);\r
-\r
-        // Shape the segments with tangent handles.\r
-        curve.SetControlPointOut(0, Vector2(2.0F, 0.0F));\r
-        curve.SetControlPointIn(1, Vector2(3.0F, 2.0F));\r
-\r
-        Debug::Log("baked length: " + curve.length);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`AddPoint\`, \`SetControlPointIn/Out\`, \`RemovePoint\` and \`ClearPoints\` edit the point list; \`CalculatePointAt(distance, cubic)\` and \`GetClosestPoint(worldPoint)\` sample it. The bake cache rebuilds automatically after edits — do heavy building in \`Start\`, not every frame.\r
-\r
-## Where to go next\r
-\r
-Combine a curve-following camera with your [UI](/tutorials/ui-system), or trigger a projectile's launch from an [input action](/tutorials/input) or [animation event](/tutorials/animation).\r
-`},{id:`physics`,title:`Physics: Bodies, Colliders & Joints`,icon:`fa-cubes-stacked`,category:`Physics`,blurb:`Rigid bodies, colliders, triggers, raycasts and joints on the Box2D backend.`,md:`# Physics: Bodies, Colliders & Joints\r
-\r
-Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on **Box2D 3.x**. You give an entity a **Rigid Body** to make it move under physics, one or more **Colliders** to give it shape, and optionally **joints** to connect bodies or **effectors** to push them around.\r
-\r
-![A rigid body with a box collider gizmo, and the Rigid Body inspector.](/tutorials/physics-scene.png)\r
-\r
-## The three body types\r
-\r
-Add a **Rigid Body** and pick its **Body Type**:\r
-\r
-- **Dynamic** — fully simulated: gravity, forces, collisions. Your player, crates, debris.\r
-- **Kinematic** — moves only when you set its velocity/position; unstoppable by forces. Moving platforms, scripted hazards.\r
-- **Static** — never moves. Level geometry. (An entity with only a collider and no rigid body behaves as static.)\r
-\r
-The Rigid Body inspector exposes **Mass**, **Gravity Scale**, **Linear/Angular Drag**, axis **constraints**, **Collision Detection** (\`Discrete\` or \`Continuous\` for fast objects) and interpolation.\r
-\r
-> [!IMPORTANT]\r
-> Physics units are **metres**, and simulation runs in **\`FixedUpdate\`**, not \`Update\`. Apply forces and read velocities in \`FixedUpdate\` so they're consistent with the fixed timestep. If your art is in pixels, divide sizes by your pixels-per-unit (e.g. 100 px = 1 m).\r
-\r
-## Colliders\r
-\r
-Add a collider from **Add Behaviour** — **Box**, **Circle**, **Capsule**, **Edge**, **Polygon**, **Tilemap** or **Packer** Collider. They render green outline gizmos in the scene. Each collider has:\r
-\r
-- **Is Trigger** — a trigger detects overlaps but doesn't physically block.\r
-- **Friction** and **Bounciness** (restitution), or a shared **Physic Material** asset carrying both.\r
-- **Offset** and shape-specific fields (Box \`Size\`, Circle \`Radius\`, ...).\r
-\r
-## Moving a body\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class PlayerMovement : CometBehaviour\r
-{\r
-    private RigidBody body;\r
-    float moveSpeed = 6.0F;\r
-    float jumpImpulse = 8.0F;\r
-\r
-    void Start()\r
-    {\r
-        body = RigidBody::Get(entity);\r
-    }\r
-\r
-    void FixedUpdate()\r
-    {\r
-        // Drive horizontal motion by setting the velocity directly — snappy,\r
-        // predictable control that ignores mass. The vertical velocity is left\r
-        // untouched so gravity and jumps still work.\r
-        float dir = 0.0F;\r
-        if (Input::GetKeyPressed(KeyCode::A)) dir -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::D)) dir += 1.0F;\r
-        body.velocity = Vector2(dir * moveSpeed, body.velocity.y);\r
-\r
-        // Jump with an instantaneous impulse.\r
-        if (Input::GetKeyDown(KeyCode::SPACE))\r
-        {\r
-            body.ApplyLinearImpulse(Vector2(0.0F, jumpImpulse));\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!NOTE]\r
-> **Setting \`velocity\` vs. applying forces.** Assigning \`body.velocity\` directly gives snappy, mass-independent control — ideal for a responsive player character or a kinematic platform. Forces are for physical, mass-aware motion: **\`ApplyForce\`** accumulates over the step (thrust, wind, gravity-like pushes) while **\`ApplyLinearImpulse\`** changes velocity instantly (jumps, hits, knockback). There are \`AtPoint\` variants that also impart spin, plus \`ApplyTorque\` / \`ApplyAngularImpulse\` for rotation. Pick velocity for arcade feel, forces for simulation feel.\r
-\r
-## Collision and trigger callbacks\r
-\r
-Define these methods on any \`CometBehaviour\` and the engine calls them:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class Hazard : CometBehaviour\r
-{\r
-    // Solid collisions: Enter / Stay / Exit.\r
-    void OnCollisionEnter(Collision collision)\r
-    {\r
-        Debug::Log("hit " + collision.entity.name +\r
-                   " with " + collision.contactPointsCount + " contacts");\r
-    }\r
-\r
-    // Trigger overlaps: Enter / Stay / Exit.\r
-    void OnTriggerEnter(Collider other)\r
-    {\r
-        Debug::Log(other.entity.name + " entered the trigger");\r
-    }\r
-\r
-    void OnTriggerExit(Collider other)\r
-    {\r
-        Debug::Log(other.entity.name + " left the trigger");\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`OnCollisionEnter/Stay/Exit\` fire for solid contacts and hand you a \`Collision\` (the colliders, bodies, entity and contact points). \`OnTriggerEnter/Stay/Exit\` fire for trigger colliders and hand you the other \`Collider\`.\r
-\r
-## Raycasts and queries\r
-\r
-Ask the world what's along a ray or inside a box — the foundation of line-of-sight, ground checks and hitscan weapons:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class GroundCheck : CometBehaviour\r
-{\r
-    bool IsGrounded()\r
-    {\r
-        Vector2 origin = Vector2(transform.position.x, transform.position.y);\r
-        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(0.0F, -1.0F), 1.1F);\r
-        return hit !is null;\r
-    }\r
-\r
-    void FireLaser()\r
-    {\r
-        Vector2 origin = Vector2(transform.position.x, transform.position.y);\r
-        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(1.0F, 0.0F), 50.0F);\r
-        if (hit !is null)\r
-        {\r
-            Debug::Log("laser hit " + hit.collider.entity.name +\r
-                       " at " + hit.distance + "m, normal " + hit.normal.ToString());\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`Physics::RaycastClosest / RaycastAny / Raycast\` (all hits) return \`RaycastHit\`s with \`point\`, \`normal\`, \`distance\`, \`collider\` and \`rigidbody\`. \`Physics::QueryAABB(center, size, ...)\` returns every collider in a box. All take an optional layer mask.\r
-\r
-## Collision layers\r
-\r
-Configure which layers collide in **Project Settings → Physics** (a 32-layer matrix). From code, \`Physics::IgnoreLayerCollision(a, b, true)\` and \`Physics::DoTheseLayersCollide(a, b)\` manage it at runtime — e.g. make enemy projectiles pass through other enemies.\r
-\r
-## Joints and effectors\r
-\r
-**Joints** constrain two bodies: **Hinge** (rotating door, wheel axle, with an optional motor and angle limits), **Distance** / **Spring** (ropes, suspension), **Slider** (elevators), **Wheel** (vehicles), **Fixed**, **Friction**, **Relative** and **Target**. Add one, assign the **Connected Rigid Body**, and set its anchors. A joint fires \`OnJointBreak(force)\` if it exceeds its **Break Force**.\r
-\r
-**Effectors** apply area forces to whatever overlaps them (the collider needs **Used By Effector**): **Area** (wind, water currents), **Point** (gravity wells, explosions), **Platform** (one-way platforms) and **Surface** (conveyor belts).\r
-\r
-## Physic Material assets\r
-\r
-Create a **Physic Material** (\`Create Resource → Physic Material\`) to reuse **Friction** and **Bounciness** across colliders — an "ice" material, a "rubber" material — and choose how paired materials combine (average, min, max, multiply).\r
-\r
-## Where to go next\r
-\r
-Drive physics from [input](/tutorials/input), react to hits with an [animation](/tutorials/animation) or [particle burst](/tutorials/particles), or build your collision world from a [tilemap](/tutorials/tilemap).\r
-`},{id:`input`,title:`Reading Raw Input`,icon:`fa-keyboard`,category:`Input`,blurb:`Poll keyboard, mouse, controllers and touch directly, frame by frame.`,md:`# Reading Raw Input\r
-\r
-The most direct way to know what the player is doing is to ask the hardware every frame: *is W held right now? did they just click? how far is the stick pushed?* This is **polling**, and it lives in the \`CometEngine::Input\` namespace. It's perfect for prototypes, game jams, fixed control schemes and touch handling.\r
-\r
-> [!TIP]\r
-> When you're ready for rebindable controls and first-class gamepad support, graduate to the [Input Actions system](/tutorials/input-actions) — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.\r
-\r
-## The three verbs: Down, Pressed, Up\r
-\r
-For every button — keyboard, mouse or controller — there are three queries, and choosing the right one is most of the battle:\r
-\r
-| Query | True when... | Use it for |\r
-|-------|--------------|-----------|\r
-| **\`GetKeyDown(key)\`** | the **first frame** of the press (an edge) | one-shot actions: jump, shoot, confirm, toggle |\r
-| **\`GetKeyPressed(key)\`** | **every frame** the key is held (a level) | continuous actions: walking, charging, aiming |\r
-| **\`GetKeyUp(key)\`** | the frame it is **released** (an edge) | release actions: release a charged shot |\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Input;\r
-\r
-class Player : CometBehaviour\r
-{\r
-    float speed = 5.0F;\r
-\r
-    void Update()\r
-    {\r
-        // Continuous movement from held keys (level).\r
-        Vector2 move(0, 0);\r
-        if (Input::GetKeyPressed(KeyCode::W)) move.y += 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::S)) move.y -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::A)) move.x -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::D)) move.x += 1.0F;\r
-\r
-        // Fire once per press (edge).\r
-        if (Input::GetKeyDown(KeyCode::SPACE))\r
-        {\r
-            Fire();\r
-        }\r
-\r
-        transform.Translate(move * speed * Time::GetDeltaTime(), Space::World);\r
-    }\r
-\r
-    void Fire() { }\r
-}\r
-\`\`\`\r
-\r
-\`KeyCode\` covers the whole keyboard: letters (\`A\`–\`Z\`), digits, \`SPACE\`, \`RETURN\`, \`ESCAPE\`, the arrows (\`UP\`/\`DOWN\`/\`LEFT\`/\`RIGHT\`), function keys (\`F1\`–\`F12\`) and modifiers (\`SHIFT_LEFT\`, \`CONTROL_LEFT\`, ...).\r
-\r
-## Mouse\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Input;\r
-\r
-Vector2 mousePos = Input::GetMousePosition();     // screen space, (0,0) top-left\r
-Vector2 delta = Input::GetMouseMotion();          // movement since last frame\r
-float wheel = Input::GetMouseScrollMotion();      // scroll delta\r
-\r
-if (Input::GetMouseButtonDown(MouseCode::LEFT))   { /* click */ }\r
-if (Input::GetMouseButtonPressed(MouseCode::RIGHT)) { /* hold to aim */ }\r
-\`\`\`\r
-\r
-\`MouseCode\` is \`LEFT\`, \`MIDDLE\`, \`RIGHT\`, \`BUTTON_4\`, \`BUTTON_5\`. Mouse position is in **screen space** — to convert it to world space, go through your camera.\r
-\r
-## Controllers\r
-\r
-Comet supports up to eight controllers. Pass a \`ControllerNumber\` to target a specific one, or \`CONTROLLER_ANY\` for the first connected:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Input;\r
-\r
-// Analog stick — a Vector2 in the range -1..+1 on each axis.\r
-Vector2 leftStick = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);\r
-float rightTrigger = Input::GetControllerTriggerValue(ControllerTrigger::RIGHT, ControllerNumber::CONTROLLER_1);\r
-\r
-// Buttons — same Down / Pressed / Up trio as the keyboard.\r
-if (Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))\r
-{\r
-    Jump();\r
-    Input::MakeControllerRumble(0.6F, 0.2F);   // strength 0..1, duration in seconds\r
-}\r
-\r
-// Discover what's plugged in at runtime.\r
-array<ControllerNumber> pads = Input::GetControllersConnected();\r
-\`\`\`\r
-\r
-\`ControllerCode\` names the face buttons (\`A\`/\`B\`/\`X\`/\`Y\`), the D-pad (\`DPAD_UP\`...), shoulders, stick clicks and analog-stick directions as virtual buttons (\`LEFT_AXIS_UP\`...). \`MakeControllerRumble\` and \`PlayHapticPreset\` drive vibration. \`GetActiveInputDevice()\` tells you whether the player is currently on keyboard-and-mouse or a gamepad, so you can swap on-screen button prompts to match.\r
-\r
-## Touch\r
-\r
-Touch is multi-touch aware: each finger is a \`Touch\` with a **stable \`id\`** you can follow across frames, plus \`position\`, \`motion\` and a \`state\` (\`STARTED\` / \`MOVED\` / \`ENDED\`):\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Input;\r
-\r
-uint64 touchCount = Input::GetTouchCount();\r
-for (uint64 i = 0; i < touchCount; i++)\r
-{\r
-    Touch touch = Input::GetTouchByIndex(i);\r
-    if (touch.state == TouchState::ENDED) continue;\r
-\r
-    // touch.id follows this finger; touch.position is screen space.\r
-    Debug::Log("finger " + touch.id + " at " + touch.position.ToString());\r
-}\r
-\`\`\`\r
-\r
-This is how the sample project's mobile controller builds a virtual joystick — it claims the first finger that lands on the left half of the screen (tracking it by \`id\`) and reads its offset from the touch-down point each frame. \`Input::IsPinching()\` and \`Input::GetPinchZoom()\` give you two-finger pinch for zoom.\r
-\r
-## Reading a whole character controller\r
-\r
-Putting the verbs together — keyboard *and* gamepad, movement *and* a one-shot fire, exactly as the sample project's \`Player\` script does it:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Input;\r
-\r
-class Player : CometBehaviour\r
-{\r
-    float speed = 6.0F;\r
-\r
-    void Update()\r
-    {\r
-        // Movement: keyboard OR left stick, whichever the player uses.\r
-        Vector2 velocity = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);\r
-        if (Input::GetKeyPressed(KeyCode::W)) velocity.y += 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::S)) velocity.y -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::A)) velocity.x -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::D)) velocity.x += 1.0F;\r
-\r
-        // Fire: space OR the A button, once per press.\r
-        if (Input::GetKeyDown(KeyCode::SPACE) ||\r
-            Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))\r
-        {\r
-            Fire();\r
-        }\r
-\r
-        transform.Translate(velocity * speed * Time::GetDeltaTime(), Space::World);\r
-    }\r
-\r
-    void Fire() { }\r
-}\r
-\`\`\`\r
-\r
-> [!WARNING]\r
-> Notice this reads two hard-coded keys for every action, and there's no way for the player to rebind them or for a designer to tune deadzones. That's fine for a jam — but the moment you want remappable controls, "hold to charge", or clean multi-device support, it's time for [Input Actions](/tutorials/input-actions).\r
-\r
-## Where to go next\r
-\r
-Turn these reads into movement with [Physics](/tutorials/physics), or step up to rebindable, designer-friendly controls with [Input Actions](/tutorials/input-actions).\r
-`},{id:`input-actions`,title:`Input Actions: The Input Module`,icon:`fa-gamepad`,category:`Input`,blurb:`Bind rebindable named actions, add deadzones and hold/tap, and debug them live.`,md:`# Input Actions: The Input Module\r
-\r
-Reading \`KeyCode::SPACE\` directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no "hold to charge" without hand-rolled timers. Comet's **Input module** fixes all of that. You define named **actions** — "Jump", "Move", "Fire" — in the editor, bind them to any keys, buttons or sticks you like, and your code just asks the action for its value. Rebinding, deadzones, hold/tap detection and multi-device support all become configuration instead of code.\r
-\r
-> [!TIP]\r
-> This is the layer above [raw input polling](/tutorials/input). If you only need a couple of fixed keys, polling is simpler. For a shippable game with gamepad support and remappable controls, use actions.\r
-\r
-## The model: groups, actions, bindings\r
-\r
-Three concepts nest inside each other:\r
-\r
-- An **Input Group** organizes related actions — a \`Gameplay\` group, a \`UI\` group, a \`Vehicle\` group. Groups can be enabled and disabled as a unit, so entering a menu can switch the whole control scheme in one line.\r
-- An **Input Action** is a named intent with a **value type**: \`Button\` (pressed / not), \`Axis\` (a 1-D float, like a throttle) or \`Vector2\` (a 2-D direction, like movement).\r
-- A **Binding** connects a physical control to an action. One action can have many bindings — that's how *Jump* answers to both the space bar and the gamepad's A button. **Composite** bindings combine several controls into one value (four keys → a \`Vector2\`, two keys → an axis).\r
-\r
-## Configuring actions in the editor\r
-\r
-Open **Project Settings → Input**. This is where the whole scheme is authored:\r
-\r
-![The Input panel in Project Settings, with groups, actions and their bindings.](/tutorials/input-settings.png)\r
-\r
-1. **Add a group** (e.g. \`Gameplay\`).\r
-2. **Add actions** to it (e.g. \`Move\` as a \`Vector2\`, \`Jump\` as a \`Button\`) and pick each one's value type.\r
-3. **Add bindings** to each action. For \`Move\`, a **2D Vector composite** turns W/A/S/D into a \`Vector2\`; add a second binding for the gamepad's left stick and the action seamlessly accepts either. For \`Jump\`, add the space bar and the A button.\r
-4. Optionally attach **processors** and **interactions** (below).\r
-5. Save — the scheme is stored with the project.\r
-\r
-### Processors: shaping the value\r
-\r
-A **processor** post-processes a binding's or action's raw value:\r
-\r
-- **Deadzone** — ignore tiny stick drift below a threshold.\r
-- **Invert X / Invert Y** — flip an axis (inverted-Y aiming).\r
-- **Scale** — multiply the value (sensitivity).\r
-- **Normalize / Clamp** — bound the range.\r
-- **Response Curve** — ease the input non-linearly, so small stick movements are gentle and large ones ramp up.\r
-\r
-### Interactions: shaping *when* it fires\r
-\r
-An **interaction** decides what counts as "performed", so timing-based inputs are configuration, not code:\r
-\r
-- **Press** — fires immediately (the default).\r
-- **Hold** — fires after the control is held for a set time (hold to charge, hold to interact).\r
-- **Tap** — fires on a quick press-and-release.\r
-- **Slow Tap / Multi-Tap** — deliberate presses, or double/triple taps (double-tap to dash).\r
-\r
-## Reading actions from AngelScript\r
-\r
-Fetch a group by name, pull out its actions, and read them. The value-type getters mirror the raw polling verbs:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::InputSettings;\r
-\r
-class PlayerController : CometBehaviour\r
-{\r
-    private InputAction moveAction;\r
-    private InputAction jumpAction;\r
-\r
-    void Start()\r
-    {\r
-        InputGroup group = InputSettings::GetGroupByName("Gameplay");\r
-        if (group !is null)\r
-        {\r
-            moveAction = group.GetActionByName("Move");\r
-            jumpAction = group.GetActionByName("Jump");\r
-        }\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        // One Vector2, whether it came from WASD or the left stick.\r
-        if (moveAction !is null)\r
-        {\r
-            Vector2 move = moveAction.GetVector2();\r
-            transform.Translate(move * 5.0F * Time::GetDeltaTime(), Space::World);\r
-        }\r
-\r
-        // wasPressedThisFrame is the action-system GetKeyDown.\r
-        if (jumpAction !is null && jumpAction.wasPressedThisFrame)\r
-        {\r
-            Jump();\r
-        }\r
-    }\r
-\r
-    void Jump() { }\r
-}\r
-\`\`\`\r
-\r
-The state accessors:\r
-\r
-| Accessor | Equivalent raw verb |\r
-|----------|--------------------|\r
-| \`isPressed\` | \`GetKeyPressed\` (held) |\r
-| \`wasPressedThisFrame\` | \`GetKeyDown\` (press edge) |\r
-| \`wasReleasedThisFrame\` | \`GetKeyUp\` (release edge) |\r
-| \`GetBool()\` / \`GetFloat()\` / \`GetVector2()\` | typed value read |\r
-\r
-\`phase\` (\`IDLE\` / \`STARTED\` / \`PERFORMED\`) exposes the interaction state machine when you need it.\r
-\r
-## Callbacks instead of polling\r
-\r
-For fire-and-forget events, subscribe to an action's signals rather than checking it every frame:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::InputSettings;\r
-\r
-class WeaponController : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        InputGroup group = InputSettings::GetGroupByName("Gameplay");\r
-        InputAction fire = group.GetActionByName("Fire");\r
-        if (fire !is null)\r
-        {\r
-            fire.onStarted.Add(InputActionCallback(OnFireStarted));\r
-            fire.onCancelled.Add(InputActionCallback(OnFireReleased));\r
-        }\r
-    }\r
-\r
-    void OnFireStarted(InputAction action)   { Debug::Log("fire down"); }\r
-    void OnFireReleased(InputAction action)  { Debug::Log("fire up"); }\r
-}\r
-\`\`\`\r
-\r
-\`onStarted\`, \`onPerformed\` and \`onCancelled\` fire once per state transition — ideal for hold/charge weapons where you care about the *edges*, not every frame in between.\r
-\r
-## The generated InputWrapper\r
-\r
-Typing action names as strings is error-prone. The editor can generate a typed **InputWrapper** for your groups, so you can reach any action with autocompletion and no string lookups:\r
-\r
-\`\`\`angelscript\r
-// Generated from the editor's Input settings:\r
-Vector2 move = InputWrapper::Gameplay.Move.GetVector2();\r
-if (InputWrapper::Gameplay.Jump.wasPressedThisFrame) Jump();\r
-\`\`\`\r
-\r
-**Generating it:** at the top of the **Project Settings → Input** panel, next to **Input Wrapper**, click **Create**. Comet writes an \`InputWrapper\` script with a typed accessor for every group and action, which you can then use anywhere in your code.\r
-\r
-> [!IMPORTANT]\r
-> The wrapper is *generated code* — a snapshot of your scheme, not a live view of it. **Every time you add, remove or rename a group or action, regenerate it by clicking the refresh button** (the *Create* control becomes a refresh once the wrapper exists). Skip this and the wrapper drifts out of sync — a renamed action still exposes its old name, and a new one won't appear at all.\r
-\r
-Under the hood the wrapper simply caches \`GetGroupByName\` / \`GetActionByName\` for you (exactly the pattern shown above), but you get compile-time names and IDE completion for free.\r
-\r
-## Switching schemes with groups\r
-\r
-Because groups enable and disable as a unit, swapping control contexts is trivial:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine::InputSettings;\r
-\r
-void OpenPauseMenu()\r
-{\r
-    InputSettings::GetGroupByName("Gameplay").enabled = false;\r
-    InputSettings::GetGroupByName("UI").enabled = true;\r
-}\r
-\`\`\`\r
-\r
-Now \`Gameplay\` actions go quiet while the pause menu is up, and the \`UI\` group's Navigate/Submit/Cancel take over — no flags threaded through your gameplay code.\r
-\r
-## The Input Debugger\r
-\r
-When a binding "doesn't fire" or a stick reads the wrong axis, open **Window → Input Debugger**. It lists every group and action with its **value type**, live **phase**, and current **value**, updating in real time — so you can watch an action light up as you press the key and confirm the binding is wired the way you think.\r
-\r
-![The Input Debugger panel showing live action values in play mode.](/tutorials/input-debugger.png)\r
-\r
-At the top it also shows the **active device** (Keyboard & Mouse or Gamepad) and the **number of connected controllers**. Live values appear once you enter **play mode** — in edit mode it prompts you to press Play.\r
-\r
-> [!NOTE]\r
-> The Input Debugger is the fastest way to diagnose input problems: if the action doesn't react here, the binding is wrong (fix it in Project Settings); if it *does* react here but not in your game, the bug is in your script.\r
-\r
-## Where to go next\r
-\r
-Drive a character with actions and [Physics](/tutorials/physics), or wire the \`UI\` group's Navigate/Submit into your [menus](/tutorials/ui-system).\r
-`},{id:`ui-system`,title:`Building User Interfaces`,icon:`fa-window-maximize`,category:`UI`,blurb:`Canvas, RectTransform anchoring, buttons, text, layouts and input events.`,md:'# Building User Interfaces\r\n\r\nMenus, HUDs, dialogs, settings screens — Comet\'s UI system is a retained, anchor-based layout system in the spirit of Unity\'s uGUI: a **Canvas** at the root, **RectTransform** on every element, and a family of widgets (Button, Text, Image, InputField, Slider...) that raise events your scripts react to.\r\n\r\n![A Canvas with a button selected, showing the RectTransform anchors in the inspector.](/tutorials/ui-canvas.png)\r\n\r\n## The Canvas\r\n\r\nEvery piece of UI lives under a **Canvas** entity (right-click the Hierarchy → **UI → Canvas**). Its **Render Mode** decides where the UI exists:\r\n\r\n- **Screen Space** — the canvas is glued to the screen. Menus, HUDs, anything resolution-anchored.\r\n- **World Space** — the canvas lives in the world like any other entity. Health bars over enemies, computer screens inside the scene, damage numbers.\r\n\r\nCanvases can be **nested**; a nested canvas can `overrideSorting` to force itself above or below its surroundings.\r\n\r\n## RectTransform: anchors, pivot and size\r\n\r\nUI entities replace the plain Transform with a **RectTransform** — a rectangle whose position and size are expressed *relative to the parent rectangle* through **anchors**:\r\n\r\n- `anchorMin` / `anchorMax` — two normalized points (0–1) in the parent. When both are equal you get a fixed-size element pinned to that point; when they differ, the element **stretches** with the parent.\r\n- `pivot` — the point of the element (0–1) that `anchoredPosition` positions, and the center of rotation/scaling.\r\n- `anchoredPosition` + `size` — where the pivot sits relative to the anchors, and how big the rect is.\r\n- When stretched, you edit the margins instead: `leftDistance`, `rightDistance`, `topDistance`, `bottomDistance`.\r\n\r\nThe Inspector\'s anchor preset widget covers the common cases in one click — corners, edges, center, and full-stretch. Rules of thumb:\r\n\r\n> [!TIP]\r\n> Anchor each element to the screen region it belongs to: score to the top-left, minimap to the top-right, action bar stretched along the bottom. The layout then survives every aspect ratio without a single line of code.\r\n\r\nFrom script, the same properties are read/write:\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\n\r\nclass HealthBarFill : CometBehaviour\r\n{\r\n    private RectTransform rect;\r\n    private float fullWidth;\r\n\r\n    void Start()\r\n    {\r\n        rect = RectTransform::Get(entity);\r\n        fullWidth = rect.size.x;\r\n    }\r\n\r\n    void SetHealth(float normalized) // 0..1\r\n    {\r\n        rect.size = Vector2(fullWidth * normalized, rect.size.y);\r\n    }\r\n}\r\n```\r\n\r\n## The widget family\r\n\r\nAll widgets live in the `CometEngine::UI` namespace and are created from the Hierarchy\'s **UI** submenu. The visual ones derive from `Graphic` (which gives them `color`, `material` and a `mouseFilter`); the interactive ones derive from `Selectable` (which adds `interactable`, hover/press **transitions**, and keyboard/gamepad **navigation**):\r\n\r\n| Widget | Purpose | Key members |\r\n|--------|---------|-------------|\r\n| `Text` | Styled text, BBCode, auto-sizing | `text`, `font`, `fontSize`, `horizontalAlignment`, `bbcodeEnabled`, `bold`... |\r\n| `Image` | Sprite display, 9-slice, tiling | `sprite`, `renderMode` (Simple/Sliced/Tiled), `fillCenter` |\r\n| `Button` | Click target | `onClick`, `interactable` |\r\n| `InputField` | Text entry | `textValue`, `characterLimit`, `contentType`, `onValueChanged`, `onEndEdit` |\r\n| `Slider` | Draggable value | `value`, `minValue`, `maxValue`, `wholeNumbers`, `onValueChanged` |\r\n| `Toggle` | Checkbox | `isOn`, `group`, `onValueChanged` |\r\n| `ToggleGroup` | Radio-button behaviour for Toggles | `allowSwitchOff` |\r\n| `DropDown` | Option list | `value`, `AddOption()`, `SetOptions()`, `onValueChanged` |\r\n| `ScrollRect` | Scrollable content | `content`, `horizontal`, `vertical`, `movementType`, `inertia` |\r\n| `Scrollbar` | Standalone scroll handle | `value`, `size`, `direction` |\r\n\r\n## Reacting to input\r\n\r\nThere are two complementary mechanisms.\r\n\r\n### 1. Pointer interfaces — any entity, any shape\r\n\r\nImplement one or more pointer interfaces on a `CometBehaviour` and the UI input system calls you directly. This is the pattern used across Comet\'s own sample project:\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\nusing namespace CometEngine::UI;\r\n\r\nclass PlayButton : CometBehaviour, IPointerClickAction\r\n{\r\n    void OnPointerClick(PointerEvent pointerEvent)\r\n    {\r\n        Debug::Log("Play clicked!");\r\n        SceneManagement::SceneManager::LoadScene("Level1");\r\n    }\r\n}\r\n```\r\n\r\nThe full set: `IPointerClickAction`, `IPointerDownAction`, `IPointerUpAction`, `IPointerUpOutsideAction`, `IPointerEnterAction`, `IPointerExitAction`, `IBeginDragAction`, `IDragAction`, `IEndDragAction`, `ISelectAction`, `IDeselectAction`, `ISubmitAction`. Drag-and-drop, for instance, is three methods:\r\n\r\n```angelscript\r\nclass DraggableCard : CometBehaviour, IBeginDragAction, IDragAction, IEndDragAction\r\n{\r\n    void OnBeginDrag(PointerEvent event) { Debug::Log("BEGIN DRAG"); }\r\n    void OnDrag(PointerEvent event)      { Debug::Log(event.handler.entity.name); }\r\n    void OnEndDrag(PointerEvent event)   { Debug::Log("END DRAG"); }\r\n}\r\n```\r\n\r\n### 2. Widget events — values, not clicks\r\n\r\nValue widgets expose typed events (`CometEvent` / `CometEventArg<T>`). Hook persistent listeners in the Inspector (the button\'s **On Click** list), or subscribe at runtime:\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\nusing namespace CometEngine::UI;\r\n\r\nclass SettingsMenu : CometBehaviour\r\n{\r\n    private Slider volumeSlider;\r\n\r\n    void Start()\r\n    {\r\n        volumeSlider = Slider::Get(Entity::Find("VolumeSlider"));\r\n        volumeSlider.minValue = 0.0F;\r\n        volumeSlider.maxValue = 1.0F;\r\n    }\r\n\r\n    void Update()\r\n    {\r\n        // Polling the value each frame is the simplest reliable pattern.\r\n        AudioSystem::SetMasterVolume(volumeSlider.value);\r\n    }\r\n}\r\n```\r\n\r\n## Real patterns from the sample project\r\n\r\n**Reading an InputField** (the multiplayer menu reads the server IP this way):\r\n\r\n```angelscript\r\nstring ReadIp()\r\n{\r\n    Entity ipEntity = Entity::Find("IpInput");\r\n    if (ipEntity !is null)\r\n    {\r\n        InputField field = InputField::Get(ipEntity);\r\n        if (field !is null && field.textValue.length() > 0)\r\n        {\r\n            return field.textValue;\r\n        }\r\n    }\r\n    return "127.0.0.1";\r\n}\r\n```\r\n\r\n**Filling a DropDown with the available screen resolutions:**\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\nusing namespace CometEngine::UI;\r\n\r\nclass ResolutionPicker : CometBehaviour\r\n{\r\n    private DropDown dropDown;\r\n\r\n    void Start()\r\n    {\r\n        dropDown = DropDown::Get(entity);\r\n\r\n        array<Resolution> resolutions = Window::GetAvailableResolutions();\r\n        array<DropDownOption> options;\r\n        for (uint i = 0; i < resolutions.length(); i++)\r\n        {\r\n            DropDownOption option;\r\n            option.name = resolutions[i].ToString();\r\n            options.insertLast(option);\r\n        }\r\n        dropDown.SetOptions(options);\r\n    }\r\n}\r\n```\r\n\r\n**Updating a Text label at runtime:**\r\n\r\n```angelscript\r\nvoid IncreaseCount()\r\n{\r\n    Entity ent = Entity::Find("TextClickCounter");\r\n    if (ent !is null)\r\n    {\r\n        UI::Text text = UI::Text::Get(ent);\r\n        if (text !is null)\r\n        {\r\n            int count = parseInt(text.text);\r\n            ++count;\r\n            text.text = formatInt(count);\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n## Rich text with BBCode\r\n\r\nSet `bbcodeEnabled` on a Text and you can mix styling inline — and even register **custom tags** that scripts animate:\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\nusing namespace CometEngine::UI;\r\n\r\nclass FancyTitle : CometBehaviour\r\n{\r\n    void Start()\r\n    {\r\n        Text text = Text::Get(entity);\r\n        text.bbcodeEnabled = true;\r\n        text.RegisterBBCodeHandler("rainbow", BBCodeHandlerDelegate(RainbowTag));\r\n        text.text = "Welcome to [rainbow]Comet Engine[/rainbow]!";\r\n    }\r\n\r\n    void RainbowTag(BBCodeHandlerData data)\r\n    {\r\n        // Called per character inside the tag, every frame.\r\n        float hue = data.elapsedTime * 2.0F + float(data.relativeIndex) * 0.35F;\r\n        data.color = Color(Math::Sin(hue) * 0.5F + 0.5F,\r\n                           Math::Sin(hue + 2.1F) * 0.5F + 0.5F,\r\n                           Math::Sin(hue + 4.2F) * 0.5F + 0.5F,\r\n                           1.0F);\r\n    }\r\n}\r\n```\r\n\r\nThe handler receives the tag\'s parameters (`GetFloat/GetString/GetInt`), the character index and mutable `color`, `offset` and `visible` fields — enough for wave, shake and typewriter effects.\r\n\r\n## Automatic layouts\r\n\r\nStop positioning list items by hand — add a layout behaviour to the parent:\r\n\r\n- **VerticalLayout / HorizontalLayout** — stack children with `spacing` and `padding`; `childWidthFitMode` / `childHeightFitMode` optionally stretch them (`FIT_PARENT`, `FIT_AVAILABLE`).\r\n- **GridLayout** — fixed `cellSize` + `spacing`, flowing by `constraint` (`FLEXIBLE`, `FIXED_COLUMNS`, `FIXED_ROWS`) from a `startCorner`.\r\n- **LayoutElementConstraints** — per-child overrides: `minSize`, `preferredSize`, `flex`, or `ignoreLayout` to opt out.\r\n\r\nCombine with **ScrollRect** for scrollable lists: put the layout on the `content` rect and the ScrollRect handles clamping, elasticity and inertia. Use a **Mask** to clip the content to the viewport, and a **CanvasGroup** to fade or disable a whole subtree at once (`alpha`, `interactable`).\r\n\r\n## Fonts\r\n\r\nComet accepts two kinds of font, and both plug into a Text\'s `font` field:\r\n\r\n- **Vector fonts** — import a `.ttf` or `.otf` and the engine rasterizes glyphs at any size, so text stays crisp at every scale. The default for UI.\r\n- **Bitmap fonts** — a pre-rendered glyph atlas (a texture plus its layout), ideal for pixel-art games where you want text to scale in hard pixels rather than smooth vectors, or to match a specific retro look.\r\n\r\nText styling is per-widget regardless of the font kind: `fontSize` (or `autoFontSize` with min/max bounds to fit the rect), alignment, `wrapping`, `overflowMode`, plus `bold`, `italic`, `underline` and `strikethrough`.\r\n\r\n## Where to go next\r\n\r\nWire your new menu to actual gameplay: start a match in [Networking & Multiplayer](/tutorials/networking), or make the settings screen control [Audio & Mixers](/tutorials/audio).\r\n'},{id:`audio`,title:`Audio & Mixers`,icon:`fa-volume-high`,category:`Audio`,blurb:`Play 2D and positional sound, route it through mixer groups and control it from code.`,md:`# Audio & Mixers\r
-\r
-Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical groups and snapshot layouts, DSP effects, and a scripting API that covers everything from "play a beep" to runtime device switching.\r
-\r
-## The three core pieces\r
-\r
-1. **AudioSample** — the imported sound resource (\`.wav\`, \`.ogg\`, \`.mp3\`).\r
-2. **AudioSource** — a behaviour that plays samples from an entity.\r
-3. **AudioListener** — the "ears". Add exactly one, usually on the camera. Without a listener in the scene, nothing is heard (the console warns you).\r
-\r
-Add them from **Add Behaviour → Audio → Audio Source / Audio Listener**.\r
-\r
-![An AudioSource inspector with a clip and mixer group assigned.](/tutorials/audiosource-inspector.png)\r
-\r
-## The AudioSource inspector\r
-\r
-| Field | Meaning |\r
-|-------|---------|\r
-| **Mode** | \`2D Audio\` (pan only) or \`3D Audio\` (distance attenuation + Doppler). |\r
-| **Audio Sample** | The clip to play. |\r
-| **Audio Mixer Group** | Where the sound routes — see Mixers below. |\r
-| **Play On Enable** | Auto-play whenever the behaviour is enabled. |\r
-| **Loop** | Restart when finished. |\r
-| **Mute** | Silence without stopping. |\r
-| **Volume** | Linear gain \`0.0 – 1.0\`. |\r
-| **Pitch** | Playback speed \`0.01 – 2.0\`. |\r
-| **Pan** | Stereo balance \`-1\` (left) to \`1\` (right) — 2D mode. |\r
-| **Min / Max Distance** | 3D mode: full volume inside min, silent beyond max. |\r
-| **Ignore Effects / Ignore Listener Effects** | Skip AudioEffect behaviours on this entity / on the listener. |\r
-\r
-Import settings on the AudioSample itself: **Preload Data** (decode on load — snappy playback) and **Is Stream** (stream from disk — big music files without the memory cost).\r
-\r
-## Playing sounds from AngelScript\r
-\r
-The bread-and-butter controls mirror the inspector:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class DoorBell : CometBehaviour\r
-{\r
-    private AudioSource source;\r
-\r
-    void Start()\r
-    {\r
-        source = AudioSource::Get(entity);\r
-        source.volume = 0.8F;\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        if (Input::GetKeyDown(KeyCode::E))\r
-        {\r
-            source.Play();     // also: Pause(), Resume(), Stop()\r
-        }\r
-\r
-        if (source.isFinished)\r
-        {\r
-            Debug::Log("ding done");\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`isPlaying\`, \`isPaused\` and \`isFinished\` report state; \`timePosition\` reads/writes the playhead in milliseconds; \`PlayOnce(sample)\` fires a different clip through this source's settings without replacing its assigned sample.\r
-\r
-### Fire-and-forget one-shots\r
-\r
-For impacts, pickups and UI clicks you don't want to manage a source at all — use the static helpers:\r
-\r
-\`\`\`angelscript\r
-// Play a sample globally (2D):\r
-AudioSource::PlaySingle(explosionSample, 0.9F);\r
-\r
-// Play at a world position (3D attenuation from that point):\r
-AudioSource::PlaySingleAtPosition(explosionSample, transform.position, 1.0F);\r
-\r
-// Need to control it afterwards? Use the tracked variants:\r
-AudioSource handle = AudioSource::PlaySingleTracked(alarmSample, 1.0F);\r
-// ... later:\r
-handle.Stop();\r
-\`\`\`\r
-\r
-Untracked one-shots clean themselves up when playback ends.\r
-\r
-> [!NOTE]\r
-> Assign samples to script fields through the Inspector by declaring them, e.g. \`AudioSample explosionSample;\` — or load them at runtime with \`RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)\`.\r
-\r
-## 2D vs 3D sound\r
-\r
-Set **Mode** to \`3D Audio\` and the source attenuates linearly between **Min Distance** and **Max Distance** from the listener, pans by direction, and applies **Doppler** when either side moves. Three global knobs shape the whole mix:\r
-\r
-\`\`\`angelscript\r
-AudioSystem::SetRolloffScale(1.5F);     // stronger distance falloff everywhere\r
-AudioSystem::SetDopplerFactor(1.0F);    // 0 = off, 1 = realistic, >1 exaggerated\r
-AudioSystem::SetAudioSourceDefaultMinDistance3D(2.0F);   // defaults for new sources\r
-AudioSystem::SetAudioSourceDefaultMaxDistance3D(40.0F);\r
-\`\`\`\r
-\r
-## The Audio Mixer\r
-\r
-Routing every source straight to the speakers gets unmanageable fast. Create a mixer asset — **Create Resource → Audio Mixer** in the Project panel — and open it to edit its group tree:\r
-\r
-![The Audio Mixer window with Master, Music and SFX groups.](/tutorials/audio-mixer.png)\r
-\r
-- Every mixer starts with a **Master** group; add children like \`Music\`, \`SFX\`, \`UI\`, \`Voice\` from the context menu.\r
-- Each group has **Volume**, **Pitch**, **Muted** and **Use Effects**.\r
-- Volumes multiply down the tree: a sound in \`SFX\` plays at \`master.volume × sfx.volume × source.volume\`.\r
-- Point each AudioSource's **Audio Mixer Group** field at the right group, and your options menu suddenly needs three sliders instead of three hundred.\r
-\r
-### Controlling groups from script\r
-\r
-Mixer groups are assets — reference them from a script with a serialized handle field, assign them in the Inspector, and change them live. This is the Sandbox project's audio controller, trimmed:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Audio;\r
-\r
-class AudioOptions : CometBehaviour\r
-{\r
-    [Serialize] AudioMixerGroup master;\r
-    [Serialize] AudioMixerGroup music;\r
-    [Serialize] AudioMixerGroup effects;\r
-\r
-    void Update()\r
-    {\r
-        if (Input::GetKeyDown(KeyCode::M))\r
-        {\r
-            master.muted = !master.muted;       // mute everything\r
-        }\r
-        if (Input::GetKeyDown(KeyCode::NUM_1))\r
-        {\r
-            music.volume = 0.25F;               // duck the music\r
-        }\r
-        if (Input::GetKeyDown(KeyCode::NUM_2))\r
-        {\r
-            effects.volume = 1.0F;\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!TIP]\r
-> \`[Serialize]\` exposes a handle field in the Inspector so you can drag the mixer group (a sub-resource of the mixer asset) straight into it.\r
-\r
-### Layouts: mixer snapshots\r
-\r
-A mixer can store multiple **layouts** — complete snapshots of every group's settings. Author a \`Default\` layout and a \`Underwater\` layout (low-passed, muffled volumes), then switch at runtime:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Audio;\r
-\r
-class WaterZone : CometBehaviour\r
-{\r
-    [Serialize] AudioMixer gameMixer;\r
-\r
-    void EnterWater()\r
-    {\r
-        array<AudioMixerLayout> layouts = gameMixer.GetLayouts();\r
-        for (uint i = 0; i < layouts.length(); i++)\r
-        {\r
-            if (!layouts[i].isDefault)\r
-            {\r
-                layouts[i].Activate();   // apply the snapshot\r
-            }\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The layout marked **Is Default** is applied automatically when the scene loads.\r
-\r
-## Audio effects\r
-\r
-Four DSP effects ship as behaviours under **Add Behaviour → Audio/Effects**: **AudioEffectDistortion**, **AudioEffectEcho**, **AudioEffectFlange** and **AudioEffectReverb**.\r
-\r
-- On a **source entity**, the effect processes that source's output.\r
-- On the **listener entity**, it processes everything the listener hears — instant cave reverb.\r
-\r
-Per-source opt-outs: \`ignoreEffects\` (skip effects on the source's own entity) and \`ignoreListenerEffects\` (skip the listener's).\r
-\r
-## Global playback & devices\r
-\r
-\`AudioSystem\` also handles app-wide concerns — pausing the whole mix for your pause menu, and output-device selection for a settings screen:\r
-\r
-\`\`\`angelscript\r
-AudioSystem::SetMasterVolume(0.5F);\r
-AudioSystem::PauseAll();     // pause menu opened\r
-AudioSystem::ResumeAll();    // and closed\r
-AudioSystem::StopAll();\r
-\r
-// Offer an output-device picker:\r
-array<string> devices = AudioSystem::GetOutputDevices();\r
-AudioSystem::SetCurrentOutputDevice(devices[0]);\r
-\`\`\`\r
-\r
-Hot-plugging is signalled through \`AudioSystem\` delegates (\`onOutputDeviceConnected\`, \`onOutputDeviceDisconnected\`) so your settings UI can refresh itself.\r
-\r
-## Where to go next\r
-\r
-Give your buttons click sounds in the [UI tutorial](/tutorials/ui-system), or trigger footsteps from animation events in [Animation & the Animator](/tutorials/animation).\r
-`},{id:`navigation`,title:`Navigation: NavMesh, Agents & Obstacles`,icon:`fa-route`,category:`Navigation`,blurb:`Bake navigation meshes, move agents along paths and avoid dynamic obstacles.`,md:`# Navigation: NavMesh, Agents & Obstacles\r
-\r
-Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked **navigation mesh**, **A\\*** path queries with funnel smoothing, and optional **RVO collision avoidance** so crowds of agents don't clip through one another.\r
-\r
-![A Navigation Region covering the scene, a Navigation Obstacle ringing the cloud, and the region's settings — including the Bake button — in the Inspector.](/tutorials/navigation-scene.png)\r
-\r
-## The building blocks\r
-\r
-Four behaviours, all under **Add Behaviour**:\r
-\r
-| Behaviour | Role |\r
-|-----------|------|\r
-| **Navigation Region** | Defines *where walking is possible* and bakes the navmesh. |\r
-| **Navigation Agent** | Asks for paths and follows them; optionally avoids other agents. |\r
-| **Navigation Obstacle** | Carves holes in the navmesh and/or pushes agents away dynamically. |\r
-| **Navigation Link** | Connects two points that aren't walkable-between — jumps, teleporters, bridges. |\r
-\r
-## Setting up the walkable area\r
-\r
-1. Create an entity and add a **Navigation Region**.\r
-2. Set its **Size** — the rectangle to bake — or click **Edit Outline** and drag the green vertices to author any closed polygon.\r
-3. Set **Agent Radius**: the mesh is inset by this amount so paths never hug walls tighter than your agents can fit.\r
-4. Enable **Parse Geometry** if you want solid (non-trigger) colliders carved out automatically, and choose which physics layers with **Parse Collision Mask**.\r
-5. Press **Bake Navigation Mesh**.\r
-\r
-The baked, walkable polygons show as a colored overlay when scene gizmos are enabled. Multiple regions connect automatically where they touch (and across small gaps if **Use Edge Connections** is on). Regions also support pathfinding **costs** — raise **Travel Cost** above 1 to make agents prefer going around mud, or **Enter Cost** to penalize entering at all.\r
-\r
-> [!NOTE]\r
-> Baking happens on background threads at runtime too: call \`region.Bake()\` from script after you move platforms around or spawn structures, and agents re-path automatically when the new mesh is ready.\r
-\r
-## Moving an agent\r
-\r
-Add a **Navigation Agent** to your character. The core loop is: set \`targetPosition\`, then every physics step walk toward \`GetNextPathPosition()\`. This is the Sandbox project's agent, verbatim:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::Navigation;\r
-\r
-class AgentTest : CometBehaviour\r
-{\r
-    Vector2 desiredPos;\r
-    float velocity = 7.0F;\r
-    NavigationAgent agent;\r
-\r
-    // Called before first frame\r
-    void Start()\r
-    {\r
-        agent = NavigationAgent::Get(entity);\r
-\r
-        // While avoidance is enabled the simulation reports the collision-free\r
-        // velocity through the onVelocityComputed signal, so the body is moved\r
-        // from inside that callback.\r
-        agent.onVelocityComputed.Add(CometDelegateVector2(OnVelocityComputed));\r
-\r
-        // Where the agent should navigate to.\r
-        agent.targetPosition = desiredPos;\r
-    }\r
-\r
-    // Called every physics update\r
-    void FixedUpdate()\r
-    {\r
-        if (agent.IsNavigationFinished())\r
-        {\r
-            return;\r
-        }\r
-\r
-        Vector2 currentPosition = Vector2(transform.position.x, transform.position.y);\r
-        Vector2 nextPathPosition = agent.GetNextPathPosition();\r
-        Vector2 newVelocity = (nextPathPosition - currentPosition).Normalized() * velocity;\r
-\r
-        if (agent.avoidanceEnabled)\r
-        {\r
-            // Submit the desired velocity; the safe velocity arrives through onVelocityComputed.\r
-            agent.SetVelocity(newVelocity);\r
-        }\r
-        else\r
-        {\r
-            // No avoidance: move straight away with the desired velocity.\r
-            OnVelocityComputed(newVelocity);\r
-        }\r
-    }\r
-\r
-    // Receives the collision-free velocity from the avoidance simulation and moves the body with it.\r
-    void OnVelocityComputed(Vector2 safeVelocity)\r
-    {\r
-        transform.Translate(safeVelocity * Time::GetDeltaTime(), Space::World);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-Three things to notice:\r
-\r
-- **Setting \`targetPosition\` triggers the path query.** Change it any time — chasing a moving player means updating it every few frames.\r
-- **\`GetNextPathPosition()\` is called every step** and advances through the corridor as you approach each waypoint (within \`pathDesiredDistance\`).\r
-- **The same movement code works with and without avoidance** by funnelling both cases through one callback.\r
-\r
-### Knowing where you stand\r
-\r
-\`\`\`angelscript\r
-agent.IsNavigationFinished();   // path exhausted (arrived, or nothing reachable)\r
-agent.IsTargetReached();        // within targetDesiredDistance of the target\r
-agent.IsTargetReachable();      // can the path actually end at the target?\r
-agent.DistanceToTarget();       // straight-line distance\r
-agent.GetPathLength();          // full length of the current path\r
-array<Vector2> path = agent.GetCurrentNavigationPath();  // all waypoints, world space\r
-\`\`\`\r
-\r
-And if you prefer events over polling, agents expose signals: \`onPathChanged\`, \`onWaypointReached\`, \`onLinkReached\`, \`onTargetReached\`, \`onNavigationFinished\` and the \`onVelocityComputed\` you already met.\r
-\r
-## Tuning the path\r
-\r
-The agent inspector groups the important knobs:\r
-\r
-| Property | Effect |\r
-|----------|--------|\r
-| **Path Desired Distance** | How close to a waypoint before advancing to the next. |\r
-| **Target Desired Distance** | How close to the target counts as "arrived". |\r
-| **Path Max Distance** | If the agent drifts further than this from the corridor, a fresh path is queried. |\r
-| **Path Postprocessing** | \`Corridor Funnel\` (taut, natural paths — default), \`Edge Centered\` (through edge midpoints — good for grid games), \`None\` (raw polygon centroids). |\r
-| **Simplify Path** | Ramer-Douglas-Peucker reduction; **Simplify Epsilon** sets the tolerance. |\r
-| **Navigation Layers** | Bitmask matched against regions/links — agents only traverse matching layers. |\r
-\r
-Navigation layers let one navmesh serve different movement types: mark water regions with a \`Water\` layer and only amphibious agents will consider them.\r
-\r
-## Local avoidance (RVO)\r
-\r
-Pathfinding keeps agents out of *walls*; avoidance keeps them out of *each other*. Tick **Avoidance Enabled** and configure:\r
-\r
-- **Avoidance Radius** — the agent's personal space.\r
-- **Max Speed** — a hard clamp the simulation may return.\r
-- **Neighbor Distance / Max Neighbors** — how far and how many other agents to consider.\r
-- **Time Horizon Agents / Obstacles** — how many seconds ahead collisions are predicted. Small = late, sharp dodges; large = early, gentle arcs.\r
-- **Avoidance Priority** — 0–1; lower-priority agents yield to higher-priority ones. Give the boss \`1.0\` and the minions scatter.\r
-- **Avoidance Layers / Mask** — which avoidance layers this agent occupies / respects.\r
-\r
-With avoidance on, **you must drive movement through the callback**: call \`agent.SetVelocity(desired)\` each step and apply only the \`safeVelocity\` you receive in \`onVelocityComputed\` — exactly like the sample above.\r
-\r
-## Dynamic obstacles\r
-\r
-Add a **Navigation Obstacle** to anything agents should not walk through — a crate the player can push, a car that parks across the sidewalk. Choose its shape (**Obstacle Type**: \`Circle\` radius, \`Box\` size + offset, or a custom \`Polygon\` via **Edit Shape** / \`SetVertices()\`), then pick how it acts:\r
-\r
-- **Carve Navigation Mesh** — cuts a hole in every overlapping region's navmesh, so *paths route around it* from the start.\r
-- **Avoidance Enabled** — feeds it to the RVO simulation, so *moving agents steer around it* even mid-path.\r
-\r
-Use carving for static-ish blockers, avoidance for anything that moves, or both for heavy movable objects.\r
-\r
-## Navigation links\r
-\r
-A **Navigation Link** joins **Start Position** and **End Position** across unwalkable space — a gap to jump, a ladder, a teleporter pad. Set **Bidirectional** off for one-way drops, and tune **Enter Cost** / **Travel Cost** so the pathfinder weighs the shortcut fairly. When an agent reaches a link waypoint, the \`onLinkReached\` signal fires — that's your cue to play the jump animation and move the body across.\r
-\r
-## Gotchas worth knowing\r
-\r
-> [!WARNING]\r
-> - **Bake before you expect paths.** No baked region = no navmesh = every query fails. Bake in the editor, or call \`Bake()\` after loading.\r
-> - Custom outlines need **at least 3 vertices**; the editor falls back to the rectangle otherwise.\r
-> - Only **solid, non-trigger colliders** are carved by Parse Geometry.\r
-> - An unreachable target leaves the path empty: check \`IsTargetReachable()\` and design a fallback (wander, wait, growl menacingly).\r
-\r
-## Where to go next\r
-\r
-Make your navigating enemies look alive with [Animation & the Animator](/tutorials/animation), or sync their positions across the network in [Networking & Multiplayer](/tutorials/networking).\r
-`},{id:`networking`,title:`Networking & Multiplayer`,icon:`fa-network-wired`,category:`Networking`,blurb:`Host and join games, call RPCs, replicate state and spawn entities across the network.`,md:`# Networking & Multiplayer\r
-\r
-Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven **RPCs**, automatic **state replication**, networked **spawning**, and a host-authoritative model that scales from a LAN co-op prototype to a 4-player arena. This tutorial walks the whole pipeline using the engine's own multiplayer sample as the guide.\r
-\r
-![A networked entity: the Multiplayer Synchronizer in the Inspector, ready to replicate its transform to every peer.](/tutorials/multiplayer-game.png)\r
-\r
-## The lay of the land\r
-\r
-- One machine is the **host** (also called the server) — it owns the truth. Everyone else is a **client**.\r
-- Every connected machine gets a **unique peer id**: the host is always \`1\`, clients get \`2\`, \`3\`, ...\r
-- A **transport peer** object moves the bytes. You create one and hand it to the global \`Network::Multiplayer\` API; from then on RPCs, replication and spawning ride on it:\r
-\r
-| Transport | Use when |\r
-|-----------|----------|\r
-| \`ENetMultiplayerPeer\` | Desktop builds — UDP with reliability channels. The default choice. |\r
-| \`WebSocketMultiplayerPeer\` | Web builds, or mixed web+desktop games with a socket server. |\r
-| \`WebRTCMultiplayerPeer\` | Peer-to-peer with a signaling server. |\r
-| \`OfflineMultiplayerPeer\` | Single-player that reuses your multiplayer code paths untouched. |\r
-\r
-> [!WARNING]\r
-> Web builds cannot open native UDP/TCP sockets — on the web platform use **WebSocket** (or WebRTC); the ENet peer is desktop-only.\r
-\r
-## Hosting and joining\r
-\r
-This is the sample's main menu, condensed. One button hosts, the other joins the address typed into an InputField:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::UI;\r
-using namespace CometEngine::SceneManagement;\r
-\r
-class MenuButton : CometBehaviour, IPointerClickAction\r
-{\r
-    int port = 7777;\r
-    string serverAddress = "127.0.0.1";\r
-    string roomSceneName = "Room";\r
-\r
-    // Keep the peer in a member handle: it must outlive this function!\r
-    private CometEngine::Network::ENetMultiplayerPeer peer;\r
-\r
-    void Host()\r
-    {\r
-        peer = CometEngine::Network::ENetMultiplayerPeer();\r
-        if (peer.CreateServer(port, 8))                    // port, max peers\r
-        {\r
-            Network::Multiplayer::SetMultiplayerPeer(peer);\r
-            Debug::Log("Hosting, my id = " + formatInt(Network::Multiplayer::GetUniqueId()));\r
-            SceneManager::LoadScene(roomSceneName);\r
-        }\r
-        else\r
-        {\r
-            Debug::Log("Could not host on port " + formatInt(port));\r
-        }\r
-    }\r
-\r
-    void Join()\r
-    {\r
-        peer = CometEngine::Network::ENetMultiplayerPeer();\r
-        if (peer.CreateClient(ReadIp(), port))\r
-        {\r
-            Network::Multiplayer::SetMultiplayerPeer(peer);\r
-            SceneManager::LoadScene(roomSceneName);\r
-        }\r
-    }\r
-\r
-    void OnPointerClick(PointerEvent event)\r
-    {\r
-        if (entity.name == "HostButton") Host();\r
-        else if (entity.name == "JoinButton") Join();\r
-    }\r
-\r
-    string ReadIp()\r
-    {\r
-        Entity ipEntity = Entity::Find("IpInput");\r
-        if (ipEntity !is null)\r
-        {\r
-            InputField field = InputField::Get(ipEntity);\r
-            if (field !is null && field.textValue.length() > 0)\r
-            {\r
-                return field.textValue;\r
-            }\r
-        }\r
-        return serverAddress;\r
-    }\r
-}\r
-\`\`\`\r
-\r
-> [!IMPORTANT]\r
-> Store the peer in a **class member**, like \`peer\` above. A peer declared as a local variable is destroyed when the function returns — and the connection dies with it.\r
-\r
-### Reacting to peers coming and going\r
-\r
-The host typically watches connections to manage lobby slots:\r
-\r
-\`\`\`angelscript\r
-void Start()\r
-{\r
-    if (!Network::Multiplayer::HasMultiplayerPeer())\r
-    {\r
-        return;\r
-    }\r
-\r
-    Network::Multiplayer::GetOnPeerConnected().Add(CometDelegateuint64(OnPeerConnected));\r
-    Network::Multiplayer::GetOnPeerDisconnected().Add(CometDelegateuint64(OnPeerDisconnected));\r
-}\r
-\r
-void OnPeerConnected(uint64 peerId)\r
-{\r
-    if (!Network::Multiplayer::IsServer()) return;   // only the host manages slots\r
-    Debug::Log("Peer joined: " + formatInt(peerId));\r
-}\r
-\r
-void OnPeerDisconnected(uint64 peerId)\r
-{\r
-    if (!Network::Multiplayer::IsServer()) return;\r
-    Debug::Log("Peer left: " + formatInt(peerId));\r
-}\r
-\`\`\`\r
-\r
-## RPCs: calling methods across the network\r
-\r
-Decorate a method with \`[Rpc(...)]\` and it becomes remotely callable. The decorator takes up to four values:\r
-\r
-\`\`\`angelscript\r
-[Rpc(<mode>, <sync>, <transfer>, channel = 0)]\r
-\`\`\`\r
-\r
-| Slot | Values | Meaning |\r
-|------|--------|---------|\r
-| **mode** | \`"any_peer"\` / \`"authority"\` | Who may invoke it: anyone, or only the entity's authority. |\r
-| **sync** | \`"call_local"\` / \`""\` | Whether the *caller* also runs it locally. |\r
-| **transfer** | \`"reliable"\` / \`"unreliable"\` / \`"unreliable_ordered"\` | Delivery guarantee. |\r
-| **channel** | \`0–15\` | Ordering group for reliable packets. |\r
-\r
-Send with the two global helpers — broadcast, or to one peer:\r
-\r
-\`\`\`angelscript\r
-// Broadcast to everyone (including yourself thanks to call_local):\r
-Network::Multiplayer::Rpc(this, "SyncScore", score, wave);\r
-\r
-// Only to the host (peer 1):\r
-Network::Multiplayer::RpcId(this, 1, "RequestColor", colorIndex);\r
-\`\`\`\r
-\r
-And receive on the other side:\r
-\r
-\`\`\`angelscript\r
-// Clients ask the host for something; the host validates and answers.\r
-[Rpc("any_peer", "reliable")]\r
-void RequestColor(int colorIndex)\r
-{\r
-    if (!Network::Multiplayer::IsServer()) return;\r
-\r
-    // Which client called us?\r
-    int clientId = Network::Multiplayer::GetRemoteSenderId();\r
-    Debug::Log("Peer " + formatInt(clientId) + " wants color " + formatInt(colorIndex));\r
-}\r
-\r
-// The host pushes state to everyone; call_local means the host applies it too.\r
-[Rpc("authority", "call_local", "reliable")]\r
-void SyncScore(int score, int wave)\r
-{\r
-    UpdateHud(score, wave);\r
-}\r
-\`\`\`\r
-\r
-Pick the transfer mode by what the data is worth: **unreliable** for high-frequency input and cosmetic state (drops don't matter, the next packet fixes it), **reliable** for anything that must not be missed — fire commands, score changes, match flow.\r
-\r
-## Replicating state automatically\r
-\r
-Writing RPCs for every variable gets old fast. Comet replicates **fields** for you with two decorators:\r
-\r
-\`\`\`angelscript\r
-class ShipController : CometBehaviour\r
-{\r
-    // Sent once, inside the spawn packet — seeds late joiners.\r
-    [ReplicateOnSpawn] int ownerPeerId = 0;\r
-    [ReplicateOnSpawn] int colorIndex = 0;\r
-\r
-    // Sent as reliable deltas whenever the value changes.\r
-    [Replicate("on_change")] int health = 10;\r
-    [Replicate("on_change")] bool alive = true;\r
-\r
-    // "always" mode would send every frame, unreliably - for values that\r
-    // change constantly anyway.\r
-}\r
-\`\`\`\r
-\r
-For transforms, don't replicate fields by hand — add a **MultiplayerSynchronizer** behaviour to the entity and configure it once:\r
-\r
-\`\`\`angelscript\r
-void Start()\r
-{\r
-    MultiplayerSynchronizer sync = MultiplayerSynchronizer::Get(entity);\r
-    if (sync !is null)\r
-    {\r
-        sync.AddTransformPreset();   // replicate position/rotation/scale\r
-        sync.interpolate = true;     // smooth over network ticks on clients\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The synchronizer can also hide an entity from specific peers — \`SetVisibilityFor(peerId, false)\` — for fog of war or per-player secrets.\r
-\r
-## Spawning entities across the network\r
-\r
-When the host instantiates a networked entity, every client needs a copy. A **MultiplayerSpawner** behaviour handles it: it registers spawnable prefabs (its \`spawnLimit\` caps runaway counts) and mirrors spawn/despawn to everyone:\r
-\r
-\`\`\`angelscript\r
-// HOST only: spawn one ship per occupied lobby slot.\r
-void StartMatch()\r
-{\r
-    for (int i = 0; i < 4; i++)\r
-    {\r
-        if (slotPeer[i] == 0) continue;\r
-\r
-        Entity ship = shipSpawner.Spawn(0);   // spawnable index 0\r
-        if (ship !is null)\r
-        {\r
-            ShipController sc = ShipController::Get(ship);\r
-            sc.ownerPeerId = slotPeer[i];      // [ReplicateOnSpawn] fields...\r
-            sc.colorIndex  = slotColor[i];     // ...travel inside the spawn packet\r
-        }\r
-    }\r
-\r
-    Network::Multiplayer::Rpc(this, "BeginMatch");\r
-}\r
-\`\`\`\r
-\r
-Because \`ownerPeerId\` and \`colorIndex\` are \`[ReplicateOnSpawn]\`, every client — even one that joins later — receives the ship already configured.\r
-\r
-## Authority: who simulates what\r
-\r
-Every entity has a **multiplayer authority** — the peer that simulates it. By default that's the host. Three calls on \`Behaviour\` manage it:\r
-\r
-\`\`\`angelscript\r
-IsMultiplayerAuthority();          // am I the one simulating this entity?\r
-GetMultiplayerAuthority();         // whose is it? (peer id)\r
-SetMultiplayerAuthority(peerId);   // hand it over\r
-\`\`\`\r
-\r
-The sample's ships stay **host-authoritative**, which yields the classic, cheat-resistant split — *owners send input, the host simulates, state replicates back*:\r
-\r
-\`\`\`angelscript\r
-void Update()\r
-{\r
-    // 1. The OWNING player reads input and ships it to the host.\r
-    if (IsOwner() && alive)\r
-    {\r
-        float mx = 0.0F, my = 0.0F;\r
-        if (Input::GetKeyPressed(KeyCode::W)) my += 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::S)) my -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::A)) mx -= 1.0F;\r
-        if (Input::GetKeyPressed(KeyCode::D)) mx += 1.0F;\r
-\r
-        if (Network::Multiplayer::IsServer())\r
-        {\r
-            inX = mx; inY = my;                                   // host: apply directly\r
-        }\r
-        else\r
-        {\r
-            Network::Multiplayer::RpcId(this, 1, "RecvInput", mx, my);   // client: send\r
-        }\r
-    }\r
-\r
-    // 2. The HOST simulates every ship from the latest input.\r
-    if (IsMultiplayerAuthority() && alive)\r
-    {\r
-        transform.Translate(Vector3(inX, inY, 0) * speed * Time::GetDeltaTime(), Space::World);\r
-        // position replicates to everyone via the MultiplayerSynchronizer\r
-    }\r
-}\r
-\r
-bool IsOwner()\r
-{\r
-    return ownerPeerId == Network::Multiplayer::GetUniqueId();\r
-}\r
-\r
-[Rpc("any_peer", "unreliable")]      // input: high-rate, drop-tolerant\r
-void RecvInput(float mx, float my)\r
-{\r
-    if (!IsMultiplayerAuthority()) return;\r
-    inX = mx; inY = my;\r
-}\r
-\`\`\`\r
-\r
-Note the guard inside every RPC — **never trust the network**: \`RecvInput\` ignores calls when this peer isn't the authority, and host-side handlers validate requests before applying them.\r
-\r
-## Cheat sheet\r
-\r
-| Task | Call |\r
-|------|------|\r
-| Install a transport | \`Network::Multiplayer::SetMultiplayerPeer(peer)\` |\r
-| Who am I? | \`GetUniqueId()\` (host = 1), \`IsServer()\` |\r
-| Broadcast an RPC | \`Rpc(this, "Method", args...)\` (up to 8 args) |\r
-| RPC to one peer | \`RpcId(this, peerId, "Method", args...)\` |\r
-| Who called this RPC? | \`GetRemoteSenderId()\` |\r
-| Peer joined/left | \`GetOnPeerConnected() / GetOnPeerDisconnected()\` \`.Add(CometDelegateuint64(Handler))\` |\r
-| Kick a peer | \`DisconnectPeer(peerId, force)\` |\r
-| Sync fields | \`[Replicate("on_change")]\`, \`[Replicate("always")]\`, \`[ReplicateOnSpawn]\` |\r
-| Sync transforms | \`MultiplayerSynchronizer\` + \`AddTransformPreset()\` |\r
-| Networked spawn | \`MultiplayerSpawner.Spawn(index)\` on the host |\r
-| Leave the session | \`Network::Multiplayer::ClearMultiplayerPeer()\` |\r
-\r
-## Where to go next\r
-\r
-Build the lobby screen with the [UI system](/tutorials/ui-system), then package a client for your friends in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).\r
-`},{id:`node-graph`,title:`Visual Scripting with Node Graphs`,icon:`fa-diagram-project`,category:`Visual Scripting`,blurb:`Author gameplay logic as node graphs and write your own custom nodes in AngelScript.`,md:`# Visual Scripting with Node Graphs\r
-\r
-Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a **node graph**: boxes wired together, execution flowing along the wires. Comet's node graph system runs graphs on entities via a **Graph Updater**, and — uniquely — lets you write your own nodes in AngelScript.\r
-\r
-![A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node.](/tutorials/node-graph.png)\r
-\r
-## How a graph runs\r
-\r
-A graph starts at an implicit **Entry** node and flows along **flow wires** (white) from one **flow node** to the next. Before a node runs, its **data inputs** are pulled from upstream **pure nodes** (stateless little calculators — Add, Compare, Get Time) along **data wires** (coloured). **Variables** carry state, and a graph can expose **inputs** and **outputs** that your game code reads and writes.\r
-\r
-There are two kinds of node:\r
-\r
-- **Flow nodes** — sit on the execution path. They can take time, branch, or loop. A flow node returns an \`ExecutionResult\` naming which output to continue along.\r
-- **Pure nodes** — compute output values from inputs on demand, with no side effects. They're evaluated (and memoized) whenever a flow node needs their result.\r
-\r
-## Running a graph on an entity\r
-\r
-Add a **Graph Updater** behaviour, assign it a graph, and it runs a private copy of that graph (the asset itself is never mutated). Your code feeds the graph its inputs and reads its outputs by variable name:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class QuestRunner : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        GraphUpdater updater = GraphUpdater::Get(entity);\r
-\r
-        // Push inputs into the graph...\r
-        updater.SetInputFloat("playerLevel", 7.0);\r
-        updater.SetInputBool("hasKey", true);\r
-        updater.Start();\r
-    }\r
-\r
-    void Update()\r
-    {\r
-        GraphUpdater updater = GraphUpdater::Get(entity);\r
-        if (!updater.isRunning)\r
-        {\r
-            // ...and read what it produced.\r
-            Debug::Log("reward: " + updater.GetOutputInt("goldReward"));\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`SetInputBool/Int/Float/String/Vector2/Vector3\` push values in; \`GetOutputBool/Int/Float/...\` read them back; \`Start()\` / \`Stop()\` and \`isRunning\` control the run. When a graph finishes, its **End Update Action** can restart it, disable the behaviour, or destroy the entity.\r
-\r
-## Writing your own nodes in AngelScript\r
-\r
-This is the powerful part: a node is just an AngelScript class with attributes. **Pure nodes** override \`Evaluate\` and declare \`[Input]\`/\`[Output]\` fields:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::GraphNode;\r
-\r
-[GraphNodeMenuItem("Math/Add")]\r
-class AddNode : PureNode\r
-{\r
-    [Input] float a;\r
-    [Input] float b;\r
-    [Output] float result;\r
-\r
-    void Evaluate(GraphNode graph)\r
-    {\r
-        result = a + b;\r
-    }\r
-}\r
-\`\`\`\r
-\r
-**Flow nodes** declare their output pins in the constructor with \`super({...})\` and return an \`ExecutionResult\` naming the pin to continue along. A branch:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::GraphNode;\r
-\r
-[GraphNodeMenuItem("Flow/Branch")]\r
-class BranchNode : FlowNode\r
-{\r
-    [Input] bool condition;\r
-\r
-    BranchNode()\r
-    {\r
-        super({"True", "False"});   // two flow outputs\r
-    }\r
-\r
-    ExecutionResult OnExecute(GraphNode graph)\r
-    {\r
-        return ExecutionResult(condition ? "True" : "False");\r
-    }\r
-}\r
-\`\`\`\r
-\r
-A flow node can also **span multiple frames** — return an empty \`ExecutionResult()\` to stay on the node and be called again next frame. That's how a Delay node works:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-using namespace CometEngine::GraphNode;\r
-\r
-[GraphNodeMenuItem("Flow/Delay")]\r
-[NodeColor(0.2, 0.2, 0.5)]\r
-class DelayNode : FlowNode\r
-{\r
-    [Input] float delaySeconds = 1.0F;\r
-    private float startTime = 0.0F;\r
-\r
-    DelayNode()\r
-    {\r
-        super({"Next"});\r
-    }\r
-\r
-    void OnExecuteStart(GraphNode graph)\r
-    {\r
-        startTime = Time::GetGameTime();\r
-    }\r
-\r
-    ExecutionResult OnExecute(GraphNode graph)\r
-    {\r
-        if (Time::GetGameTime() - startTime >= delaySeconds)\r
-        {\r
-            return ExecutionResult("Next");   // move on\r
-        }\r
-        return ExecutionResult();             // wait, retry next frame\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The attributes are the glue:\r
-\r
-- **\`[GraphNodeMenuItem("Path/Name")]\`** — registers the node in the graph editor's right-click *Add Node* menu under that path. Required.\r
-- **\`[Input]\` / \`[Output]\`** — mark fields as data pins. Supported types: \`bool\`, \`int\`, \`uint\`, \`int64\`, \`uint64\`, \`float\`, \`string\`, \`Vector2\`, \`Vector3\`, and object handles.\r
-- **\`[NodeColor(r, g, b)]\`** — an optional header colour.\r
-\r
-Pure nodes can even resolve inputs **lazily** — override \`ResolveInputsManually()\` to return \`true\` and call \`ResolveInput(graph, "pinName")\` only for the branch you actually take, so an expensive or side-effecting upstream node on the path *not* chosen never runs.\r
-\r
-## Authoring a graph in the editor\r
-\r
-1. Create a graph object in the Project panel, then double-click to open the **graph editor**.\r
-2. Right-click the canvas to add nodes from your \`[GraphNodeMenuItem]\` menu.\r
-3. Drag from a flow output to the next node's flow input (white wires); drag from an \`[Output]\` pin to an \`[Input]\` pin (coloured wires).\r
-4. Add **variables**, **inputs** and **outputs** in the side panel — those inputs/outputs are the contract your \`GraphUpdater\` code talks to.\r
-5. Drop a **Graph Updater** on an entity and assign the graph.\r
-\r
-> [!NOTE]\r
-> Data-flow cycles (a pure node feeding itself) are detected and reported; flow loops are allowed and intentional. The runtime always executes a **clone** of the asset, so a running graph never corrupts the source.\r
-\r
-## Where to go next\r
-\r
-Node graphs pair naturally with everything else — kick one off from an [input action](/tutorials/input), have it move a platform along a [Bézier path](/tutorials/bezier), or drive an [animator](/tutorials/animation) from its outputs.\r
+`+u),ge&&qt([F,I,L],e=>{u=nn(u,e,` `)}),x&&Ce?D(u):u},t.setConfig=function(){Ze(arguments.length>0&&arguments[0]!==void 0?arguments[0]:{}),ye=!0},t.clearConfig=function(){Je=null,ye=!1,x=C,S=``},t.isValidAttribute=function(e,t,n){return Je||Ze({}),pt(H(e),H(t),n)},t.addHook=function(e,t){typeof t==`function`&&Xt(P[e],t)},t.removeHook=function(e,t){if(t!==void 0){let n=Jt(P[e],t);return n===-1?void 0:Zt(P[e],n,1)[0]}return Yt(P[e])},t.removeHooks=function(e){P[e]=[]},t.removeAllHooks=function(){P=Wn()},t}var Kn=Gn(),qn=[{id:`sprite-rendering`,title:`Sprite Rendering & the Sprite Editor`,icon:`fa-image`,category:`2D Graphics`,blurb:`Textures, sprites, atlases, 9-slicing and everything the SpriteRenderer can do.`,md:`# Sprite Rendering & the Sprite Editor
+
+Sprites are the bread and butter of any 2D game. In this tutorial you will import a texture, slice it into sprites with the **Sprite Editor**, display it with a **SpriteRenderer**, and drive all of it from AngelScript — tinting, flipping, 9-slicing and swapping materials at runtime.
+
+![The Comet Engine editor: Scene view, Game view, Hierarchy, Inspector and the Project panel.](/tutorials/editor-overview.png)
+
+## Textures and sprites
+
+Comet makes a clear distinction between the two:
+
+- A **Texture** is the image file you import (\`.png\`, \`.jpg\`, ...). It owns GPU memory and sampling settings.
+- A **Sprite** is a rectangular *region* of a texture, plus rendering metadata: a pivot, a pixels-per-unit value and optional 9-slice borders. One texture can contain a single sprite or a whole sprite sheet.
+
+When you drop an image into your project, select it in the **Project** panel and the Inspector shows its import settings:
+
+| Setting | What it does |
+|---------|--------------|
+| **Texture Type** | \`Sprite and UI\` for regular art, \`Normal Map\` for lighting relief maps. |
+| **Filter Type** | \`No Filter\` (crisp pixel art), \`Bilinear\` or \`Trilinear\` (smooth scaling). |
+| **Wrap Mode** | \`Repeat\`, \`Mirror Repeat\`, \`Clamp Edge\` or \`Clamp Border\` — how UVs outside 0–1 sample. |
+| **Pixels Per Unit** | How many texture pixels equal one world unit. A 128 px sprite at 128 PPU is exactly 1 unit wide. |
+| **Modify Pixels** | Keeps a CPU-side copy so scripts can call \`GetPixels()\` / \`SetPixelAt()\`. Costs memory — leave it off unless you need it. |
+
+> [!TIP]
+> For pixel art, set **Filter Type** to \`No Filter\` and pick a Pixels Per Unit that matches your tile size (for example 16). Your art will stay razor sharp at any zoom level.
+
+## Slicing with the Sprite Editor
+
+With a texture selected, set its **Texture Type** to \`Sprite and UI\` and click **Open Sprite Editor** in the Inspector.
+
+![The Sprite Editor slicing a sprite sheet into a grid of sprites.](/tutorials/sprite-editor.png)
+
+The Sprite Editor has four tools, selectable from its toolbar:
+
+1. **Sprite Creation** — draw and edit the sprite rectangles themselves.
+2. **Secondary Textures** — attach a normal map so 2D lights give your sprite relief.
+3. **Physic Shape** — author the collision polygon colliders will use for this sprite.
+4. **Shadow Caster** — author the occluder polygon used by 2D shadow casting.
+
+### Automatic and grid slicing
+
+For sprite sheets you rarely slice by hand. Open the slicing options and choose a **Slice Mode**:
+
+- **Automatic** — detects sprites from transparent gaps.
+- **Grid Size** — cuts the sheet into cells of a fixed pixel size.
+- **Columns & Rows** — cuts the sheet into an exact number of divisions.
+
+Set the **Pivot** for the generated sprites (usually \`Middle\`, or \`Bottom\` for characters standing on the ground), optionally add an **Offset** and **Padding** between cells, enable **Remove Empty Rects** to skip blank cells, and press **Apply Slice**.
+
+### Manual editing, pivots and borders
+
+Click anywhere on the texture to create a new sprite rect, then drag its corners to fit. For each sprite the Inspector shows:
+
+- **Rect** — position and size in pixels.
+- **Pivot** — the sprite's origin: \`Middle\`, \`Bottom Left\`, \`Custom\`... Rotation and scaling happen around it.
+- **Borders** — left/right/top/bottom margins in pixels, drawn as green lines. These define the 9-slice regions used by the \`Sliced\` and \`Tiled\` render modes below.
+
+## The SpriteRenderer component
+
+Add one with **Add Behaviour → Sprite Renderer** on any entity. Its Inspector properties:
+
+| Property | Meaning |
+|----------|---------|
+| **Sprite** | The sprite to draw. |
+| **Render Mode** | \`Simple\`, \`Sliced\` (9-slice) or \`Tiled\`. |
+| **Size** | Target size in world units — only used by \`Sliced\` and \`Tiled\`. |
+| **Color** | Tint multiplied over the sprite (white = unchanged). |
+| **Flip X / Flip Y** | Mirror the sprite on each axis. |
+| **Sorting Layer** | Which named layer this renderer draws in. |
+| **Order in Layer** | Draw order within that layer — higher renders on top. |
+| **Sort Point** | Sort by the sprite's \`Center\` or its \`Pivot\`. |
+| **Material** | Optional custom material/shader. |
+
+### How sorting works
+
+Comet renders **sorting layers** in the order they are defined in the project, and inside each layer sorts by **Order in Layer**. Two classic setups:
+
+- Backgrounds on a \`Background\` layer, gameplay on \`Default\`, UI overlays on a front layer.
+- A top-down game where characters sort among trees: give everything the same layer and set **Sort Point** to \`Pivot\` with pivots at the feet.
+
+### 9-slicing: Sliced and Tiled modes
+
+If a sprite has **Borders** defined in the Sprite Editor, the \`Sliced\` render mode stretches only the center while corners keep their size — perfect for panels and buttons of any size. \`Tiled\` repeats the center instead of stretching it. In both cases the **Size** property controls the final world-space size:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class PanelSetup : CometBehaviour
+{
+    void Start()
+    {
+        SpriteRenderer renderer = SpriteRenderer::Get(entity);
+        renderer.renderMode = SpriteRenderMode::SLICED;
+        renderer.size = Vector2(10.0F, 4.0F); // world units, borders stay crisp
+    }
+}
+\`\`\`
+
+## Controlling sprites from AngelScript
+
+Every behaviour can grab the renderer on its entity with the static \`Get\` accessor. The pattern below is used all over the engine's sample project:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class PlayerVisuals : CometBehaviour
+{
+    private SpriteRenderer spriteRenderer;
+
+    void Start()
+    {
+        spriteRenderer = SpriteRenderer::Get(entity);
+    }
+
+    void Update()
+    {
+        // Face the direction we are moving.
+        float moveX = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1).x;
+        if (moveX != 0.0F)
+        {
+            spriteRenderer.flipX = moveX < 0.0F;
+        }
+
+        // Flash red while hurt.
+        if (Input::GetKeyDown(KeyCode::H))
+        {
+            spriteRenderer.color = Color(1.0F, 0.25F, 0.25F, 1.0F);
+        }
+    }
+}
+\`\`\`
+
+> [!NOTE]
+> \`SpriteRenderer::Get(entity)\` returns a reference to the behaviour attached to that entity — the same pattern works for every behaviour type (\`Camera::Get\`, \`Animator::Get\`, ...).
+
+## Materials: shared vs. instanced
+
+Renderers expose two material properties with very different behaviour:
+
+- \`sharedMaterial\` — the material *asset*. Editing it changes **every** renderer that uses it.
+- \`material\` — a per-renderer **clone**, created the first time you access it. Perfect for effects on a single entity, but you own its lifetime: call \`Material::Remove()\` when the entity is destroyed.
+
+This dissolve effect from the Sandbox project animates a shader parameter on one sprite only:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class Disolve : CometBehaviour
+{
+    private Material spriteMaterial;
+    private float value = 0.0F;
+
+    void Start()
+    {
+        // Accessing .material clones the shared material for this renderer only.
+        spriteMaterial = SpriteRenderer::Get(entity).material;
+    }
+
+    void Update()
+    {
+        spriteMaterial.SetFloat("value", value);
+        value += Time::GetDeltaTime();
+    }
+
+    void OnDestroy()
+    {
+        // Instanced materials are yours to clean up.
+        Material::Remove(spriteMaterial);
+    }
+}
+\`\`\`
+
+> [!WARNING]
+> Forgetting \`Material::Remove()\` on an instanced material leaks it. If you only need to change the tint, prefer the \`color\` property — it does not clone anything.
+
+## Loading sprites at runtime
+
+Everything you assign in the Inspector can also be loaded from code through \`RuntimeAssets\`. Paths are relative to your project's \`Assets/\` folder, without extension:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class RuntimeSpriteSwap : CometBehaviour
+{
+    void Start()
+    {
+        // Load a sprite atlas and pick a sprite from it by name.
+        SpriteAtlas atlas = cast<SpriteAtlas>(
+            RuntimeAssets::LoadResource("Atlases/Characters", ResourceType::SPRITE_ATLAS));
+
+        if (atlas !is null)
+        {
+            SpriteRenderer::Get(entity).sprite = atlas.GetSprite("hero_idle_0");
+        }
+    }
+}
+\`\`\`
+
+For big assets prefer the asynchronous variant, \`RuntimeAssets::LoadResourceAsync()\`, which returns a \`ResourceAsyncOperation\` you can poll (\`isDone\`, \`progress\`, \`resource\`).
+
+## Quick frame animation: AnimatedSprite
+
+When all you need is a looping flipbook — a torch, a coin, an idle loop — the **AnimatedSprite** behaviour replaces the sprite every frame for you, no state machine required:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class TorchFlame : CometBehaviour
+{
+    void Start()
+    {
+        AnimatedSprite anim = AnimatedSprite::Get(entity);
+        anim.speed = 12.0F;       // frames per second
+        anim.loop = true;
+        anim.randomStart = true;  // desync multiple torches
+        anim.Play();
+    }
+}
+\`\`\`
+
+The frame list is edited in the Inspector (or from code with \`AddSprite()\` / \`SetSprite()\`). For anything driven by game logic — walk/run/jump blending, transitions, events — use the full **Animator** instead: see the [Animation & the Animator](/tutorials/animation) tutorial.
+
+## The other 2D renderers
+
+| Behaviour | Use it for |
+|-----------|-----------|
+| \`TextureRectRenderer\` | Drawing a sub-rectangle of a texture directly (pixels or normalized UVs) without creating sprites. |
+| \`LineRenderer\` | Polylines with a width curve and color gradient — lasers, ropes, debug paths. |
+| \`RenderTextureRenderer\` | Displaying a \`RenderTexture\` that a camera renders into — minimaps, mirrors, picture-in-picture. |
+
+All of them inherit the same sorting-layer, color and material properties from \`Renderer\`, so everything you learned above applies.
+
+## Where to go next
+
+Your sprites are on screen — now light them up with [2D Lights & Shadows](/tutorials/lights), or bring them to life with the [Animator](/tutorials/animation).
+`},{id:`lights`,title:`2D Lights & Shadows`,icon:`fa-lightbulb`,category:`2D Graphics`,blurb:`Light your scenes with global, point, sprite and custom-shaped lights, plus 2D shadows.`,md:`# 2D Lights & Shadows
+
+Lighting turns a flat scene into a moody one. Comet ships a full 2D lighting pipeline: five light types, four blend modes, soft and crisp shadows, and normal-map support — all layer-aware and fully scriptable.
+
+![A Point Light on the ship's engine: the radius gizmo in the Scene view, and every light property in the Inspector.](/tutorials/light-scene.png)
+
+## How 2D lighting works in Comet
+
+Lights in Comet accumulate into a per-**sorting-layer** light buffer. That single sentence has two important consequences:
+
+1. **Every light declares which sorting layers it affects.** By default the **All Sorting Layers** toggle is on and the light reaches everything; untick it to pick specific layers — a light whose list doesn't include the layer a sprite renders on will never touch that sprite, no matter how close it is.
+2. **Lights compose with a blend mode**, per light:
+
+| Blend Mode | Effect |
+|------------|--------|
+| \`Additive\` | Brightens what is below — the default for almost everything. |
+| \`Subtract\` | Darkens — great for pockets of darkness or negative lights. |
+| \`Mix\` | Alpha-blends the light color over the layer. |
+| \`Mask\` | Multiplies — use it to reveal or hide by light shape. |
+
+There is no separate "ambient light" setting: an ambient is simply a **GlobalLight** with a low intensity added to your layers.
+
+## The five light types
+
+![All five light types on a dark backdrop: a green spotlight cone, red and blue point lights, a yellow hexagonal parametric light, and a magenta freeform light.](/tutorials/light-types.png)
+
+All lights are behaviours added from **Add Behaviour → Lighting** (\`Global Light\`, \`Point Light\`, \`Freeform Light\`, \`Parametric Light\`, \`Sprite Light\`). They share a common base (color, intensity, blend mode, shadows, sorting layers) and each adds its own shape:
+
+### GlobalLight
+
+A directional, sun-like light that hits everything on its layers equally, regardless of position. Use it for ambient fill and daylight. Its only extra property is **Max Shadow Distance** — how far from the view shadows are still rendered (\`0\` = unlimited).
+
+### PointLight
+
+Light radiating from a point, with angular and radial falloff — your lamps, torches, spotlights, projectiles:
+
+- **Inner / Outer Radius** — full intensity inside the inner radius, fading to zero at the outer one.
+- **Inner / Outer Angle** — narrow these from 360° to make a cone spotlight.
+- **Falloff** — the shape of the fade curve (0–1).
+- **Texture** — optional cookie texture to mask the light.
+
+### FreeformLight
+
+A light whose shape is a **custom polygon** you edit right in the scene view — click **Edit Shape** in its Inspector and drag the vertices. Ideal for light shafts through windows or oddly-shaped glowing areas. **Falloff Radius** controls how far the light fades past the polygon's edges.
+
+### ParametricLight
+
+Like Freeform, but the shape is a regular polygon: pick the number of **Sides** (3–39, higher ≈ circle) and a **Radius**. Cheaper than Freeform and perfect for simple geometric glows.
+
+### SpriteLight
+
+The light's shape *is a sprite*: its alpha channel masks the light. Stained-glass windows, glowing signs, projected logos. **Cookie Scale** and **Cookie Offset** adjust the sprite within the light.
+
+## Common light properties
+
+Every light exposes these in the Inspector:
+
+| Property | Meaning |
+|----------|---------|
+| **Color** | The light's color. |
+| **Intensity** | Multiplier over the color — values above 1 overdrive, negative values darken. |
+| **Sorting Layers** | The layers this light affects — **All Sorting Layers** by default, or a hand-picked list. |
+| **Height** | Virtual Z height used by normal-mapped sprites to fake relief. No normal map → no visible effect. |
+| **Blend Mode** | \`Additive\`, \`Subtract\`, \`Mix\` or \`Mask\`. |
+| **Cast Shadows** | Enables shadow rendering for this light (see below). |
+
+## Shadows
+
+Two pieces cooperate to produce 2D shadows:
+
+1. **Lights** opt in with **Cast Shadows** and choose a **Shadow Mode**:
+   - \`Soft\` — ray-marched, soft-edged penumbras. Prettier, more expensive. **Shadow Softness** controls the penumbra.
+   - \`Crisp\` — sharp shadow-map shadows. Cheap and stylized.
+
+   Both modes share **Shadow Color** (the tint of shadowed areas) and **Shadow Strength** (0 = invisible, 1 = fully dark).
+
+2. **Occluders** are entities with a **Shadow Caster** behaviour (**Add Behaviour → Lighting → Shadow Caster**). Its **Shape Source** is either:
+   - \`Sprite\` — reuses the occluder polygon authored in the [Sprite Editor's Shadow Caster tool](/tutorials/sprite-rendering), or
+   - \`Custom\` — a polygon you edit in the scene, with a **Closed** toggle and a **Cull Mode** for one-sided shadows.
+
+   Shadow Casters also filter by **Sorting Layers**, so an occluder only blocks lights on matching layers.
+
+![A Point Light casting real-time shadows across a tilemap: the houses block the light and drop shadow wedges over the lit ground.](/tutorials/shadows.png)
+
+## Scripting lights
+
+Lights are regular behaviours: fetch them with the static \`Get\` accessor and drive any property. A flickering torch:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class TorchLight : CometBehaviour
+{
+    private PointLight torch;
+    private float time = 0.0F;
+
+    void Start()
+    {
+        torch = PointLight::Get(entity);
+        torch.color = Color(1.0F, 0.7F, 0.3F, 1.0F); // warm orange
+        torch.outerRadius = 4.0F;
+        torch.fallOff = 0.6F;
+        torch.castShadows = true;
+        torch.shadowMode = ShadowMode::SOFT;
+        torch.shadowSoftness = 0.8F;
+    }
+
+    void Update()
+    {
+        // Two overlapping sine waves make a cheap, organic flicker.
+        time += Time::GetDeltaTime();
+        torch.intensity = 1.5F + Math::Sin(time * 9.0F) * 0.15F + Math::Sin(time * 23.0F) * 0.08F;
+    }
+}
+\`\`\`
+
+A day/night cycle driving a GlobalLight, including which layers it lights:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DayNightCycle : CometBehaviour
+{
+    private GlobalLight sun;
+    private float dayTime = 0.0F;      // 0..1 over a full day
+    float dayLengthSeconds = 120.0F;
+
+    void Start()
+    {
+        sun = GlobalLight::Get(entity);
+
+        array<string> layers = {"Background", "Default", "Characters"};
+        sun.SetSortingLayers(layers);
+    }
+
+    void Update()
+    {
+        dayTime += Time::GetDeltaTime() / dayLengthSeconds;
+        if (dayTime > 1.0F)
+        {
+            dayTime -= 1.0F;
+        }
+
+        // Bright warm white at noon, dim blue at midnight.
+        float daylight = (Math::Sin(dayTime * 6.2831853F) + 1.0F) * 0.5F;
+        sun.intensity = 0.25F + daylight * 0.9F;
+        sun.color = Color(0.55F + daylight * 0.45F,
+                          0.6F + daylight * 0.4F,
+                          0.8F + daylight * 0.1F,
+                          1.0F);
+    }
+}
+\`\`\`
+
+Every light type has the same accessors as any behaviour — \`PointLight::Get(entity)\`, \`PointLight::GetAll(entity)\`, \`PointLight::GetInParent(entity)\`, \`PointLight::GetInChildren(entity)\` — and the generic \`BaseLight::Get(entity)\` works when you don't care which kind it is.
+
+## Normal maps and the Height property
+
+If a sprite has a **normal map** assigned (via the Sprite Editor's **Secondary Textures** tool), lights shade it as if it had depth. The light's **Height** property is its virtual distance above the 2D plane: low values give dramatic, grazing relief; high values flatten the effect. Without a normal map, \`height\` changes nothing — don't be surprised when the slider seems dead on flat art.
+
+## Performance notes
+
+- **Crisp shadows are cheaper than Soft** — reserve soft shadows for hero lights.
+- Shape cost grows with complexity: **Point < Parametric < Freeform**.
+- Lights only pay for the sorting layers they affect. Keep the \`Sorting Layers\` lists tight.
+- A handful of lights is fine on every platform; hundreds of shadow-casting lights are not. Profile on your weakest target.
+
+## Where to go next
+
+Combine lights with the sprites you set up in [Sprite Rendering](/tutorials/sprite-rendering), or give your scene motion with [Animation & the Animator](/tutorials/animation).
+`},{id:`tilemap`,title:`Tilemaps & Rule Tiles`,icon:`fa-border-all`,category:`2D Graphics`,blurb:`Paint worlds with grids, animated tiles, auto-tiles and neighbour-aware rule tiles.`,md:`# Tilemaps & Rule Tiles
+
+Tile-based worlds — platformers, dungeons, strategy maps — are built from a **Grid** that defines the cell layout and a **TilemapRenderer** that paints **tiles** into those cells. Comet's tile system goes well beyond static sprites: animated tiles, position-seeded random tiles, and neighbour-aware **rule tiles** and **auto-tiles** that pick the right sprite automatically.
+
+![The Grid and Tilemap Renderer components in the Inspector.](/tutorials/tilemap-inspector.png)
+
+## Grid + Tilemap Renderer
+
+Two behaviours work together, both added from **Add Behaviour**:
+
+- **Grid** — owns the cell geometry: **Cell Size** (world units per cell) and **Cell Type** (\`Rectangular\`, \`Isometric\`, \`Hexagonal Flat\`, \`Hexagonal Pointed\`). It converts between world positions and integer cell coordinates.
+- **Tilemap Renderer** — a \`Renderer\` that stores which tile sits in each cell and draws them. It has the usual sorting-layer properties plus a global **Animation Frame Rate** for animated tiles and a **Tile Anchor**.
+
+Cells are addressed with **\`Vector2i\`** integer coordinates. The renderer works on the Grid attached to the same entity.
+
+## Tiles are assets
+
+A tile is not just a sprite — it's a **tile asset** (a \`.cometObject\`) that decides, per cell, *which* sprite to show, what colour and what collider to generate. Comet ships a whole hierarchy of tile types, all of which you can create as assets and extend:
+
+| Tile type | What it does |
+|-----------|--------------|
+| **Tile** | A single fixed sprite. |
+| **Animated Tile** | Cycles through several sprites at a speed. |
+| **Random Tile** | Picks a sprite per cell from a position-seeded hash (stable across reloads). |
+| **Weighted Random Tile** | Like Random, but with per-sprite probabilities. |
+| **Pipeline Tile** | Chooses a sprite from its 4 orthogonal neighbours — pipes, wires, walls. |
+| **Auto Tile** | 2×2 or 3×3 bitmask autotiling — the classic ~47-sprite terrain system. |
+| **Rule Tile** | The most flexible: a list of rules matching neighbour cells, with rotation/mirror transforms. |
+
+Isometric and hexagonal variants of Rule Tile exist too (\`Isometric Rule Tile\`, \`Hexagonal Rule Tile\`).
+
+## Painting from AngelScript
+
+Grab the renderer and set tiles by cell. \`null\` erases:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Tilemaps;
+
+class LevelBuilder : CometBehaviour
+{
+    TileBase groundTile;   // assign a tile asset in the Inspector
+
+    void Start()
+    {
+        Grid grid = Grid::Get(entity);
+        TilemapRenderer tilemap = TilemapRenderer::Get(entity);
+
+        // Lay a 20x3 floor.
+        array<Vector2i> cells;
+        array<TileBase> tiles;
+        for (int x = 0; x < 20; x++)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                cells.insertLast(Vector2i(x, y));
+                tiles.insertLast(groundTile);
+            }
+        }
+        tilemap.SetTiles(cells, tiles);
+
+        // Query and erase.
+        if (tilemap.HasTile(Vector2i(5, 2)))
+        {
+            tilemap.SetTile(Vector2i(5, 2), null);
+        }
+
+        // World <-> cell conversion.
+        Vector2i cellUnderMouse = grid.WorldPositionToCellPosition(Vector2(3.5F, 1.2F));
+        Vector2 cellCentre = grid.CellPositionToWorldPosition(cellUnderMouse);
+    }
+}
+\`\`\`
+
+Key \`TilemapRenderer\` calls: \`SetTile(cell, tile)\`, \`SetTiles(cells, tiles)\`, \`GetTile(cell)\`, \`HasTile(cell)\`, \`SetColor(cell, color)\`, \`RefreshTile(cell)\`, \`RefreshAllTiles()\`, \`ClearAllTiles()\`.
+
+> [!TIP]
+> \`SetTiles()\` (plural) applies a whole batch in one call and is much faster than looping \`SetTile()\` when you generate a level procedurally.
+
+## Creating tiles
+
+Tiles come from your sprite art. The fastest path — and the one that creates the tile assets *for* you:
+
+1. **Import and slice your tileset.** Drop a spritesheet in, set its Texture Type to \`Sprite and UI\`, and slice it into individual sprites in the [Sprite Editor](/tutorials/sprite-rendering) (grid slicing is ideal for a tileset).
+2. **Open the Tile Palette panel** (\`Window → Tile Palette\`) and **create a palette** — give it a name and a cell size matching your tiles.
+3. **Drag the sliced spritesheet onto the palette.** The panel literally invites you to *"Drag Spritesheet, Sprite or a Tile here"* — drop it and Comet **auto-creates a simple \`Tile\` asset for every sprite** and lays them out in the palette. That's your tile set, created in one gesture.
+
+![The Tile Palette panel with a sliced spritesheet turned into tiles.](/tutorials/tile-palette.png)
+
+### Smarter tiles
+
+For tiles with behaviour, create the tile asset explicitly from the Project panel's create menu, then drag it into the palette:
+
+- **Animated Tile** — hand it a list of sprites and a speed.
+- **Random / Weighted Random Tile** — give it several sprites; each cell picks one (stably, seeded by position).
+- **Auto Tile** — supply the 16 (2×2) or ~47 (3×3) mask sprites and it picks the right edge/corner piece from its neighbours automatically.
+- **Rule Tile** — the most powerful. Its inspector shows a **3×3 rule grid**: click a neighbour cell to require it be the **same tile** (green), a **different tile** (red), or **don't-care** (grey), and click the center to cycle a rotation/mirror transform so one rule covers several orientations. Add rules top to bottom — the **first rule that matches a cell's neighbours wins**.
+
+## Painting a tilemap
+
+With a palette ready and a tilemap entity in the scene (a **Grid** + **Tilemap Renderer**):
+
+1. **Pick a tile** in the Tile Palette panel.
+2. **Choose a tool** from the palette toolbar — **Brush** (single cells), **Box Brush** (drag a rectangle), **Fill** (flood-fill an area), **Picker** (eyedrop a tile already in the map) or **Rubber** (erase).
+3. **Paint into the scene.** A grid overlay snaps to cells; drag to lay down tiles.
+
+![Painting tiles into a tilemap in the scene view.](/tutorials/tilemap-painting.png)
+
+Rule tiles and auto-tiles update themselves as you paint — lay a strip of wall and the corners and edges resolve automatically.
+
+## Physics: the Tilemap Collider
+
+Add a **Tilemap Collider** and the solid tiles automatically get collision. Each tile asset declares its **collider type** — \`Sprite\` (outline of the sprite), \`Grid\` (full cell) or \`None\` — so decorative tiles stay walk-through while walls block. Query it from code with \`HasColliderAt(x, y)\`.
+
+## Writing a custom scripted tile
+
+Because tiles are script classes, you can author your own by extending \`TileBase\` (or \`TileSingle\`) and overriding the info callbacks:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Tilemaps;
+
+class GlowTile : TileSingle
+{
+    Sprite baseSprite;
+    float glow = 0.5F;
+
+    void OnGetTileInfo(const Vector3i &in position, TilemapRenderer tilemap, TileInfo tileInfo)
+    {
+        TileSingle::OnGetTileInfo(position, tilemap, tileInfo);
+        tileInfo.sprite = baseSprite;
+        tileInfo.color = Color(1.0F, 1.0F, 1.0F, 1.0F) * glow;
+    }
+}
+\`\`\`
+
+\`OnGetTileInfo\` fills a \`TileInfo\` (sprite, color, collider type, offset/rotation/scale) for each cell; \`RefreshTile\` lets neighbour-aware tiles react when an adjacent cell changes. This is exactly how the built-in Rule and Auto tiles are implemented.
+
+> [!NOTE]
+> Random, Weighted-Random and Auto tiles seed their choice from the **cell position**, not a live RNG — so a given cell always shows the same sprite across save/reload, which is what you want for a stable-looking world.
+
+## Where to go next
+
+Give your tiled level depth with [2D Lights & Shadows](/tutorials/lights), collide with it using [Physics](/tutorials/physics), or let enemies path across it with [Navigation](/tutorials/navigation).
+`},{id:`particles`,title:`Particle Systems`,icon:`fa-fire`,category:`2D Graphics`,blurb:`Fire, smoke, sparks and magic with a modular, Unity-style particle system.`,md:`# Particle Systems
+
+Fire, smoke, sparks, magic, rain, explosions — all of it comes from the **Particle System**, a modular emitter modelled after Unity's. You start with an emitter and switch on **modules** — emission, shape, colour-over-lifetime, velocity, size, texture animation — each shaping the particles a little more.
+
+![The Particle System playing in the editor with the module inspector and preview controls.](/tutorials/particles-scene.png)
+
+## The emitter and its modules
+
+Add a **Particle System** from **Add Behaviour** and it starts emitting immediately in the editor, with a preview overlay (**Play / Pause / Stop**, playback speed and a scrubber) in the scene view.
+
+The top of the inspector is the **System** block — the properties every particle is born with:
+
+- **Duration** and **Loop** — the length of one emission cycle and whether it repeats.
+- **Start Lifetime / Start Speed / Start Size / Start Rotation / Start Color** — initial values. Each is a **value selector**: a constant, a random range, or a curve/gradient over the cycle.
+- **Gravity Scale**, **Max Particles**, **Simulation Space** (\`Local\` follows the emitter, \`World\` leaves particles behind), and **Play On Awake**.
+
+Below that sit the toggleable **modules**, each with an enable checkbox:
+
+| Module | Effect |
+|--------|--------|
+| **Emission** | Rate-per-second plus timed **Bursts**. |
+| **Shape** | Where particles spawn: \`Circle\`, \`Rectangle\` or \`Edge\`. |
+| **Velocity / Force / Limit Velocity over Lifetime** | Push, drag and steer particles as they age. |
+| **Color / Size / Rotation over Lifetime** | Fade, grow and spin over each particle's life. |
+| **Color / Size / Rotation by Speed** | Modulate by how fast a particle is moving. |
+| **Texture Animation** | Flipbook the particle sprite from a sheet or sprite list. |
+| **Renderer** | Draw mode (\`Chunk\` batches, \`Individual\` allows per-particle material) and sort order. |
+
+## Value selectors and gradients
+
+The recurring pattern is the **value selector** — wherever you see a property like Start Size or a lifetime curve, it can be a **constant**, a **random between two values**, or a **curve** (float) / **gradient** (colour) sampled over the particle's normalized age. This is what makes a flame fade from white to orange to transparent, or embers shrink as they rise.
+
+## Controlling it from AngelScript
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::ParticleSystemModule;
+
+class Explosion : CometBehaviour
+{
+    void Start()
+    {
+        ParticleSystem particles = ParticleSystem::Get(entity);
+        particles.loop = false;
+        particles.maxParticles = 500;
+
+        // Configure emission with a one-shot burst of debris.
+        ParticlePropertyEmission emission = particles.emission;
+        emission.enabled = true;
+
+        Burst burst;
+        burst.time = 0.0F;
+        burst.probability = 1.0F;
+        burst.count.constant = 60;
+        emission.AddBurst(burst);
+
+        particles.Play();
+    }
+
+    void Update()
+    {
+        ParticleSystem particles = ParticleSystem::Get(entity);
+        // Emit a puff of smoke on demand.
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            particles.Emit(20);
+        }
+    }
+}
+\`\`\`
+
+\`Play()\`, \`Pause()\`, \`Stop()\`, \`Clear()\` and \`Emit(count)\` drive playback; \`Simulate(time, restart)\` fast-forwards the simulation (handy for pre-warming an effect so it looks established the instant it appears). Read-only \`isPlaying\`, \`isEmitting\`, \`particleCount\` and \`isAlive\` report state.
+
+> [!TIP]
+> \`simulationSpace = ParticleSystemSimulationSpace::WORLD\` is the difference between a torch flame that drags a trail as the torch moves (World) and one that stays glued to the torch (Local). Pick per effect.
+
+## Building a fire effect
+
+The classic recipe, all in the inspector:
+
+1. **Shape** → small \`Circle\` at the base.
+2. **Start Color** → bright yellow; **Color over Lifetime** → gradient yellow → orange → transparent.
+3. **Start Size** → medium; **Size over Lifetime** → curve shrinking to zero.
+4. **Velocity over Lifetime** → upward, with a little turbulence via the random-between mode.
+5. **Emission** → a steady rate, no bursts.
+6. **Renderer** → an additive material so overlapping particles glow.
+
+## UI particles
+
+Need particles *inside* a UI canvas — confetti on a victory screen, sparkles on a button? Use **UI Particle System** instead. It's the same module set but renders in the UI layer under a \`RectTransform\`, so it respects canvas sorting and masks. See the [UI tutorial](/tutorials/ui-system) for the canvas basics.
+
+## Where to go next
+
+Trigger a burst from an [animation event](/tutorials/animation), attach one to a [networked spawn](/tutorials/networking), or light it dramatically with [2D lights](/tutorials/lights).
+`},{id:`video`,title:`Video Playback`,icon:`fa-film`,category:`2D Graphics`,blurb:`Play WebM video onto a render texture or camera plane, with audio routed through a mixer.`,md:`# Video Playback
+
+Cutscenes, animated backgrounds, in-game screens — the **Video Player** decodes **WebM** video (VP8/VP9 with Opus/Vorbis audio) and renders it onto a render texture, a camera plane, or straight into your scene, with the audio routed through your mixer.
+
+![The Video Player inspector with its source, render and audio options.](/tutorials/video-inspector.png)
+
+## Importing a video
+
+Drop a \`.webm\` file into your project's \`Assets\` folder and it imports as a **Video Clip** resource, exposing \`duration\`, \`frameRate\`, \`width\` and \`height\`.
+
+> [!IMPORTANT]
+> Comet plays **WebM only** (VP8/VP9 video, Opus/Vorbis audio) — not MP4/MOV/AVI. Re-encode other formats to WebM first (e.g. with \`ffmpeg -i input.mp4 output.webm\`). Decoding is software (libvpx), so keep large videos to a sensible resolution.
+
+## The Video Player behaviour
+
+Add a **Video Player** (from **Add Behaviour**) and configure:
+
+| Field | Meaning |
+|-------|---------|
+| **Source** | \`Video Clip\` (a resource) or \`Url\` (a file path / URL string). |
+| **Video Clip** | The clip to play, when Source is \`Video Clip\`. |
+| **Play On Awake** | Start automatically. |
+| **Playback Speed** | 0–10× speed. |
+| **Loop** | Restart on end (gapless). |
+| **Skip Frames On Drop** | Drop frames to stay in sync if decoding can't keep up. |
+| **Aspect Ratio** | \`Fit Horizontally\` (default), \`Fit Inside\`, \`Stretch\`, ... |
+| **Render Mode** | \`Render Texture\` (default), \`Camera Near Plane\` or \`Camera Far Plane\`. |
+| **Target Texture** | The \`RenderTexture\` frames are written to (Render Texture mode). |
+| **Audio Output Mode** | \`Direct\` (per-track volume/mute), \`Audio Source\` (route through a mixer) or \`None\`. |
+
+### Where the picture goes
+
+- **Render Texture** — frames are written into a \`RenderTexture\` asset. Display it anywhere a texture works: a \`TextureRectRenderer\`, a UI \`Image\`, or a material. This is the most flexible mode.
+- **Camera Near / Far Plane** — the video draws directly on a \`Camera\`'s near or far plane with an adjustable **Alpha**, perfect for full-screen backgrounds or overlays.
+
+### Where the sound goes
+
+\`Direct\` gives you per-track volume and mute. \`Audio Source\` routes each audio track through an assigned **AudioSource**, so the video's sound obeys your [mixer groups](/tutorials/audio) — duck it under a \`Music\` bus, apply reverb, whatever.
+
+## Controlling playback from AngelScript
+
+This is the Sandbox project's video controller, verbatim — space to pause/resume, arrows to scrub:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Video;
+
+class VideoController : CometBehaviour
+{
+    float stepToMove = 0.5F;
+    private VideoPlayer videoPlayer;
+
+    void Start()
+    {
+        videoPlayer = VideoPlayer::Get(entity);
+    }
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            if (videoPlayer.isPaused) { videoPlayer.Play(); }
+            else { videoPlayer.Pause(); }
+        }
+        if (Input::GetKeyDown(KeyCode::LEFT))
+        {
+            videoPlayer.Seek(videoPlayer.currentTime - stepToMove);
+        }
+        if (Input::GetKeyDown(KeyCode::RIGHT))
+        {
+            videoPlayer.Seek(videoPlayer.currentTime + stepToMove);
+        }
+    }
+}
+\`\`\`
+
+The API mirrors the inspector: \`Play()\`, \`Pause()\`, \`Stop()\`, \`Seek(seconds)\`, \`Step()\` (advance one frame), plus \`isPlaying\`, \`isPaused\`, \`currentTime\`, \`duration\`, \`frameRate\`. Audio tracks are toggled with \`SetAudioTrackEnabled(i, on)\` and \`SetAudioTrackDirectVolume(i, v)\`.
+
+## A skippable cutscene
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Video;
+using namespace CometEngine::SceneManagement;
+
+class Cutscene : CometBehaviour
+{
+    private VideoPlayer player;
+
+    void Start()
+    {
+        player = VideoPlayer::Get(entity);
+        player.loop = false;
+        player.Play();
+    }
+
+    void Update()
+    {
+        // Advance to gameplay when the clip ends or the player skips.
+        bool finished = !player.isPlaying && !player.isPaused && player.currentTime >= player.duration - 0.05F;
+        if (finished || Input::GetKeyDown(KeyCode::ESCAPE))
+        {
+            SceneManager::LoadScene("Level1");
+        }
+    }
+}
+\`\`\`
+
+> [!NOTE]
+> Web builds depend on the browser's WebM codec support (VP9 is the safest bet). There are no native sockets or threads on web, but video playback itself works — just profile large clips.
+
+## Where to go next
+
+Show your video on a [render texture in the UI](/tutorials/ui-system), route its audio through a [mixer group](/tutorials/audio), or play it as an intro before your [first scene loads](/tutorials/build-and-patches).
+`},{id:`animation`,title:`Animation & the Animator`,icon:`fa-person-running`,category:`Animation`,blurb:`Animation clips, keyframes, events, the state machine editor, parameters and transitions.`,md:`# Animation & the Animator
+
+Comet's animation stack has two levels. **Animation clips** keyframe properties over time; the **Animator** plays those clips through a visual state machine with parameters and transitions — idle to run, run to jump, jump to fall — exactly the workflow you know from big engines, tailored to 2D.
+
+## Choosing your tool
+
+| | **AnimatedSprite** | **Animator** |
+|---|---|---|
+| What it does | Cycles through a list of sprites at a fixed FPS | Plays Animation clips through a state machine |
+| Can animate | Sprite frames only | Any keyframeable property: transform, sprite, colors, your script fields |
+| Logic | Play / Pause / Stop | States, transitions, conditions, parameters, events, state scripts |
+| Best for | Torches, coins, simple loops | Characters and anything gameplay-driven |
+
+\`AnimatedSprite\` is covered at the end of the [Sprite Rendering tutorial](/tutorials/sprite-rendering). Everything below is about the full pipeline: **Animation → AnimatorController → Animator**.
+
+## Creating an Animation clip
+
+Right-click in the **Project** panel and choose **Create Resource → Animation**. Double-click the new asset to open the **Animation Timeline** panel:
+
+![The Animation Timeline panel: transport controls, the frame ruler, samples and the Add Property track list.](/tutorials/animation-timeline.png)
+
+The timeline works the way you'd expect:
+
+1. **Add Property** — pick any animatable property from the behaviours on the target entity: \`Transform\` position/rotation/scale, \`SpriteRenderer\` color or flips, even public fields of your own scripts.
+2. Move the **scrubber** to a frame.
+3. Change the value — in the Inspector or by moving the entity in the scene — and **record a keyframe**. Keyframes show as diamonds on the track.
+4. Values between keyframes are interpolated with editable curves.
+
+Clip-level settings live on the Animation resource itself:
+
+- **Samples** — timeline resolution in frames per second (default 60).
+- **Loop** — whether the clip wraps around or plays once.
+- \`length\` is derived from your last keyframe.
+
+### Animation events
+
+Keyframes change *what the sprite looks like*; **animation events** make things *happen* at exact moments in the clip. An event calls a method on one of the entity's scripts when playback crosses a specific frame — the reliable way to sync gameplay to animation: a footstep sound on the frame the foot lands, a hitbox spawned on the exact frame of a sword swing, a screen shake when a monster stomps.
+
+In the Animation Timeline, each animated entity has an **event track** running along the top. To add an event:
+
+1. Move the scrubber to the frame where it should fire.
+2. Right-click the event track (or use its **Add Event** control) at that frame.
+3. Pick the target **behaviour**, the **method** to call, and fill in any argument values the method takes.
+
+A diamond marker appears on the event track at that frame. The method is just an ordinary function on one of your scripts — no special attribute needed:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class Player : CometBehaviour
+{
+    AudioSample footstepSound;   // assigned in the Inspector
+
+    // Called by the animation event on the foot-plant frames.
+    void OnFootstep()
+    {
+        AudioSource::PlaySingle(footstepSound, 0.6F);
+    }
+
+    // Events can pass arguments configured in the timeline.
+    void SpawnHitbox(int damage)
+    {
+        Debug::Log("swing hitbox active for " + damage + " damage");
+    }
+}
+\`\`\`
+
+The \`PlayerRun\` clip in the screenshot above, for instance, has two \`OnFootstep\` events — one on each frame where a foot hits the ground — so the footstep audio stays perfectly in step with the run cycle no matter how the animation's speed is scaled.
+
+> [!NOTE]
+> Events fire when playback *crosses* their frame during normal play. When you \`Seek()\` to scrub the animator deterministically (for a network correction, say), pass \`fireEvents = false\` so you don't retrigger sounds and hitboxes while jumping through the timeline.
+
+> [!WARNING]
+> An event calls a method **by name** on the target behaviour. If you rename or remove that method in your script, the event silently stops firing — so keep event-target method names stable, or update the event when you refactor.
+
+## Building the state machine
+
+Right-click the **Project** panel → **Create Resource → Animator Controller**, then double-click it to open the **Animator** graph:
+
+![The Animator window: the parameters panel on the left, the state-machine graph with its Entry, Any State and Exit nodes on the right.](/tutorials/animator-graph.png)
+
+The workflow, end to end:
+
+1. **Create states** — right-click the background → **Create State**. Assign each state an Animation clip and a name (\`Idle\`, \`Run\`, \`Jump\`...).
+2. **Pick the entry state** — right-click a state → **Set as Entry**. This is where the machine starts.
+3. **Connect them** — right-click a state → **Create Transition To**, then click the target state.
+4. **Add parameters** — in the **Parameters** panel, click **+ Add Parameter** and choose a type:
+
+   | Type | Use for |
+   |------|---------|
+   | \`Float\` | Continuous values — speed, aim angle. |
+   | \`Int\` | Discrete values — weapon id, combo step. |
+   | \`Bool\` | Persistent flags — grounded, crouching. |
+   | \`Trigger\` | One-shot events — jump, hit. Consumed automatically when a transition uses it. |
+
+5. **Add conditions to transitions** — right-click a transition → **Edit Conditions**. Combine parameter checks (\`speed\` greater than \`0.1\`, \`isGrounded\` is true...); *all* conditions must pass. Enable **Exit Time** on a transition to also require the current animation to finish first — ideal for attack chains that must not cut off mid-swing.
+
+For big graphs, group states into **sub-state machines** (right-click → **Create State Machine**, double-click to enter). States inside are addressed with a slash path like \`"Combat/Attack1"\`.
+
+> [!TIP]
+> The controller's **Conditions Check Mode** decides *when* transitions are evaluated: only when a parameter changes or an animation ends (cheap, default) or every animation update (reactive, a bit costlier).
+
+## Playing it on an entity
+
+Select your entity, **Add Behaviour → Animator**, and drop the controller into the **Animator Controller** field. Useful inspector options:
+
+- **Speed** — global playback multiplier for this entity.
+- **Update Time Mode** — \`Scaled Time\` (respects \`Time\` scaling and pauses), \`Unscaled Time\` (UI, pause menus) or \`Physics Time\` (sync with FixedUpdate).
+- **Keep State On Disable** — when re-enabled, resume where it left off instead of restarting from entry.
+
+## Driving the Animator from AngelScript
+
+Your gameplay code never plays clips directly — it feeds **parameters** and lets the state machine decide:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class PlayerAnimation : CometBehaviour
+{
+    private Animator animator;
+
+    void Start()
+    {
+        animator = Animator::Get(entity);
+    }
+
+    void Update()
+    {
+        float moveX = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) moveX -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) moveX += 1.0F;
+
+        animator.SetFloat("speed", Math::Abs(moveX));
+        animator.SetBool("isMoving", moveX != 0.0F);
+
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            animator.SetTrigger("jump"); // consumed by the Idle->Jump transition
+        }
+    }
+}
+\`\`\`
+
+You can also query and force states directly:
+
+\`\`\`angelscript
+// What is playing right now?
+AnimatorStateInfo state = animator.GetCurrentState();
+if (state !is null)
+{
+    Debug::Log(state.name + " at " + state.normalizedTime);
+}
+
+// Bypass transitions entirely (cutscenes, deaths):
+animator.Play("Death", 0.0F);            // state name
+animator.Play("Combat/Attack1", 0.0F);   // state inside a sub-machine
+
+// Deterministically scrub to a point in the current state (e.g. after a
+// network correction). fireEvents = false skips animation events on the way.
+animator.Seek(0.5F, false);
+\`\`\`
+
+> [!TIP]
+> \`SetFloat("speed", ...)\` hashes the parameter name every call. In hot loops, resolve the ID once and reuse it:
+>
+> \`\`\`angelscript
+> private uint64 speedId;
+> void Start() { speedId = animator.GetParameterID("speed"); }
+> void Update() { animator.SetFloat(speedId, currentSpeed); }
+> \`\`\`
+
+## State machine behaviours
+
+Sometimes logic belongs to a *state*, not to the entity — "play a sound while in \`Alert\`", "enable the hitbox during \`Attack\`". Right-click a state → **Add Script → AnimatorStateBehaviour** and Comet generates a script skeleton for you:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class AlertState : AnimatorStateBehaviour
+{
+    // Called when the animator enters this state.
+    void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo)
+    {
+        Debug::Log(animator.entity.name + " entered " + stateInfo.name);
+    }
+
+    // Called every animation update while this state is active.
+    void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo)
+    {
+    }
+
+    // Called when the animator leaves this state.
+    void OnStateExit(Animator animator, AnimatorStateInfo stateInfo)
+    {
+    }
+}
+\`\`\`
+
+The instance lives as long as the controller is in use, and \`Awake()\` / \`OnDestroy()\` bracket its lifetime.
+
+## Reusing a controller: Animator Overrides
+
+An **Animator Controller Override** (\`Create Resource → Animator Controller Override\`) wraps an existing controller and swaps its clips while keeping every state, transition and parameter. Build the state machine once for "humanoid enemy", then create overrides for the goblin, the skeleton and the knight that only replace the animations:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class SkinSwapper : CometBehaviour
+{
+    void ApplySkin(AnimatorControllerOverride skin)
+    {
+        Animator::Get(entity).animatorController = skin;
+    }
+}
+\`\`\`
+
+From code you can inspect and edit overrides with \`GetOverride()\` / \`SetOverride(original, replacement)\`.
+
+## Animator quick reference
+
+| Task | Call |
+|------|------|
+| Set parameters | \`SetFloat / SetInt / SetBool (name or id, value)\` |
+| Fire a trigger | \`SetTrigger("jump")\`, cancel with \`ResetTrigger("jump")\` |
+| Read parameters | \`GetFloat / GetInt / GetBool / GetTrigger\` |
+| Current state | \`GetCurrentState()\` → \`name\`, \`fullName\`, \`normalizedTime\` |
+| Force a state | \`Play("StateName", normalizedTime)\` |
+| Scrub deterministically | \`Seek(normalizedTime, fireEvents)\` |
+| Playback speed | \`speed\` property |
+| Reset parameters | \`SetDefaultParameterValues()\` |
+
+## Where to go next
+
+Hook animation parameters to real movement in the [Navigation tutorial](/tutorials/navigation), or trigger animations across the network in [Networking & Multiplayer](/tutorials/networking).
+`},{id:`bezier`,title:`Bézier Curves & Paths`,icon:`fa-bezier-curve`,category:`Animation`,blurb:`Author smooth paths and move platforms, cameras and projectiles along them.`,md:`# Bézier Curves & Paths
+
+Moving platforms that sweep along a smooth arc, a camera that glides through a level, a projectile that curves to its target — all of these follow a **Bézier curve**. Comet gives you a **Bézier Curve** behaviour to author the path and a **Bézier Curve Follower** to move any transform along it.
+
+![The Bézier Curve and Bézier Curve Follower components in the Inspector.](/tutorials/bezier-inspector.png)
+
+## The two components
+
+Both are added from **Add Behaviour → Diverse**:
+
+- **Bézier Curve** — stores the path as a cubic spline: a list of **control points**, each with an anchor and two tangent handles. Its inspector has a small toolbar to **Move Points**, **Move Control Points**, **Add Points** and **Remove Points** directly in the scene view, plus a **Bake Interval** (how finely the curve is sampled for fast lookups).
+- **Bézier Curve Follower** — moves a transform along a target curve, optionally rotating to face the direction of travel.
+
+## Authoring a curve in the editor
+
+1. Add a **Bézier Curve** to an entity and select it.
+2. Click **Add Points** in its inspector toolbar, then click in the scene to drop anchor points — the green spline appears between them.
+3. Switch to **Move Control Points** and drag the tangent handles to bend each segment.
+4. Tweak the **Bake Interval** down for a smoother, more accurate follow (at a small memory cost).
+
+![A Bézier curve in the Scene view: blue anchor points, red tangent handles and the smooth spline drawn between them.](/tutorials/bezier-curve.png)
+
+## Following a curve
+
+Add a **Bézier Curve Follower**, set **Curve to Follow** to your curve, then advance it every frame. You drive the distance yourself, which keeps movement speed independent of the curve's length:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class Platform : CometBehaviour
+{
+    private BezierCurveFollower follower;
+    private float distance = 0.0F;
+    float speed = 2.0F;   // world units per second
+
+    void Start()
+    {
+        follower = BezierCurveFollower::Get(entity);
+        follower.loop = true;          // wrap around at the ends
+        follower.applyRotation = false; // a platform stays level
+    }
+
+    void Update()
+    {
+        distance += speed * Time::GetDeltaTime();
+        follower.MoveAt(distance, transform);
+    }
+}
+\`\`\`
+
+- **\`MoveAt(distance, transform)\`** places the transform at an absolute arc-length distance along the curve. With **\`loop = true\`** the distance wraps; with \`loop = false\` it clamps at the ends.
+- **\`MoveAtNormalized(t, transform)\`** takes \`t\` from 0 to 1 instead — handy when you're driving progress from an animation or a timer rather than a speed.
+
+## Facing the direction of travel
+
+For a projectile or a character, tick **Apply Rotation** and the follower rotates the transform to point along the curve's tangent. **Look Ahead** sets how far along the curve it samples that tangent — smaller for fast, twitchy followers; larger for slow, smooth ones. **Rotation Offset** adds a fixed angle (if your sprite faces up instead of right), and **Position Offset** shifts it along/perpendicular to the path.
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class HomingMissile : CometBehaviour
+{
+    private BezierCurveFollower follower;
+    private float distance = 0.0F;
+    float speed = 12.0F;
+
+    void Start()
+    {
+        follower = BezierCurveFollower::Get(entity);
+        follower.applyRotation = true;   // nose follows the curve
+        follower.lookAhead = 0.03F;
+        follower.loop = false;
+
+        BezierCurve curve = BezierCurve::Get(entity);
+        float length = curve.curve.length;
+        Debug::Log("flight path is " + length + "m long");
+    }
+
+    void Update()
+    {
+        distance += speed * Time::GetDeltaTime();
+        follower.MoveAt(distance, transform);
+    }
+}
+\`\`\`
+
+> [!TIP]
+> The follower does **not** move on its own — you accumulate \`distance\` and call \`MoveAt\` each frame. That's deliberate: it lets you ease, reverse, pause or ping-pong the motion however you like, and drive several followers along the same shared curve at different speeds.
+
+## Building a curve from code
+
+You can author the path entirely in script — useful for procedural levels or runtime-generated trajectories:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class RuntimePath : CometBehaviour
+{
+    void Start()
+    {
+        Curve curve = BezierCurve::Get(entity).curve;
+        curve.AddPoint(Vector2(0.0F, 0.0F), -1);   // -1 appends
+        curve.AddPoint(Vector2(5.0F, 3.0F), -1);
+        curve.AddPoint(Vector2(10.0F, 0.0F), -1);
+
+        // Shape the segments with tangent handles.
+        curve.SetControlPointOut(0, Vector2(2.0F, 0.0F));
+        curve.SetControlPointIn(1, Vector2(3.0F, 2.0F));
+
+        Debug::Log("baked length: " + curve.length);
+    }
+}
+\`\`\`
+
+\`AddPoint\`, \`SetControlPointIn/Out\`, \`RemovePoint\` and \`ClearPoints\` edit the point list; \`CalculatePointAt(distance, cubic)\` and \`GetClosestPoint(worldPoint)\` sample it. The bake cache rebuilds automatically after edits — do heavy building in \`Start\`, not every frame.
+
+## Where to go next
+
+Combine a curve-following camera with your [UI](/tutorials/ui-system), or trigger a projectile's launch from an [input action](/tutorials/input) or [animation event](/tutorials/animation).
+`},{id:`physics`,title:`Physics: Bodies, Colliders & Joints`,icon:`fa-cubes-stacked`,category:`Physics`,blurb:`Rigid bodies, colliders, triggers, raycasts and joints on the Box2D backend.`,md:`# Physics: Bodies, Colliders & Joints
+
+Gravity, collisions, bouncing, ragdolls, vehicles — Comet's 2D physics runs on **Box2D 3.x**. You give an entity a **Rigid Body** to make it move under physics, one or more **Colliders** to give it shape, and optionally **joints** to connect bodies or **effectors** to push them around.
+
+![A rigid body with a box collider gizmo, and the Rigid Body inspector.](/tutorials/physics-scene.png)
+
+## The three body types
+
+Add a **Rigid Body** and pick its **Body Type**:
+
+- **Dynamic** — fully simulated: gravity, forces, collisions. Your player, crates, debris.
+- **Kinematic** — moves only when you set its velocity/position; unstoppable by forces. Moving platforms, scripted hazards.
+- **Static** — never moves. Level geometry. (An entity with only a collider and no rigid body behaves as static.)
+
+The Rigid Body inspector exposes **Mass**, **Gravity Scale**, **Linear/Angular Drag**, axis **constraints**, **Collision Detection** (\`Discrete\` or \`Continuous\` for fast objects) and interpolation.
+
+> [!IMPORTANT]
+> Physics units are **metres**, and simulation runs in **\`FixedUpdate\`**, not \`Update\`. Apply forces and read velocities in \`FixedUpdate\` so they're consistent with the fixed timestep. If your art is in pixels, divide sizes by your pixels-per-unit (e.g. 100 px = 1 m).
+
+## Colliders
+
+Add a collider from **Add Behaviour** — **Box**, **Circle**, **Capsule**, **Edge**, **Polygon**, **Tilemap** or **Packer** Collider. They render green outline gizmos in the scene. Each collider has:
+
+- **Is Trigger** — a trigger detects overlaps but doesn't physically block.
+- **Friction** and **Bounciness** (restitution), or a shared **Physic Material** asset carrying both.
+- **Offset** and shape-specific fields (Box \`Size\`, Circle \`Radius\`, ...).
+
+## Moving a body
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class PlayerMovement : CometBehaviour
+{
+    private RigidBody body;
+    float moveSpeed = 6.0F;
+    float jumpImpulse = 8.0F;
+
+    void Start()
+    {
+        body = RigidBody::Get(entity);
+    }
+
+    void FixedUpdate()
+    {
+        // Drive horizontal motion by setting the velocity directly — snappy,
+        // predictable control that ignores mass. The vertical velocity is left
+        // untouched so gravity and jumps still work.
+        float dir = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) dir -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) dir += 1.0F;
+        body.velocity = Vector2(dir * moveSpeed, body.velocity.y);
+
+        // Jump with an instantaneous impulse.
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            body.ApplyLinearImpulse(Vector2(0.0F, jumpImpulse));
+        }
+    }
+}
+\`\`\`
+
+> [!NOTE]
+> **Setting \`velocity\` vs. applying forces.** Assigning \`body.velocity\` directly gives snappy, mass-independent control — ideal for a responsive player character or a kinematic platform. Forces are for physical, mass-aware motion: **\`ApplyForce\`** accumulates over the step (thrust, wind, gravity-like pushes) while **\`ApplyLinearImpulse\`** changes velocity instantly (jumps, hits, knockback). There are \`AtPoint\` variants that also impart spin, plus \`ApplyTorque\` / \`ApplyAngularImpulse\` for rotation. Pick velocity for arcade feel, forces for simulation feel.
+
+## Collision and trigger callbacks
+
+Define these methods on any \`CometBehaviour\` and the engine calls them:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class Hazard : CometBehaviour
+{
+    // Solid collisions: Enter / Stay / Exit.
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug::Log("hit " + collision.entity.name +
+                   " with " + collision.contactPointsCount + " contacts");
+    }
+
+    // Trigger overlaps: Enter / Stay / Exit.
+    void OnTriggerEnter(Collider other)
+    {
+        Debug::Log(other.entity.name + " entered the trigger");
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Debug::Log(other.entity.name + " left the trigger");
+    }
+}
+\`\`\`
+
+\`OnCollisionEnter/Stay/Exit\` fire for solid contacts and hand you a \`Collision\` (the colliders, bodies, entity and contact points). \`OnTriggerEnter/Stay/Exit\` fire for trigger colliders and hand you the other \`Collider\`.
+
+## Raycasts and queries
+
+Ask the world what's along a ray or inside a box — the foundation of line-of-sight, ground checks and hitscan weapons:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class GroundCheck : CometBehaviour
+{
+    bool IsGrounded()
+    {
+        Vector2 origin = Vector2(transform.position.x, transform.position.y);
+        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(0.0F, -1.0F), 1.1F);
+        return hit !is null;
+    }
+
+    void FireLaser()
+    {
+        Vector2 origin = Vector2(transform.position.x, transform.position.y);
+        RaycastHit hit = Physics::RaycastClosest(origin, Vector2(1.0F, 0.0F), 50.0F);
+        if (hit !is null)
+        {
+            Debug::Log("laser hit " + hit.collider.entity.name +
+                       " at " + hit.distance + "m, normal " + hit.normal.ToString());
+        }
+    }
+}
+\`\`\`
+
+\`Physics::RaycastClosest / RaycastAny / Raycast\` (all hits) return \`RaycastHit\`s with \`point\`, \`normal\`, \`distance\`, \`collider\` and \`rigidbody\`. \`Physics::QueryAABB(center, size, ...)\` returns every collider in a box. All take an optional layer mask.
+
+## Collision layers
+
+Configure which layers collide in **Project Settings → Physics** (a 32-layer matrix). From code, \`Physics::IgnoreLayerCollision(a, b, true)\` and \`Physics::DoTheseLayersCollide(a, b)\` manage it at runtime — e.g. make enemy projectiles pass through other enemies.
+
+## Joints and effectors
+
+**Joints** constrain two bodies: **Hinge** (rotating door, wheel axle, with an optional motor and angle limits), **Distance** / **Spring** (ropes, suspension), **Slider** (elevators), **Wheel** (vehicles), **Fixed**, **Friction**, **Relative** and **Target**. Add one, assign the **Connected Rigid Body**, and set its anchors. A joint fires \`OnJointBreak(force)\` if it exceeds its **Break Force**.
+
+**Effectors** apply area forces to whatever overlaps them (the collider needs **Used By Effector**): **Area** (wind, water currents), **Point** (gravity wells, explosions), **Platform** (one-way platforms) and **Surface** (conveyor belts).
+
+## Physic Material assets
+
+Create a **Physic Material** (\`Create Resource → Physic Material\`) to reuse **Friction** and **Bounciness** across colliders — an "ice" material, a "rubber" material — and choose how paired materials combine (average, min, max, multiply).
+
+## Where to go next
+
+Drive physics from [input](/tutorials/input), react to hits with an [animation](/tutorials/animation) or [particle burst](/tutorials/particles), or build your collision world from a [tilemap](/tutorials/tilemap).
+`},{id:`input`,title:`Reading Raw Input`,icon:`fa-keyboard`,category:`Input`,blurb:`Poll keyboard, mouse, controllers and touch directly, frame by frame.`,md:`# Reading Raw Input
+
+The most direct way to know what the player is doing is to ask the hardware every frame: *is W held right now? did they just click? how far is the stick pushed?* This is **polling**, and it lives in the \`CometEngine::Input\` namespace. It's perfect for prototypes, game jams, fixed control schemes and touch handling.
+
+> [!TIP]
+> When you're ready for rebindable controls and first-class gamepad support, graduate to the [Input Actions system](/tutorials/input-actions) — the same input, but bound to named actions you configure in the editor. This tutorial is the raw layer underneath it.
+
+## The three verbs: Down, Pressed, Up
+
+For every button — keyboard, mouse or controller — there are three queries, and choosing the right one is most of the battle:
+
+| Query | True when... | Use it for |
+|-------|--------------|-----------|
+| **\`GetKeyDown(key)\`** | the **first frame** of the press (an edge) | one-shot actions: jump, shoot, confirm, toggle |
+| **\`GetKeyPressed(key)\`** | **every frame** the key is held (a level) | continuous actions: walking, charging, aiming |
+| **\`GetKeyUp(key)\`** | the frame it is **released** (an edge) | release actions: release a charged shot |
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+class Player : CometBehaviour
+{
+    float speed = 5.0F;
+
+    void Update()
+    {
+        // Continuous movement from held keys (level).
+        Vector2 move(0, 0);
+        if (Input::GetKeyPressed(KeyCode::W)) move.y += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) move.y -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) move.x -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) move.x += 1.0F;
+
+        // Fire once per press (edge).
+        if (Input::GetKeyDown(KeyCode::SPACE))
+        {
+            Fire();
+        }
+
+        transform.Translate(move * speed * Time::GetDeltaTime(), Space::World);
+    }
+
+    void Fire() { }
+}
+\`\`\`
+
+\`KeyCode\` covers the whole keyboard: letters (\`A\`–\`Z\`), digits, \`SPACE\`, \`RETURN\`, \`ESCAPE\`, the arrows (\`UP\`/\`DOWN\`/\`LEFT\`/\`RIGHT\`), function keys (\`F1\`–\`F12\`) and modifiers (\`SHIFT_LEFT\`, \`CONTROL_LEFT\`, ...).
+
+## Mouse
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+Vector2 mousePos = Input::GetMousePosition();     // screen space, (0,0) top-left
+Vector2 delta = Input::GetMouseMotion();          // movement since last frame
+float wheel = Input::GetMouseScrollMotion();      // scroll delta
+
+if (Input::GetMouseButtonDown(MouseCode::LEFT))   { /* click */ }
+if (Input::GetMouseButtonPressed(MouseCode::RIGHT)) { /* hold to aim */ }
+\`\`\`
+
+\`MouseCode\` is \`LEFT\`, \`MIDDLE\`, \`RIGHT\`, \`BUTTON_4\`, \`BUTTON_5\`. Mouse position is in **screen space** — to convert it to world space, go through your camera.
+
+## Controllers
+
+Comet supports up to eight controllers. Pass a \`ControllerNumber\` to target a specific one, or \`CONTROLLER_ANY\` for the first connected:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+// Analog stick — a Vector2 in the range -1..+1 on each axis.
+Vector2 leftStick = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+float rightTrigger = Input::GetControllerTriggerValue(ControllerTrigger::RIGHT, ControllerNumber::CONTROLLER_1);
+
+// Buttons — same Down / Pressed / Up trio as the keyboard.
+if (Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
+{
+    Jump();
+    Input::MakeControllerRumble(0.6F, 0.2F);   // strength 0..1, duration in seconds
+}
+
+// Discover what's plugged in at runtime.
+array<ControllerNumber> pads = Input::GetControllersConnected();
+\`\`\`
+
+\`ControllerCode\` names the face buttons (\`A\`/\`B\`/\`X\`/\`Y\`), the D-pad (\`DPAD_UP\`...), shoulders, stick clicks and analog-stick directions as virtual buttons (\`LEFT_AXIS_UP\`...). \`MakeControllerRumble\` and \`PlayHapticPreset\` drive vibration. \`GetActiveInputDevice()\` tells you whether the player is currently on keyboard-and-mouse or a gamepad, so you can swap on-screen button prompts to match.
+
+## Touch
+
+Touch is multi-touch aware: each finger is a \`Touch\` with a **stable \`id\`** you can follow across frames, plus \`position\`, \`motion\` and a \`state\` (\`STARTED\` / \`MOVED\` / \`ENDED\`):
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+uint64 touchCount = Input::GetTouchCount();
+for (uint64 i = 0; i < touchCount; i++)
+{
+    Touch touch = Input::GetTouchByIndex(i);
+    if (touch.state == TouchState::ENDED) continue;
+
+    // touch.id follows this finger; touch.position is screen space.
+    Debug::Log("finger " + touch.id + " at " + touch.position.ToString());
+}
+\`\`\`
+
+This is how the sample project's mobile controller builds a virtual joystick — it claims the first finger that lands on the left half of the screen (tracking it by \`id\`) and reads its offset from the touch-down point each frame. \`Input::IsPinching()\` and \`Input::GetPinchZoom()\` give you two-finger pinch for zoom.
+
+## Reading a whole character controller
+
+Putting the verbs together — keyboard *and* gamepad, movement *and* a one-shot fire, exactly as the sample project's \`Player\` script does it:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Input;
+
+class Player : CometBehaviour
+{
+    float speed = 6.0F;
+
+    void Update()
+    {
+        // Movement: keyboard OR left stick, whichever the player uses.
+        Vector2 velocity = Input::GetControllerAxisValue(ControllerAxis::LEFT, ControllerNumber::CONTROLLER_1);
+        if (Input::GetKeyPressed(KeyCode::W)) velocity.y += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) velocity.y -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) velocity.x -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) velocity.x += 1.0F;
+
+        // Fire: space OR the A button, once per press.
+        if (Input::GetKeyDown(KeyCode::SPACE) ||
+            Input::GetControllerButtonDown(ControllerCode::A, ControllerNumber::CONTROLLER_1))
+        {
+            Fire();
+        }
+
+        transform.Translate(velocity * speed * Time::GetDeltaTime(), Space::World);
+    }
+
+    void Fire() { }
+}
+\`\`\`
+
+> [!WARNING]
+> Notice this reads two hard-coded keys for every action, and there's no way for the player to rebind them or for a designer to tune deadzones. That's fine for a jam — but the moment you want remappable controls, "hold to charge", or clean multi-device support, it's time for [Input Actions](/tutorials/input-actions).
+
+## Where to go next
+
+Turn these reads into movement with [Physics](/tutorials/physics), or step up to rebindable, designer-friendly controls with [Input Actions](/tutorials/input-actions).
+`},{id:`input-actions`,title:`Input Actions: The Input Module`,icon:`fa-gamepad`,category:`Input`,blurb:`Bind rebindable named actions, add deadzones and hold/tap, and debug them live.`,md:`# Input Actions: The Input Module
+
+Reading \`KeyCode::SPACE\` directly works, but it hard-codes your controls: no rebinding, no clean gamepad support, no "hold to charge" without hand-rolled timers. Comet's **Input module** fixes all of that. You define named **actions** — "Jump", "Move", "Fire" — in the editor, bind them to any keys, buttons or sticks you like, and your code just asks the action for its value. Rebinding, deadzones, hold/tap detection and multi-device support all become configuration instead of code.
+
+> [!TIP]
+> This is the layer above [raw input polling](/tutorials/input). If you only need a couple of fixed keys, polling is simpler. For a shippable game with gamepad support and remappable controls, use actions.
+
+## The model: groups, actions, bindings
+
+Three concepts nest inside each other:
+
+- An **Input Group** organizes related actions — a \`Gameplay\` group, a \`UI\` group, a \`Vehicle\` group. Groups can be enabled and disabled as a unit, so entering a menu can switch the whole control scheme in one line.
+- An **Input Action** is a named intent with a **value type**: \`Button\` (pressed / not), \`Axis\` (a 1-D float, like a throttle) or \`Vector2\` (a 2-D direction, like movement).
+- A **Binding** connects a physical control to an action. One action can have many bindings — that's how *Jump* answers to both the space bar and the gamepad's A button. **Composite** bindings combine several controls into one value (four keys → a \`Vector2\`, two keys → an axis).
+
+## Configuring actions in the editor
+
+Open **Project Settings → Input**. This is where the whole scheme is authored:
+
+![The Input panel in Project Settings, with groups, actions and their bindings.](/tutorials/input-settings.png)
+
+1. **Add a group** (e.g. \`Gameplay\`).
+2. **Add actions** to it (e.g. \`Move\` as a \`Vector2\`, \`Jump\` as a \`Button\`) and pick each one's value type.
+3. **Add bindings** to each action. For \`Move\`, a **2D Vector composite** turns W/A/S/D into a \`Vector2\`; add a second binding for the gamepad's left stick and the action seamlessly accepts either. For \`Jump\`, add the space bar and the A button.
+4. Optionally attach **processors** and **interactions** (below).
+5. Save — the scheme is stored with the project.
+
+### Processors: shaping the value
+
+A **processor** post-processes a binding's or action's raw value:
+
+- **Deadzone** — ignore tiny stick drift below a threshold.
+- **Invert X / Invert Y** — flip an axis (inverted-Y aiming).
+- **Scale** — multiply the value (sensitivity).
+- **Normalize / Clamp** — bound the range.
+- **Response Curve** — ease the input non-linearly, so small stick movements are gentle and large ones ramp up.
+
+### Interactions: shaping *when* it fires
+
+An **interaction** decides what counts as "performed", so timing-based inputs are configuration, not code:
+
+- **Press** — fires immediately (the default).
+- **Hold** — fires after the control is held for a set time (hold to charge, hold to interact).
+- **Tap** — fires on a quick press-and-release.
+- **Slow Tap / Multi-Tap** — deliberate presses, or double/triple taps (double-tap to dash).
+
+## Reading actions from AngelScript
+
+Fetch a group by name, pull out its actions, and read them. The value-type getters mirror the raw polling verbs:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::InputSettings;
+
+class PlayerController : CometBehaviour
+{
+    private InputAction moveAction;
+    private InputAction jumpAction;
+
+    void Start()
+    {
+        InputGroup group = InputSettings::GetGroupByName("Gameplay");
+        if (group !is null)
+        {
+            moveAction = group.GetActionByName("Move");
+            jumpAction = group.GetActionByName("Jump");
+        }
+    }
+
+    void Update()
+    {
+        // One Vector2, whether it came from WASD or the left stick.
+        if (moveAction !is null)
+        {
+            Vector2 move = moveAction.GetVector2();
+            transform.Translate(move * 5.0F * Time::GetDeltaTime(), Space::World);
+        }
+
+        // wasPressedThisFrame is the action-system GetKeyDown.
+        if (jumpAction !is null && jumpAction.wasPressedThisFrame)
+        {
+            Jump();
+        }
+    }
+
+    void Jump() { }
+}
+\`\`\`
+
+The state accessors:
+
+| Accessor | Equivalent raw verb |
+|----------|--------------------|
+| \`isPressed\` | \`GetKeyPressed\` (held) |
+| \`wasPressedThisFrame\` | \`GetKeyDown\` (press edge) |
+| \`wasReleasedThisFrame\` | \`GetKeyUp\` (release edge) |
+| \`GetBool()\` / \`GetFloat()\` / \`GetVector2()\` | typed value read |
+
+\`phase\` (\`IDLE\` / \`STARTED\` / \`PERFORMED\`) exposes the interaction state machine when you need it.
+
+## Callbacks instead of polling
+
+For fire-and-forget events, subscribe to an action's signals rather than checking it every frame:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::InputSettings;
+
+class WeaponController : CometBehaviour
+{
+    void Start()
+    {
+        InputGroup group = InputSettings::GetGroupByName("Gameplay");
+        InputAction fire = group.GetActionByName("Fire");
+        if (fire !is null)
+        {
+            fire.onStarted.Add(InputActionCallback(OnFireStarted));
+            fire.onCancelled.Add(InputActionCallback(OnFireReleased));
+        }
+    }
+
+    void OnFireStarted(InputAction action)   { Debug::Log("fire down"); }
+    void OnFireReleased(InputAction action)  { Debug::Log("fire up"); }
+}
+\`\`\`
+
+\`onStarted\`, \`onPerformed\` and \`onCancelled\` fire once per state transition — ideal for hold/charge weapons where you care about the *edges*, not every frame in between.
+
+## The generated InputWrapper
+
+Typing action names as strings is error-prone. The editor can generate a typed **InputWrapper** for your groups, so you can reach any action with autocompletion and no string lookups:
+
+\`\`\`angelscript
+// Generated from the editor's Input settings:
+Vector2 move = InputWrapper::Gameplay.Move.GetVector2();
+if (InputWrapper::Gameplay.Jump.wasPressedThisFrame) Jump();
+\`\`\`
+
+**Generating it:** at the top of the **Project Settings → Input** panel, next to **Input Wrapper**, click **Create**. Comet writes an \`InputWrapper\` script with a typed accessor for every group and action, which you can then use anywhere in your code.
+
+> [!IMPORTANT]
+> The wrapper is *generated code* — a snapshot of your scheme, not a live view of it. **Every time you add, remove or rename a group or action, regenerate it by clicking the refresh button** (the *Create* control becomes a refresh once the wrapper exists). Skip this and the wrapper drifts out of sync — a renamed action still exposes its old name, and a new one won't appear at all.
+
+Under the hood the wrapper simply caches \`GetGroupByName\` / \`GetActionByName\` for you (exactly the pattern shown above), but you get compile-time names and IDE completion for free.
+
+## Switching schemes with groups
+
+Because groups enable and disable as a unit, swapping control contexts is trivial:
+
+\`\`\`angelscript
+using namespace CometEngine::InputSettings;
+
+void OpenPauseMenu()
+{
+    InputSettings::GetGroupByName("Gameplay").enabled = false;
+    InputSettings::GetGroupByName("UI").enabled = true;
+}
+\`\`\`
+
+Now \`Gameplay\` actions go quiet while the pause menu is up, and the \`UI\` group's Navigate/Submit/Cancel take over — no flags threaded through your gameplay code.
+
+## The Input Debugger
+
+When a binding "doesn't fire" or a stick reads the wrong axis, open **Window → Input Debugger**. It lists every group and action with its **value type**, live **phase**, and current **value**, updating in real time — so you can watch an action light up as you press the key and confirm the binding is wired the way you think.
+
+![The Input Debugger panel showing live action values in play mode.](/tutorials/input-debugger.png)
+
+At the top it also shows the **active device** (Keyboard & Mouse or Gamepad) and the **number of connected controllers**. Live values appear once you enter **play mode** — in edit mode it prompts you to press Play.
+
+> [!NOTE]
+> The Input Debugger is the fastest way to diagnose input problems: if the action doesn't react here, the binding is wrong (fix it in Project Settings); if it *does* react here but not in your game, the bug is in your script.
+
+## Where to go next
+
+Drive a character with actions and [Physics](/tutorials/physics), or wire the \`UI\` group's Navigate/Submit into your [menus](/tutorials/ui-system).
+`},{id:`ui-system`,title:`Building User Interfaces`,icon:`fa-window-maximize`,category:`UI`,blurb:`Canvas, RectTransform anchoring, buttons, text, layouts and input events.`,md:'# Building User Interfaces\n\nMenus, HUDs, dialogs, settings screens — Comet\'s UI system is a retained, anchor-based layout system in the spirit of Unity\'s uGUI: a **Canvas** at the root, **RectTransform** on every element, and a family of widgets (Button, Text, Image, InputField, Slider...) that raise events your scripts react to.\n\n![A Canvas with a button selected, showing the RectTransform anchors in the inspector.](/tutorials/ui-canvas.png)\n\n## The Canvas\n\nEvery piece of UI lives under a **Canvas** entity (right-click the Hierarchy → **UI → Canvas**). Its **Render Mode** decides where the UI exists:\n\n- **Screen Space** — the canvas is glued to the screen. Menus, HUDs, anything resolution-anchored.\n- **World Space** — the canvas lives in the world like any other entity. Health bars over enemies, computer screens inside the scene, damage numbers.\n\nCanvases can be **nested**; a nested canvas can `overrideSorting` to force itself above or below its surroundings.\n\n## RectTransform: anchors, pivot and size\n\nUI entities replace the plain Transform with a **RectTransform** — a rectangle whose position and size are expressed *relative to the parent rectangle* through **anchors**:\n\n- `anchorMin` / `anchorMax` — two normalized points (0–1) in the parent. When both are equal you get a fixed-size element pinned to that point; when they differ, the element **stretches** with the parent.\n- `pivot` — the point of the element (0–1) that `anchoredPosition` positions, and the center of rotation/scaling.\n- `anchoredPosition` + `size` — where the pivot sits relative to the anchors, and how big the rect is.\n- When stretched, you edit the margins instead: `leftDistance`, `rightDistance`, `topDistance`, `bottomDistance`.\n\nThe Inspector\'s anchor preset widget covers the common cases in one click — corners, edges, center, and full-stretch. Rules of thumb:\n\n> [!TIP]\n> Anchor each element to the screen region it belongs to: score to the top-left, minimap to the top-right, action bar stretched along the bottom. The layout then survives every aspect ratio without a single line of code.\n\nFrom script, the same properties are read/write:\n\n```angelscript\nusing namespace CometEngine;\n\nclass HealthBarFill : CometBehaviour\n{\n    private RectTransform rect;\n    private float fullWidth;\n\n    void Start()\n    {\n        rect = RectTransform::Get(entity);\n        fullWidth = rect.size.x;\n    }\n\n    void SetHealth(float normalized) // 0..1\n    {\n        rect.size = Vector2(fullWidth * normalized, rect.size.y);\n    }\n}\n```\n\n## The widget family\n\nAll widgets live in the `CometEngine::UI` namespace and are created from the Hierarchy\'s **UI** submenu. The visual ones derive from `Graphic` (which gives them `color`, `material` and a `mouseFilter`); the interactive ones derive from `Selectable` (which adds `interactable`, hover/press **transitions**, and keyboard/gamepad **navigation**):\n\n| Widget | Purpose | Key members |\n|--------|---------|-------------|\n| `Text` | Styled text, BBCode, auto-sizing | `text`, `font`, `fontSize`, `horizontalAlignment`, `bbcodeEnabled`, `bold`... |\n| `Image` | Sprite display, 9-slice, tiling | `sprite`, `renderMode` (Simple/Sliced/Tiled), `fillCenter` |\n| `Button` | Click target | `onClick`, `interactable` |\n| `InputField` | Text entry | `textValue`, `characterLimit`, `contentType`, `onValueChanged`, `onEndEdit` |\n| `Slider` | Draggable value | `value`, `minValue`, `maxValue`, `wholeNumbers`, `onValueChanged` |\n| `Toggle` | Checkbox | `isOn`, `group`, `onValueChanged` |\n| `ToggleGroup` | Radio-button behaviour for Toggles | `allowSwitchOff` |\n| `DropDown` | Option list | `value`, `AddOption()`, `SetOptions()`, `onValueChanged` |\n| `ScrollRect` | Scrollable content | `content`, `horizontal`, `vertical`, `movementType`, `inertia` |\n| `Scrollbar` | Standalone scroll handle | `value`, `size`, `direction` |\n\n## Reacting to input\n\nThere are two complementary mechanisms.\n\n### 1. Pointer interfaces — any entity, any shape\n\nImplement one or more pointer interfaces on a `CometBehaviour` and the UI input system calls you directly. This is the pattern used across Comet\'s own sample project:\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::UI;\n\nclass PlayButton : CometBehaviour, IPointerClickAction\n{\n    void OnPointerClick(PointerEvent pointerEvent)\n    {\n        Debug::Log("Play clicked!");\n        SceneManagement::SceneManager::LoadScene("Level1");\n    }\n}\n```\n\nThe full set: `IPointerClickAction`, `IPointerDownAction`, `IPointerUpAction`, `IPointerUpOutsideAction`, `IPointerEnterAction`, `IPointerExitAction`, `IBeginDragAction`, `IDragAction`, `IEndDragAction`, `ISelectAction`, `IDeselectAction`, `ISubmitAction`. Drag-and-drop, for instance, is three methods:\n\n```angelscript\nclass DraggableCard : CometBehaviour, IBeginDragAction, IDragAction, IEndDragAction\n{\n    void OnBeginDrag(PointerEvent event) { Debug::Log("BEGIN DRAG"); }\n    void OnDrag(PointerEvent event)      { Debug::Log(event.handler.entity.name); }\n    void OnEndDrag(PointerEvent event)   { Debug::Log("END DRAG"); }\n}\n```\n\n### 2. Widget events — values, not clicks\n\nValue widgets expose typed events (`CometEvent` / `CometEventArg<T>`). Hook persistent listeners in the Inspector (the button\'s **On Click** list), or subscribe at runtime:\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::UI;\n\nclass SettingsMenu : CometBehaviour\n{\n    private Slider volumeSlider;\n\n    void Start()\n    {\n        volumeSlider = Slider::Get(Entity::Find("VolumeSlider"));\n        volumeSlider.minValue = 0.0F;\n        volumeSlider.maxValue = 1.0F;\n    }\n\n    void Update()\n    {\n        // Polling the value each frame is the simplest reliable pattern.\n        AudioSystem::SetMasterVolume(volumeSlider.value);\n    }\n}\n```\n\n## Real patterns from the sample project\n\n**Reading an InputField** (the multiplayer menu reads the server IP this way):\n\n```angelscript\nstring ReadIp()\n{\n    Entity ipEntity = Entity::Find("IpInput");\n    if (ipEntity !is null)\n    {\n        InputField field = InputField::Get(ipEntity);\n        if (field !is null && field.textValue.length() > 0)\n        {\n            return field.textValue;\n        }\n    }\n    return "127.0.0.1";\n}\n```\n\n**Filling a DropDown with the available screen resolutions:**\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::UI;\n\nclass ResolutionPicker : CometBehaviour\n{\n    private DropDown dropDown;\n\n    void Start()\n    {\n        dropDown = DropDown::Get(entity);\n\n        array<Resolution> resolutions = Window::GetAvailableResolutions();\n        array<DropDownOption> options;\n        for (uint i = 0; i < resolutions.length(); i++)\n        {\n            DropDownOption option;\n            option.name = resolutions[i].ToString();\n            options.insertLast(option);\n        }\n        dropDown.SetOptions(options);\n    }\n}\n```\n\n**Updating a Text label at runtime:**\n\n```angelscript\nvoid IncreaseCount()\n{\n    Entity ent = Entity::Find("TextClickCounter");\n    if (ent !is null)\n    {\n        UI::Text text = UI::Text::Get(ent);\n        if (text !is null)\n        {\n            int count = parseInt(text.text);\n            ++count;\n            text.text = formatInt(count);\n        }\n    }\n}\n```\n\n## Rich text with BBCode\n\nSet `bbcodeEnabled` on a Text and you can mix styling inline — and even register **custom tags** that scripts animate:\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::UI;\n\nclass FancyTitle : CometBehaviour\n{\n    void Start()\n    {\n        Text text = Text::Get(entity);\n        text.bbcodeEnabled = true;\n        text.RegisterBBCodeHandler("rainbow", BBCodeHandlerDelegate(RainbowTag));\n        text.text = "Welcome to [rainbow]Comet Engine[/rainbow]!";\n    }\n\n    void RainbowTag(BBCodeHandlerData data)\n    {\n        // Called per character inside the tag, every frame.\n        float hue = data.elapsedTime * 2.0F + float(data.relativeIndex) * 0.35F;\n        data.color = Color(Math::Sin(hue) * 0.5F + 0.5F,\n                           Math::Sin(hue + 2.1F) * 0.5F + 0.5F,\n                           Math::Sin(hue + 4.2F) * 0.5F + 0.5F,\n                           1.0F);\n    }\n}\n```\n\nThe handler receives the tag\'s parameters (`GetFloat/GetString/GetInt`), the character index and mutable `color`, `offset` and `visible` fields — enough for wave, shake and typewriter effects.\n\n## Automatic layouts\n\nStop positioning list items by hand — add a layout behaviour to the parent:\n\n- **VerticalLayout / HorizontalLayout** — stack children with `spacing` and `padding`; `childWidthFitMode` / `childHeightFitMode` optionally stretch them (`FIT_PARENT`, `FIT_AVAILABLE`).\n- **GridLayout** — fixed `cellSize` + `spacing`, flowing by `constraint` (`FLEXIBLE`, `FIXED_COLUMNS`, `FIXED_ROWS`) from a `startCorner`.\n- **LayoutElementConstraints** — per-child overrides: `minSize`, `preferredSize`, `flex`, or `ignoreLayout` to opt out.\n\nCombine with **ScrollRect** for scrollable lists: put the layout on the `content` rect and the ScrollRect handles clamping, elasticity and inertia. Use a **Mask** to clip the content to the viewport, and a **CanvasGroup** to fade or disable a whole subtree at once (`alpha`, `interactable`).\n\n## Fonts\n\nComet accepts two kinds of font, and both plug into a Text\'s `font` field:\n\n- **Vector fonts** — import a `.ttf` or `.otf` and the engine rasterizes glyphs at any size, so text stays crisp at every scale. The default for UI.\n- **Bitmap fonts** — a pre-rendered glyph atlas (a texture plus its layout), ideal for pixel-art games where you want text to scale in hard pixels rather than smooth vectors, or to match a specific retro look.\n\nText styling is per-widget regardless of the font kind: `fontSize` (or `autoFontSize` with min/max bounds to fit the rect), alignment, `wrapping`, `overflowMode`, plus `bold`, `italic`, `underline` and `strikethrough`.\n\n## Where to go next\n\nWire your new menu to actual gameplay: start a match in [Networking & Multiplayer](/tutorials/networking), or make the settings screen control [Audio & Mixers](/tutorials/audio).\n'},{id:`audio`,title:`Audio & Mixers`,icon:`fa-volume-high`,category:`Audio`,blurb:`Play 2D and positional sound, route it through mixer groups and control it from code.`,md:`# Audio & Mixers
+
+Sound sells the scene. Comet's audio stack — built on the battle-tested SoLoud engine — gives you positional 2D/3D sources, an Audio Mixer with hierarchical groups and snapshot layouts, DSP effects, and a scripting API that covers everything from "play a beep" to runtime device switching.
+
+## The three core pieces
+
+1. **AudioSample** — the imported sound resource (\`.wav\`, \`.ogg\`, \`.mp3\`).
+2. **AudioSource** — a behaviour that plays samples from an entity.
+3. **AudioListener** — the "ears". Add exactly one, usually on the camera. Without a listener in the scene, nothing is heard (the console warns you).
+
+Add them from **Add Behaviour → Audio → Audio Source / Audio Listener**.
+
+![An AudioSource inspector with a clip and mixer group assigned.](/tutorials/audiosource-inspector.png)
+
+## The AudioSource inspector
+
+| Field | Meaning |
+|-------|---------|
+| **Mode** | \`2D Audio\` (pan only) or \`3D Audio\` (distance attenuation + Doppler). |
+| **Audio Sample** | The clip to play. |
+| **Audio Mixer Group** | Where the sound routes — see Mixers below. |
+| **Play On Enable** | Auto-play whenever the behaviour is enabled. |
+| **Loop** | Restart when finished. |
+| **Mute** | Silence without stopping. |
+| **Volume** | Linear gain \`0.0 – 1.0\`. |
+| **Pitch** | Playback speed \`0.01 – 2.0\`. |
+| **Pan** | Stereo balance \`-1\` (left) to \`1\` (right) — 2D mode. |
+| **Min / Max Distance** | 3D mode: full volume inside min, silent beyond max. |
+| **Ignore Effects / Ignore Listener Effects** | Skip AudioEffect behaviours on this entity / on the listener. |
+
+Import settings on the AudioSample itself: **Preload Data** (decode on load — snappy playback) and **Is Stream** (stream from disk — big music files without the memory cost).
+
+## Playing sounds from AngelScript
+
+The bread-and-butter controls mirror the inspector:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DoorBell : CometBehaviour
+{
+    private AudioSource source;
+
+    void Start()
+    {
+        source = AudioSource::Get(entity);
+        source.volume = 0.8F;
+    }
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::E))
+        {
+            source.Play();     // also: Pause(), Resume(), Stop()
+        }
+
+        if (source.isFinished)
+        {
+            Debug::Log("ding done");
+        }
+    }
+}
+\`\`\`
+
+\`isPlaying\`, \`isPaused\` and \`isFinished\` report state; \`timePosition\` reads/writes the playhead in milliseconds; \`PlayOnce(sample)\` fires a different clip through this source's settings without replacing its assigned sample.
+
+### Fire-and-forget one-shots
+
+For impacts, pickups and UI clicks you don't want to manage a source at all — use the static helpers:
+
+\`\`\`angelscript
+// Play a sample globally (2D):
+AudioSource::PlaySingle(explosionSample, 0.9F);
+
+// Play at a world position (3D attenuation from that point):
+AudioSource::PlaySingleAtPosition(explosionSample, transform.position, 1.0F);
+
+// Need to control it afterwards? Use the tracked variants:
+AudioSource handle = AudioSource::PlaySingleTracked(alarmSample, 1.0F);
+// ... later:
+handle.Stop();
+\`\`\`
+
+Untracked one-shots clean themselves up when playback ends.
+
+> [!NOTE]
+> Assign samples to script fields through the Inspector by declaring them, e.g. \`AudioSample explosionSample;\` — or load them at runtime with \`RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)\`.
+
+## 2D vs 3D sound
+
+Set **Mode** to \`3D Audio\` and the source attenuates linearly between **Min Distance** and **Max Distance** from the listener, pans by direction, and applies **Doppler** when either side moves. Three global knobs shape the whole mix:
+
+\`\`\`angelscript
+AudioSystem::SetRolloffScale(1.5F);     // stronger distance falloff everywhere
+AudioSystem::SetDopplerFactor(1.0F);    // 0 = off, 1 = realistic, >1 exaggerated
+AudioSystem::SetAudioSourceDefaultMinDistance3D(2.0F);   // defaults for new sources
+AudioSystem::SetAudioSourceDefaultMaxDistance3D(40.0F);
+\`\`\`
+
+## The Audio Mixer
+
+Routing every source straight to the speakers gets unmanageable fast. Create a mixer asset — **Create Resource → Audio Mixer** in the Project panel — and open it to edit its group tree:
+
+![The Audio Mixer window with Master, Music and SFX groups.](/tutorials/audio-mixer.png)
+
+- Every mixer starts with a **Master** group; add children like \`Music\`, \`SFX\`, \`UI\`, \`Voice\` from the context menu.
+- Each group has **Volume**, **Pitch**, **Muted** and **Use Effects**.
+- Volumes multiply down the tree: a sound in \`SFX\` plays at \`master.volume × sfx.volume × source.volume\`.
+- Point each AudioSource's **Audio Mixer Group** field at the right group, and your options menu suddenly needs three sliders instead of three hundred.
+
+### Controlling groups from script
+
+Mixer groups are assets — reference them from a script with a serialized handle field, assign them in the Inspector, and change them live. This is the Sandbox project's audio controller, trimmed:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Audio;
+
+class AudioOptions : CometBehaviour
+{
+    [Serialize] AudioMixerGroup master;
+    [Serialize] AudioMixerGroup music;
+    [Serialize] AudioMixerGroup effects;
+
+    void Update()
+    {
+        if (Input::GetKeyDown(KeyCode::M))
+        {
+            master.muted = !master.muted;       // mute everything
+        }
+        if (Input::GetKeyDown(KeyCode::NUM_1))
+        {
+            music.volume = 0.25F;               // duck the music
+        }
+        if (Input::GetKeyDown(KeyCode::NUM_2))
+        {
+            effects.volume = 1.0F;
+        }
+    }
+}
+\`\`\`
+
+> [!TIP]
+> \`[Serialize]\` exposes a handle field in the Inspector so you can drag the mixer group (a sub-resource of the mixer asset) straight into it.
+
+### Layouts: mixer snapshots
+
+A mixer can store multiple **layouts** — complete snapshots of every group's settings. Author a \`Default\` layout and a \`Underwater\` layout (low-passed, muffled volumes), then switch at runtime:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Audio;
+
+class WaterZone : CometBehaviour
+{
+    [Serialize] AudioMixer gameMixer;
+
+    void EnterWater()
+    {
+        array<AudioMixerLayout> layouts = gameMixer.GetLayouts();
+        for (uint i = 0; i < layouts.length(); i++)
+        {
+            if (!layouts[i].isDefault)
+            {
+                layouts[i].Activate();   // apply the snapshot
+            }
+        }
+    }
+}
+\`\`\`
+
+The layout marked **Is Default** is applied automatically when the scene loads.
+
+## Audio effects
+
+Four DSP effects ship as behaviours under **Add Behaviour → Audio/Effects**: **AudioEffectDistortion**, **AudioEffectEcho**, **AudioEffectFlange** and **AudioEffectReverb**.
+
+- On a **source entity**, the effect processes that source's output.
+- On the **listener entity**, it processes everything the listener hears — instant cave reverb.
+
+Per-source opt-outs: \`ignoreEffects\` (skip effects on the source's own entity) and \`ignoreListenerEffects\` (skip the listener's).
+
+## Global playback & devices
+
+\`AudioSystem\` also handles app-wide concerns — pausing the whole mix for your pause menu, and output-device selection for a settings screen:
+
+\`\`\`angelscript
+AudioSystem::SetMasterVolume(0.5F);
+AudioSystem::PauseAll();     // pause menu opened
+AudioSystem::ResumeAll();    // and closed
+AudioSystem::StopAll();
+
+// Offer an output-device picker:
+array<string> devices = AudioSystem::GetOutputDevices();
+AudioSystem::SetCurrentOutputDevice(devices[0]);
+\`\`\`
+
+Hot-plugging is signalled through \`AudioSystem\` delegates (\`onOutputDeviceConnected\`, \`onOutputDeviceDisconnected\`) so your settings UI can refresh itself.
+
+## Where to go next
+
+Give your buttons click sounds in the [UI tutorial](/tutorials/ui-system), or trigger footsteps from animation events in [Animation & the Animator](/tutorials/animation).
+`},{id:`navigation`,title:`Navigation: NavMesh, Agents & Obstacles`,icon:`fa-route`,category:`Navigation`,blurb:`Bake navigation meshes, move agents along paths and avoid dynamic obstacles.`,md:`# Navigation: NavMesh, Agents & Obstacles
+
+Enemies that chase, NPCs that wander, units that flow around each other — 2D pathfinding in Comet is built on a baked **navigation mesh**, **A\\*** path queries with funnel smoothing, and optional **RVO collision avoidance** so crowds of agents don't clip through one another.
+
+![A Navigation Region covering the scene, a Navigation Obstacle ringing the cloud, and the region's settings — including the Bake button — in the Inspector.](/tutorials/navigation-scene.png)
+
+## The building blocks
+
+Four behaviours, all under **Add Behaviour**:
+
+| Behaviour | Role |
+|-----------|------|
+| **Navigation Region** | Defines *where walking is possible* and bakes the navmesh. |
+| **Navigation Agent** | Asks for paths and follows them; optionally avoids other agents. |
+| **Navigation Obstacle** | Carves holes in the navmesh and/or pushes agents away dynamically. |
+| **Navigation Link** | Connects two points that aren't walkable-between — jumps, teleporters, bridges. |
+
+## Setting up the walkable area
+
+1. Create an entity and add a **Navigation Region**.
+2. Set its **Size** — the rectangle to bake — or click **Edit Outline** and drag the green vertices to author any closed polygon.
+3. Set **Agent Radius**: the mesh is inset by this amount so paths never hug walls tighter than your agents can fit.
+4. Enable **Parse Geometry** if you want solid (non-trigger) colliders carved out automatically, and choose which physics layers with **Parse Collision Mask**.
+5. Press **Bake Navigation Mesh**.
+
+The baked, walkable polygons show as a colored overlay when scene gizmos are enabled. Multiple regions connect automatically where they touch (and across small gaps if **Use Edge Connections** is on). Regions also support pathfinding **costs** — raise **Travel Cost** above 1 to make agents prefer going around mud, or **Enter Cost** to penalize entering at all.
+
+> [!NOTE]
+> Baking happens on background threads at runtime too: call \`region.Bake()\` from script after you move platforms around or spawn structures, and agents re-path automatically when the new mesh is ready.
+
+## Moving an agent
+
+Add a **Navigation Agent** to your character. The core loop is: set \`targetPosition\`, then every physics step walk toward \`GetNextPathPosition()\`. This is the Sandbox project's agent, verbatim:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::Navigation;
+
+class AgentTest : CometBehaviour
+{
+    Vector2 desiredPos;
+    float velocity = 7.0F;
+    NavigationAgent agent;
+
+    // Called before first frame
+    void Start()
+    {
+        agent = NavigationAgent::Get(entity);
+
+        // While avoidance is enabled the simulation reports the collision-free
+        // velocity through the onVelocityComputed signal, so the body is moved
+        // from inside that callback.
+        agent.onVelocityComputed.Add(CometDelegateVector2(OnVelocityComputed));
+
+        // Where the agent should navigate to.
+        agent.targetPosition = desiredPos;
+    }
+
+    // Called every physics update
+    void FixedUpdate()
+    {
+        if (agent.IsNavigationFinished())
+        {
+            return;
+        }
+
+        Vector2 currentPosition = Vector2(transform.position.x, transform.position.y);
+        Vector2 nextPathPosition = agent.GetNextPathPosition();
+        Vector2 newVelocity = (nextPathPosition - currentPosition).Normalized() * velocity;
+
+        if (agent.avoidanceEnabled)
+        {
+            // Submit the desired velocity; the safe velocity arrives through onVelocityComputed.
+            agent.SetVelocity(newVelocity);
+        }
+        else
+        {
+            // No avoidance: move straight away with the desired velocity.
+            OnVelocityComputed(newVelocity);
+        }
+    }
+
+    // Receives the collision-free velocity from the avoidance simulation and moves the body with it.
+    void OnVelocityComputed(Vector2 safeVelocity)
+    {
+        transform.Translate(safeVelocity * Time::GetDeltaTime(), Space::World);
+    }
+}
+\`\`\`
+
+Three things to notice:
+
+- **Setting \`targetPosition\` triggers the path query.** Change it any time — chasing a moving player means updating it every few frames.
+- **\`GetNextPathPosition()\` is called every step** and advances through the corridor as you approach each waypoint (within \`pathDesiredDistance\`).
+- **The same movement code works with and without avoidance** by funnelling both cases through one callback.
+
+### Knowing where you stand
+
+\`\`\`angelscript
+agent.IsNavigationFinished();   // path exhausted (arrived, or nothing reachable)
+agent.IsTargetReached();        // within targetDesiredDistance of the target
+agent.IsTargetReachable();      // can the path actually end at the target?
+agent.DistanceToTarget();       // straight-line distance
+agent.GetPathLength();          // full length of the current path
+array<Vector2> path = agent.GetCurrentNavigationPath();  // all waypoints, world space
+\`\`\`
+
+And if you prefer events over polling, agents expose signals: \`onPathChanged\`, \`onWaypointReached\`, \`onLinkReached\`, \`onTargetReached\`, \`onNavigationFinished\` and the \`onVelocityComputed\` you already met.
+
+## Tuning the path
+
+The agent inspector groups the important knobs:
+
+| Property | Effect |
+|----------|--------|
+| **Path Desired Distance** | How close to a waypoint before advancing to the next. |
+| **Target Desired Distance** | How close to the target counts as "arrived". |
+| **Path Max Distance** | If the agent drifts further than this from the corridor, a fresh path is queried. |
+| **Path Postprocessing** | \`Corridor Funnel\` (taut, natural paths — default), \`Edge Centered\` (through edge midpoints — good for grid games), \`None\` (raw polygon centroids). |
+| **Simplify Path** | Ramer-Douglas-Peucker reduction; **Simplify Epsilon** sets the tolerance. |
+| **Navigation Layers** | Bitmask matched against regions/links — agents only traverse matching layers. |
+
+Navigation layers let one navmesh serve different movement types: mark water regions with a \`Water\` layer and only amphibious agents will consider them.
+
+## Local avoidance (RVO)
+
+Pathfinding keeps agents out of *walls*; avoidance keeps them out of *each other*. Tick **Avoidance Enabled** and configure:
+
+- **Avoidance Radius** — the agent's personal space.
+- **Max Speed** — a hard clamp the simulation may return.
+- **Neighbor Distance / Max Neighbors** — how far and how many other agents to consider.
+- **Time Horizon Agents / Obstacles** — how many seconds ahead collisions are predicted. Small = late, sharp dodges; large = early, gentle arcs.
+- **Avoidance Priority** — 0–1; lower-priority agents yield to higher-priority ones. Give the boss \`1.0\` and the minions scatter.
+- **Avoidance Layers / Mask** — which avoidance layers this agent occupies / respects.
+
+With avoidance on, **you must drive movement through the callback**: call \`agent.SetVelocity(desired)\` each step and apply only the \`safeVelocity\` you receive in \`onVelocityComputed\` — exactly like the sample above.
+
+## Dynamic obstacles
+
+Add a **Navigation Obstacle** to anything agents should not walk through — a crate the player can push, a car that parks across the sidewalk. Choose its shape (**Obstacle Type**: \`Circle\` radius, \`Box\` size + offset, or a custom \`Polygon\` via **Edit Shape** / \`SetVertices()\`), then pick how it acts:
+
+- **Carve Navigation Mesh** — cuts a hole in every overlapping region's navmesh, so *paths route around it* from the start.
+- **Avoidance Enabled** — feeds it to the RVO simulation, so *moving agents steer around it* even mid-path.
+
+Use carving for static-ish blockers, avoidance for anything that moves, or both for heavy movable objects.
+
+## Navigation links
+
+A **Navigation Link** joins **Start Position** and **End Position** across unwalkable space — a gap to jump, a ladder, a teleporter pad. Set **Bidirectional** off for one-way drops, and tune **Enter Cost** / **Travel Cost** so the pathfinder weighs the shortcut fairly. When an agent reaches a link waypoint, the \`onLinkReached\` signal fires — that's your cue to play the jump animation and move the body across.
+
+## Gotchas worth knowing
+
+> [!WARNING]
+> - **Bake before you expect paths.** No baked region = no navmesh = every query fails. Bake in the editor, or call \`Bake()\` after loading.
+> - Custom outlines need **at least 3 vertices**; the editor falls back to the rectangle otherwise.
+> - Only **solid, non-trigger colliders** are carved by Parse Geometry.
+> - An unreachable target leaves the path empty: check \`IsTargetReachable()\` and design a fallback (wander, wait, growl menacingly).
+
+## Where to go next
+
+Make your navigating enemies look alive with [Animation & the Animator](/tutorials/animation), or sync their positions across the network in [Networking & Multiplayer](/tutorials/networking).
+`},{id:`networking`,title:`Networking & Multiplayer`,icon:`fa-network-wired`,category:`Networking`,blurb:`Host and join games, call RPCs, replicate state and spawn entities across the network.`,md:`# Networking & Multiplayer
+
+Comet ships a complete high-level multiplayer stack: swap-in transport peers (ENet, WebSocket, WebRTC), attribute-driven **RPCs**, automatic **state replication**, networked **spawning**, and a host-authoritative model that scales from a LAN co-op prototype to a 4-player arena. This tutorial walks the whole pipeline using the engine's own multiplayer sample as the guide.
+
+![A networked entity: the Multiplayer Synchronizer in the Inspector, ready to replicate its transform to every peer.](/tutorials/multiplayer-game.png)
+
+## The lay of the land
+
+- One machine is the **host** (also called the server) — it owns the truth. Everyone else is a **client**.
+- Every connected machine gets a **unique peer id**: the host is always \`1\`, clients get \`2\`, \`3\`, ...
+- A **transport peer** object moves the bytes. You create one and hand it to the global \`Network::Multiplayer\` API; from then on RPCs, replication and spawning ride on it:
+
+| Transport | Use when |
+|-----------|----------|
+| \`ENetMultiplayerPeer\` | Desktop builds — UDP with reliability channels. The default choice. |
+| \`WebSocketMultiplayerPeer\` | Web builds, or mixed web+desktop games with a socket server. |
+| \`WebRTCMultiplayerPeer\` | Peer-to-peer with a signaling server. |
+| \`OfflineMultiplayerPeer\` | Single-player that reuses your multiplayer code paths untouched. |
+
+> [!WARNING]
+> Web builds cannot open native UDP/TCP sockets — on the web platform use **WebSocket** (or WebRTC); the ENet peer is desktop-only.
+
+## Hosting and joining
+
+This is the sample's main menu, condensed. One button hosts, the other joins the address typed into an InputField:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::UI;
+using namespace CometEngine::SceneManagement;
+
+class MenuButton : CometBehaviour, IPointerClickAction
+{
+    int port = 7777;
+    string serverAddress = "127.0.0.1";
+    string roomSceneName = "Room";
+
+    // Keep the peer in a member handle: it must outlive this function!
+    private CometEngine::Network::ENetMultiplayerPeer peer;
+
+    void Host()
+    {
+        peer = CometEngine::Network::ENetMultiplayerPeer();
+        if (peer.CreateServer(port, 8))                    // port, max peers
+        {
+            Network::Multiplayer::SetMultiplayerPeer(peer);
+            Debug::Log("Hosting, my id = " + formatInt(Network::Multiplayer::GetUniqueId()));
+            SceneManager::LoadScene(roomSceneName);
+        }
+        else
+        {
+            Debug::Log("Could not host on port " + formatInt(port));
+        }
+    }
+
+    void Join()
+    {
+        peer = CometEngine::Network::ENetMultiplayerPeer();
+        if (peer.CreateClient(ReadIp(), port))
+        {
+            Network::Multiplayer::SetMultiplayerPeer(peer);
+            SceneManager::LoadScene(roomSceneName);
+        }
+    }
+
+    void OnPointerClick(PointerEvent event)
+    {
+        if (entity.name == "HostButton") Host();
+        else if (entity.name == "JoinButton") Join();
+    }
+
+    string ReadIp()
+    {
+        Entity ipEntity = Entity::Find("IpInput");
+        if (ipEntity !is null)
+        {
+            InputField field = InputField::Get(ipEntity);
+            if (field !is null && field.textValue.length() > 0)
+            {
+                return field.textValue;
+            }
+        }
+        return serverAddress;
+    }
+}
+\`\`\`
+
+> [!IMPORTANT]
+> Store the peer in a **class member**, like \`peer\` above. A peer declared as a local variable is destroyed when the function returns — and the connection dies with it.
+
+### Reacting to peers coming and going
+
+The host typically watches connections to manage lobby slots:
+
+\`\`\`angelscript
+void Start()
+{
+    if (!Network::Multiplayer::HasMultiplayerPeer())
+    {
+        return;
+    }
+
+    Network::Multiplayer::GetOnPeerConnected().Add(CometDelegateuint64(OnPeerConnected));
+    Network::Multiplayer::GetOnPeerDisconnected().Add(CometDelegateuint64(OnPeerDisconnected));
+}
+
+void OnPeerConnected(uint64 peerId)
+{
+    if (!Network::Multiplayer::IsServer()) return;   // only the host manages slots
+    Debug::Log("Peer joined: " + formatInt(peerId));
+}
+
+void OnPeerDisconnected(uint64 peerId)
+{
+    if (!Network::Multiplayer::IsServer()) return;
+    Debug::Log("Peer left: " + formatInt(peerId));
+}
+\`\`\`
+
+## RPCs: calling methods across the network
+
+Decorate a method with \`[Rpc(...)]\` and it becomes remotely callable. The decorator takes up to four values:
+
+\`\`\`angelscript
+[Rpc(<mode>, <sync>, <transfer>, channel = 0)]
+\`\`\`
+
+| Slot | Values | Meaning |
+|------|--------|---------|
+| **mode** | \`"any_peer"\` / \`"authority"\` | Who may invoke it: anyone, or only the entity's authority. |
+| **sync** | \`"call_local"\` / \`""\` | Whether the *caller* also runs it locally. |
+| **transfer** | \`"reliable"\` / \`"unreliable"\` / \`"unreliable_ordered"\` | Delivery guarantee. |
+| **channel** | \`0–15\` | Ordering group for reliable packets. |
+
+Send with the two global helpers — broadcast, or to one peer:
+
+\`\`\`angelscript
+// Broadcast to everyone (including yourself thanks to call_local):
+Network::Multiplayer::Rpc(this, "SyncScore", score, wave);
+
+// Only to the host (peer 1):
+Network::Multiplayer::RpcId(this, 1, "RequestColor", colorIndex);
+\`\`\`
+
+And receive on the other side:
+
+\`\`\`angelscript
+// Clients ask the host for something; the host validates and answers.
+[Rpc("any_peer", "reliable")]
+void RequestColor(int colorIndex)
+{
+    if (!Network::Multiplayer::IsServer()) return;
+
+    // Which client called us?
+    int clientId = Network::Multiplayer::GetRemoteSenderId();
+    Debug::Log("Peer " + formatInt(clientId) + " wants color " + formatInt(colorIndex));
+}
+
+// The host pushes state to everyone; call_local means the host applies it too.
+[Rpc("authority", "call_local", "reliable")]
+void SyncScore(int score, int wave)
+{
+    UpdateHud(score, wave);
+}
+\`\`\`
+
+Pick the transfer mode by what the data is worth: **unreliable** for high-frequency input and cosmetic state (drops don't matter, the next packet fixes it), **reliable** for anything that must not be missed — fire commands, score changes, match flow.
+
+## Replicating state automatically
+
+Writing RPCs for every variable gets old fast. Comet replicates **fields** for you with two decorators:
+
+\`\`\`angelscript
+class ShipController : CometBehaviour
+{
+    // Sent once, inside the spawn packet — seeds late joiners.
+    [ReplicateOnSpawn] int ownerPeerId = 0;
+    [ReplicateOnSpawn] int colorIndex = 0;
+
+    // Sent as reliable deltas whenever the value changes.
+    [Replicate("on_change")] int health = 10;
+    [Replicate("on_change")] bool alive = true;
+
+    // "always" mode would send every frame, unreliably - for values that
+    // change constantly anyway.
+}
+\`\`\`
+
+For transforms, don't replicate fields by hand — add a **MultiplayerSynchronizer** behaviour to the entity and configure it once:
+
+\`\`\`angelscript
+void Start()
+{
+    MultiplayerSynchronizer sync = MultiplayerSynchronizer::Get(entity);
+    if (sync !is null)
+    {
+        sync.AddTransformPreset();   // replicate position/rotation/scale
+        sync.interpolate = true;     // smooth over network ticks on clients
+    }
+}
+\`\`\`
+
+The synchronizer can also hide an entity from specific peers — \`SetVisibilityFor(peerId, false)\` — for fog of war or per-player secrets.
+
+## Spawning entities across the network
+
+When the host instantiates a networked entity, every client needs a copy. A **MultiplayerSpawner** behaviour handles it: it registers spawnable prefabs (its \`spawnLimit\` caps runaway counts) and mirrors spawn/despawn to everyone:
+
+\`\`\`angelscript
+// HOST only: spawn one ship per occupied lobby slot.
+void StartMatch()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (slotPeer[i] == 0) continue;
+
+        Entity ship = shipSpawner.Spawn(0);   // spawnable index 0
+        if (ship !is null)
+        {
+            ShipController sc = ShipController::Get(ship);
+            sc.ownerPeerId = slotPeer[i];      // [ReplicateOnSpawn] fields...
+            sc.colorIndex  = slotColor[i];     // ...travel inside the spawn packet
+        }
+    }
+
+    Network::Multiplayer::Rpc(this, "BeginMatch");
+}
+\`\`\`
+
+Because \`ownerPeerId\` and \`colorIndex\` are \`[ReplicateOnSpawn]\`, every client — even one that joins later — receives the ship already configured.
+
+## Authority: who simulates what
+
+Every entity has a **multiplayer authority** — the peer that simulates it. By default that's the host. Three calls on \`Behaviour\` manage it:
+
+\`\`\`angelscript
+IsMultiplayerAuthority();          // am I the one simulating this entity?
+GetMultiplayerAuthority();         // whose is it? (peer id)
+SetMultiplayerAuthority(peerId);   // hand it over
+\`\`\`
+
+The sample's ships stay **host-authoritative**, which yields the classic, cheat-resistant split — *owners send input, the host simulates, state replicates back*:
+
+\`\`\`angelscript
+void Update()
+{
+    // 1. The OWNING player reads input and ships it to the host.
+    if (IsOwner() && alive)
+    {
+        float mx = 0.0F, my = 0.0F;
+        if (Input::GetKeyPressed(KeyCode::W)) my += 1.0F;
+        if (Input::GetKeyPressed(KeyCode::S)) my -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::A)) mx -= 1.0F;
+        if (Input::GetKeyPressed(KeyCode::D)) mx += 1.0F;
+
+        if (Network::Multiplayer::IsServer())
+        {
+            inX = mx; inY = my;                                   // host: apply directly
+        }
+        else
+        {
+            Network::Multiplayer::RpcId(this, 1, "RecvInput", mx, my);   // client: send
+        }
+    }
+
+    // 2. The HOST simulates every ship from the latest input.
+    if (IsMultiplayerAuthority() && alive)
+    {
+        transform.Translate(Vector3(inX, inY, 0) * speed * Time::GetDeltaTime(), Space::World);
+        // position replicates to everyone via the MultiplayerSynchronizer
+    }
+}
+
+bool IsOwner()
+{
+    return ownerPeerId == Network::Multiplayer::GetUniqueId();
+}
+
+[Rpc("any_peer", "unreliable")]      // input: high-rate, drop-tolerant
+void RecvInput(float mx, float my)
+{
+    if (!IsMultiplayerAuthority()) return;
+    inX = mx; inY = my;
+}
+\`\`\`
+
+Note the guard inside every RPC — **never trust the network**: \`RecvInput\` ignores calls when this peer isn't the authority, and host-side handlers validate requests before applying them.
+
+## Cheat sheet
+
+| Task | Call |
+|------|------|
+| Install a transport | \`Network::Multiplayer::SetMultiplayerPeer(peer)\` |
+| Who am I? | \`GetUniqueId()\` (host = 1), \`IsServer()\` |
+| Broadcast an RPC | \`Rpc(this, "Method", args...)\` (up to 8 args) |
+| RPC to one peer | \`RpcId(this, peerId, "Method", args...)\` |
+| Who called this RPC? | \`GetRemoteSenderId()\` |
+| Peer joined/left | \`GetOnPeerConnected() / GetOnPeerDisconnected()\` \`.Add(CometDelegateuint64(Handler))\` |
+| Kick a peer | \`DisconnectPeer(peerId, force)\` |
+| Sync fields | \`[Replicate("on_change")]\`, \`[Replicate("always")]\`, \`[ReplicateOnSpawn]\` |
+| Sync transforms | \`MultiplayerSynchronizer\` + \`AddTransformPreset()\` |
+| Networked spawn | \`MultiplayerSpawner.Spawn(index)\` on the host |
+| Leave the session | \`Network::Multiplayer::ClearMultiplayerPeer()\` |
+
+## Where to go next
+
+Build the lobby screen with the [UI system](/tutorials/ui-system), then package a client for your friends in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).
+`},{id:`node-graph`,title:`Visual Scripting with Node Graphs`,icon:`fa-diagram-project`,category:`Visual Scripting`,blurb:`Author gameplay logic as node graphs and write your own custom nodes in AngelScript.`,md:`# Visual Scripting with Node Graphs
+
+Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a **node graph**: boxes wired together, execution flowing along the wires. Comet's node graph system runs graphs on entities via a **Graph Updater**, and — uniquely — lets you write your own nodes in AngelScript.
+
+![A node graph in the editor: the Entry node flows through a Branch into a Set Score node and a Print, while data wires feed a Compare from Get Time and increment a Score variable through an Add node.](/tutorials/node-graph.png)
+
+## How a graph runs
+
+A graph starts at an implicit **Entry** node and flows along **flow wires** (white) from one **flow node** to the next. Before a node runs, its **data inputs** are pulled from upstream **pure nodes** (stateless little calculators — Add, Compare, Get Time) along **data wires** (coloured). **Variables** carry state, and a graph can expose **inputs** and **outputs** that your game code reads and writes.
+
+There are two kinds of node:
+
+- **Flow nodes** — sit on the execution path. They can take time, branch, or loop. A flow node returns an \`ExecutionResult\` naming which output to continue along.
+- **Pure nodes** — compute output values from inputs on demand, with no side effects. They're evaluated (and memoized) whenever a flow node needs their result.
+
+## Running a graph on an entity
+
+Add a **Graph Updater** behaviour, assign it a graph, and it runs a private copy of that graph (the asset itself is never mutated). Your code feeds the graph its inputs and reads its outputs by variable name:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class QuestRunner : CometBehaviour
+{
+    void Start()
+    {
+        GraphUpdater updater = GraphUpdater::Get(entity);
+
+        // Push inputs into the graph...
+        updater.SetInputFloat("playerLevel", 7.0);
+        updater.SetInputBool("hasKey", true);
+        updater.Start();
+    }
+
+    void Update()
+    {
+        GraphUpdater updater = GraphUpdater::Get(entity);
+        if (!updater.isRunning)
+        {
+            // ...and read what it produced.
+            Debug::Log("reward: " + updater.GetOutputInt("goldReward"));
+        }
+    }
+}
+\`\`\`
+
+\`SetInputBool/Int/Float/String/Vector2/Vector3\` push values in; \`GetOutputBool/Int/Float/...\` read them back; \`Start()\` / \`Stop()\` and \`isRunning\` control the run. When a graph finishes, its **End Update Action** can restart it, disable the behaviour, or destroy the entity.
+
+## Writing your own nodes in AngelScript
+
+This is the powerful part: a node is just an AngelScript class with attributes. **Pure nodes** override \`Evaluate\` and declare \`[Input]\`/\`[Output]\` fields:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem("Math/Add")]
+class AddNode : PureNode
+{
+    [Input] float a;
+    [Input] float b;
+    [Output] float result;
+
+    void Evaluate(GraphNode graph)
+    {
+        result = a + b;
+    }
+}
+\`\`\`
+
+**Flow nodes** declare their output pins in the constructor with \`super({...})\` and return an \`ExecutionResult\` naming the pin to continue along. A branch:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem("Flow/Branch")]
+class BranchNode : FlowNode
+{
+    [Input] bool condition;
+
+    BranchNode()
+    {
+        super({"True", "False"});   // two flow outputs
+    }
+
+    ExecutionResult OnExecute(GraphNode graph)
+    {
+        return ExecutionResult(condition ? "True" : "False");
+    }
+}
+\`\`\`
+
+A flow node can also **span multiple frames** — return an empty \`ExecutionResult()\` to stay on the node and be called again next frame. That's how a Delay node works:
+
+\`\`\`angelscript
+using namespace CometEngine;
+using namespace CometEngine::GraphNode;
+
+[GraphNodeMenuItem("Flow/Delay")]
+[NodeColor(0.2, 0.2, 0.5)]
+class DelayNode : FlowNode
+{
+    [Input] float delaySeconds = 1.0F;
+    private float startTime = 0.0F;
+
+    DelayNode()
+    {
+        super({"Next"});
+    }
+
+    void OnExecuteStart(GraphNode graph)
+    {
+        startTime = Time::GetGameTime();
+    }
+
+    ExecutionResult OnExecute(GraphNode graph)
+    {
+        if (Time::GetGameTime() - startTime >= delaySeconds)
+        {
+            return ExecutionResult("Next");   // move on
+        }
+        return ExecutionResult();             // wait, retry next frame
+    }
+}
+\`\`\`
+
+The attributes are the glue:
+
+- **\`[GraphNodeMenuItem("Path/Name")]\`** — registers the node in the graph editor's right-click *Add Node* menu under that path. Required.
+- **\`[Input]\` / \`[Output]\`** — mark fields as data pins. Supported types: \`bool\`, \`int\`, \`uint\`, \`int64\`, \`uint64\`, \`float\`, \`string\`, \`Vector2\`, \`Vector3\`, and object handles.
+- **\`[NodeColor(r, g, b)]\`** — an optional header colour.
+
+Pure nodes can even resolve inputs **lazily** — override \`ResolveInputsManually()\` to return \`true\` and call \`ResolveInput(graph, "pinName")\` only for the branch you actually take, so an expensive or side-effecting upstream node on the path *not* chosen never runs.
+
+## Authoring a graph in the editor
+
+1. Create a graph object in the Project panel, then double-click to open the **graph editor**.
+2. Right-click the canvas to add nodes from your \`[GraphNodeMenuItem]\` menu.
+3. Drag from a flow output to the next node's flow input (white wires); drag from an \`[Output]\` pin to an \`[Input]\` pin (coloured wires).
+4. Add **variables**, **inputs** and **outputs** in the side panel — those inputs/outputs are the contract your \`GraphUpdater\` code talks to.
+5. Drop a **Graph Updater** on an entity and assign the graph.
+
+> [!NOTE]
+> Data-flow cycles (a pure node feeding itself) are detected and reported; flow loops are allowed and intentional. The runtime always executes a **clone** of the asset, so a running graph never corrupts the source.
+
+## Where to go next
+
+Node graphs pair naturally with everything else — kick one off from an [input action](/tutorials/input), have it move a platform along a [Bézier path](/tutorials/bezier), or drive an [animator](/tutorials/animation) from its outputs.
 `},{id:`extending-the-editor`,title:`Extending the Editor`,icon:`fa-puzzle-piece`,category:`Editor Tooling`,blurb:`Build custom editor windows, inspectors and menu-bar tools in AngelScript.`,md:`# Extending the Editor
 
 The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool in the menu bar, a specialized inspector with a "Bake" button, a whole dockable window for editing your game's data — you write in script. No C++, no recompiling the engine: save the file and the editor picks it up.
@@ -3524,308 +3524,308 @@ The same operations are exposed as editor **MCP tools** (\`package_list\`, \`pac
 | A package's files look wrong after an update | Reinstall it: remove and install again, or *Delete lock & re-resolve*. Installed packages are reproducible from the lock; never edit them in place — embed instead. |
 
 That's the whole system: install what others built, keep it resolved and locked, and when you build something reusable — wrap it in a manifest, export it, and put it on the Marketplace for everyone.
-`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\n\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\n\n> [!WARNING]\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\n\n## Importing a plugin\n\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\n\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\n\n```\nAssets/MyMath/\n├── MyMath.as              ← the AngelScript wrapper\n├── x86_64/\n│   ├── mymath.dll         ← Windows, x86_64\n│   └── libmymath.so       ← Linux / Android, x86_64\n└── arm64-v8a/\n    └── libmymath.so       ← Android, arm64-v8a\n```\n\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\n\n| The file… | …imports as |\n|-----------|-------------|\n| ends in `.dll` | **Windows** + **Editor** |\n| ends in `.so` | **Linux** + **Android** + **Editor** |\n| ends in `.dylib` | **Editor** only |\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\n\n## The plugin Inspector\n\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\n\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\n\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\n\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\n\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\n\n> [!TIP]\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\n\n## Loading a plugin from AngelScript\n\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::Native;\n\nclass PluginDemo : CometBehaviour\n{\n    void Start()\n    {\n        // Load never returns null — always check IsLoaded().\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\n        if (!lib.IsLoaded())\n        {\n            Debug::LogError("plugin failed: " + lib.GetError());\n            return;\n        }\n        Debug::Log("loaded from " + lib.GetPath());\n\n        // Resolve a function by its exported symbol + C prototype:\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\n        if (add.IsValid())\n        {\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\n        }\n    }\n}\n```\n\n### Describing a function: the signature\n\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\n\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\n\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\n\n### Making the call\n\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\n\n```angelscript\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\n\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\n\n// A function that returns \'const char*\' returns a pointer — read it back:\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\nstring name = Native::ReadCString(ptr);\n```\n\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\n\n### Structs, out-parameters and raw memory\n\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\n\n```angelscript\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\n\nfloat x = buf.Float(0);\nfloat y = buf.Float(4);\n```\n\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\n\n### Is it even supported here?\n\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\n\n```angelscript\nif (!Native::IsSupported())\n    return;   // e.g. a Web build — no native plugins here\n\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\n```\n\n## How plugins ship\n\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\n\n| Platform | Where the binary lands |\n|----------|------------------------|\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\n| **Web** | not supported for now — browsers can\'t load native binaries |\n\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\n\n> [!NOTE]\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\n\n## Cleaning up\n\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\n\n## Where to go next\n\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\n'},{id:`build-and-patches`,title:`Exporting Builds & Shipping Patches`,icon:`fa-box-open`,category:`Shipping`,blurb:`Export to Windows, Linux, Android and Web, then ship incremental patches to players.`,md:`# Exporting Builds & Shipping Patches\r
-\r
-Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for **Windows, Linux, Android and Web**, packs your content into memory-mapped \`.ori\` archives, and — the killer feature — builds **incremental patches** that ship only what changed since the version your players already have.\r
-\r
-## The Build Settings window\r
-\r
-Open it from **Window → Build**:\r
-\r
-![The Build Settings window: the scene list, the Development Build options, platform tabs, Content Packaging and Patch Base Packs.](/tutorials/build-panel.png)\r
-\r
-From top to bottom:\r
-\r
-- **Scenes added in Build** — every scene that ships. The checkbox enables/disables a scene, dragging reorders them, and the number on the right is the **build index**: index \`0\` is the scene your game boots into. **Add Open Scenes** grabs whatever you have open.\r
-- **Development Build** — turns on the in-game debugging tools: the dev console, debug drawing, on-screen stats and a log file. Leave it **off** for store builds. The next section breaks these down.\r
-- **Platform tabs** — Windows / Linux / Android / Web, each with its own settings such as the target **Architecture** (the active platform is marked). Selecting a different tab shows **Switch Platform**, which reimports the asset library for that target.\r
-- **Player Settings** — product name, version, icon and friends.\r
-- **Build** / **Build And Run** — the moment of truth.\r
-\r
-## Development builds & the dev console\r
-\r
-Tick **Development Build** and a whole debugging toolkit ships inside your game. Leave it **off** for anything you hand to players — release builds drop the tooling, the watermark and the overhead. Its sub-options:\r
-\r
-- **Development Build (Dev Console available with \`º\`)** — the master switch. It enables the in-game **dev console**, opened at runtime with the **\`º\`** key (top-left of the keyboard, just below \`Esc\`).\r
-- **Debug drawing** — lets \`Debug::DrawLine\` and friends render in the running game, so you can see raycasts, paths and hitboxes on the real build, not just in the editor.\r
-- **HUD FPS stats** — an FPS + memory overlay you can toggle in-game with **Ctrl + F3**.\r
-- **Extra HUD stats** — expands that overlay with frame time, draw calls and instance counts.\r
-- **Write log file next to the executable** — dumps the run's log to a file beside the game, so you can debug a build on a machine that isn't yours.\r
-- **Development watermark** — stamps a corner marker so a dev build is never mistaken for a release.\r
-\r
-### The dev console\r
-\r
-Press **\`º\`** in a development build and the console drops down over your game — a live command line into the running build:\r
-\r
-![The Comet dev console open over a running game, listing the built-in commands after typing /help.](/tutorials/dev-console.png)\r
-\r
-Type \`/help\` for the list. The built-ins cover what you reach for constantly while testing:\r
-\r
-| Command | What it does |\r
-| --- | --- |\r
-| \`/help\` | List commands. |\r
-| \`/quit\` | Stop play / quit the game. |\r
-| \`/hide\` | Hide the console. |\r
-| \`/clear\` | Clear the console. |\r
-| \`/load <name\\|index>\` | Load a scene by name or build index. |\r
-| \`/reload\` | Reload the current scene. |\r
-| \`/restart\` | Reload the first build scene. |\r
-| \`/scenes\` | List the build scenes. |\r
-| \`/timescale <n>\` | Get / set the time scale (\`0.5\` = half speed, \`0\` = pause). |\r
-| \`/stats\` | Toggle the stats HUD (FPS + memory). |\r
-| \`/extra_stats\` | Toggle extra stats (frame time, draw calls, instances). |\r
-| \`/watermark\` | Toggle the dev watermark. |\r
-| \`/mem\` | Print memory usage. |\r
-| \`/fullscreen\` | Toggle fullscreen. |\r
-| \`/vsync <on\\|off>\` | Toggle vsync. |\r
-| \`/res <w> <h>\` | Set the window size. |\r
-| \`/screenshot [path]\` | Save a screenshot without the console in it. |\r
-| \`/volume <n>\` | Set master volume (\`0..1\`). |\r
-| \`/mute\` | Toggle audio mute. |\r
-\r
-### Registering your own commands\r
-\r
-The console is scriptable: register a command from AngelScript and it appears in \`/help\` right beside the built-ins. Hand \`DevConsole::RegisterCommand\` a name, a help string and a callback that receives the typed arguments:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class DebugCommands : CometBehaviour\r
-{\r
-    void Start()\r
-    {\r
-        DevConsole::RegisterCommand("print <str>", "prints the given str",\r
-            CometDelegateStringArray(PrintCommand));\r
-    }\r
-\r
-    void PrintCommand(array<string>@ args)\r
-    {\r
-        if (args.length() == 0) return;\r
-        print(args[0]);\r
-    }\r
-}\r
-\`\`\`\r
-\r
-Now typing \`/print hello\` echoes \`hello\` in the console. The first word of the name (\`print\`) becomes the \`/print\` you type; the rest (\`<str>\`) is just a usage hint shown by \`/help\`. The callback receives the space-separated arguments the player typed, and \`print(...)\` writes back into the console. \`DevConsole::Show()\`, \`Hide()\`, \`IsShown()\` and \`UnregisterCommand("print")\` round out the API.\r
-\r
-### Debugging and profiling a dev build\r
-\r
-A development build isn't only for print-debugging — the editor can **attach its script debugger and profiler to the running build** over a local socket. Turn it on in **Preferences → Build Debugger**:\r
-\r
-![Preferences → Build Debugger: "Attach to development builds", with the script debugger and profiler ports.](/tutorials/build-debugger.png)\r
-\r
-With **Attach to development builds** ticked, launch a development build and the editor connects to it automatically on the **script debugger port** (\`54711\`). From there the editor's built-in **text editor becomes a full AngelScript debugger for the live build**: click the gutter to set **breakpoints**, then **Step Over / Step In / Step Out / Continue** through your code while the game runs, inspecting the **call stack**, **local variables** and watched expressions in the debugger panels — the same experience as debugging play mode in the editor, except it's the real exported build being driven.\r
-\r
-The **profiler port** (\`54713\`) is the other half: it streams timing data from the running build into the editor's profiler, so you can see where each frame actually goes — script functions, draw calls, systems — on real hardware instead of guessing. (You only need to change either port if something else on your machine already uses it.)\r
-\r
-## What comes out the other side\r
-\r
-Comet packs content into **\`.ori\`** archives — a deterministic, binary-indexed format the runtime **memory-maps** and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The **Content Packaging** dropdown picks the layout:\r
-\r
-| Mode | Result |\r
-|------|--------|\r
-| \`Single .ori pack\` | The executable plus one \`.ori\` file next to it. The usual choice. |\r
-| \`Embedded in executable\` | The \`.ori\` is appended to the executable — one single file to distribute. |\r
-| \`Loose content folder\` | A \`content/\` folder with the raw blobs and manifests — convenient while iterating. |\r
-\r
-> [!NOTE]\r
-> **Content Packaging is a standalone (Windows/Linux) option.** Android and Web decide their own layout: an Android build packs content uncompressed inside the APK so the engine can memory-map it in place, and a Web build produces a static site with the content preloaded or streamed over HTTP (see the platform notes below). The \`Single .ori\` / \`Embedded\` / \`Loose\` choice only applies to the desktop executable + pack you ship yourself.\r
-\r
-A typical Windows output folder:\r
-\r
-\`\`\`text\r
-MyGame/\r
-├── MyGame.exe\r
-├── MyGame.ori          ← all packed content\r
-├── extra_ori/          ← drop DLC/mod packs here: auto-mounted at boot\r
-└── data/               ← loose files from your Data Assets folder\r
-\`\`\`\r
-\r
-Anything you place in \`extra_ori/\` is mounted automatically at startup — a zero-code mod and DLC delivery mechanism.\r
-\r
-## Shipping a patch\r
-\r
-Here's the workflow that saves your players from re-downloading gigabytes.\r
-\r
-A patch is built **against the packs your players already have**. In the platform tab you'll find **Patch Base Packs**:\r
-\r
-1. Ship version 1.0 — a normal full build. Keep its \`MyGame.ori\` somewhere safe.\r
-2. Keep developing: fix scenes, swap textures, add a level.\r
-3. In the Build window, add the shipped \`MyGame.ori\` to **Patch Base Packs** (for later patches: list the base first, then each prior patch, in order).\r
-4. Press **Build**. Comet compares every resource's content hash against the merged base packs and writes \`MyGame_patch.ori\` containing **only what changed** — plus tombstones for resources you deleted.\r
-\r
-Once the player has the patch file, there are two ways it gets applied, and the difference matters:\r
-\r
-- **Drop it in the \`extra_ori/\` folder** (next to the executable) and it is **mounted automatically at startup** — no code required. This is the zero-effort path for a launcher or auto-updater: download into \`extra_ori/\`, relaunch, done.\r
-- **Put it anywhere else** and you must **mount it yourself from AngelScript** with \`OriLoader::Mount("path/to/patch.ori")\` (see below). This is what you want for an in-game "check for updates" button, DLC the player enables in a menu, or a mod loader.\r
-\r
-Either way the runtime layers the patch over the base: newer packs shadow older ones, deletions apply, done. Patch metadata records which content version it targets and its sequence number, so out-of-order patches are refused instead of corrupting the game.\r
-\r
-> [!NOTE]\r
-> Patches are regular \`.ori\` packs. The same mechanism ships DLC: build a patch that only *adds* content and sell the file.\r
-\r
-### Mounting packs at runtime\r
-\r
-The \`OriLoader\` namespace lets scripts manage packs while the game runs — the foundation for in-game patchers, DLC stores and mod loaders:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class PatchManager : CometBehaviour\r
-{\r
-    void ApplyDownloadedPatch(const string &in path)\r
-    {\r
-        Debug::Log("Content version before: " + formatInt(OriLoader::GetContentVersion()));\r
-\r
-        if (OriLoader::Mount(path))\r
-        {\r
-            Debug::Log("Patch mounted! Now at version " + formatInt(OriLoader::GetContentVersion()));\r
-            // Resources loaded from now on come from the patch where it shadows the base.\r
-        }\r
-        else\r
-        {\r
-            Debug::Log("Mount failed - wrong engine version or corrupt pack.");\r
-        }\r
-    }\r
-\r
-    void ListInstalledContent()\r
-    {\r
-        array<string> packs = OriLoader::GetMountedPacks();\r
-        for (uint i = 0; i < packs.length(); i++)\r
-        {\r
-            Debug::Log("[" + formatInt(int(i)) + "] " + packs[i]);\r
-        }\r
-    }\r
-\r
-    void RemoveMod(const string &in path)\r
-    {\r
-        if (OriLoader::IsMounted(path))\r
-        {\r
-            OriLoader::Unmount(path);   // resources revert to the packs below\r
-        }\r
-    }\r
-}\r
-\`\`\`\r
-\r
-\`MountWithPriority(path, priority)\` controls shadowing order explicitly, and \`App::GetProductVersion()\` / \`App::GetEngineVersion()\` give you the strings for your own update checks.\r
-\r
-## Platform notes\r
-\r
-### Android\r
-\r
-The Android tab wants your signing setup: **Keystore File**, **Keystore Password**, **Key Alias**, **Key Password**, plus **Min/Target SDK Level** and the target **Architectures** (arm64-v8a by default). Comet generates a Gradle project, builds and signs the APK, and — with a device connected over ADB — **Build And Run** installs and launches it directly on the phone. Game content is stored uncompressed inside the APK so the engine can memory-map it in place.\r
-\r
-### Web\r
-\r
-The Web tab configures the **Canvas Size** and responsiveness. The build produces a static site — \`index.html\`, the WASM binary, the JS runtime, a service worker and your content:\r
-\r
-- Small games preload everything for a hitch-free start; bigger ones preload the boot set and stream the rest.\r
-- The service worker caches content for instant reloads and offline play.\r
-- Patches work over HTTP too: \`OriLoader::Mount("https://cdn.example.com/patch_v2.ori")\`.\r
-\r
-Remember the platform's limits: no native sockets (use WebSockets — see [Networking](/tutorials/networking)) and no threads.\r
-\r
-## Platform macros in AngelScript\r
-\r
-Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines **preprocessor macros** — for the target platform, and for the build configuration — and you branch on them with \`#ifdef\` / \`#ifndef\` / \`#else\` / \`#endif\`:\r
-\r
-| Macro | Defined when... |\r
-|-------|-----------------|\r
-| \`COMET_STANDALONE\` | compiling a Windows or Linux desktop build |\r
-| \`COMET_ANDROID\` | compiling an Android build |\r
-| \`COMET_WEB\` | compiling a Web (Emscripten/WASM) build |\r
-| \`COMET_EDITOR\` | running **inside the editor** (play mode / edit mode), not an exported build |\r
-| \`COMET_DEVELOPMENT\` | running in the editor **or** a **development build** — stripped from a shipping build |\r
-\r
-\`COMET_EDITOR\` is the important one: it's defined while your scripts run in the editor and **absent in every exported build**. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class DebugTools : CometBehaviour\r
-{\r
-    void Update()\r
-    {\r
-#ifdef COMET_EDITOR\r
-        // Cheat keys that only exist while developing in the editor.\r
-        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();\r
-        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();\r
-#endif\r
-    }\r
-\r
-    void OpenSettingsFolder()\r
-    {\r
-#ifdef COMET_STANDALONE\r
-        // Desktop-only: browse to a folder on disk.\r
-        OpenNativeFileBrowser();\r
-#elif defined(COMET_WEB)\r
-        // The browser sandbox has no filesystem — show an in-game panel instead.\r
-        ShowInGameSettings();\r
-#endif\r
-    }\r
-}\r
-\`\`\`\r
-\r
-The build system also lets you define your own **scripting constants** per platform in the Player Settings, which appear as additional \`#ifdef\` symbols — handy for feature flags (a \`DEMO\` build, a \`CONSOLE\` variant, and so on).\r
-\r
-> [!TIP]\r
-> \`COMET_EDITOR\` is true in **both** edit mode and play mode inside the editor. If you need "only in a real build", use \`#ifndef COMET_EDITOR\`. If you need "only on desktop", use \`#ifdef COMET_STANDALONE\`.\r
-\r
-### Development-only code: \`COMET_DEVELOPMENT\`\r
-\r
-\`COMET_EDITOR\` strips code from **every** exported build — perfect for editor tooling, but too aggressive when you want debug helpers that live in the **development builds** you hand to testers. That's what \`COMET_DEVELOPMENT\` is for: it's defined in the editor **and** in a development build (the **Development Build** box), and stripped only from a **shipping** build. So \`#ifdef COMET_DEVELOPMENT\` code behaves identically while you develop in the editor and in the dev build you send out — then vanishes from the release:\r
-\r
-\`\`\`angelscript\r
-using namespace CometEngine;\r
-\r
-class DiagnosticsOverlay : CometBehaviour\r
-{\r
-    void Update()\r
-    {\r
-#ifdef COMET_DEVELOPMENT\r
-        // Editor + development builds; compiled out of the shipping game.\r
-        if (Input::GetKeyDown(KeyCode::F8)) ToggleDebugOverlay();\r
-#endif\r
-    }\r
-}\r
-\`\`\`\r
-\r
-Need the same test at **runtime** rather than compile time — to flip a flag or log a line without wrapping it in an \`#ifdef\`? \`Debug::IsDevelopmentBuild()\` returns the identical truth: \`true\` in the editor and development builds, \`false\` in a shipping build.\r
-\r
-\`\`\`angelscript\r
-if (Debug::IsDevelopmentBuild())\r
-{\r
-    Debug::Log("Development build - verbose diagnostics enabled");\r
-}\r
-\`\`\`\r
-\r
-Rule of thumb: **\`COMET_EDITOR\`** for editor-only tooling, **\`COMET_DEVELOPMENT\`** (or \`Debug::IsDevelopmentBuild()\`) for anything that should run while you develop *and* in test builds, but never in the game you ship.\r
-\r
-## Automating builds (CI)\r
-\r
-Everything the Build window does is available headless — perfect for nightly builds and release pipelines:\r
-\r
-\`\`\`text\r
-CometEngine.exe --export Windows --path "C:/projects/MyGame" --export-path "C:/builds/win64"\r
-CometEngine.exe --export Web     --path "C:/projects/MyGame" --export-path "C:/builds/web"\r
-\`\`\`\r
-\r
-\`--export\` implies headless mode: the project loads, scripts compile, the seven-step build pipeline runs (compile scripts → setup → runtime resources → scenes → resource filtering → pre-build → pack), progress is printed per step, and the process exits \`0\` on success or \`1\` on failure — exactly what your CI wants.\r
-\r
-> [!TIP]\r
-> Configure **Patch Base Packs** in the project once, and your CI produces patch builds automatically: check the previous release's \`.ori\` packs into your release storage and point the project at them.\r
-\r
-## Pre-flight checklist\r
-\r
-- Every scene the game needs is in **Scenes added in Build**, with the right one at index \`0\`.\r
-- **Development Build** is *off* for store releases.\r
-- Player Settings: product name, version, icon set.\r
-- Test the built game, not just the editor — packed-content loading and platform quirks only show up there.\r
-- Shipped a build? **Archive its \`.ori\` packs.** They are the base every future patch is built against.\r
-\r
-## Where to go next\r
-\r
-Congratulations — you shipped! If players report a bug, you're one **Patch Base Packs** entry away from the fix. Now go back and make the game better: maybe some [2D lighting polish](/tutorials/lights)?\r
+`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\n\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\n\n> [!WARNING]\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\n\n## Importing a plugin\n\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\n\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\n\n```\nAssets/MyMath/\n├── MyMath.as              ← the AngelScript wrapper\n├── x86_64/\n│   ├── mymath.dll         ← Windows, x86_64\n│   └── libmymath.so       ← Linux / Android, x86_64\n└── arm64-v8a/\n    └── libmymath.so       ← Android, arm64-v8a\n```\n\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\n\n| The file… | …imports as |\n|-----------|-------------|\n| ends in `.dll` | **Windows** + **Editor** |\n| ends in `.so` | **Linux** + **Android** + **Editor** |\n| ends in `.dylib` | **Editor** only |\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\n\n## The plugin Inspector\n\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\n\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\n\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\n\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\n\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\n\n> [!TIP]\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\n\n## Loading a plugin from AngelScript\n\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::Native;\n\nclass PluginDemo : CometBehaviour\n{\n    void Start()\n    {\n        // Load never returns null — always check IsLoaded().\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\n        if (!lib.IsLoaded())\n        {\n            Debug::LogError("plugin failed: " + lib.GetError());\n            return;\n        }\n        Debug::Log("loaded from " + lib.GetPath());\n\n        // Resolve a function by its exported symbol + C prototype:\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\n        if (add.IsValid())\n        {\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\n        }\n    }\n}\n```\n\n### Describing a function: the signature\n\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\n\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\n\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\n\n### Making the call\n\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\n\n```angelscript\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\n\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\n\n// A function that returns \'const char*\' returns a pointer — read it back:\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\nstring name = Native::ReadCString(ptr);\n```\n\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\n\n### Structs, out-parameters and raw memory\n\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\n\n```angelscript\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\n\nfloat x = buf.Float(0);\nfloat y = buf.Float(4);\n```\n\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\n\n### Is it even supported here?\n\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\n\n```angelscript\nif (!Native::IsSupported())\n    return;   // e.g. a Web build — no native plugins here\n\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\n```\n\n## How plugins ship\n\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\n\n| Platform | Where the binary lands |\n|----------|------------------------|\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\n| **Web** | not supported for now — browsers can\'t load native binaries |\n\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\n\n> [!NOTE]\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\n\n## Cleaning up\n\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\n\n## Where to go next\n\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\n'},{id:`build-and-patches`,title:`Exporting Builds & Shipping Patches`,icon:`fa-box-open`,category:`Shipping`,blurb:`Export to Windows, Linux, Android and Web, then ship incremental patches to players.`,md:`# Exporting Builds & Shipping Patches
+
+Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for **Windows, Linux, Android and Web**, packs your content into memory-mapped \`.ori\` archives, and — the killer feature — builds **incremental patches** that ship only what changed since the version your players already have.
+
+## The Build Settings window
+
+Open it from **Window → Build**:
+
+![The Build Settings window: the scene list, the Development Build options, platform tabs, Content Packaging and Patch Base Packs.](/tutorials/build-panel.png)
+
+From top to bottom:
+
+- **Scenes added in Build** — every scene that ships. The checkbox enables/disables a scene, dragging reorders them, and the number on the right is the **build index**: index \`0\` is the scene your game boots into. **Add Open Scenes** grabs whatever you have open.
+- **Development Build** — turns on the in-game debugging tools: the dev console, debug drawing, on-screen stats and a log file. Leave it **off** for store builds. The next section breaks these down.
+- **Platform tabs** — Windows / Linux / Android / Web, each with its own settings such as the target **Architecture** (the active platform is marked). Selecting a different tab shows **Switch Platform**, which reimports the asset library for that target.
+- **Player Settings** — product name, version, icon and friends.
+- **Build** / **Build And Run** — the moment of truth.
+
+## Development builds & the dev console
+
+Tick **Development Build** and a whole debugging toolkit ships inside your game. Leave it **off** for anything you hand to players — release builds drop the tooling, the watermark and the overhead. Its sub-options:
+
+- **Development Build (Dev Console available with \`º\`)** — the master switch. It enables the in-game **dev console**, opened at runtime with the **\`º\`** key (top-left of the keyboard, just below \`Esc\`).
+- **Debug drawing** — lets \`Debug::DrawLine\` and friends render in the running game, so you can see raycasts, paths and hitboxes on the real build, not just in the editor.
+- **HUD FPS stats** — an FPS + memory overlay you can toggle in-game with **Ctrl + F3**.
+- **Extra HUD stats** — expands that overlay with frame time, draw calls and instance counts.
+- **Write log file next to the executable** — dumps the run's log to a file beside the game, so you can debug a build on a machine that isn't yours.
+- **Development watermark** — stamps a corner marker so a dev build is never mistaken for a release.
+
+### The dev console
+
+Press **\`º\`** in a development build and the console drops down over your game — a live command line into the running build:
+
+![The Comet dev console open over a running game, listing the built-in commands after typing /help.](/tutorials/dev-console.png)
+
+Type \`/help\` for the list. The built-ins cover what you reach for constantly while testing:
+
+| Command | What it does |
+| --- | --- |
+| \`/help\` | List commands. |
+| \`/quit\` | Stop play / quit the game. |
+| \`/hide\` | Hide the console. |
+| \`/clear\` | Clear the console. |
+| \`/load <name\\|index>\` | Load a scene by name or build index. |
+| \`/reload\` | Reload the current scene. |
+| \`/restart\` | Reload the first build scene. |
+| \`/scenes\` | List the build scenes. |
+| \`/timescale <n>\` | Get / set the time scale (\`0.5\` = half speed, \`0\` = pause). |
+| \`/stats\` | Toggle the stats HUD (FPS + memory). |
+| \`/extra_stats\` | Toggle extra stats (frame time, draw calls, instances). |
+| \`/watermark\` | Toggle the dev watermark. |
+| \`/mem\` | Print memory usage. |
+| \`/fullscreen\` | Toggle fullscreen. |
+| \`/vsync <on\\|off>\` | Toggle vsync. |
+| \`/res <w> <h>\` | Set the window size. |
+| \`/screenshot [path]\` | Save a screenshot without the console in it. |
+| \`/volume <n>\` | Set master volume (\`0..1\`). |
+| \`/mute\` | Toggle audio mute. |
+
+### Registering your own commands
+
+The console is scriptable: register a command from AngelScript and it appears in \`/help\` right beside the built-ins. Hand \`DevConsole::RegisterCommand\` a name, a help string and a callback that receives the typed arguments:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DebugCommands : CometBehaviour
+{
+    void Start()
+    {
+        DevConsole::RegisterCommand("print <str>", "prints the given str",
+            CometDelegateStringArray(PrintCommand));
+    }
+
+    void PrintCommand(array<string>@ args)
+    {
+        if (args.length() == 0) return;
+        print(args[0]);
+    }
+}
+\`\`\`
+
+Now typing \`/print hello\` echoes \`hello\` in the console. The first word of the name (\`print\`) becomes the \`/print\` you type; the rest (\`<str>\`) is just a usage hint shown by \`/help\`. The callback receives the space-separated arguments the player typed, and \`print(...)\` writes back into the console. \`DevConsole::Show()\`, \`Hide()\`, \`IsShown()\` and \`UnregisterCommand("print")\` round out the API.
+
+### Debugging and profiling a dev build
+
+A development build isn't only for print-debugging — the editor can **attach its script debugger and profiler to the running build** over a local socket. Turn it on in **Preferences → Build Debugger**:
+
+![Preferences → Build Debugger: "Attach to development builds", with the script debugger and profiler ports.](/tutorials/build-debugger.png)
+
+With **Attach to development builds** ticked, launch a development build and the editor connects to it automatically on the **script debugger port** (\`54711\`). From there the editor's built-in **text editor becomes a full AngelScript debugger for the live build**: click the gutter to set **breakpoints**, then **Step Over / Step In / Step Out / Continue** through your code while the game runs, inspecting the **call stack**, **local variables** and watched expressions in the debugger panels — the same experience as debugging play mode in the editor, except it's the real exported build being driven.
+
+The **profiler port** (\`54713\`) is the other half: it streams timing data from the running build into the editor's profiler, so you can see where each frame actually goes — script functions, draw calls, systems — on real hardware instead of guessing. (You only need to change either port if something else on your machine already uses it.)
+
+## What comes out the other side
+
+Comet packs content into **\`.ori\`** archives — a deterministic, binary-indexed format the runtime **memory-maps** and streams from with zero copies. Every resource is content-hashed, which is what makes patching possible later. The **Content Packaging** dropdown picks the layout:
+
+| Mode | Result |
+|------|--------|
+| \`Single .ori pack\` | The executable plus one \`.ori\` file next to it. The usual choice. |
+| \`Embedded in executable\` | The \`.ori\` is appended to the executable — one single file to distribute. |
+| \`Loose content folder\` | A \`content/\` folder with the raw blobs and manifests — convenient while iterating. |
+
+> [!NOTE]
+> **Content Packaging is a standalone (Windows/Linux) option.** Android and Web decide their own layout: an Android build packs content uncompressed inside the APK so the engine can memory-map it in place, and a Web build produces a static site with the content preloaded or streamed over HTTP (see the platform notes below). The \`Single .ori\` / \`Embedded\` / \`Loose\` choice only applies to the desktop executable + pack you ship yourself.
+
+A typical Windows output folder:
+
+\`\`\`text
+MyGame/
+├── MyGame.exe
+├── MyGame.ori          ← all packed content
+├── extra_ori/          ← drop DLC/mod packs here: auto-mounted at boot
+└── data/               ← loose files from your Data Assets folder
+\`\`\`
+
+Anything you place in \`extra_ori/\` is mounted automatically at startup — a zero-code mod and DLC delivery mechanism.
+
+## Shipping a patch
+
+Here's the workflow that saves your players from re-downloading gigabytes.
+
+A patch is built **against the packs your players already have**. In the platform tab you'll find **Patch Base Packs**:
+
+1. Ship version 1.0 — a normal full build. Keep its \`MyGame.ori\` somewhere safe.
+2. Keep developing: fix scenes, swap textures, add a level.
+3. In the Build window, add the shipped \`MyGame.ori\` to **Patch Base Packs** (for later patches: list the base first, then each prior patch, in order).
+4. Press **Build**. Comet compares every resource's content hash against the merged base packs and writes \`MyGame_patch.ori\` containing **only what changed** — plus tombstones for resources you deleted.
+
+Once the player has the patch file, there are two ways it gets applied, and the difference matters:
+
+- **Drop it in the \`extra_ori/\` folder** (next to the executable) and it is **mounted automatically at startup** — no code required. This is the zero-effort path for a launcher or auto-updater: download into \`extra_ori/\`, relaunch, done.
+- **Put it anywhere else** and you must **mount it yourself from AngelScript** with \`OriLoader::Mount("path/to/patch.ori")\` (see below). This is what you want for an in-game "check for updates" button, DLC the player enables in a menu, or a mod loader.
+
+Either way the runtime layers the patch over the base: newer packs shadow older ones, deletions apply, done. Patch metadata records which content version it targets and its sequence number, so out-of-order patches are refused instead of corrupting the game.
+
+> [!NOTE]
+> Patches are regular \`.ori\` packs. The same mechanism ships DLC: build a patch that only *adds* content and sell the file.
+
+### Mounting packs at runtime
+
+The \`OriLoader\` namespace lets scripts manage packs while the game runs — the foundation for in-game patchers, DLC stores and mod loaders:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class PatchManager : CometBehaviour
+{
+    void ApplyDownloadedPatch(const string &in path)
+    {
+        Debug::Log("Content version before: " + formatInt(OriLoader::GetContentVersion()));
+
+        if (OriLoader::Mount(path))
+        {
+            Debug::Log("Patch mounted! Now at version " + formatInt(OriLoader::GetContentVersion()));
+            // Resources loaded from now on come from the patch where it shadows the base.
+        }
+        else
+        {
+            Debug::Log("Mount failed - wrong engine version or corrupt pack.");
+        }
+    }
+
+    void ListInstalledContent()
+    {
+        array<string> packs = OriLoader::GetMountedPacks();
+        for (uint i = 0; i < packs.length(); i++)
+        {
+            Debug::Log("[" + formatInt(int(i)) + "] " + packs[i]);
+        }
+    }
+
+    void RemoveMod(const string &in path)
+    {
+        if (OriLoader::IsMounted(path))
+        {
+            OriLoader::Unmount(path);   // resources revert to the packs below
+        }
+    }
+}
+\`\`\`
+
+\`MountWithPriority(path, priority)\` controls shadowing order explicitly, and \`App::GetProductVersion()\` / \`App::GetEngineVersion()\` give you the strings for your own update checks.
+
+## Platform notes
+
+### Android
+
+The Android tab wants your signing setup: **Keystore File**, **Keystore Password**, **Key Alias**, **Key Password**, plus **Min/Target SDK Level** and the target **Architectures** (arm64-v8a by default). Comet generates a Gradle project, builds and signs the APK, and — with a device connected over ADB — **Build And Run** installs and launches it directly on the phone. Game content is stored uncompressed inside the APK so the engine can memory-map it in place.
+
+### Web
+
+The Web tab configures the **Canvas Size** and responsiveness. The build produces a static site — \`index.html\`, the WASM binary, the JS runtime, a service worker and your content:
+
+- Small games preload everything for a hitch-free start; bigger ones preload the boot set and stream the rest.
+- The service worker caches content for instant reloads and offline play.
+- Patches work over HTTP too: \`OriLoader::Mount("https://cdn.example.com/patch_v2.ori")\`.
+
+Remember the platform's limits: no native sockets (use WebSockets — see [Networking](/tutorials/networking)) and no threads.
+
+## Platform macros in AngelScript
+
+Because the same scripts compile for every target, you often need code that only exists on one platform — desktop file dialogs, web-specific networking, editor-only tooling. Comet defines **preprocessor macros** — for the target platform, and for the build configuration — and you branch on them with \`#ifdef\` / \`#ifndef\` / \`#else\` / \`#endif\`:
+
+| Macro | Defined when... |
+|-------|-----------------|
+| \`COMET_STANDALONE\` | compiling a Windows or Linux desktop build |
+| \`COMET_ANDROID\` | compiling an Android build |
+| \`COMET_WEB\` | compiling a Web (Emscripten/WASM) build |
+| \`COMET_EDITOR\` | running **inside the editor** (play mode / edit mode), not an exported build |
+| \`COMET_DEVELOPMENT\` | running in the editor **or** a **development build** — stripped from a shipping build |
+
+\`COMET_EDITOR\` is the important one: it's defined while your scripts run in the editor and **absent in every exported build**. Wrap editor-only helpers, debug shortcuts and test hooks in it so they compile out of the shipped game:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DebugTools : CometBehaviour
+{
+    void Update()
+    {
+#ifdef COMET_EDITOR
+        // Cheat keys that only exist while developing in the editor.
+        if (Input::GetKeyDown(KeyCode::F5)) GiveAllPowerups();
+        if (Input::GetKeyDown(KeyCode::F6)) SkipLevel();
+#endif
+    }
+
+    void OpenSettingsFolder()
+    {
+#ifdef COMET_STANDALONE
+        // Desktop-only: browse to a folder on disk.
+        OpenNativeFileBrowser();
+#elif defined(COMET_WEB)
+        // The browser sandbox has no filesystem — show an in-game panel instead.
+        ShowInGameSettings();
+#endif
+    }
+}
+\`\`\`
+
+The build system also lets you define your own **scripting constants** per platform in the Player Settings, which appear as additional \`#ifdef\` symbols — handy for feature flags (a \`DEMO\` build, a \`CONSOLE\` variant, and so on).
+
+> [!TIP]
+> \`COMET_EDITOR\` is true in **both** edit mode and play mode inside the editor. If you need "only in a real build", use \`#ifndef COMET_EDITOR\`. If you need "only on desktop", use \`#ifdef COMET_STANDALONE\`.
+
+### Development-only code: \`COMET_DEVELOPMENT\`
+
+\`COMET_EDITOR\` strips code from **every** exported build — perfect for editor tooling, but too aggressive when you want debug helpers that live in the **development builds** you hand to testers. That's what \`COMET_DEVELOPMENT\` is for: it's defined in the editor **and** in a development build (the **Development Build** box), and stripped only from a **shipping** build. So \`#ifdef COMET_DEVELOPMENT\` code behaves identically while you develop in the editor and in the dev build you send out — then vanishes from the release:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DiagnosticsOverlay : CometBehaviour
+{
+    void Update()
+    {
+#ifdef COMET_DEVELOPMENT
+        // Editor + development builds; compiled out of the shipping game.
+        if (Input::GetKeyDown(KeyCode::F8)) ToggleDebugOverlay();
+#endif
+    }
+}
+\`\`\`
+
+Need the same test at **runtime** rather than compile time — to flip a flag or log a line without wrapping it in an \`#ifdef\`? \`Debug::IsDevelopmentBuild()\` returns the identical truth: \`true\` in the editor and development builds, \`false\` in a shipping build.
+
+\`\`\`angelscript
+if (Debug::IsDevelopmentBuild())
+{
+    Debug::Log("Development build - verbose diagnostics enabled");
+}
+\`\`\`
+
+Rule of thumb: **\`COMET_EDITOR\`** for editor-only tooling, **\`COMET_DEVELOPMENT\`** (or \`Debug::IsDevelopmentBuild()\`) for anything that should run while you develop *and* in test builds, but never in the game you ship.
+
+## Automating builds (CI)
+
+Everything the Build window does is available headless — perfect for nightly builds and release pipelines:
+
+\`\`\`text
+CometEngine.exe --export Windows --path "C:/projects/MyGame" --export-path "C:/builds/win64"
+CometEngine.exe --export Web     --path "C:/projects/MyGame" --export-path "C:/builds/web"
+\`\`\`
+
+\`--export\` implies headless mode: the project loads, scripts compile, the seven-step build pipeline runs (compile scripts → setup → runtime resources → scenes → resource filtering → pre-build → pack), progress is printed per step, and the process exits \`0\` on success or \`1\` on failure — exactly what your CI wants.
+
+> [!TIP]
+> Configure **Patch Base Packs** in the project once, and your CI produces patch builds automatically: check the previous release's \`.ori\` packs into your release storage and point the project at them.
+
+## Pre-flight checklist
+
+- Every scene the game needs is in **Scenes added in Build**, with the right one at index \`0\`.
+- **Development Build** is *off* for store releases.
+- Player Settings: product name, version, icon set.
+- Test the built game, not just the editor — packed-content loading and platform quirks only show up there.
+- Shipped a build? **Archive its \`.ori\` packs.** They are the base every future patch is built against.
+
+## Where to go next
+
+Congratulations — you shipped! If players report a bug, you're one **Patch Base Packs** entry away from the fix. Now go back and make the game better: maybe some [2D lighting polish](/tutorials/lights)?
 `}],Jn=[`2D Graphics`,`Animation`,`Physics`,`Input`,`UI`,`Audio`,`Navigation`,`Networking`,`Visual Scripting`,`Editor Tooling`,`Packages`,`Shipping`],Yn=``,Xn=new Set(`class.interface.enum.funcdef.namespace.using.import.from.typedef.mixin.void.bool.int.int8.int16.int32.int64.uint.uint8.uint16.uint32.uint64.float.double.string.array.dictionary.auto.ref.any.const.private.protected.shared.external.final.abstract.override.explicit.property.get.set.in.out.inout.if.else.for.while.do.switch.case.default.break.continue.return.null.true.false.this.super.cast.is.not.and.or.xor.try.catch`.split(`.`));function Zn(e){return e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`)}function Qn(e){let t=``,n=0,r=e.length,i=(e,n)=>{t+=e?`<span class="as-${e}">${Zn(n)}</span>`:Zn(n)};for(;n<r;){let t=e.slice(n),r=t.match(/^\/\/[^\n]*/);if(r){i(`comment`,r[0]),n+=r[0].length;continue}if(r=t.match(/^\/\*[\s\S]*?(\*\/|$)/),r){i(`comment`,r[0]),n+=r[0].length;continue}if(r=t.match(/^"(?:[^"\\\n]|\\.)*"/),r){i(`string`,r[0]),n+=r[0].length;continue}if(r=t.match(/^'(?:[^'\\\n]|\\.)*'/),r){i(`string`,r[0]),n+=r[0].length;continue}if(r=t.match(/^#[a-zA-Z]+[^\n]*/),r){i(`meta`,r[0]),n+=r[0].length;continue}if((n===0||e[n-1]===`
 `)&&(r=t.match(/^\s*\[[A-Za-z][^\]\n]*\]/),r)){i(`meta`,r[0]),n+=r[0].length;continue}if(r=t.match(/^0[xX][0-9a-fA-F]+|^\d+\.\d+[fF]?|^\.\d+[fF]?|^\d+[fF]?/),r&&/^[\d.]|^0[xX]/.test(r[0])){let t=n>0?e[n-1]:``;if(!/[A-Za-z0-9_]/.test(t)){i(`number`,r[0]),n+=r[0].length;continue}}if(r=t.match(/^[A-Za-z_][A-Za-z0-9_]*/),r){let t=r[0],a=e.slice(n+t.length);Xn.has(t)?i(`keyword`,t):a.startsWith(`::`)?i(`type`,t):/^\s*\(/.test(a)?i(`func`,t):/^[A-Z]/.test(t)?i(`type`,t):i(null,t),n+=t.length;continue}i(null,e[n]),n+=1}return t}function $n(e){return e.toLowerCase().trim().replace(/[^\w\s-]/g,``).replace(/\s+/g,`-`).replace(/-+/g,`-`)}function er(){window.openLightbox||(window.openLightbox=e=>{let t=document.createElement(`div`);t.style.cssText=`
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -4055,15 +4055,17 @@ Initial release.`}]};function Z(e){return e==null?``:String(e).replace(/&/g,`&am
       </div>
       <p class="mp-card-summary">${Z(e.summary)}</p>
       <div class="mp-card-footer">
-        <span class="mp-badge">${Z(e.category)}</span>
-        ${e.package_type===`assetPack`?`<span class="mp-badge mp-badge-green">Asset Pack</span>`:``}
-        ${eu(e.latest_version)}
-        <span class="mp-card-meta">
+        <div class="mp-card-badges">
+          <span class="mp-badge">${Z(e.category)}</span>
+          ${e.package_type===`assetPack`?`<span class="mp-badge mp-badge-green">Asset Pack</span>`:``}
+          ${eu(e.latest_version)}
+        </div>
+        <div class="mp-card-meta">
           <span title="Downloads"><i class="fas fa-download"></i> ${Jc(e.download_count)}</span>
           <span title="Latest version"><i class="fas fa-tag"></i> ${Z(e.latest_version||`—`)}</span>
           ${e.min_engine_version?`<span title="Minimum engine version"><i class="fas fa-gear"></i> ${Z(e.min_engine_version)}+</span>`:``}
           <span title="Last updated"><i class="fas fa-clock"></i> ${Yc(e.updated_at)}</span>
-        </span>
+        </div>
       </div>
     </a>
   `}function ou(){return nl()?``:`

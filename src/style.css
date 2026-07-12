@@ -387,7 +387,7 @@ code {
    ============================================================================ */
 
 .mp-type-toggle { display: inline-flex; gap: 0.35rem; }
-.mp-type-toggle .filter-btn.active { border-color: var(--accent-color); color: var(--accent-color); }
+.mp-type-toggle .filter-btn.active { background: var(--accent-color); color: #fff; }
 
 .mp-featured-title { margin: 1.4rem 0 0.8rem; font-size: 1.15rem; }
 .mp-featured-title i { color: #f1c40f; margin-right: 0.35rem; }

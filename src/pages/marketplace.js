@@ -184,15 +184,17 @@ function packageCard(pkg) {
       </div>
       <p class="mp-card-summary">${escapeHtml(pkg.summary)}</p>
       <div class="mp-card-footer">
-        <span class="mp-badge">${escapeHtml(pkg.category)}</span>
-        ${pkg.package_type === 'assetPack' ? '<span class="mp-badge mp-badge-green">Asset Pack</span>' : ''}
-        ${channelBadge(pkg.latest_version)}
-        <span class="mp-card-meta">
+        <div class="mp-card-badges">
+          <span class="mp-badge">${escapeHtml(pkg.category)}</span>
+          ${pkg.package_type === 'assetPack' ? '<span class="mp-badge mp-badge-green">Asset Pack</span>' : ''}
+          ${channelBadge(pkg.latest_version)}
+        </div>
+        <div class="mp-card-meta">
           <span title="Downloads"><i class="fas fa-download"></i> ${formatDownloads(pkg.download_count)}</span>
           <span title="Latest version"><i class="fas fa-tag"></i> ${escapeHtml(pkg.latest_version || '—')}</span>
           ${pkg.min_engine_version ? `<span title="Minimum engine version"><i class="fas fa-gear"></i> ${escapeHtml(pkg.min_engine_version)}+</span>` : ''}
           <span title="Last updated"><i class="fas fa-clock"></i> ${formatDate(pkg.updated_at)}</span>
-        </span>
+        </div>
       </div>
     </a>
   `;

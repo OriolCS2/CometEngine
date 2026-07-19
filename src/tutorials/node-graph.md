@@ -1,4 +1,4 @@
-# Visual Scripting with Node Graphs
+# Custom Graph Nodes
 
 Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a **node graph**: boxes wired together, execution flowing along the wires. Comet's node graph system runs graphs on entities via a **Graph Updater**, and — uniquely — lets you write your own nodes in AngelScript.
 

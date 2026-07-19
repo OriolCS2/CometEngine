@@ -17,6 +17,7 @@ import uiMd from '../tutorials/ui-system.md?raw';
 import audioMd from '../tutorials/audio.md?raw';
 import navigationMd from '../tutorials/navigation.md?raw';
 import networkingMd from '../tutorials/networking.md?raw';
+import visualScriptingMd from '../tutorials/visual-scripting.md?raw';
 import nodeGraphMd from '../tutorials/node-graph.md?raw';
 import editorMd from '../tutorials/extending-the-editor.md?raw';
 import packagesMd from '../tutorials/packages.md?raw';
@@ -140,10 +141,18 @@ const TUTORIALS = [
     md: networkingMd,
   },
   {
-    id: 'node-graph',
-    title: 'Visual Scripting with Node Graphs',
-    icon: 'fa-diagram-project',
+    id: 'visual-scripting',
+    title: 'Visual Scripting',
+    icon: 'fa-sitemap',
     category: 'Visual Scripting',
+    blurb: 'Build whole behaviours as node graphs that compile to AngelScript — variables, events, functions and the full engine API, no code required.',
+    md: visualScriptingMd,
+  },
+  {
+    id: 'node-graph',
+    title: 'Custom Graph Nodes',
+    icon: 'fa-diagram-project',
+    category: 'Custom Graph Nodes',
     blurb: 'Author gameplay logic as node graphs and write your own custom nodes in AngelScript.',
     md: nodeGraphMd,
   },
@@ -181,7 +190,7 @@ const TUTORIALS = [
   },
 ];
 
-const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Editor Tooling', 'Packages', 'Shipping'];
+const CATEGORY_ORDER = ['2D Graphics', 'Animation', 'Physics', 'Input', 'UI', 'Audio', 'Navigation', 'Networking', 'Visual Scripting', 'Custom Graph Nodes', 'Editor Tooling', 'Packages', 'Shipping'];
 
 let sidebarFilter = '';
 

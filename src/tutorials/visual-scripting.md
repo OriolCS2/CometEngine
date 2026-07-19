@@ -36,11 +36,15 @@ There are two sides to events.
 
 A **function** is its own little graph with typed **inputs** and an optional **output**, shown as a tab next to the Event Graph. Build it once, then drop a call to it anywhere in your event graph — the call node grows a pin for each input and the return value (see the purple **TakeDamage** node above). It keeps big graphs readable and lets you reuse logic without copy-pasting nodes.
 
+![A function opened in its own tab — its inputs and output live in the sidebar, and the graph flows from the entry node to the return.](/tutorials/visual-scripting-function.png)
+
 Double-click a function-call node's header to jump straight into that function's tab.
 
 ## Reaching the whole engine — and your own scripts
 
 This is where visual scripting stops being a toy. The **Create Node** palette (right-click the canvas) is built by reflecting the *entire* scripting API, so everything code can touch is a node:
+
+![The Create Node palette, listing every reflected type and function in a searchable tree.](/tutorials/visual-scripting-create-node.png)
 
 - **Engine API** — every global function, and every method, property, constructor and enum of every bound type (`Entity`, `Transform`, `Input`, `Physics`, `Audio`, …). Get a component, move a transform, play a sound, read the mouse — all as nodes.
 - **Your own scripts** — call the public methods of your AngelScript classes and read or write their public fields, the same way you would in code. Getting a reference to another object of your own type and driving it from a graph just works.

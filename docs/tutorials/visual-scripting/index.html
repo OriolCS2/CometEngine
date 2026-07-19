@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Visual Scripting — Comet Engine</title>
+  <meta name="description" content="Sometimes you want a whole behaviour without opening a text editor. Comet's Visual Scripting lets you build a complete script as a node graph — events, branc…" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/visual-scripting/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Visual Scripting — Comet Engine" />
+  <meta property="og:description" content="Sometimes you want a whole behaviour without opening a text editor. Comet's Visual Scripting lets you build a complete script as a node graph — events, branc…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/visual-scripting/" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/visual-scripting.png" />
+  <meta property="og:image:alt" content="The Visual Script editor" />
+  <meta property="og:image:width" content="1415" />
+  <meta property="og:image:height" content="716" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Visual Scripting — Comet Engine" />
+  <meta name="twitter:description" content="Sometimes you want a whole behaviour without opening a text editor. Comet's Visual Scripting lets you build a complete script as a node graph — events, branc…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/visual-scripting.png" />
+  
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{"@type":"ListItem","position":1,"name":"Home","item":"https://www.cometengine.org/"},{"@type":"ListItem","position":2,"name":"Tutorials","item":"https://www.cometengine.org/tutorials/"},{"@type":"ListItem","position":3,"name":"Visual Scripting","item":"https://www.cometengine.org/tutorials/visual-scripting/"}]
+    }
+    </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  
+  
+  <meta name="keywords"
+    content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!-- Twitter / X card -->
+  
+  
+  
+  
+
+  <!-- Structured data for search engines -->
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-C4VUnJwV.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-C8DY168D.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Visual Scripting</h1>
+<p>Sometimes you want a whole behaviour without opening a text editor. Comet&#39;s <strong>Visual Scripting</strong> lets you build a complete script as a node graph — events, branches, loops, variables, your own functions — and it <strong>compiles to a readable AngelScript class</strong> behind the scenes. That is the important part: a visual script is not interpreted at runtime. It becomes a real script, so it attaches to entities, exposes its variables in the inspector. Anything you can reach in code — every engine type, every one of your own classes — you can reach here.</p>
+<p><img src="/tutorials/visual-scripting.png" alt="The Visual Script editor"></p>
+<h2>Creating a visual script</h2>
+<p>In the Project panel, <strong>Create → Script → Visual Script</strong>. Double-click the new asset to open the <strong>Visual Script editor</strong>.</p>
+<p>Every visual script has a <strong>base class</strong> — the archetype it extends — which you pick from the sidebar. <code>CometBehaviour</code> is the usual choice, but you can pick any script archetype, including one of <em>your own</em> script classes. The base class decides two things: the <strong>event callbacks</strong> available to you, and whether the script can be attached to an entity.</p>
+<h2>Blackboard sidebar</h2>
+<p>The left sidebar is where you declare everything the graph owns (variables, events, functions...).</p>
+<p><img src="/tutorials/visual-scripting-blueprint.png" alt="The Blackboard"></p>
+<ul>
+<li><strong>Variables</strong> — the graph&#39;s state. Give each a name and type; tick <strong>Exposed</strong> to make it show up (and serialize) in the inspector, exactly like a <code>[Serialize]</code> field.</li>
+<li><strong>Functions</strong> — reusable sub-graphs (more below).</li>
+<li><strong>Event Dispatchers</strong> — events <em>your</em> script fires so other scripts can listen.</li>
+</ul>
+<p>Drag a variable onto the canvas to drop a <strong>Get/Set</strong> node.</p>
+<h2>Events: reacting and firing</h2>
+<p>There are two sides to events.</p>
+<p><strong>Event callbacks</strong> come <em>from your base class</em>. Open the Create Node palette and the events your archetype receives are right there — <code>Start</code>, <code>Update</code>, collision and trigger callbacks, pointer and animation events, and so on. Each one is an entry node with an execution output; wire your logic off it and it runs when the engine calls that callback. </p>
+<p><strong>Event dispatchers</strong> are events your script <em>fires</em>. Add one in the sidebar (optionally with a payload type), then drag it onto the canvas to <strong>Invoke</strong> it. Other scripts — visual or written — subscribe to it as a normal <code>CometEvent</code>. You can also <strong>Bind</strong> a parameterless method of your graph as a runtime listener to any <code>CometEvent</code> value, including one you fetched from another object.</p>
+<p><img src="/tutorials/visual-scripting-graph.png" alt="A close-up of the graph."></p>
+<h2>Functions are sub-graphs</h2>
+<p>A <strong>function</strong> is its own little graph with typed <strong>inputs</strong> and an optional <strong>output</strong>, shown as a tab next to the Event Graph. Build it once, then drop a call to it anywhere in your event graph — the call node grows a pin for each input and the return value (see the purple <strong>TakeDamage</strong> node above). It keeps big graphs readable and lets you reuse logic without copy-pasting nodes.</p>
+<p><img src="/tutorials/visual-scripting-function.png" alt="A function opened in its own tab — its inputs and output live in the sidebar, and the graph flows from the entry node to the return."></p>
+<p>Double-click a function-call node&#39;s header to jump straight into that function&#39;s tab.</p>
+<h2>Reaching the whole engine — and your own scripts</h2>
+<p>This is where visual scripting stops being a toy. The <strong>Create Node</strong> palette (right-click the canvas) is built by reflecting the <em>entire</em> scripting API, so everything code can touch is a node:</p>
+<p><img src="/tutorials/visual-scripting-create-node.png" alt="The Create Node palette, listing every reflected type and function in a searchable tree."></p>
+<ul>
+<li><strong>Engine API</strong> — every global function, and every method, property, constructor and enum of every bound type (<code>Entity</code>, <code>Transform</code>, <code>Input</code>, <code>Physics</code>, <code>Audio</code>, …). Get a component, move a transform, play a sound, read the mouse — all as nodes.</li>
+<li><strong>Your own scripts</strong> — call the public methods of your AngelScript classes and read or write their public fields, the same way you would in code. Getting a reference to another object of your own type and driving it from a graph just works.</li>
+<li><strong><code>Self</code></strong> and <strong><code>Self Entity</code></strong> — the running instance, and (for <code>CometBehaviour</code>s) the entity it&#39;s attached to, ready to feed into any call.</li>
+</ul>
+<h2>Flow control</h2>
+<p>The palette also carries the full set of flow nodes you&#39;d expect from a code editor: <strong>Branch</strong> (if/else), <strong>Sequence</strong>, <strong>For</strong>, <strong>For Each</strong> and <strong>While</strong> loops with <strong>Break</strong>/<strong>Continue</strong>, a <strong>Switch</strong> on integers or enums, <strong>Gate</strong>, <strong>Do Once</strong>, <strong>Flip Flop</strong>, and a latent <strong>Delay</strong> built on coroutines.</p>
+<h2>Running it</h2>
+<p>A visual script <em>is</em> a script, so you use it like one:</p>
+<ol>
+<li>Pick your compile mode in the Compile Status section — <strong>On Save</strong> (compile when you save; no lag while editing) or <strong>On Edit</strong> (recompile live).</li>
+<li>Drop the visual script on an entity — drag it into the inspector or use <strong>Add Behaviour</strong> — and its <strong>Exposed</strong> variables appear right there to tweak per-instance.</li>
+<li>Press play. Your <code>Start</code>/<code>Update</code>/callback logic runs with zero interpreter overhead, because it compiled to a normal class.</li>
+</ol>
+<p>In play mode the editor lights up executed nodes live, lets you hover an output pin to watch its last value, and accepts <strong>breakpoints</strong> that pause on a node through the in-editor debugger.</p>
+<h2>Where to go next</h2>
+<p>Visual scripting is glue for the whole engine — fire a graph from an <a href="/tutorials/input-actions">input action</a>, have it drive an <a href="/tutorials/animation">animator</a> or move something along a <a href="/tutorials/bezier">Bézier path</a>, or reach for <a href="/tutorials/node-graph">custom graph nodes</a> when you&#39;d rather author reusable data-flow nodes instead of whole behaviours.</p>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

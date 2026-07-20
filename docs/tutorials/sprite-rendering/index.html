@@ -69,7 +69,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-C4VUnJwV.js"></script>
+  <script type="module" crossorigin src="/assets/index-B0QQdZwT.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-C8DY168D.css">
 </head>
 
@@ -300,25 +300,26 @@ class Disolve : CometBehaviour
 Forgetting <code>Material::Remove()</code> on an instanced material leaks it. If you only need to change the tint, prefer the <code>color</code> property — it does not clone anything.</p>
 </blockquote>
 <h2>Loading sprites at runtime</h2>
-<p>Everything you assign in the Inspector can also be loaded from code through <code>RuntimeAssets</code>. Paths are relative to your project&#39;s <code>Assets/</code> folder, without extension:</p>
+<p>Everything you assign in the Inspector can also be loaded from code through the <strong><code>Assets</code></strong> API. You address an asset by its <code>Assets/</code>-relative path <strong>without the extension</strong> — but only assets that belong to a <strong>content group</strong> are addressable, so first drop your <code>Atlases/</code> folder into a group (see <a href="/tutorials/dynamic-content">Dynamic Content &amp; Asset Groups</a>):</p>
 <pre><code class="language-angelscript">using namespace CometEngine;
 
 class RuntimeSpriteSwap : CometBehaviour
 {
     void Start()
     {
-        // Load a sprite atlas and pick a sprite from it by name.
+        // Load a sprite atlas by its address and pick a sprite from it by name.
         SpriteAtlas atlas = cast&lt;SpriteAtlas&gt;(
-            RuntimeAssets::LoadResource(&quot;Atlases/Characters&quot;, ResourceType::SPRITE_ATLAS));
+            Assets::Load(&quot;Atlases/Characters&quot;, ResourceType::SPRITE_ATLAS));
 
         if (atlas !is null)
         {
             SpriteRenderer::Get(entity).sprite = atlas.GetSprite(&quot;hero_idle_0&quot;);
+            Assets::Unload(atlas);   // drop the load&#39;s pin when you no longer need it
         }
     }
 }
 </code></pre>
-<p>For big assets prefer the asynchronous variant, <code>RuntimeAssets::LoadResourceAsync()</code>, which returns a <code>ResourceAsyncOperation</code> you can poll (<code>isDone</code>, <code>progress</code>, <code>resource</code>).</p>
+<p>For big assets prefer the asynchronous variant, <code>Assets::LoadAsync()</code>, which returns a <code>ResourceAsyncOperation</code> you can poll (<code>isDone</code>, <code>progress</code>, <code>resource</code>) or <code>yield</code> on inside a coroutine. To point at one specific atlas in the Inspector without keeping it loaded, declare an <strong><code>Assets::AssetHandle</code></strong> field and call <code>Assets::Load(handle)</code> when you need it.</p>
 <h2>Quick frame animation: AnimatedSprite</h2>
 <p>When all you need is a looping flipbook — a torch, a coin, an idle loop — the <strong>AnimatedSprite</strong> behaviour replaces the sprite every frame for you, no state machine required:</p>
 <pre><code class="language-angelscript">using namespace CometEngine;

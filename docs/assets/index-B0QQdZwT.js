@@ -564,7 +564,7 @@ class Disolve : CometBehaviour\r
 \r
 ## Loading sprites at runtime\r
 \r
-Everything you assign in the Inspector can also be loaded from code through \`RuntimeAssets\`. Paths are relative to your project's \`Assets/\` folder, without extension:\r
+Everything you assign in the Inspector can also be loaded from code through the **\`Assets\`** API. You address an asset by its \`Assets/\`-relative path **without the extension** — but only assets that belong to a **content group** are addressable, so first drop your \`Atlases/\` folder into a group (see [Dynamic Content & Asset Groups](/tutorials/dynamic-content)):\r
 \r
 \`\`\`angelscript\r
 using namespace CometEngine;\r
@@ -573,19 +573,20 @@ class RuntimeSpriteSwap : CometBehaviour\r
 {\r
     void Start()\r
     {\r
-        // Load a sprite atlas and pick a sprite from it by name.\r
+        // Load a sprite atlas by its address and pick a sprite from it by name.\r
         SpriteAtlas atlas = cast<SpriteAtlas>(\r
-            RuntimeAssets::LoadResource("Atlases/Characters", ResourceType::SPRITE_ATLAS));\r
+            Assets::Load("Atlases/Characters", ResourceType::SPRITE_ATLAS));\r
 \r
         if (atlas !is null)\r
         {\r
             SpriteRenderer::Get(entity).sprite = atlas.GetSprite("hero_idle_0");\r
+            Assets::Unload(atlas);   // drop the load's pin when you no longer need it\r
         }\r
     }\r
 }\r
 \`\`\`\r
 \r
-For big assets prefer the asynchronous variant, \`RuntimeAssets::LoadResourceAsync()\`, which returns a \`ResourceAsyncOperation\` you can poll (\`isDone\`, \`progress\`, \`resource\`).\r
+For big assets prefer the asynchronous variant, \`Assets::LoadAsync()\`, which returns a \`ResourceAsyncOperation\` you can poll (\`isDone\`, \`progress\`, \`resource\`) or \`yield\` on inside a coroutine. To point at one specific atlas in the Inspector without keeping it loaded, declare an **\`Assets::AssetHandle\`** field and call \`Assets::Load(handle)\` when you need it.\r
 \r
 ## Quick frame animation: AnimatedSprite\r
 \r
@@ -2054,7 +2055,7 @@ handle.Stop();\r
 Untracked one-shots clean themselves up when playback ends.\r
 \r
 > [!NOTE]\r
-> Assign samples to script fields through the Inspector by declaring them, e.g. \`AudioSample explosionSample;\` — or load them at runtime with \`RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)\`.\r
+> Assign samples to script fields through the Inspector — declare an \`AudioSample explosionSample;\`, or an \`Assets::AssetHandle\` for a soft reference that only loads when you ask it to. To load one purely from code, put the sound in a **content group** and address it by its \`Assets/\`-relative path (no extension): \`Assets::Load("Audio/Explosion", ResourceType::AUDIO_SAMPLE)\`. See [Dynamic Content & Asset Groups](/tutorials/dynamic-content) for how addresses, groups and runtime loading work.\r
 \r
 ## 2D vs 3D sound\r
 \r
@@ -3594,7 +3595,222 @@ The same operations are exposed as editor **MCP tools** (\`package_list\`, \`pac
 | A package's files look wrong after an update | Reinstall it: remove and install again, or *Delete lock & re-resolve*. Installed packages are reproducible from the lock; never edit them in place — embed instead. |
 
 That's the whole system: install what others built, keep it resolved and locked, and when you build something reusable — wrap it in a manifest, export it, and put it on the Marketplace for everyone.
-`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\n\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\n\n> [!WARNING]\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\n\n## Importing a plugin\n\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\n\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\n\n```\nAssets/MyMath/\n├── MyMath.as              ← the AngelScript wrapper\n├── x86_64/\n│   ├── mymath.dll         ← Windows, x86_64\n│   └── libmymath.so       ← Linux / Android, x86_64\n└── arm64-v8a/\n    └── libmymath.so       ← Android, arm64-v8a\n```\n\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\n\n| The file… | …imports as |\n|-----------|-------------|\n| ends in `.dll` | **Windows** + **Editor** |\n| ends in `.so` | **Linux** + **Android** + **Editor** |\n| ends in `.dylib` | **Editor** only |\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\n\n## The plugin Inspector\n\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\n\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\n\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\n\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\n\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\n\n> [!TIP]\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\n\n## Loading a plugin from AngelScript\n\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::Native;\n\nclass PluginDemo : CometBehaviour\n{\n    void Start()\n    {\n        // Load never returns null — always check IsLoaded().\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\n        if (!lib.IsLoaded())\n        {\n            Debug::LogError("plugin failed: " + lib.GetError());\n            return;\n        }\n        Debug::Log("loaded from " + lib.GetPath());\n\n        // Resolve a function by its exported symbol + C prototype:\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\n        if (add.IsValid())\n        {\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\n        }\n    }\n}\n```\n\n### Describing a function: the signature\n\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\n\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\n\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\n\n### Making the call\n\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\n\n```angelscript\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\n\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\n\n// A function that returns \'const char*\' returns a pointer — read it back:\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\nstring name = Native::ReadCString(ptr);\n```\n\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\n\n### Structs, out-parameters and raw memory\n\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\n\n```angelscript\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\n\nfloat x = buf.Float(0);\nfloat y = buf.Float(4);\n```\n\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\n\n### Is it even supported here?\n\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\n\n```angelscript\nif (!Native::IsSupported())\n    return;   // e.g. a Web build — no native plugins here\n\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\n```\n\n## How plugins ship\n\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\n\n| Platform | Where the binary lands |\n|----------|------------------------|\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\n| **Web** | not supported for now — browsers can\'t load native binaries |\n\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\n\n> [!NOTE]\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\n\n## Cleaning up\n\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\n\n## Where to go next\n\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\n'},{id:`build-and-patches`,title:`Exporting Builds & Shipping Patches`,icon:`fa-box-open`,category:`Shipping`,blurb:`Export to Windows, Linux, Android and Web, then ship incremental patches to players.`,md:`# Exporting Builds & Shipping Patches\r
+`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\n\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\n\n> [!WARNING]\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\n\n## Importing a plugin\n\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\n\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\n\n```\nAssets/MyMath/\n├── MyMath.as              ← the AngelScript wrapper\n├── x86_64/\n│   ├── mymath.dll         ← Windows, x86_64\n│   └── libmymath.so       ← Linux / Android, x86_64\n└── arm64-v8a/\n    └── libmymath.so       ← Android, arm64-v8a\n```\n\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\n\n| The file… | …imports as |\n|-----------|-------------|\n| ends in `.dll` | **Windows** + **Editor** |\n| ends in `.so` | **Linux** + **Android** + **Editor** |\n| ends in `.dylib` | **Editor** only |\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\n\n## The plugin Inspector\n\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\n\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\n\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\n\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\n\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\n\n> [!TIP]\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\n\n## Loading a plugin from AngelScript\n\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::Native;\n\nclass PluginDemo : CometBehaviour\n{\n    void Start()\n    {\n        // Load never returns null — always check IsLoaded().\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\n        if (!lib.IsLoaded())\n        {\n            Debug::LogError("plugin failed: " + lib.GetError());\n            return;\n        }\n        Debug::Log("loaded from " + lib.GetPath());\n\n        // Resolve a function by its exported symbol + C prototype:\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\n        if (add.IsValid())\n        {\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\n        }\n    }\n}\n```\n\n### Describing a function: the signature\n\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\n\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\n\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\n\n### Making the call\n\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\n\n```angelscript\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\n\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\n\n// A function that returns \'const char*\' returns a pointer — read it back:\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\nstring name = Native::ReadCString(ptr);\n```\n\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\n\n### Structs, out-parameters and raw memory\n\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\n\n```angelscript\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\n\nfloat x = buf.Float(0);\nfloat y = buf.Float(4);\n```\n\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\n\n### Is it even supported here?\n\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\n\n```angelscript\nif (!Native::IsSupported())\n    return;   // e.g. a Web build — no native plugins here\n\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\n```\n\n## How plugins ship\n\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\n\n| Platform | Where the binary lands |\n|----------|------------------------|\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\n| **Web** | not supported for now — browsers can\'t load native binaries |\n\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\n\n> [!NOTE]\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\n\n## Cleaning up\n\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\n\n## Where to go next\n\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\n'},{id:`dynamic-content`,title:`Dynamic Content & Asset Groups`,icon:`fa-layer-group`,category:`Shipping`,blurb:`Load assets by address at runtime, put them in content groups, and stream remote content from a CDN — updatable without a game patch.`,md:`# Dynamic Content & Asset Groups
+
+Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen you swap for a seasonal event — these are things you want to **load on demand, by name, at runtime**, and sometimes **download after the game has shipped**.
+
+Comet's **Content System** is how you do that. You put assets into **content groups**, address them by a short path, and load them from a script whenever you want — the exact same call works in the editor, in a packed build, and against content sitting on a CDN.
+
+![The Content page in Project Settings: the groups table with their delivery, the resolved membership of the selected group, and the strip preview.](/tutorials/content-settings.png)
+
+## The mental model
+
+Three ideas carry the whole system:
+
+1. **Address** — an asset's identity for loading. It's the asset's path relative to \`Assets/\`, **without the extension**: \`Assets/Textures/Enemies/orc.png\` becomes the address \`Textures/Enemies/orc\`. Stable, human-readable, project-unique.
+2. **Content group** — a named bucket that decides *how an asset ships and loads*. Every asset either belongs to a group or it doesn't.
+3. **The rule that ties them together** — **an asset is only addressable if it has a content group.** No group, no address: you can't load it by name, and it doesn't ship on its own.
+
+## Creating groups
+
+Open **Project Settings → Content**. The **Groups** table is where you author them — you decide what groups exist; the engine never invents one for you.
+
+Type a name into the field at the bottom and press **Add Group**. Each group has:
+
+| Column | Meaning |
+|--------|---------|
+| **Name** | The group's identity. You'll refer to it from the folder inspector and from scripts. |
+| **Delivery** | \`Local\` (ships inside the game) or \`Remote\` (downloaded from your CDN — see [Remote content](#remote-content-downloadable-groups)). |
+| **Remote URL** | Only for \`Remote\` groups: the URL template the pack downloads from. |
+
+Right-click a row to **Remove** it, or select it and press **Delete**. Removing a group clears every folder and asset that pointed at it (they fall back to *Inherit*).
+
+Below the table, **Group contents** shows exactly which assets currently resolve into the selected group, with their addresses and sizes — your ground truth for "what's actually in here". The **Strip preview** at the bottom lists assets that have *no* group: these ship only if a build scene references them, and they are never loadable by address.
+
+## Assigning content to a group
+
+You don't add assets to a group from the group list — you assign them from their own **Inspector**. Select a folder (or a single asset) in the Project panel and look at the **Content** section at the top of the Inspector.
+
+![A folder's Inspector: the Content section with its Content State set to a group, the effective Content Group, and the derived Address.](/tutorials/content-inspector.png)
+
+The **Content State** dropdown is the heart of it:
+
+| State | What it does |
+|-------|--------------|
+| **Inherit** | Resolve through the folder hierarchy — this item takes whatever group its nearest grouped ancestor folder has. This is the default. |
+| **Group** | Assign an explicit **Content Group** (pick it from the dropdown that appears). Everything inside a grouped folder inherits it. |
+| **Excluded** | Break inheritance — this subtree or asset belongs to **no** group, even under a grouped parent. Use it to carve a hole in an otherwise-grouped folder. |
+
+Assign a **folder** to a group and every asset inside it (and every subfolder, recursively) comes along — the usual way to work. Assign a **single asset** to override just that one.
+
+## Addresses and overrides
+
+By default an asset's address *is* its path without the extension, and its group's assignment doesn't change that. When you select a grouped folder or asset, the Content section shows its resolved **Address** — the string you'll pass to \`Assets::Load\`.
+
+Sometimes you want a cleaner or more stable address than the folder layout gives you. Edit the **Address** field to override it:
+
+- On a **single asset**, the override replaces its whole address.
+- On a **folder**, the override replaces that folder's prefix in every child's derived address — move or rename the folder later and the addresses your code uses don't have to change.
+
+Press the revert arrow to drop an override and go back to the derived path.
+
+## Loading from code
+
+Everything comes through the **\`Assets\`** namespace. The address is the \`Assets/\`-relative path without extension; the type is optional and filters the result.
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class BossSpawner : CometBehaviour
+{
+    void Start()
+    {
+        // Synchronous: blocks until the asset is ready, then pins it resident.
+        Texture2D portrait = cast<Texture2D>(
+            Assets::Load("Bosses/Dragon/portrait", ResourceType::TEXTURE));
+
+        // A whole InstanciableEntity by address.
+        Entity boss = Assets::LoadEntity("Bosses/Dragon/Dragon");
+
+        // ... use them ...
+
+        // Release the pins when you're done so they can unload.
+        Assets::Unload(portrait);
+        Assets::UnloadEntity(boss);
+    }
+}
+\`\`\`
+
+For anything big, load **asynchronously** so you never hitch the frame. \`LoadAsync\` returns a \`ResourceAsyncOperation\` you can poll — or \`yield\` on directly inside a coroutine:
+
+\`\`\`angelscript
+ResourceAsyncOperation op = Assets::LoadAsync("Levels/Ice/tileset", ResourceType::SPRITE_ATLAS);
+while (!op.isDone)
+{
+    loadingBar.value = op.progress;   // 0.0 … 1.0
+    yield;                            // resume next frame
+}
+SpriteAtlas atlas = cast<SpriteAtlas>(op.resource);
+\`\`\`
+
+You can also **discover** content without loading it. \`Assets::Find\` returns a lightweight handle, \`FindAssets\` enumerates a folder address, and \`GetGroupAssets\` lists a whole group — none of them touch disk until you actually \`Load\`:
+
+\`\`\`angelscript
+array<AssetHandle>@ enemies = Assets::FindAssets("Enemies", ResourceType::INSTANCIABLE_ENTITY);
+AssetHandle random = enemies[rand() % enemies.length()];
+Entity spawned = cast<Entity>(Assets::Load(random));
+\`\`\`
+
+There's also \`Assets::LoadScene(address)\` / \`LoadSceneAsync\` to bring in a whole scene by address, and \`Assets::UnloadAll()\` to drop every runtime pin at once.
+
+## AssetHandle fields: soft references in the Inspector
+
+A field typed as a concrete resource (\`Texture2D icon;\`) is a **hard** reference — the engine loads it together with whatever owns it. A field typed as **\`Assets::AssetHandle\`** is a **soft** reference: it *names* an asset but stays dormant until you call \`Load\` on it.
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class RewardChest : CometBehaviour
+{
+    Assets::AssetHandle rewardIcon;   // shows an asset picker in the Inspector
+
+    void Open()
+    {
+        if (rewardIcon.IsSet())
+        {
+            Texture2D icon = cast<Texture2D>(Assets::Load(rewardIcon));
+            // ... show it ...
+        }
+    }
+}
+\`\`\`
+
+## The strip rule
+
+The core promise: **only grouped assets ship and are addressable.** Concretely, at build time:
+
+- An asset **with** an effective group ships and can be loaded by address.
+- An asset **without** a group that *is* referenced by a build scene still ships (as a hard dependency of that scene) — but it is **not** addressable; you can only reach it through the scene.
+- An asset **without** a group that **nothing references** is **stripped** entirely.
+
+Because the editor enforces the exact same rule, a \`Assets::Load\` that would fail in the shipped game also fails in play mode — you find out immediately, not after exporting.
+
+## Local vs Remote: how a group ships
+
+A group's **Delivery** decides where its bytes live in the build.
+
+**Local** (the default) — the group folds into your game's base content: the single \`.ori\` pack, the embedded-in-executable pack, or the loose content tree, depending on your Content Packaging (see [Exporting Builds & Shipping Patches](/tutorials/build-and-patches)). Local content is always present, so loading it is instant and needs no setup. Because mounting is memory-mapped, a bigger pack costs nothing at load time — there's no downside to shipping content locally.
+
+**Remote** — the group is packed into its **own** \`.ori\` file, placed in a \`remote_content/\` folder next to your build instead of inside it. You upload that file to your own server/CDN; the game downloads it on demand. This is how you ship DLC, seasonal content, or anything you'd rather not force into the initial install.
+
+## Remote content: downloadable groups
+
+Give a group **Remote** delivery and set its **Remote URL** — a template with two optional placeholders:
+
+- \`{group}\` → the group's name.
+- \`{version}\` → the content version.
+
+For example \`https://cdn.mygame.com/content/{group}.ori\`. When you export, Comet writes \`remote_content/<group>.ori\` **and** a tiny \`<group>.manifest\` beside it. Upload **both** to the URL you configured.
+
+At runtime, nothing downloads until you ask:
+
+\`\`\`angelscript
+using namespace CometEngine;
+
+class DlcLoader : CometBehaviour
+{
+    bool started = false;
+
+    void Update()
+    {
+        if (!started)
+        {
+            started = true;
+            Assets::EnsureGroup("SeasonalEvent");   // begins the download
+        }
+
+        if (Assets::IsGroupReady("SeasonalEvent"))
+        {
+            // Safe to load anything in the group now.
+            Entity tree = Assets::LoadEntity("SeasonalEvent/Decorations/Tree");
+            started = false;   // (example only — don't re-ensure every frame in real code)
+        }
+        else
+        {
+            float total = float(Assets::GetGroupDownloadSize("SeasonalEvent"));
+            float got   = float(Assets::GetGroupDownloadedBytes("SeasonalEvent"));
+            progressBar.value = total > 0 ? got / total : 0.0F;
+        }
+    }
+}
+\`\`\`
+
+\`EnsureGroup\` downloads the pack (**resumable** and **checksum-verified**), caches it next to the game, and mounts it. \`IsGroupReady\` tells you when its assets are loadable; \`GetGroupDownloadSize\` / \`GetGroupDownloadedBytes\` drive a progress bar. \`ReleaseGroup\` unmounts a remote group's cached pack when you're done — the cache stays, so ensuring it again doesn't re-download. For a **Local** group all of these are no-ops that report "ready" immediately, so the same code path works whether an asset ships local or remote.
+
+### Updating remote content without a game update
+
+This is the real payoff of remote groups. The cached pack is checked against the manifest **once per session**: when you re-export the group and upload the new \`.ori\` + \`.manifest\` pair, the game notices the change on the next \`EnsureGroup\`, discards the stale cache and downloads the current one — **no game update required**. When the CDN is unreachable, the cached pack keeps working offline. (Remember to upload the new \`.manifest\` alongside the \`.ori\`; the manifest is the version signal.)
+
+## Automating the setup from editor scripts
+
+If you generate content or want to script your project's setup, the **\`CometEditor::AssetDataBase\`** API mirrors everything the inspectors do:
+
+\`\`\`angelscript
+using namespace CometEditor;
+
+AssetDataBase::CreateContentGroup("SeasonalEvent");
+AssetDataBase::SetContentGroup("SeasonalEvent/Decorations", "SeasonalEvent");  // by folder path
+AssetDataBase::SetContentState(myTexture, CometEditor::ContentState::EXCLUDED); // by Resource@
+string group = AssetDataBase::GetEffectiveContentGroup("Bosses/Dragon/portrait.png");
+\`\`\`
+
+Paths take folders (no trailing slash) or files — the file extension is optional, and an ambiguous extensionless name does nothing and logs a note asking you to include the extension.
+
+## Where to go next
+
+- Content packaging, single-\`.ori\` vs embedded vs loose, and shipping incremental patches (which also work over HTTP) are covered in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).
+- Loading sprites and atlases by address is shown in context in [Sprite Rendering](/tutorials/sprite-rendering); the same applies to [Audio & Mixers](/tutorials/audio) and every other resource type.
+`},{id:`build-and-patches`,title:`Exporting Builds & Shipping Patches`,icon:`fa-box-open`,category:`Shipping`,blurb:`Export to Windows, Linux, Android and Web, then ship incremental patches to players.`,md:`# Exporting Builds & Shipping Patches\r
 \r
 Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for **Windows, Linux, Android and Web**, packs your content into memory-mapped \`.ori\` archives, and — the killer feature — builds **incremental patches** that ship only what changed since the version your players already have.\r
 \r

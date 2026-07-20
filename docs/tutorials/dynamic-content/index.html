@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Dynamic Content &amp; Asset Groups — Comet Engine</title>
+  <meta name="description" content="Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen…" />
+  <link rel="canonical" href="https://www.cometengine.org/tutorials/dynamic-content/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comet Engine" />
+  <meta property="og:title" content="Dynamic Content &amp; Asset Groups — Comet Engine" />
+  <meta property="og:description" content="Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen…" />
+  <meta property="og:url" content="https://www.cometengine.org/tutorials/dynamic-content/" />
+  <meta property="og:image" content="https://www.cometengine.org/tutorials/content-settings.png" />
+  <meta property="og:image:alt" content="The Content page in Project Settings: the groups table with their delivery, the resolved membership of the selected group, and the strip preview." />
+  <meta property="og:image:width" content="1146" />
+  <meta property="og:image:height" content="638" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dynamic Content &amp; Asset Groups — Comet Engine" />
+  <meta name="twitter:description" content="Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen…" />
+  <meta name="twitter:image" content="https://www.cometengine.org/tutorials/content-settings.png" />
+  
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{"@type":"ListItem","position":1,"name":"Home","item":"https://www.cometengine.org/"},{"@type":"ListItem","position":2,"name":"Tutorials","item":"https://www.cometengine.org/tutorials/"},{"@type":"ListItem","position":3,"name":"Dynamic Content & Asset Groups","item":"https://www.cometengine.org/tutorials/dynamic-content/"}]
+    }
+    </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  
+  
+  <meta name="keywords"
+    content="Comet Engine, CometEngine, 2D game engine, game engine, C++ game engine, AngelScript, gamedev, game development, indie game engine, 2D lighting, tilemap editor, Box2D physics, cross-platform game engine, make 2D games" />
+  <meta name="author" content="Oriol Capdevila" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f1420" />
+  <meta name="google-site-verification" content="uslMmApdBu7IXs_MODS_2QU79n_beQ_g-F6HLGKHxwY" />
+  
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Open Graph (link previews on Discord, Facebook, LinkedIn, WhatsApp, etc.) -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!-- Twitter / X card -->
+  
+  
+  
+  
+
+  <!-- Structured data for search engines -->
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" crossorigin src="/assets/index-B0QQdZwT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-C8DY168D.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="/logo.png" alt="CometEngine Logo" id="nav-logo" />
+        <span>Comet Engine</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="/" id="nav-home">Home</a>
+          <a href="/marketplace" id="nav-marketplace">Marketplace</a>
+          <a href="/releases" id="nav-releases">Releases</a>
+          <a href="/tutorials" id="nav-tutorials">Tutorials</a>
+          <a href="/docs" id="nav-docs">Documentation</a>
+          <a href="https://github.com/OriolCS2/CometEngine/issues/new" target="_blank" rel="noopener noreferrer"
+            id="nav-bug">Report Bug</a>
+        </div>
+        <div class="nav-auth" id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"><article class="tut-prerender"><h1>Dynamic Content &amp; Asset Groups</h1>
+<p>Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen you swap for a seasonal event — these are things you want to <strong>load on demand, by name, at runtime</strong>, and sometimes <strong>download after the game has shipped</strong>.</p>
+<p>Comet&#39;s <strong>Content System</strong> is how you do that. You put assets into <strong>content groups</strong>, address them by a short path, and load them from a script whenever you want — the exact same call works in the editor, in a packed build, and against content sitting on a CDN.</p>
+<p><img src="/tutorials/content-settings.png" alt="The Content page in Project Settings: the groups table with their delivery, the resolved membership of the selected group, and the strip preview."></p>
+<h2>The mental model</h2>
+<p>Three ideas carry the whole system:</p>
+<ol>
+<li><strong>Address</strong> — an asset&#39;s identity for loading. It&#39;s the asset&#39;s path relative to <code>Assets/</code>, <strong>without the extension</strong>: <code>Assets/Textures/Enemies/orc.png</code> becomes the address <code>Textures/Enemies/orc</code>. Stable, human-readable, project-unique.</li>
+<li><strong>Content group</strong> — a named bucket that decides <em>how an asset ships and loads</em>. Every asset either belongs to a group or it doesn&#39;t.</li>
+<li><strong>The rule that ties them together</strong> — <strong>an asset is only addressable if it has a content group.</strong> No group, no address: you can&#39;t load it by name, and it doesn&#39;t ship on its own.</li>
+</ol>
+<h2>Creating groups</h2>
+<p>Open <strong>Project Settings → Content</strong>. The <strong>Groups</strong> table is where you author them — you decide what groups exist; the engine never invents one for you.</p>
+<p>Type a name into the field at the bottom and press <strong>Add Group</strong>. Each group has:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Name</strong></td>
+<td>The group&#39;s identity. You&#39;ll refer to it from the folder inspector and from scripts.</td>
+</tr>
+<tr>
+<td><strong>Delivery</strong></td>
+<td><code>Local</code> (ships inside the game) or <code>Remote</code> (downloaded from your CDN — see <a href="#remote-content-downloadable-groups">Remote content</a>).</td>
+</tr>
+<tr>
+<td><strong>Remote URL</strong></td>
+<td>Only for <code>Remote</code> groups: the URL template the pack downloads from.</td>
+</tr>
+</tbody></table>
+<p>Right-click a row to <strong>Remove</strong> it, or select it and press <strong>Delete</strong>. Removing a group clears every folder and asset that pointed at it (they fall back to <em>Inherit</em>).</p>
+<p>Below the table, <strong>Group contents</strong> shows exactly which assets currently resolve into the selected group, with their addresses and sizes — your ground truth for &quot;what&#39;s actually in here&quot;. The <strong>Strip preview</strong> at the bottom lists assets that have <em>no</em> group: these ship only if a build scene references them, and they are never loadable by address.</p>
+<h2>Assigning content to a group</h2>
+<p>You don&#39;t add assets to a group from the group list — you assign them from their own <strong>Inspector</strong>. Select a folder (or a single asset) in the Project panel and look at the <strong>Content</strong> section at the top of the Inspector.</p>
+<p><img src="/tutorials/content-inspector.png" alt="A folder&#39;s Inspector: the Content section with its Content State set to a group, the effective Content Group, and the derived Address."></p>
+<p>The <strong>Content State</strong> dropdown is the heart of it:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Inherit</strong></td>
+<td>Resolve through the folder hierarchy — this item takes whatever group its nearest grouped ancestor folder has. This is the default.</td>
+</tr>
+<tr>
+<td><strong>Group</strong></td>
+<td>Assign an explicit <strong>Content Group</strong> (pick it from the dropdown that appears). Everything inside a grouped folder inherits it.</td>
+</tr>
+<tr>
+<td><strong>Excluded</strong></td>
+<td>Break inheritance — this subtree or asset belongs to <strong>no</strong> group, even under a grouped parent. Use it to carve a hole in an otherwise-grouped folder.</td>
+</tr>
+</tbody></table>
+<p>Assign a <strong>folder</strong> to a group and every asset inside it (and every subfolder, recursively) comes along — the usual way to work. Assign a <strong>single asset</strong> to override just that one.</p>
+<h2>Addresses and overrides</h2>
+<p>By default an asset&#39;s address <em>is</em> its path without the extension, and its group&#39;s assignment doesn&#39;t change that. When you select a grouped folder or asset, the Content section shows its resolved <strong>Address</strong> — the string you&#39;ll pass to <code>Assets::Load</code>.</p>
+<p>Sometimes you want a cleaner or more stable address than the folder layout gives you. Edit the <strong>Address</strong> field to override it:</p>
+<ul>
+<li>On a <strong>single asset</strong>, the override replaces its whole address.</li>
+<li>On a <strong>folder</strong>, the override replaces that folder&#39;s prefix in every child&#39;s derived address — move or rename the folder later and the addresses your code uses don&#39;t have to change.</li>
+</ul>
+<p>Press the revert arrow to drop an override and go back to the derived path.</p>
+<h2>Loading from code</h2>
+<p>Everything comes through the <strong><code>Assets</code></strong> namespace. The address is the <code>Assets/</code>-relative path without extension; the type is optional and filters the result.</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class BossSpawner : CometBehaviour
+{
+    void Start()
+    {
+        // Synchronous: blocks until the asset is ready, then pins it resident.
+        Texture2D portrait = cast&lt;Texture2D&gt;(
+            Assets::Load(&quot;Bosses/Dragon/portrait&quot;, ResourceType::TEXTURE));
+
+        // A whole InstanciableEntity by address.
+        Entity boss = Assets::LoadEntity(&quot;Bosses/Dragon/Dragon&quot;);
+
+        // ... use them ...
+
+        // Release the pins when you&#39;re done so they can unload.
+        Assets::Unload(portrait);
+        Assets::UnloadEntity(boss);
+    }
+}
+</code></pre>
+<p>For anything big, load <strong>asynchronously</strong> so you never hitch the frame. <code>LoadAsync</code> returns a <code>ResourceAsyncOperation</code> you can poll — or <code>yield</code> on directly inside a coroutine:</p>
+<pre><code class="language-angelscript">ResourceAsyncOperation op = Assets::LoadAsync(&quot;Levels/Ice/tileset&quot;, ResourceType::SPRITE_ATLAS);
+while (!op.isDone)
+{
+    loadingBar.value = op.progress;   // 0.0 … 1.0
+    yield;                            // resume next frame
+}
+SpriteAtlas atlas = cast&lt;SpriteAtlas&gt;(op.resource);
+</code></pre>
+<p>You can also <strong>discover</strong> content without loading it. <code>Assets::Find</code> returns a lightweight handle, <code>FindAssets</code> enumerates a folder address, and <code>GetGroupAssets</code> lists a whole group — none of them touch disk until you actually <code>Load</code>:</p>
+<pre><code class="language-angelscript">array&lt;AssetHandle&gt;@ enemies = Assets::FindAssets(&quot;Enemies&quot;, ResourceType::INSTANCIABLE_ENTITY);
+AssetHandle random = enemies[rand() % enemies.length()];
+Entity spawned = cast&lt;Entity&gt;(Assets::Load(random));
+</code></pre>
+<p>There&#39;s also <code>Assets::LoadScene(address)</code> / <code>LoadSceneAsync</code> to bring in a whole scene by address, and <code>Assets::UnloadAll()</code> to drop every runtime pin at once.</p>
+<h2>AssetHandle fields: soft references in the Inspector</h2>
+<p>A field typed as a concrete resource (<code>Texture2D icon;</code>) is a <strong>hard</strong> reference — the engine loads it together with whatever owns it. A field typed as <strong><code>Assets::AssetHandle</code></strong> is a <strong>soft</strong> reference: it <em>names</em> an asset but stays dormant until you call <code>Load</code> on it.</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class RewardChest : CometBehaviour
+{
+    Assets::AssetHandle rewardIcon;   // shows an asset picker in the Inspector
+
+    void Open()
+    {
+        if (rewardIcon.IsSet())
+        {
+            Texture2D icon = cast&lt;Texture2D&gt;(Assets::Load(rewardIcon));
+            // ... show it ...
+        }
+    }
+}
+</code></pre>
+<h2>The strip rule</h2>
+<p>The core promise: <strong>only grouped assets ship and are addressable.</strong> Concretely, at build time:</p>
+<ul>
+<li>An asset <strong>with</strong> an effective group ships and can be loaded by address.</li>
+<li>An asset <strong>without</strong> a group that <em>is</em> referenced by a build scene still ships (as a hard dependency of that scene) — but it is <strong>not</strong> addressable; you can only reach it through the scene.</li>
+<li>An asset <strong>without</strong> a group that <strong>nothing references</strong> is <strong>stripped</strong> entirely.</li>
+</ul>
+<p>Because the editor enforces the exact same rule, a <code>Assets::Load</code> that would fail in the shipped game also fails in play mode — you find out immediately, not after exporting.</p>
+<h2>Local vs Remote: how a group ships</h2>
+<p>A group&#39;s <strong>Delivery</strong> decides where its bytes live in the build.</p>
+<p><strong>Local</strong> (the default) — the group folds into your game&#39;s base content: the single <code>.ori</code> pack, the embedded-in-executable pack, or the loose content tree, depending on your Content Packaging (see <a href="/tutorials/build-and-patches">Exporting Builds &amp; Shipping Patches</a>). Local content is always present, so loading it is instant and needs no setup. Because mounting is memory-mapped, a bigger pack costs nothing at load time — there&#39;s no downside to shipping content locally.</p>
+<p><strong>Remote</strong> — the group is packed into its <strong>own</strong> <code>.ori</code> file, placed in a <code>remote_content/</code> folder next to your build instead of inside it. You upload that file to your own server/CDN; the game downloads it on demand. This is how you ship DLC, seasonal content, or anything you&#39;d rather not force into the initial install.</p>
+<h2>Remote content: downloadable groups</h2>
+<p>Give a group <strong>Remote</strong> delivery and set its <strong>Remote URL</strong> — a template with two optional placeholders:</p>
+<ul>
+<li><code>{group}</code> → the group&#39;s name.</li>
+<li><code>{version}</code> → the content version.</li>
+</ul>
+<p>For example <code>https://cdn.mygame.com/content/{group}.ori</code>. When you export, Comet writes <code>remote_content/&lt;group&gt;.ori</code> <strong>and</strong> a tiny <code>&lt;group&gt;.manifest</code> beside it. Upload <strong>both</strong> to the URL you configured.</p>
+<p>At runtime, nothing downloads until you ask:</p>
+<pre><code class="language-angelscript">using namespace CometEngine;
+
+class DlcLoader : CometBehaviour
+{
+    bool started = false;
+
+    void Update()
+    {
+        if (!started)
+        {
+            started = true;
+            Assets::EnsureGroup(&quot;SeasonalEvent&quot;);   // begins the download
+        }
+
+        if (Assets::IsGroupReady(&quot;SeasonalEvent&quot;))
+        {
+            // Safe to load anything in the group now.
+            Entity tree = Assets::LoadEntity(&quot;SeasonalEvent/Decorations/Tree&quot;);
+            started = false;   // (example only — don&#39;t re-ensure every frame in real code)
+        }
+        else
+        {
+            float total = float(Assets::GetGroupDownloadSize(&quot;SeasonalEvent&quot;));
+            float got   = float(Assets::GetGroupDownloadedBytes(&quot;SeasonalEvent&quot;));
+            progressBar.value = total &gt; 0 ? got / total : 0.0F;
+        }
+    }
+}
+</code></pre>
+<p><code>EnsureGroup</code> downloads the pack (<strong>resumable</strong> and <strong>checksum-verified</strong>), caches it next to the game, and mounts it. <code>IsGroupReady</code> tells you when its assets are loadable; <code>GetGroupDownloadSize</code> / <code>GetGroupDownloadedBytes</code> drive a progress bar. <code>ReleaseGroup</code> unmounts a remote group&#39;s cached pack when you&#39;re done — the cache stays, so ensuring it again doesn&#39;t re-download. For a <strong>Local</strong> group all of these are no-ops that report &quot;ready&quot; immediately, so the same code path works whether an asset ships local or remote.</p>
+<h3>Updating remote content without a game update</h3>
+<p>This is the real payoff of remote groups. The cached pack is checked against the manifest <strong>once per session</strong>: when you re-export the group and upload the new <code>.ori</code> + <code>.manifest</code> pair, the game notices the change on the next <code>EnsureGroup</code>, discards the stale cache and downloads the current one — <strong>no game update required</strong>. When the CDN is unreachable, the cached pack keeps working offline. (Remember to upload the new <code>.manifest</code> alongside the <code>.ori</code>; the manifest is the version signal.)</p>
+<h2>Automating the setup from editor scripts</h2>
+<p>If you generate content or want to script your project&#39;s setup, the <strong><code>CometEditor::AssetDataBase</code></strong> API mirrors everything the inspectors do:</p>
+<pre><code class="language-angelscript">using namespace CometEditor;
+
+AssetDataBase::CreateContentGroup(&quot;SeasonalEvent&quot;);
+AssetDataBase::SetContentGroup(&quot;SeasonalEvent/Decorations&quot;, &quot;SeasonalEvent&quot;);  // by folder path
+AssetDataBase::SetContentState(myTexture, CometEditor::ContentState::EXCLUDED); // by Resource@
+string group = AssetDataBase::GetEffectiveContentGroup(&quot;Bosses/Dragon/portrait.png&quot;);
+</code></pre>
+<p>Paths take folders (no trailing slash) or files — the file extension is optional, and an ambiguous extensionless name does nothing and logs a note asking you to include the extension.</p>
+<h2>Where to go next</h2>
+<ul>
+<li>Content packaging, single-<code>.ori</code> vs embedded vs loose, and shipping incremental patches (which also work over HTTP) are covered in <a href="/tutorials/build-and-patches">Exporting Builds &amp; Shipping Patches</a>.</li>
+<li>Loading sprites and atlases by address is shown in context in <a href="/tutorials/sprite-rendering">Sprite Rendering</a>; the same applies to <a href="/tutorials/audio">Audio &amp; Mixers</a> and every other resource type.</li>
+</ul>
+</article></main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2020 - 2026 Comet Engine. Created by <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Oriol Capdevila</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

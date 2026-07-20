@@ -175,7 +175,7 @@ class Disolve : CometBehaviour
 
 ## Loading sprites at runtime
 
-Everything you assign in the Inspector can also be loaded from code through `RuntimeAssets`. Paths are relative to your project's `Assets/` folder, without extension:
+Everything you assign in the Inspector can also be loaded from code through the **`Assets`** API. You address an asset by its `Assets/`-relative path **without the extension** — but only assets that belong to a **content group** are addressable, so first drop your `Atlases/` folder into a group (see [Dynamic Content & Asset Groups](/tutorials/dynamic-content)):
 
 ```angelscript
 using namespace CometEngine;
@@ -184,19 +184,20 @@ class RuntimeSpriteSwap : CometBehaviour
 {
     void Start()
     {
-        // Load a sprite atlas and pick a sprite from it by name.
+        // Load a sprite atlas by its address and pick a sprite from it by name.
         SpriteAtlas atlas = cast<SpriteAtlas>(
-            RuntimeAssets::LoadResource("Atlases/Characters", ResourceType::SPRITE_ATLAS));
+            Assets::Load("Atlases/Characters", ResourceType::SPRITE_ATLAS));
 
         if (atlas !is null)
         {
             SpriteRenderer::Get(entity).sprite = atlas.GetSprite("hero_idle_0");
+            Assets::Unload(atlas);   // drop the load's pin when you no longer need it
         }
     }
 }
 ```
 
-For big assets prefer the asynchronous variant, `RuntimeAssets::LoadResourceAsync()`, which returns a `ResourceAsyncOperation` you can poll (`isDone`, `progress`, `resource`).
+For big assets prefer the asynchronous variant, `Assets::LoadAsync()`, which returns a `ResourceAsyncOperation` you can poll (`isDone`, `progress`, `resource`) or `yield` on inside a coroutine. To point at one specific atlas in the Inspector without keeping it loaded, declare an **`Assets::AssetHandle`** field and call `Assets::Load(handle)` when you need it.
 
 ## Quick frame animation: AnimatedSprite
 

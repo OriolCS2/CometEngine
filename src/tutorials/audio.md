@@ -84,7 +84,7 @@ handle.Stop();
 Untracked one-shots clean themselves up when playback ends.
 
 > [!NOTE]
-> Assign samples to script fields through the Inspector by declaring them, e.g. `AudioSample explosionSample;` — or load them at runtime with `RuntimeAssets::LoadResource("Audio/Explosion", ResourceType::AUDIO)`.
+> Assign samples to script fields through the Inspector — declare an `AudioSample explosionSample;`, or an `Assets::AssetHandle` for a soft reference that only loads when you ask it to. To load one purely from code, put the sound in a **content group** and address it by its `Assets/`-relative path (no extension): `Assets::Load("Audio/Explosion", ResourceType::AUDIO_SAMPLE)`. See [Dynamic Content & Asset Groups](/tutorials/dynamic-content) for how addresses, groups and runtime loading work.
 
 ## 2D vs 3D sound
 

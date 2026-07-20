@@ -69,7 +69,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/index-C4VUnJwV.js"></script>
+  <script type="module" crossorigin src="/assets/index-B0QQdZwT.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-C8DY168D.css">
 </head>
 
@@ -204,7 +204,7 @@ handle.Stop();
 <p>Untracked one-shots clean themselves up when playback ends.</p>
 <blockquote>
 <p>[!NOTE]
-Assign samples to script fields through the Inspector by declaring them, e.g. <code>AudioSample explosionSample;</code> — or load them at runtime with <code>RuntimeAssets::LoadResource(&quot;Audio/Explosion&quot;, ResourceType::AUDIO)</code>.</p>
+Assign samples to script fields through the Inspector — declare an <code>AudioSample explosionSample;</code>, or an <code>Assets::AssetHandle</code> for a soft reference that only loads when you ask it to. To load one purely from code, put the sound in a <strong>content group</strong> and address it by its <code>Assets/</code>-relative path (no extension): <code>Assets::Load(&quot;Audio/Explosion&quot;, ResourceType::AUDIO_SAMPLE)</code>. See <a href="/tutorials/dynamic-content">Dynamic Content &amp; Asset Groups</a> for how addresses, groups and runtime loading work.</p>
 </blockquote>
 <h2>2D vs 3D sound</h2>
 <p>Set <strong>Mode</strong> to <code>3D Audio</code> and the source attenuates linearly between <strong>Min Distance</strong> and <strong>Max Distance</strong> from the listener, pans by direction, and applies <strong>Doppler</strong> when either side moves. Three global knobs shape the whole mix:</p>

@@ -22,6 +22,7 @@ import nodeGraphMd from '../tutorials/node-graph.md?raw';
 import editorMd from '../tutorials/extending-the-editor.md?raw';
 import packagesMd from '../tutorials/packages.md?raw';
 import nativePluginsMd from '../tutorials/native-plugins.md?raw';
+import dynamicContentMd from '../tutorials/dynamic-content.md?raw';
 import buildMd from '../tutorials/build-and-patches.md?raw';
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -179,6 +180,14 @@ const TUTORIALS = [
     category: 'Packages',
     blurb: 'Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.',
     md: nativePluginsMd,
+  },
+  {
+    id: 'dynamic-content',
+    title: 'Dynamic Content & Asset Groups',
+    icon: 'fa-layer-group',
+    category: 'Shipping',
+    blurb: 'Load assets by address at runtime, put them in content groups, and stream remote content from a CDN — updatable without a game patch.',
+    md: dynamicContentMd,
   },
   {
     id: 'build-and-patches',

@@ -1,5 +1,6 @@
 import { renderHome } from './src/pages/home.js';
 import { renderReleases } from './src/pages/releases.js';
+import { renderCli } from './src/pages/cli.js';
 import { renderDocs } from './src/pages/docs.js';
 import { renderTutorials } from './src/pages/tutorials.js';
 import { renderMarketplace } from './src/pages/marketplace.js';
@@ -79,6 +80,10 @@ function handleRoute() {
     const tag = route.replace('#releases', '').substring(1);
     setMeta('Releases — Comet Engine', 'Download the latest Comet Engine releases and read the patch notes.');
     renderReleases(app, tag);
+  } else if (route.startsWith('#cli')) {
+    const tag = route.replace('#cli', '').substring(1);
+    setMeta('CometCli — Comet Engine', 'Download CometCli, the command-line interface for Comet Engine, and read its changelog.');
+    renderCli(app, tag);
   } else if (route.startsWith('#tutorials')) {
     renderTutorials(app, route);           // sets its own per-tutorial title
   } else if (route.startsWith('#docs')) {

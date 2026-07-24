@@ -107,7 +107,7 @@ function writePage(relDir, html) {
   writeFileSync(join(dir, 'index.html'), html, 'utf8');
 }
 
-const urls = ['/', '/tutorials/', '/marketplace/', '/releases/', '/docs/'];
+const urls = ['/', '/tutorials/', '/marketplace/', '/releases/', '/cli/', '/docs/'];
 const cards = [];
 let count = 0;
 
@@ -168,6 +168,11 @@ const sections = [
     path: 'releases', title: 'Releases',
     description: 'Download the latest Comet Engine releases and read the patch notes.',
     content: '<p>Get the latest version of Comet Engine for Windows, Linux, and more.</p>'
+  },
+  {
+    path: 'cli', title: 'CometCli',
+    description: 'Download CometCli, the command-line interface for Comet Engine, and read its changelog.',
+    content: '<p>Drive the Comet Engine editor from a terminal, export builds headlessly and control development builds while they run. Available for Windows and Linux.</p>'
   },
   {
     path: 'docs', title: 'Documentation',

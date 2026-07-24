@@ -174,11 +174,29 @@ function setupVersionSelector(container) {
   });
 }
 
+async function fetchModuleDocFiles(version) {
+  try {
+    const response = await fetch(`./docs/${version}/modules.json`);
+    if (!response.ok) return [];
+    const manifest = await response.json();
+    const modules = Array.isArray(manifest?.modules) ? manifest.modules : [];
+    return modules
+      .map(entry => (typeof entry === 'string' ? entry : entry?.file))
+      .filter(Boolean)
+      .map(file => `./docs/${version}/${file}`);
+  } catch (error) {
+    console.warn(`No module documentation manifest for ${version}:`, error);
+    return [];
+  }
+}
+
 async function loadApiData() {
+  const moduleFiles = await fetchModuleDocFiles(currentVersion);
   const files = [
     `./docs/${currentVersion}/CometEngine.xml`,
     `./docs/${currentVersion}/CometEngineAdditionals.xml`,
-    `./docs/${currentVersion}/CometEngineGlobals.xml`
+    `./docs/${currentVersion}/CometEngineGlobals.xml`,
+    ...moduleFiles
   ];
   const namespaces = {};
 

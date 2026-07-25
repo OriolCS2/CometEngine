@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::AnimatorUpdateTimeMode">
+            <summary>
+            Specifies the update mode for an Animator.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorUpdateTimeMode::SCALED_TIME">
+            <summary>Updates based on scaled game time.</summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorUpdateTimeMode::UNSCALED_TIME">
+            <summary>Updates based on unscaled application time.</summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorUpdateTimeMode::PHYSICS_TIME">
+            <summary>Updates based on the physics fixed time step.</summary>
+
+        </member>
+        <member name="T:CometEngine::AnimatorControllerParameterType">
+            <summary>
+            Specifies the type of an animator parameter.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerParameterType::FLOAT">
+            <summary>Floating point number.</summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerParameterType::INT">
+            <summary>Integer number.</summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerParameterType::BOOL">
+            <summary>Boolean value.</summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerParameterType::TRIGGER">
+            <summary>Trigger value (boolean that resets after use).</summary>
+
+        </member>
+        <member name="T:CometEngine::AnimatorControllerConditionsCheckMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerConditionsCheckMode::PARAMETER_UPDATED_OR_ANIMATION_ENDED">
+            <summary>
+            Transitions are evaluated when a parameter changes or the current animation ends.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::AnimatorControllerConditionsCheckMode::EVERY_ANIMATION_UPDATE">
+            <summary>
+            Transitions are evaluated on every animation update.
+            </summary>
+
+        </member>
+    </members>
+    <callbacks name="CometEngine::AnimatorStateBehaviour">
+        <callback name="Awake" return="void">
+            <summary>
+            Called when the behaviour is created.
+            </summary>
+        </callback>
+        <callback name="Reset" return="void">
+            <summary>
+            Called when the user clicks the Reset button in the Inspector's context menu or when the behaviour is added for the first time. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="OnDestroy" return="void">
+            <summary>
+            Called when the behaviour is going to be destroyed.
+            </summary>
+        </callback>
+        <callback name="OnStateEnter" return="void">
+            <summary>
+            Called when the state machine enters to this state.
+            </summary>
+            <param type="Animator" reference="true" name="animator" namespace="CometEngine" internal="true">
+            The animator object where this state is active.
+            </param>
+            <param type="AnimatorStateInfo" reference="true" name="stateInfo" namespace="CometEngine" internal="true">
+            Holds information about the current state.
+            </param>
+        </callback>
+        <callback name="OnStateUpdate" return="void">
+            <summary>
+            Called every frame this state is active.
+            </summary>
+            <param type="Animator" reference="true" name="animator" namespace="CometEngine" internal="true">
+            The animator object where this state is active.
+            </param>
+            <param type="AnimatorStateInfo" reference="true" name="stateInfo" namespace="CometEngine" internal="true">
+            Holds information about the current state.
+            </param>
+        </callback>
+        <callback name="OnStateExit" return="void">
+            <summary>
+            Called when this state stops being the active one.
+            </summary>
+            <param type="Animator" reference="true" name="animator" namespace="CometEngine" internal="true">
+            The animator object where this state is active.
+            </param>
+            <param type="AnimatorStateInfo" reference="true" name="stateInfo" namespace="CometEngine" internal="true">
+            Holds information about the current state.
+            </param>
+        </callback>
+    </callbacks>
+    <attributes>
+        <attribute name="UniqueAnimatorStateBehaviour" usage="class">
+            <summary>
+            Indicates that only one instance of this AnimatorStateBehaviour will exist so all animator controllers will share the same instance.
+            </summary>
+        </attribute>
+    </attributes>
+</doc>

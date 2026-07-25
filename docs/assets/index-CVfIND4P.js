@@ -240,8 +240,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
         <h2>CometCli</h2>
         <p style="text-align: center; color: var(--text-dim); max-width: 720px; margin: -1rem auto 3rem; line-height: 1.7;">
           The command-line interface for Comet Engine. Drive the editor from a terminal, export builds
-          headlessly, and control development builds while they run. Released separately from the engine,
-          with its own version numbers.
+          headlessly, and control development builds while they run. Released separately from the engine.
           <a href="https://github.com/${st}" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">View on GitHub</a>.
         </p>
 
@@ -266,8 +265,7 @@ Please report this to https://github.com/markedjs/marked.`,e){let e=`<p>An error
         <div class="release-card" style="grid-column: 1/-1;">
           <h3 style="margin-top: 0;">No releases yet</h3>
           <p style="color: var(--text-dim); margin-bottom: 0;">
-            CometCli has not published its first release yet. In the meantime you can build it from source:
-            <code>python Build.py --build cli --target release</code>.
+            CometCli has not published its first release yet.
           </p>
         </div>`,r.innerHTML=`<div style="padding: 2rem; color: var(--text-dim);">Nothing here yet.</div>`;return}let t=e.find(e=>!e.prerelease),a=e.find(e=>e.prerelease&&(!t||new Date(e.published_at)>new Date(t.published_at)));n.innerHTML=``,t&&n.appendChild(mt(t,`Latest Release`)),a&&n.appendChild(mt(a,`Latest Pre-release`));let o=e=>{r.innerHTML=e.map(e=>`
         <a href="/cli/${e.tag_name}" class="older-release-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); transition: var(--transition);">

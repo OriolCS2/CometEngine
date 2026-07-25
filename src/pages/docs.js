@@ -1,50 +1,66 @@
 import { navigate, currentRoute } from '../lib/router.js';
 let apiData = null;
 let allPaths = [];
+let pathIndex = new Map();
 const expandedPaths = new Set();
 let currentSearchQuery = '';
 let currentVersion = '';
 let versions = [];
+let versionsPromise = null;
+let loadState = 'idle';               // idle | loading | ready | error
+let loadToken = 0;                    // invalidates a load when the version changes
+const versionCache = new Map();       // version -> { data, paths, index }
 
+// The version list comes from the static manifest written at build time, so the
+// page needs a single small request before it can show the selector. Asking the
+// GitHub API and then probing every release tag for a docs folder (one HEAD per
+// tag) is what used to stall the first paint.
 async function fetchVersions() {
   if (versions.length > 0) return versions;
+  if (versionsPromise) return versionsPromise;
+
+  versionsPromise = (async () => {
+    try {
+      const response = await fetch('./docs/versions.json');
+      if (response.ok) {
+        const manifest = await response.json();
+        const list = (Array.isArray(manifest?.versions) ? manifest.versions : [])
+          .map(entry => (typeof entry === 'string' ? entry : entry?.name))
+          .filter(Boolean);
+        if (list.length > 0) {
+          versions = list;
+          if (!currentVersion) {
+            currentVersion = list.includes(manifest?.default) ? manifest.default : list[0];
+          }
+          return versions;
+        }
+      }
+    } catch (error) {
+      console.warn('No docs/versions.json manifest:', error);
+    }
+
+    versions = await fetchVersionsFromReleases();
+    if (!currentVersion) currentVersion = versions[0];
+    return versions;
+  })();
+
+  return versionsPromise;
+}
+
+// Fallback for deployments published before the manifest existed: release tags,
+// newest first. A tag without a docs folder simply reports an error when picked.
+async function fetchVersionsFromReleases() {
   try {
     const response = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
     const releases = await response.json();
-    // Sort by published date, newest first (same as releases.js)
+    if (!Array.isArray(releases)) throw new Error('Unexpected releases payload');
     releases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
-    const allTags = releases.map(r => r.tag_name);
-
-    // Filter tags that actually have a documentation folder
-    const checkResults = await Promise.all(allTags.map(async tag => {
-      try {
-        const res = await fetch(`./docs/${tag}/CometEngine.xml`, { method: 'HEAD' });
-        return res.ok ? tag : null;
-      } catch (e) {
-        return null;
-      }
-    }));
-
-    // Preserve the date-sorted order from allTags (filter out nulls, keeping order)
-    versions = allTags.filter(tag => checkResults.includes(tag) && checkResults[allTags.indexOf(tag)] !== null);
-
-    // If no versions found via check (e.g. during local dev or HEAD not supported), 
-    // at least try the latest one or a fallback
-    if (versions.length === 0 && allTags.length > 0) {
-      // Fallback: just try to load the latest one if it works
-      versions = [allTags[0]];
-    }
-
-    // versions is already sorted by published_at (newest first) thanks to the sort above
-
-    if (!currentVersion) currentVersion = versions[0];
-    return versions;
+    const tags = releases.map(r => r.tag_name).filter(Boolean);
+    if (tags.length > 0) return tags;
   } catch (error) {
     console.error('Error fetching versions:', error);
-    versions = ['2.0-rc.11'];
-    currentVersion = '2.0-rc.11';
-    return versions;
   }
+  return ['2.0-rc.11'];
 }
 
 // Global lightbox function for images
@@ -86,16 +102,6 @@ window.openLightbox = (src) => {
 };
 
 export async function renderDocs(container, hash) {
-  const isFirstLoad = !apiData;
-
-  if (isFirstLoad) {
-    container.innerHTML = '<div class="loading">Discovering versions...</div>';
-    await fetchVersions();
-    container.innerHTML = '<div class="loading">Parsing documentation...</div>';
-    apiData = await loadApiData();
-    allPaths = getAllPaths(apiData);
-  }
-
   const path = decodeURIComponent(hash.replace('#docs', '').substring(1));
 
   // Auto-expand ancestors of the active path
@@ -108,44 +114,131 @@ export async function renderDocs(container, hash) {
     });
   }
 
-  // On first load, rebuild the full layout. On navigation, only swap content.
-  if (isFirstLoad || !document.getElementById('docs-tree')) {
+  // The shell (selector, search, empty tree) goes up straight away; the XMLs
+  // stream in behind it, so the page is never blank while they download.
+  if (!document.getElementById('docs-tree')) {
     container.innerHTML = `
       <div class="docs-layout">
         <div class="docs-sidebar">
           <div class="docs-sidebar-search">
             <div style="margin-bottom: 0.75rem;">
               <label style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 0.25rem;">API Version</label>
-              <select id="docs-version" class="search-box" style="margin-bottom: 0;">
-                ${versions.map(v => `<option value="${v}" ${v === currentVersion ? 'selected' : ''}>${v}</option>`).join('')}
-              </select>
+              <select id="docs-version" class="search-box" style="margin-bottom: 0;"></select>
             </div>
             <input type="text" id="docs-search" class="search-box" placeholder="Search API..." style="margin-bottom: 0;">
           </div>
           <div class="docs-sidebar-tree" id="docs-tree"></div>
         </div>
-        <div class="docs-content" id="docs-detail">
-          ${path ? renderDetail(path) : renderWelcome()}
-        </div>
+        <div class="docs-content" id="docs-detail"></div>
       </div>
     `;
-    renderTree(document.getElementById('docs-tree'), apiData);
+    renderVersionOptions();
     setupSearch();
-    setupVersionSelector(container);
-  } else {
-    // Just update the content panel and refresh tree active state
-    document.getElementById('docs-detail').innerHTML = path ? renderDetail(path) : renderWelcome();
-
-    const treeContainer = document.getElementById('docs-tree');
-    if (currentSearchQuery) {
-      renderTree(treeContainer, filterData(apiData, currentSearchQuery), true);
-    } else {
-      renderTree(treeContainer, apiData);
-    }
-
-    const searchInput = document.getElementById('docs-search');
-    if (searchInput) searchInput.value = currentSearchQuery;
+    setupVersionSelector();
   }
+
+  refreshPanels();
+
+  if (loadState === 'idle') {
+    loadState = 'loading';
+    fetchVersions().then(() => {
+      renderVersionOptions();
+      return loadCurrentVersion();
+    });
+  }
+}
+
+// ─── Loading ─────────────────────────────────────────────────────────────────
+
+function renderVersionOptions() {
+  const select = document.getElementById('docs-version');
+  if (!select) return;
+  select.disabled = versions.length === 0;
+  select.innerHTML = versions.length
+    ? versions.map(v => `<option value="${v}" ${v === currentVersion ? 'selected' : ''}>${v}</option>`).join('')
+    : '<option>Loading…</option>';
+}
+
+function refreshPanels() {
+  const detail = document.getElementById('docs-detail');
+  const tree = document.getElementById('docs-tree');
+  if (!detail || !tree) return;
+
+  const path = decodeURIComponent(currentRoute().replace('#docs', '').substring(1));
+  detail.innerHTML = path ? renderDetail(path) : renderWelcome();
+
+  if (!apiData) {
+    tree.innerHTML = loadState === 'error'
+      ? `<div class="loading">No documentation for ${currentVersion || 'this version'}.</div>`
+      : '<div class="loading">Loading API…</div>';
+  } else if (currentSearchQuery) {
+    renderTree(tree, filterData(apiData, currentSearchQuery), true);
+  } else {
+    renderTree(tree, apiData);
+  }
+
+  const searchInput = document.getElementById('docs-search');
+  if (searchInput && searchInput.value !== currentSearchQuery) searchInput.value = currentSearchQuery;
+}
+
+// Files land one by one; coalesce the repaints so a burst of them costs one.
+let refreshQueued = false;
+function publish(data) {
+  apiData = data;
+  allPaths = getAllPaths(data);
+  pathIndex = buildPathIndex(allPaths);
+  if (refreshQueued) return;
+  refreshQueued = true;
+  requestAnimationFrame(() => {
+    refreshQueued = false;
+    refreshPanels();
+  });
+}
+
+async function loadCurrentVersion() {
+  const token = ++loadToken;
+  loadState = 'loading';
+
+  const cached = versionCache.get(currentVersion);
+  if (cached) {
+    apiData = cached.data;
+    allPaths = cached.paths;
+    pathIndex = cached.index;
+    loadState = 'ready';
+    refreshPanels();
+    return;
+  }
+
+  apiData = null;
+  allPaths = [];
+  pathIndex = new Map();
+  refreshPanels();
+
+  try {
+    const data = await loadApiData(
+      currentVersion,
+      partial => { if (token === loadToken) publish(partial); },
+      () => token !== loadToken
+    );
+    if (token !== loadToken) return;      // superseded by another version
+    publish(data);
+    versionCache.set(currentVersion, { data, paths: allPaths, index: pathIndex });
+    loadState = 'ready';
+  } catch (error) {
+    if (token !== loadToken) return;
+    console.error(`Error loading documentation for ${currentVersion}:`, error);
+    loadState = 'error';
+  }
+  refreshPanels();
+}
+
+function renderLoadingDetail() {
+  return `
+    <div style="text-align:center;padding-top:5rem;color:var(--text-dim);">
+      <i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--accent-color);"></i>
+      <p style="margin-top:1rem;">Loading documentation…</p>
+    </div>
+  `;
 }
 
 function setupSearch() {
@@ -154,6 +247,7 @@ function setupSearch() {
   searchInput.addEventListener('input', (e) => {
     currentSearchQuery = e.target.value.toLowerCase();
     const treeContainer = document.getElementById('docs-tree');
+    if (!apiData) return;
     if (currentSearchQuery.length > 0) {
       renderTree(treeContainer, filterData(apiData, currentSearchQuery), true);
     } else {
@@ -162,15 +256,14 @@ function setupSearch() {
   });
 }
 
-function setupVersionSelector(container) {
+function setupVersionSelector() {
   const versionSelect = document.getElementById('docs-version');
   if (!versionSelect) return;
-  versionSelect.addEventListener('change', async (e) => {
+  // Only the picked version is downloaded, and already-visited ones are cached.
+  versionSelect.addEventListener('change', (e) => {
+    if (e.target.value === currentVersion) return;
     currentVersion = e.target.value;
-    container.innerHTML = '<div class="loading">Switching version...</div>';
-    apiData = await loadApiData();
-    allPaths = getAllPaths(apiData);
-    renderDocs(container, currentRoute());
+    loadCurrentVersion();
   });
 }
 
@@ -190,131 +283,156 @@ async function fetchModuleDocFiles(version) {
   }
 }
 
-async function loadApiData() {
-  const moduleFiles = await fetchModuleDocFiles(currentVersion);
-  const files = [
-    `./docs/${currentVersion}/CometEngine.xml`,
-    `./docs/${currentVersion}/CometEngineAdditionals.xml`,
-    `./docs/${currentVersion}/CometEngineGlobals.xml`,
-    ...moduleFiles
-  ];
+// Loads one version. The core file is parsed first and handed to `onPartial`
+// so the tree is usable immediately; the rest download in parallel and are
+// merged in as they arrive. `isStale` lets a version the user has switched
+// away from drop out instead of parsing megabytes nobody will see.
+async function loadApiData(version, onPartial = () => { }, isStale = () => false) {
   const namespaces = {};
+  const seen = new Set();
+  const manifest = fetchModuleDocFiles(version);   // in flight while the core parses
 
-  for (const file of files) {
-    try {
-      const response = await fetch(file);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      let xmlText = await response.text();
-      console.log(`Fetched ${file}: ${xmlText.length} bytes.`);
-
-      // ─── XML Sanitization ──────────────────────────────────────────────────
-      // Fix unescaped < > in attributes, de-duplicate attributes, and fix malformed ones (e.g. key=)
-      xmlText = xmlText
-        // 1. Fix unescaped characters in attribute values
-        .replace(/([a-z]+)="([^"]*)"/gi, (m, attr, val) => {
-          return `${attr}="${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}"`;
-        })
-        // 2. Fix malformed attributes like key=) or key= >
-        .replace(/([a-z0-9_]+)\s*=\s*([)>])/gi, '$1="" $2')
-        // 3. De-duplicate attributes within tags
-        .replace(/<([a-z0-9:]+)\s+([^>]*?)(\/?)>/gi, (m, tag, attrs, selfClose) => {
-          const seen = new Set();
-          // Improved attribute splitting to handle spaces in values
-          const attrRegex = /([a-z0-9_]+)="([^"]*)"/gi;
-          const uniqueAttrs = [];
-          let attrMatch;
-          while ((attrMatch = attrRegex.exec(attrs)) !== null) {
-            const key = attrMatch[1].toLowerCase();
-            if (!seen.has(key)) {
-              seen.add(key);
-              uniqueAttrs.push(`${attrMatch[1]}="${attrMatch[2]}"`);
-            }
-          }
-          return `<${tag}${uniqueAttrs.length ? ' ' + uniqueAttrs.join(' ') : ''}${selfClose ? ' /' : ''}>`;
-        });
-
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-
-      const parseError = xmlDoc.getElementsByTagName('parsererror');
-      if (parseError.length > 0) {
-        console.error(`Parser error in ${file}:`, parseError[0].textContent);
-        continue;
-      }
-
-      // ─── Extraction ────────────────────────────────────────────────────────
-      const members = Array.from(xmlDoc.getElementsByTagName('member'));
-
-      // Also handle <callback> inside <callbacks>
-      const callbacksGroups = xmlDoc.getElementsByTagName('callbacks');
-      for (const group of callbacksGroups) {
-        const groupName = group.getAttribute('name');
-        const items = group.getElementsByTagName('callback');
-        for (const item of items) {
-          // Map to virtual member
-          const name = item.getAttribute('name');
-          const fullName = `M:${groupName}::${name}`;
-          // Add virtual attribute for our parser
-          item.setAttribute('name', fullName);
-          item.setAttribute('is-callback', 'true');
-          members.push(item);
-        }
-      }
-
-      console.log(`Loading ${file}: ${members.length} members found.`);
-
-      for (const member of members) {
-        try {
-          const rawName = member.getAttribute('name');
-          if (!rawName) continue;
-
-          const match = rawName.trim().match(/^([A-Z]):(.+)$/);
-          if (!match) continue;
-
-          const typePrefix = match[1];
-          const fullName = match[2].trim();
-
-          const sigMatch = fullName.match(/\(([^)]*)\)/);
-          const sigTypes = sigMatch && sigMatch[1]
-            ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
-            : [];
-
-          const nameWithoutSig = fullName.split('(')[0].trim();
-          const parts = nameWithoutSig.split('::').map(p => p.trim());
-
-          let current = namespaces;
-          const parentName = parts.length > 1 ? parts[parts.length - 2] : null;
-
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
-            const isLast = i === parts.length - 1;
-
-            if (isLast && typePrefix !== 'T') {
-              if (!current._members) current._members = [];
-              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
-            } else {
-              if (!current[part]) current[part] = {};
-              current = current[part];
-              if (isLast) {
-                if (!current._members) current._members = [];
-                current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
-              }
-            }
-          }
-        } catch (memberError) {
-          console.error(`Error parsing member in ${file}:`, memberError);
-        }
-      }
-    } catch (e) {
-      console.error(`Error loading/parsing ${file}:`, e);
-    }
+  const core = `./docs/${version}/CometEngine.xml`;
+  if (!await mergeFile(core, namespaces, seen, isStale)) {
+    if (isStale()) return namespaces;
+    throw new Error(`Could not load ${core}`);
   }
+  onPartial(namespaces);
+
+  const extras = [
+    `./docs/${version}/CometEngineAdditionals.xml`,
+    `./docs/${version}/CometEngineGlobals.xml`,
+    ...await manifest
+  ];
+  await Promise.all(extras.map(async file => {
+    if (await mergeFile(file, namespaces, seen, isStale)) onPartial(namespaces);
+  }));
 
   console.log('Final apiData namespaces:', Object.keys(namespaces));
-  if (namespaces['CometEditor'] && namespaces['CometEditor']['GUI']) {
-    console.log('Final GUI members:', namespaces['CometEditor']['GUI']._members?.length);
-  }
   return namespaces;
+}
+
+// Fetches, sanitizes and folds one XML file into `namespaces`. `seen` carries
+// the member keys already merged: the XMLs list global types twice (`T:array`
+// and `T:::array`), and the same member can appear in more than one file.
+async function mergeFile(file, namespaces, seen, isStale = () => false) {
+  if (isStale()) return false;
+  try {
+    const response = await fetch(file);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    let xmlText = await response.text();
+    if (isStale()) return false;    // another version was picked mid-download
+
+    // ─── XML Sanitization ────────────────────────────────────────────────────
+    // Fix unescaped < > in attributes, de-duplicate attributes, and fix malformed ones (e.g. key=)
+    xmlText = xmlText
+      // 1. Fix unescaped characters in attribute values
+      .replace(/([a-z]+)="([^"]*)"/gi, (m, attr, val) => {
+        return `${attr}="${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}"`;
+      })
+      // 2. Fix malformed attributes like key=) or key= >
+      .replace(/([a-z0-9_]+)\s*=\s*([)>])/gi, '$1="" $2')
+      // 3. De-duplicate attributes within tags
+      .replace(/<([a-z0-9:]+)\s+([^>]*?)(\/?)>/gi, (m, tag, attrs, selfClose) => {
+        const seenAttrs = new Set();
+        // Improved attribute splitting to handle spaces in values
+        const attrRegex = /([a-z0-9_]+)="([^"]*)"/gi;
+        const uniqueAttrs = [];
+        let attrMatch;
+        while ((attrMatch = attrRegex.exec(attrs)) !== null) {
+          const key = attrMatch[1].toLowerCase();
+          if (!seenAttrs.has(key)) {
+            seenAttrs.add(key);
+            uniqueAttrs.push(`${attrMatch[1]}="${attrMatch[2]}"`);
+          }
+        }
+        return `<${tag}${uniqueAttrs.length ? ' ' + uniqueAttrs.join(' ') : ''}${selfClose ? ' /' : ''}>`;
+      });
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+    const parseError = xmlDoc.getElementsByTagName('parsererror');
+    if (parseError.length > 0) {
+      console.error(`Parser error in ${file}:`, parseError[0].textContent);
+      return false;
+    }
+
+    // ─── Extraction ──────────────────────────────────────────────────────────
+    const members = Array.from(xmlDoc.getElementsByTagName('member'));
+
+    // Also handle <callback> inside <callbacks>
+    const callbacksGroups = xmlDoc.getElementsByTagName('callbacks');
+    for (const group of callbacksGroups) {
+      const groupName = group.getAttribute('name');
+      const items = group.getElementsByTagName('callback');
+      for (const item of items) {
+        // Map to virtual member
+        const name = item.getAttribute('name');
+        const fullName = `M:${groupName}::${name}`;
+        // Add virtual attribute for our parser
+        item.setAttribute('name', fullName);
+        item.setAttribute('is-callback', 'true');
+        members.push(item);
+      }
+    }
+
+    for (const member of members) {
+      try {
+        const rawName = member.getAttribute('name');
+        if (!rawName) continue;
+
+        const match = rawName.trim().match(/^([A-Z]):(.+)$/);
+        if (!match) continue;
+
+        const typePrefix = match[1];
+        const rawFullName = match[2].trim();
+
+        const sigMatch = rawFullName.match(/\(([^)]*)\)/);
+        const sigTypes = sigMatch && sigMatch[1]
+          ? sigMatch[1].split(',').map(s => s.trim()).filter(Boolean)
+          : [];
+
+        const nameWithoutSig = rawFullName.split('(')[0].trim();
+        // Drop empty segments: globals are also listed fully qualified
+        // (`M:::array::length()`), which would otherwise build a nameless
+        // root namespace holding a second copy of every global type.
+        const parts = nameWithoutSig.split('::').map(p => p.trim()).filter(Boolean);
+        if (parts.length === 0) continue;
+
+        const key = `${typePrefix}:${parts.join('::')}(${sigTypes.join(',')})`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        const fullName = parts.join('::') + (sigMatch ? `(${sigMatch[1]})` : '');
+        let current = namespaces;
+        const parentName = parts.length > 1 ? parts[parts.length - 2] : null;
+
+        for (let i = 0; i < parts.length; i++) {
+          const part = parts[i];
+          const isLast = i === parts.length - 1;
+
+          if (isLast && typePrefix !== 'T') {
+            if (!current._members) current._members = [];
+            current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
+          } else {
+            if (!current[part]) current[part] = {};
+            current = current[part];
+            if (isLast) {
+              if (!current._members) current._members = [];
+              current._members.push(parseMemberData(member, typePrefix, fullName, part, sigTypes, parentName));
+            }
+          }
+        }
+      } catch (memberError) {
+        console.error(`Error parsing member in ${file}:`, memberError);
+      }
+    }
+    return true;
+  } catch (e) {
+    console.error(`Error loading/parsing ${file}:`, e);
+    return false;
+  }
 }
 
 function parseMemberData(member, typePrefix, fullName, name, sigTypes, parentName) {
@@ -413,11 +531,14 @@ function renderTree(container, data, autoOpen = false) {
 // ─── Detail ──────────────────────────────────────────────────────────────────
 
 function renderDetail(path) {
+  if (!apiData) return loadState === 'error' ? '<h2>Documentation unavailable</h2>' : renderLoadingDetail();
+
   const parts = path.split('::');
   let current = apiData;
   for (const part of parts) current = current?.[part];
 
-  if (!current) return '<h2>Element not found</h2>';
+  // While files are still streaming in the path may simply not be merged yet.
+  if (!current) return loadState === 'loading' ? renderLoadingDetail() : '<h2>Element not found</h2>';
 
   const members = current._members || [];
   const classDoc = members.find(m => m.type === 'T');
@@ -572,7 +693,7 @@ function linkType(type) {
   }
 
   const clean = unescaped.replace(/[?*&]/g, '').trim();
-  const found = allPaths.find(p => p === clean || p.endsWith(`::${clean}`));
+  const found = pathIndex.get(clean);
   if (found) {
     return `<a href="/docs/${found}" style="color:#61afef;text-decoration:underline;">${unescaped}</a>`;
   }
@@ -580,6 +701,18 @@ function linkType(type) {
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+// Type name -> path lookup for linkType, so rendering a page with hundreds of
+// type references doesn't scan the whole path list once per reference.
+function buildPathIndex(paths) {
+  const index = new Map();
+  for (const p of paths) {
+    const leaf = p.split('::').pop();
+    if (!index.has(leaf)) index.set(leaf, p);
+  }
+  for (const p of paths) index.set(p, p);   // an exact path always wins
+  return index;
+}
 
 function getAllPaths(data, parentPath = '') {
   let paths = [];

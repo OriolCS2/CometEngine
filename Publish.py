@@ -25,6 +25,7 @@ Usage:
 import datetime
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -32,6 +33,7 @@ import time
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = os.path.join(ROOT, "docs")
+API_DOCS_DIR = os.path.join(ROOT, "public", "docs")
 DEFAULT_DOMAIN = "www.cometengine.org"
 
 
@@ -78,9 +80,53 @@ def read_cname():
     return DEFAULT_DOMAIN
 
 
+def _version_sort_key(name):
+    """Sort key for a docs version folder: newest first when reversed.
+
+    `2.10` outranks `2.9`, and a release outranks its own pre-releases
+    (`2.0` > `2.0-rc.11` > `2.0-rc.2`).
+    """
+    core, _, pre = name.lstrip("vV").partition("-")
+    numbers = [int(c) if c.isdigit() else 0 for c in core.split(".")]
+    numbers += [0] * (4 - len(numbers))
+    pre_tokens = tuple((0, int(t)) if t.isdigit() else (1, t)
+                       for t in re.split(r"[.\-_]", pre) if t)
+    return (tuple(numbers[:4]), 0 if pre else 1, pre_tokens)
+
+
+def write_versions_manifest():
+    """List the API doc versions into public/docs/versions.json.
+
+    The docs page reads this one file to fill its version selector. Without it
+    the browser has to ask the GitHub API for every release and then probe each
+    tag for a docs folder before it can draw anything.
+    """
+    if not os.path.isdir(API_DOCS_DIR):
+        return
+
+    versions = sorted(
+        (name for name in os.listdir(API_DOCS_DIR)
+         if os.path.isfile(os.path.join(API_DOCS_DIR, name, "CometEngine.xml"))),
+        key=_version_sort_key,
+        reverse=True,
+    )
+    if not versions:
+        print("[Publish] No API doc versions found; skipping versions.json.")
+        return
+
+    manifest = {"default": versions[0], "versions": versions}
+    path = os.path.join(API_DOCS_DIR, "versions.json")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(manifest, f, indent=2)
+        f.write("\n")
+    print(f"[Publish] API versions -> {', '.join(versions)}")
+
+
 def build():
     cname = read_cname()
     print(f"[Publish] CNAME -> {cname}")
+
+    write_versions_manifest()
 
     npm = find_npm()
     if not npm:

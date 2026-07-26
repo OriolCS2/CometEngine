@@ -2754,76 +2754,76 @@ Note the guard inside every RPC — **never trust the network**: \`RecvInput\` i
 ## Where to go next\r
 \r
 Build the lobby screen with the [UI system](/tutorials/ui-system), then package a client for your friends in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).\r
-`},{id:`visual-scripting`,title:`Visual Scripting`,icon:`fa-sitemap`,category:`Visual Scripting`,blurb:`Build whole behaviours as node graphs that compile to AngelScript — variables, events, functions and the full engine API, no code required.`,md:`# Visual Scripting
-
-Sometimes you want a whole behaviour without opening a text editor. Comet's **Visual Scripting** lets you build a complete script as a node graph — events, branches, loops, variables, your own functions — and it **compiles to a readable AngelScript class** behind the scenes. That is the important part: a visual script is not interpreted at runtime. It becomes a real script, so it attaches to entities, exposes its variables in the inspector. Anything you can reach in code — every engine type, every one of your own classes — you can reach here.
-
-![The Visual Script editor](/tutorials/visual-scripting.png)
-
-## Creating a visual script
-
-In the Project panel, **Create → Script → Visual Script**. Double-click the new asset to open the **Visual Script editor**.
-
-Every visual script has a **base class** — the archetype it extends — which you pick from the sidebar. \`CometBehaviour\` is the usual choice, but you can pick any script archetype, including one of *your own* script classes. The base class decides two things: the **event callbacks** available to you, and whether the script can be attached to an entity.
-
-## Blackboard sidebar
-
-The left sidebar is where you declare everything the graph owns (variables, events, functions...).
-
-![The Blackboard](/tutorials/visual-scripting-blueprint.png)
-
-- **Variables** — the graph's state. Give each a name and type; tick **Exposed** to make it show up (and serialize) in the inspector, exactly like a \`[Serialize]\` field.
-- **Functions** — reusable sub-graphs (more below).
-- **Event Dispatchers** — events *your* script fires so other scripts can listen.
-
-Drag a variable onto the canvas to drop a **Get/Set** node.
-
-## Events: reacting and firing
-
-There are two sides to events.
-
-**Event callbacks** come *from your base class*. Open the Create Node palette and the events your archetype receives are right there — \`Start\`, \`Update\`, collision and trigger callbacks, pointer and animation events, and so on. Each one is an entry node with an execution output; wire your logic off it and it runs when the engine calls that callback. 
-
-**Event dispatchers** are events your script *fires*. Add one in the sidebar (optionally with a payload type), then drag it onto the canvas to **Invoke** it. Other scripts — visual or written — subscribe to it as a normal \`CometEvent\`. You can also **Bind** a parameterless method of your graph as a runtime listener to any \`CometEvent\` value, including one you fetched from another object.
-
-![A close-up of the graph.](/tutorials/visual-scripting-graph.png)
-
-## Functions are sub-graphs
-
-A **function** is its own little graph with typed **inputs** and an optional **output**, shown as a tab next to the Event Graph. Build it once, then drop a call to it anywhere in your event graph — the call node grows a pin for each input and the return value (see the purple **TakeDamage** node above). It keeps big graphs readable and lets you reuse logic without copy-pasting nodes.
-
-![A function opened in its own tab — its inputs and output live in the sidebar, and the graph flows from the entry node to the return.](/tutorials/visual-scripting-function.png)
-
-Double-click a function-call node's header to jump straight into that function's tab.
-
-## Reaching the whole engine — and your own scripts
-
-This is where visual scripting stops being a toy. The **Create Node** palette (right-click the canvas) is built by reflecting the *entire* scripting API, so everything code can touch is a node:
-
-![The Create Node palette, listing every reflected type and function in a searchable tree.](/tutorials/visual-scripting-create-node.png)
-
-- **Engine API** — every global function, and every method, property, constructor and enum of every bound type (\`Entity\`, \`Transform\`, \`Input\`, \`Physics\`, \`Audio\`, …). Get a component, move a transform, play a sound, read the mouse — all as nodes.
-- **Your own scripts** — call the public methods of your AngelScript classes and read or write their public fields, the same way you would in code. Getting a reference to another object of your own type and driving it from a graph just works.
-- **\`Self\`** and **\`Self Entity\`** — the running instance, and (for \`CometBehaviour\`s) the entity it's attached to, ready to feed into any call.
-
-## Flow control
-
-The palette also carries the full set of flow nodes you'd expect from a code editor: **Branch** (if/else), **Sequence**, **For**, **For Each** and **While** loops with **Break**/**Continue**, a **Switch** on integers or enums, **Gate**, **Do Once**, **Flip Flop**, and a latent **Delay** built on coroutines.
-
-## Running it
-
-A visual script *is* a script, so you use it like one:
-
-1. Pick your compile mode in the Compile Status section — **On Save** (compile when you save; no lag while editing) or **On Edit** (recompile live).
-2. Drop the visual script on an entity — drag it into the inspector or use **Add Behaviour** — and its **Exposed** variables appear right there to tweak per-instance.
-3. Press play. Your \`Start\`/\`Update\`/callback logic runs with zero interpreter overhead, because it compiled to a normal class.
-
-In play mode the editor lights up executed nodes live, lets you hover an output pin to watch its last value, and accepts **breakpoints** that pause on a node through the in-editor debugger.
-
-
-## Where to go next
-
-Visual scripting is glue for the whole engine — fire a graph from an [input action](/tutorials/input-actions), have it drive an [animator](/tutorials/animation) or move something along a [Bézier path](/tutorials/bezier), or reach for [custom graph nodes](/tutorials/node-graph) when you'd rather author reusable data-flow nodes instead of whole behaviours.
+`},{id:`visual-scripting`,title:`Visual Scripting`,icon:`fa-sitemap`,category:`Visual Scripting`,blurb:`Build whole behaviours as node graphs that compile to AngelScript — variables, events, functions and the full engine API, no code required.`,md:`# Visual Scripting\r
+\r
+Sometimes you want a whole behaviour without opening a text editor. Comet's **Visual Scripting** lets you build a complete script as a node graph — events, branches, loops, variables, your own functions — and it **compiles to a readable AngelScript class** behind the scenes. That is the important part: a visual script is not interpreted at runtime. It becomes a real script, so it attaches to entities, exposes its variables in the inspector. Anything you can reach in code — every engine type, every one of your own classes — you can reach here.\r
+\r
+![The Visual Script editor](/tutorials/visual-scripting.png)\r
+\r
+## Creating a visual script\r
+\r
+In the Project panel, **Create → Script → Visual Script**. Double-click the new asset to open the **Visual Script editor**.\r
+\r
+Every visual script has a **base class** — the archetype it extends — which you pick from the sidebar. \`CometBehaviour\` is the usual choice, but you can pick any script archetype, including one of *your own* script classes. The base class decides two things: the **event callbacks** available to you, and whether the script can be attached to an entity.\r
+\r
+## Blackboard sidebar\r
+\r
+The left sidebar is where you declare everything the graph owns (variables, events, functions...).\r
+\r
+![The Blackboard](/tutorials/visual-scripting-blueprint.png)\r
+\r
+- **Variables** — the graph's state. Give each a name and type; tick **Exposed** to make it show up (and serialize) in the inspector, exactly like a \`[Serialize]\` field.\r
+- **Functions** — reusable sub-graphs (more below).\r
+- **Event Dispatchers** — events *your* script fires so other scripts can listen.\r
+\r
+Drag a variable onto the canvas to drop a **Get/Set** node.\r
+\r
+## Events: reacting and firing\r
+\r
+There are two sides to events.\r
+\r
+**Event callbacks** come *from your base class*. Open the Create Node palette and the events your archetype receives are right there — \`Start\`, \`Update\`, collision and trigger callbacks, pointer and animation events, and so on. Each one is an entry node with an execution output; wire your logic off it and it runs when the engine calls that callback. \r
+\r
+**Event dispatchers** are events your script *fires*. Add one in the sidebar (optionally with a payload type), then drag it onto the canvas to **Invoke** it. Other scripts — visual or written — subscribe to it as a normal \`CometEvent\`. You can also **Bind** a parameterless method of your graph as a runtime listener to any \`CometEvent\` value, including one you fetched from another object.\r
+\r
+![A close-up of the graph.](/tutorials/visual-scripting-graph.png)\r
+\r
+## Functions are sub-graphs\r
+\r
+A **function** is its own little graph with typed **inputs** and an optional **output**, shown as a tab next to the Event Graph. Build it once, then drop a call to it anywhere in your event graph — the call node grows a pin for each input and the return value (see the purple **TakeDamage** node above). It keeps big graphs readable and lets you reuse logic without copy-pasting nodes.\r
+\r
+![A function opened in its own tab — its inputs and output live in the sidebar, and the graph flows from the entry node to the return.](/tutorials/visual-scripting-function.png)\r
+\r
+Double-click a function-call node's header to jump straight into that function's tab.\r
+\r
+## Reaching the whole engine — and your own scripts\r
+\r
+This is where visual scripting stops being a toy. The **Create Node** palette (right-click the canvas) is built by reflecting the *entire* scripting API, so everything code can touch is a node:\r
+\r
+![The Create Node palette, listing every reflected type and function in a searchable tree.](/tutorials/visual-scripting-create-node.png)\r
+\r
+- **Engine API** — every global function, and every method, property, constructor and enum of every bound type (\`Entity\`, \`Transform\`, \`Input\`, \`Physics\`, \`Audio\`, …). Get a component, move a transform, play a sound, read the mouse — all as nodes.\r
+- **Your own scripts** — call the public methods of your AngelScript classes and read or write their public fields, the same way you would in code. Getting a reference to another object of your own type and driving it from a graph just works.\r
+- **\`Self\`** and **\`Self Entity\`** — the running instance, and (for \`CometBehaviour\`s) the entity it's attached to, ready to feed into any call.\r
+\r
+## Flow control\r
+\r
+The palette also carries the full set of flow nodes you'd expect from a code editor: **Branch** (if/else), **Sequence**, **For**, **For Each** and **While** loops with **Break**/**Continue**, a **Switch** on integers or enums, **Gate**, **Do Once**, **Flip Flop**, and a latent **Delay** built on coroutines.\r
+\r
+## Running it\r
+\r
+A visual script *is* a script, so you use it like one:\r
+\r
+1. Pick your compile mode in the Compile Status section — **On Save** (compile when you save; no lag while editing) or **On Edit** (recompile live).\r
+2. Drop the visual script on an entity — drag it into the inspector or use **Add Behaviour** — and its **Exposed** variables appear right there to tweak per-instance.\r
+3. Press play. Your \`Start\`/\`Update\`/callback logic runs with zero interpreter overhead, because it compiled to a normal class.\r
+\r
+In play mode the editor lights up executed nodes live, lets you hover an output pin to watch its last value, and accepts **breakpoints** that pause on a node through the in-editor debugger.\r
+\r
+\r
+## Where to go next\r
+\r
+Visual scripting is glue for the whole engine — fire a graph from an [input action](/tutorials/input-actions), have it drive an [animator](/tutorials/animation) or move something along a [Bézier path](/tutorials/bezier), or reach for [custom graph nodes](/tutorials/node-graph) when you'd rather author reusable data-flow nodes instead of whole behaviours.\r
 `},{id:`node-graph`,title:`Custom Graph Nodes`,icon:`fa-diagram-project`,category:`Custom Graph Nodes`,blurb:`Author gameplay logic as node graphs and write your own custom nodes in AngelScript.`,md:`# Custom Graph Nodes\r
 \r
 Not every piece of logic wants to be code. Dialogue trees, quest steps, cutscene sequencing, simple AI — these read beautifully as a **node graph**: boxes wired together, execution flowing along the wires. Comet's node graph system runs graphs on entities via a **Graph Updater**, and — uniquely — lets you write your own nodes in AngelScript.\r
@@ -2973,958 +2973,958 @@ Pure nodes can even resolve inputs **lazily** — override \`ResolveInputsManual
 ## Where to go next\r
 \r
 Node graphs pair naturally with everything else — kick one off from an [input action](/tutorials/input), have it move a platform along a [Bézier path](/tutorials/bezier), or drive an [animator](/tutorials/animation) from its outputs.\r
-`},{id:`extending-the-editor`,title:`Extending the Editor`,icon:`fa-puzzle-piece`,category:`Editor Tooling`,blurb:`Build custom editor windows, inspectors and menu-bar tools in AngelScript.`,md:`# Extending the Editor
-
-The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool in the menu bar, a specialized inspector with a "Bake" button, a whole dockable window for editing your game's data — you write in script. No C++, no recompiling the engine: save the file and the editor picks it up.
-
-## Editor scripts live in an \`Editor/\` folder
-
-Any folder named **\`Editor\`** (for example \`Assets/Editor/\`) is special. Scripts inside it are compiled **only for the editor** and stripped from every exported build — they're where your tooling goes so it never ships in the game. (Under the hood they're compiled with \`COMET_EDITOR\` defined; see [Exporting Builds](/tutorials/build-and-patches).)
-
-There are two base classes, both in the \`CometEditor\` namespace:
-
-- **\`EditorBehaviour\`** — hosts **menu-bar items** and **custom inspectors**.
-- **\`EditorWindow\`** — a **dockable window** you draw yourself.
-
-Every example below starts with:
-
-\`\`\`angelscript
-using namespace CometEngine;
-using namespace CometEditor;
-\`\`\`
-
-## Adding items to the main menu bar
-
-Put \`[MainMenuItem("Path/Name")]\` on a method of an \`EditorBehaviour\` and it appears in the top menu bar. The path builds the submenu structure; the last segment is the clickable item.
-
-\`\`\`angelscript
-using namespace CometEngine;
-using namespace CometEditor;
-
-class ProjectTools : EditorBehaviour
-{
-    [MainMenuItem("Tools/Open Design Doc")]
-    void OpenDesignDoc()
-    {
-        App::OpenURL("https://docs.google.com/document/d/your-doc-here");
-    }
-
-    [MainMenuItem("Tools/Rebuild Atlas")]
-    void RebuildAtlas()
-    {
-        Debug::Log("Rebuilding atlas...");
-        // ...run your tool: read assets, write files, call Shell::ExecuteCommand, etc.
-    }
-}
-\`\`\`
-
-\`Tools\` becomes a top-level menu (or nests under an existing one), with **Open Design Doc** and **Rebuild Atlas** beneath it. This is the fastest way to wire a one-shot tool — an importer, a validator, a "download latest localizations" button — into the editor UI.
-
-## Custom inspectors
-
-There are two levels of control over how a component looks in the **Inspector**.
-
-### 1. Decorate the fields (the quick way)
-
-Most of the time you don't need a full custom inspector — you just want a field labelled, clamped or hidden. Annotate the fields of your \`CometBehaviour\` directly:
-
-\`\`\`angelscript
-using namespace CometEngine;
-
-class Enemy : CometBehaviour
-{
-    [Header("Stats")]
-    [Range(1, 100)] int health = 50;
-    [Tooltip("Seconds between attacks")] float attackCooldown = 1.5F;
-
-    [Space]
-    [Header("Visuals")]
-    [PreviewTexture] Texture portrait;
-
-    [HideInInspector] float internalTimer;   // still serialized, just not shown
-    [ReadOnly] int spawnId;                   // shown, but greyed out
-}
-\`\`\`
-
-The field attributes:
-
-| Attribute | Effect |
-| --- | --- |
-| \`[Header("...")]\` | A bold section label above the following field. |
-| \`[Tooltip("...")]\` | Hover help on the field. |
-| \`[Range(min, max)]\` | Draw a slider; \`[Min(n)]\` / \`[Max(n)]\` clamp one end. |
-| \`[Space]\` | A vertical gap. |
-| \`[HideInInspector]\` | Keep the field serialized but hide it from the Inspector. |
-| \`[ReadOnly]\` | Show the value greyed-out and non-editable. |
-| \`[PreviewTexture]\` | Draw a thumbnail for a \`Texture\` / \`Sprite\` field. |
-| \`[TreeNodeDefaultOpen]\` | Start a nested object expanded. |
-| \`[AssetIcon]\` | Use the referenced asset's icon. |
-
-### 2. Draw the whole inspector yourself
-
-When you want buttons, coloured text, live previews or conditional layout, take the inspector over completely. Put \`[CustomInspector("TargetType")]\` on an \`EditorBehaviour\` and implement \`OnCustomInspector\`:
-
-\`\`\`angelscript
-using namespace CometEngine;
-using namespace CometEditor;
-
-[CustomInspector("Enemy")]
-class EnemyInspector : EditorBehaviour
-{
-    void OnCustomInspector(Enemy target)
-    {
-        GUI::TextColored(Color::red, "Enemy - danger level " + target.health);
-
-        GUI::ShowProperty("health");          // the default widget for one field
-        GUI::ShowProperty("attackCooldown");
-
-        if (GUI::Button("Kill"))
-            target.health = 0;
-        GUI::SameLine();
-        if (GUI::Button("Full Heal"))
-            target.health = 100;
-
-        GUI::ShowTexture(target.portrait, Vector2(150, 100));
-    }
-}
-\`\`\`
-
-- \`[CustomInspector("Enemy")]\` binds this drawer to the \`Enemy\` component by class name. Engine resource types work too — the built-in rule-tile editors use \`[CustomInspector("CometEngine::Tilemaps::RuleTile")]\`.
-- \`OnCustomInspector(Enemy target)\` runs every frame the component is selected. \`target\` is the **live instance** — read and write its fields directly and the scene updates.
-- \`GUI::ShowProperty("name")\` draws the default widget for a single field; \`GUI::ShowAllProperties()\` draws them all at once — a handy starting point you then add buttons around.
-
-## The \`GUI\` API
-
-Everything you draw — in an inspector or a window — goes through the immediate-mode **\`GUI\`** namespace. You call a widget **every frame**, and its return value *is* the interaction: \`GUI::Button\` returns \`true\` on the frame it's clicked, input widgets return the edited value.
-
-\`\`\`angelscript
-GUI::Text("A plain label");
-GUI::TextColored(Color::green, "A coloured one");
-
-if (GUI::Button("Do it")) { /* clicked this frame */ }
-
-// Input widgets take the current value and return the (possibly) edited one.
-// Store that value in a member field so it survives to the next frame.
-count   = GUI::InputInt("Count", count);
-speed   = GUI::DragInt("Speed", speed, 0.1F);   // drag left/right to scrub
-enabled = GUI::Checkbox("Enabled", enabled);
-
-bool edited = false;
-name = GUI::InputText("Name", name, edited, GUI::InputTextFlags::EnterToAccept);
-if (edited) Debug::Log("Committed: " + name);
-
-if (GUI::BeginCombo("Mode", mode, GUI::ComboFlags::HeightLargest))
-{
-    if (GUI::Selectable("Easy", mode == "Easy")) mode = "Easy";
-    if (GUI::Selectable("Hard", mode == "Hard")) mode = "Hard";
-    GUI::EndCombo();
-}
-\`\`\`
-
-A few things you'll reach for constantly:
-
-- **Layout** — \`GUI::SameLine()\` keeps the next widget on the current row; \`GUI::SetCursorPosX(x)\` places it by hand.
-- **IDs in loops** — when you draw the same label inside a loop, wrap each iteration in \`GUI::PushIDNum(i)\` / \`GUI::PopID()\` so every widget keeps a unique identity (otherwise they fight over one).
-- **Inspector helpers** — \`GUI::ShowProperty\`, \`GUI::ShowAllProperties\`, \`GUI::ShowTexture\`, \`GUI::ShowSprite\`, and asset pickers like \`GUI::ShowResourceProperty\`.
-- **Filtering** — a \`GUI::TextFilter\` gives you a search box that filters a list with \`.Pass(text)\`.
-
-> [!TIP]
-> Bracket a change with \`GUI::SaveState()\` right **before** you mutate the target, and the edit joins the editor's undo history — Ctrl+Z restores the previous value.
-
-## Custom editor windows
-
-For bigger tools — a level validator, an asset browser, a spawn-table editor — subclass **\`EditorWindow\`**. Its \`OnGUI()\` runs every frame the window is open, drawn with the same \`GUI\` API:
-
-\`\`\`angelscript
-using namespace CometEngine;
-using namespace CometEditor;
-
-[MainMenuItemWindow("Tools/Spawn Editor", "Spawn Editor")]
-class SpawnEditor : EditorWindow
-{
-    private array<string> entries = {"Goblin", "Slime", "Bat"};
-    private string filter;
-
-    void Awake()
-    {
-        saveChangesMessage = "Save changes to the spawn table?";
-    }
-
-    void OnGUI()
-    {
-        GUI::Text("Spawn table");
-        filter = GUI::InputText("Filter", filter);
-        GUI::TextFilter tf = GUI::TextFilter(filter);
-
-        int toRemove = -1;
-        for (uint i = 0; i < entries.length(); i++)
-        {
-            if (!tf.Pass(entries[i])) continue;
-
-            GUI::PushIDNum(i);                 // unique id per row
-            GUI::Text(entries[i]);
-            GUI::SameLine();
-            if (GUI::Button("Remove")) toRemove = int(i);
-            GUI::PopID();
-        }
-        if (toRemove >= 0)                     // mutate after the loop, not during
-        {
-            entries.removeAt(toRemove);
-            hasUnsavedChanges = true;
-        }
-
-        if (GUI::Button("Add Goblin"))
-        {
-            entries.insertLast("Goblin");
-            hasUnsavedChanges = true;
-        }
-    }
-
-    WindowConfig OnGetWindowConfig()
-    {
-        WindowConfig config;
-        config.initialSize = Vector2i(360, 480);
-        config.initialPositionType = WindowConfigPositionType::CENTERED;
-        config.dockable = true;
-        config.iconRaw = RawIcon::AddressBook;
-        return config;
-    }
-}
-\`\`\`
-
-### Opening a window
-
-Two ways, and you'll often use both:
-
-- **\`[MainMenuItemWindow("Tools/Spawn Editor", "Spawn Editor")]\`** on the class adds a menu-bar item that opens it. The second argument is the window title.
-- **\`EditorWindow::CreateOrShow("SpawnEditor", "Spawn Editor")\`** opens (or focuses, if it's already open) the window by class name — call it from a \`[MainMenuItem]\`, a button in a custom inspector, anywhere.
-
-### Configuring the window
-
-\`OnGetWindowConfig()\` is optional and sets the window up the first time it appears. Beyond the fields above, \`WindowConfig\` also carries \`initialPosition\` (with \`WindowConfigPositionType::CUSTOM\`), \`resizable\`, \`hasMenuBar\`, \`hasCloseButton\`, \`hasTitleBar\`, \`canCollapse\` and more. \`iconRaw\` takes a \`RawIcon::\` name for the tab icon.
-
-### A menu bar inside your window
-
-Set \`hasMenuBar\` and draw one at the top of \`OnGUI\` with the menu widgets:
-
-\`\`\`angelscript
-if (GUI::BeginMenuBar())
-{
-    if (GUI::BeginMenu("File"))
-    {
-        if (GUI::MenuItem("Save"))  Save();
-        if (GUI::MenuItem("Close")) Close();
-        GUI::EndMenu();
-    }
-    GUI::EndMenuBar();
-}
-\`\`\`
-
-### Unsaved changes
-
-Set \`hasUnsavedChanges = true\` whenever the user edits something. If they try to close the window with unsaved work, the editor shows a confirmation using your \`saveChangesMessage\`, then calls **\`OnSaveChanges()\`** or **\`OnDiscardChanges()\`** so you can react:
-
-\`\`\`angelscript
-void OnSaveChanges()    { WriteTableToDisk(); hasUnsavedChanges = false; }
-void OnDiscardChanges() { ReloadTableFromDisk(); }
-\`\`\`
-
-Windows also expose \`Focus()\`, \`Show()\`, \`Hide()\`, \`Close()\`, and read-only state like \`isDocked\`, \`isFocused\`, \`isHovered\` and \`isVisible\` — handy when one tool drives another.
-
-## Custom asset types on the Create menu
-
-\`[AssetMenu("Display Name", "Path/In/Create/Menu")]\` on a \`CometObject\` script adds an entry to the Project panel's **Create** menu, so you (and your team) can make instances of your own data types right in the editor:
-
-\`\`\`angelscript
-using namespace CometEngine;
-
-[AssetMenu("Dialogue Table", "Gameplay/Dialogue Table")]
-class DialogueTable : CometObject
-{
-    array<string> speakers;
-    array<string> lines;
-}
-\`\`\`
-
-Now **Create → Gameplay → Dialogue Table** drops a new \`DialogueTable\` asset into the project, editable in the Inspector — and skinnable with a \`[CustomInspector("DialogueTable")]\` of its own.
-
-## Where to go next
-
-Editor tooling compounds. A \`[CustomInspector]\` with a **Bake** button, an \`EditorWindow\` that lists every broken reference in your scenes, a \`[MainMenuItem]\` that kicks off your [export pipeline](/tutorials/build-and-patches) — each one shaves minutes off every day. And because it all lives in an \`Editor/\` folder, none of it ships in the game: it exists purely to make *building* the game faster.
-`},{id:`packages`,title:`Packages & the Package Manager`,icon:`fa-cubes`,category:`Packages`,blurb:`Install add-ons from the Marketplace, resolve versions and locks, and create, export and publish packages of your own.`,md:`# Packages & the Package Manager
-
-A **package** is a versioned, self-contained folder of assets and scripts that can be shared between projects and between people: a dialogue system, a shader collection, a set of tilesets, a whole toolkit. Comet's **Package Manager** installs them from the Comet Marketplace, from git repositories, from folders on your disk or from \`.cometpkg\` archives — resolves their dependencies, keeps them updated, and helps you create, version and publish your own.
-
-This tutorial covers the whole system: the Package Manager window, every way to install and remove packages, how dependency resolution and version locking work, how to create a package of your own, every file a package contains and every field of those files, and how to export and publish to the Marketplace.
-
-![The Package Manager window: source navigation on the left, the package list in the middle, and the selected package's details on the right.](/tutorials/pm-window.png)
-
-## What a package is
-
-On disk, a package is simply a folder with a \`package.cometPackage\` manifest at its root. The manifest gives it an identity (a **slug** like \`platformer-toolkit\`), a semantic **version** like \`1.2.0\`, presentation metadata, and declarations for everything it ships: dependencies and importable samples.
-
-There are two package types:
-
-- **\`package\`** — the normal kind. It installs under \`Packages/<slug>/\` in your project and is treated as **read-only**: the editor won't let you accidentally modify a library you'd lose changes to on the next update.
-- **\`assetPack\`** — a one-time content import (sprite packs, audio bundles). Its files land in \`Assets/<slug>/\` as ordinary **editable** assets, and the Package Manager doesn't manage them afterwards — there is nothing to update or resolve.
-
-A package in your project has an **origin**, shown as a chip next to its version in the list:
-
-| Chip | Origin | Meaning |
-|------|--------|---------|
-| \`Registry\` | Comet Marketplace | Downloaded from a registry, verified by hash, updatable. |
-| \`Git\` | Git repository | Fetched from a git URL, locked to a commit. |
-| \`Local\` | Local folder | Live-linked to a folder on your disk (see [From a local folder](#from-a-local-folder)). |
-| \`Archive\` | \`.cometpkg\` file | Installed from an archive on disk. |
-| \`Custom\` | Embedded | Lives in your project as editable source — this is *your* package (or one you chose to take ownership of). |
-
-Everything except \`Custom\` is **installed** (read-only, reproducible from the lock file). \`Custom\` packages are **embedded**: the folder under \`Packages/\` *is* the source, you edit it directly, and it's how you develop packages of your own.
-
-A second set of chips marks the **release channel** of a version: \`Exp\` (experimental — any \`0.x\` version, or a pre-release tag starting with \`exp\`), \`Pre\` (any other pre-release tag such as \`-pre.1\` or \`-rc.2\`), and \`Deprecated\` for versions their author has withdrawn. Plain releases get no chip.
-
-## The Package Manager window
-
-Open it from **Window ▸ Package Manager**. It has four areas:
-
-**The toolbar.** The **+ Install** button opens a menu with every install source — *Install from disk…*, *Install from folder…*, *Install from git URL…*, *Install by name…* — plus *Create package…*, which opens the [Create Package wizard](#creating-a-package). Next to it: a refresh button, the name of the current view, a search field that filters the list, and a gear menu with *Package settings…*, *Resolve now*, a *Show pre-release versions* toggle and *Open manifest*.
-
-**The navigation column.** *In Project* lists everything in your project. When updates are available an *Updates* entry appears with a count; when something is wrong an *Errors* entry appears. *Marketplace* browses the online registry.
-
-**The package list.** Each row shows the display name, the installed (or latest) version, and its chips — origin, channel, a blue ↑ when an update is available, and an \`AssetPack\` marker in the Marketplace view.
-
-**The details pane.** The selected package's header (name, slug, version, origin), its action buttons, and tabs:
-
-- **Description** — the package's markdown description, followed by its category, tags, license, minimum engine version, download count (Marketplace) and links (Documentation / Changelog / Homepage / Repository).
-- **Versions** — the registry version history (see [Choosing versions](#choosing-versions-updating-downgrading)).
-- **Dependencies** — what this package *depends on* (click through to each dependency, with the range and the version it resolved to) and what it is *used by* in your project.
-- **Samples** — the package's importable samples, if it ships any.
-- **Images** — screenshots, for Marketplace packages that provide them.
-
-A status bar at the bottom shows the last registry refresh and what the manager is currently doing.
-
-## Installing packages
-
-### From the Marketplace
-
-Select **Marketplace** in the navigation, browse or search, select a package and press **Install**. The latest published release is downloaded into the machine-wide package cache, its integrity hash is verified, and it's installed read-only under \`Packages/<slug>/\`. Your project manifest records the dependency and the lock records exactly what was installed.
-
-If the package needs a newer engine than you're running, the Install button is disabled and a tooltip tells you the required version.
-
-### Choosing versions, updating, downgrading
-
-The **Versions** tab lists a registry package's history, newest first, with each version's channel chips, publish date, download count and an expandable changelog. Each entry has a context-sensitive button: **Install** if you have none, **Update** for newer versions, **Downgrade** for older ones. The currently installed version is marked ✓ *Current*.
-
-Two visibility rules keep unstable versions out of the way:
-
-- **Pre-release** versions (\`Pre\`) are hidden unless you enable *Show pre-release versions* in the gear menu (the setting is saved per project).
-- **Experimental** versions (\`Exp\`) are never offered from the Versions tab — you only see one if it's what you already have installed. To install one deliberately, use *Install by name…* with the exact version.
-
-### From a \`.cometpkg\` on disk
-
-**+ Install ▸ Install from disk…** installs a \`.cometpkg\` (or plain \`.zip\`) archive someone sent you or that you exported yourself. Installing an archive for a slug you already have **replaces** it — that's how you hand-update an archive-sourced package.
-
-### From a local folder
-
-**+ Install ▸ Install from folder…** points at any folder containing a \`package.cometPackage\` — typically a package you're developing in a separate repository and want to use in several projects at once.
-
-The folder is **live-linked**: it's mirrored read-only into \`Packages/<slug>/\`, and a file watcher re-syncs the mirror whenever you edit the source folder. The dependency is recorded as a \`file:\` path (relative to the project root when possible), so teammates who have the folder in the same relative place get the same link.
-
-> [!NOTE]
-> If a live-linked folder contains an asset whose ID collides with one already in your project, the install fails with an error instead of silently remapping — fix the ID in the source folder, since remapping a mirror would be undone by the next sync. (Registry and archive installs *do* remap colliding IDs automatically and record the remap in the lock.)
-
-### From a git repository
-
-**+ Install ▸ Install from git URL…** fetches a package straight from a repository. The URL accepts two optional extras:
-
-\`\`\`
-https://github.com/acme/comet-packages.git?path=/dialogue-system#v1.2.0
-\`\`\`
-
-- \`?path=\` — the folder inside the repository that contains the package (for monorepos).
-- \`#\` — a branch, tag or commit. Without it, the default branch is used.
-
-The lock records the **resolved commit**, so a teammate cloning your project reinstalls the identical snapshot — served from the cache, even offline. Re-running the same install re-resolves the branch or tag, which is how you pull updates from a git dependency.
-
-Git installs shell out to the \`git\` executable on your PATH; you can point the engine at a specific one in **Preferences ▸ Package Manager**.
-
-### By name
-
-**+ Install ▸ Install by name…** takes a slug and an optional exact version — the quickest route when you know precisely what you want (\`platformer-toolkit\`, \`2.0.0-pre.1\`), and the only route to an experimental version.
-
-### The plan preview
-
-Whenever an operation would touch **more than the package you asked for** — dependencies that need installing, other packages that need to move versions, orphans that would be removed — the manager doesn't just do it. A **plan preview** popup lists every action first (*"Will also install \`platformer-toolkit-core\` 2.1.0"*), and nothing happens until you confirm.
-
-## Updating and removing
-
-When a registry package has a newer visible version, an ↑ chip appears in the list, the *Updates* view collects everything updatable, and the details pane grows an **Update to \`x.y.z\`** button. Updates run through the same resolution and plan preview as installs.
-
-**Remove** uninstalls a package: its files, its loaded resources, and its manifest and lock entries. Two safety nets apply:
-
-- If other packages depend on it, Remove is **disabled** — the tooltip and the Dependencies tab list what still uses it. Remove the dependents first (or rely on orphan cleanup: a package that was only installed to satisfy a dependency is offered for removal in the plan once nothing needs it).
-- Removing an **embedded** package gets a stronger confirmation: its folder is the *source*, not a cache copy, so deleting it cannot be undone by reinstalling. Export an archive first if you want a backup.
-
-**Resolve now** (gear menu) re-runs the resolver over the whole project — useful after editing the manifest by hand or changing resolver settings. If everything is consistent it tells you so; otherwise you get a plan preview with the corrections.
-
-## Embedding: making a package yours
-
-**Embed** (shown for any installed, non-embedded package) converts it into an embedded one: the folder stays exactly where it is under \`Packages/<slug>/\`, the manifest dependency and lock entries are dropped, and the origin chip flips to \`Custom\`. From that moment the package is ordinary editable source in your project — the standard way to fork a package you need to modify.
-
-The reverse trip is the **package development loop**: embed (or [create](#creating-a-package)) a package, edit it, bump its \`version\`, [export and publish it](#exporting-and-publishing), and other projects install the new release.
-
-## Creating a package
-
-**+ Install ▸ Create package…** opens the wizard:
-
-![The Create Package wizard: display name, auto-derived slug, type, author, license, category, and the optional skeleton parts.](/tutorials/pm-create-wizard.png)
-
-- **Display name** — the human-readable name (3–80 characters). The slug is derived from it as you type.
-- **Slug** — the package's unique identifier, folder name and future registry name: lowercase alphanumeric words separated by single dashes (\`dialogue-system\`). Validated live; you can edit it by hand.
-- **Type** — \`package\` or \`assetPack\`.
-- **Author**, **License** (a set of common SPDX licenses, or "See LICENSE.md"), **Category**.
-- **Include** — optional skeleton parts: a runtime script assembly, an editor-only assembly, a starter sample, and a documentation folder.
-
-**Create** generates \`Packages/<slug>/\` with a complete, valid skeleton — manifest at version \`0.1.0\`, \`README.md\`, a [Keep a Changelog](https://keepachangelog.com)-style \`CHANGELOG.md\`, \`LICENSE.md\`, the assemblies you ticked and a namespaced example script — and the package appears immediately in the *In Project* list as an embedded \`Custom\` package, ready to edit.
-
-## Anatomy of a package
-
-A full-featured package looks like this:
-
-\`\`\`
-Packages/dialogue-system/
-├── package.cometPackage        ← the manifest (identity, metadata, declarations)
-├── README.md                   ← what the package is; shown on the Marketplace page
-├── CHANGELOG.md                ← version history (Keep a Changelog format)
-├── LICENSE.md                  ← license text
-├── Runtime/
-│   ├── DialogueSystem.cometAssembly      ← runtime script assembly
-│   ├── DialogueSystemExample.as          ← scripts, inside a namespace
-│   └── DialogueSystemExample.as.meta     ← asset metadata (IDs), like any asset
-├── Editor/
-│   └── DialogueSystemEditor.cometAssembly ← editor-only assembly (never ships in builds)
-├── Samples/                    ← hidden from the asset database until imported
-│   └── Basic/
-│       └── ...
-└── Documentation/              ← hidden reference docs
-    └── index.md
-\`\`\`
-
-Every file, in detail:
-
-**\`package.cometPackage\`** — the manifest; the only mandatory file. Full field reference [below](#packagecometpackage-every-field).
-
-**\`README.md\`** — the long-form introduction. When you publish, the Marketplace reads it out of the archive and uses it as the store page body.
-
-**\`CHANGELOG.md\`** — the version history in [Keep a Changelog](https://keepachangelog.com) format: one \`## [x.y.z]\` section per version. The exporter checks that a section exists for the version you're exporting, and the Marketplace extracts that section as the per-version changelog shown in the Versions tab.
-
-**\`LICENSE.md\`** — the license text your \`license\` field points at.
-
-**\`Runtime/\`, \`Editor/\` and \`.cometAssembly\` files** — an **assembly** groups the scripts in its folder into one compilation unit. The \`.cometAssembly\` file itself is a small JSON (\`{ "Shared": false, "Platforms": -1 }\`) whose platform mask (\`-1\` means every platform) you edit through its inspector — untick platforms the scripts shouldn't compile for. Assemblies under \`Editor/\` exist only in the editor and are stripped from every exported game.
-
-**\`.meta\` files** — every asset in a package carries its \`.meta\` with a stable asset ID, exactly like assets in \`Assets/\`. Stable IDs are what let scenes reference package assets across installs and updates. If an incoming package's ID collides with something already in the project, the installer remaps the copy and records the remap in the lock.
-
-**\`Samples/\`** — content users can *optionally* import (a demo scene, example prefabs). Samples are declared in the manifest and their folder is listed in \`hiddenFolders\`, so they don't clutter the asset database until imported. The **Samples** tab imports one into \`Assets/Samples/<package>/<version>/<sample>/\` as editable copies with fresh asset IDs — safe to re-import (an existing import is replaced).
-
-**\`Documentation/\`** — reference docs, also hidden via \`hiddenFolders\`. The Description tab's *Documentation* button prefers the manifest's \`documentationUrl\` and falls back to this folder.
-
-An \`assetPack\`-type package replaces \`Runtime/\` with a \`Content/\` folder — its assets are meant to be imported and edited, so it ships no assemblies.
-
-### \`package.cometPackage\` — every field
-
-The manifest is JSON (comments are tolerated when read). A complete example:
-
-\`\`\`json
-{
-    "schemaVersion": 1,
-    "slug": "dialogue-system",
-    "displayName": "Dialogue System",
-    "version": "1.2.0",
-    "packageType": "package",
-    "summary": "Branching dialogue trees with a node editor and localization hooks.",
-    "description": "# Dialogue System\\n\\nEverything you need for branching conversations...",
-    "author": {
-        "name": "Comet Team",
-        "email": "team@example.com",
-        "url": "https://example.com"
-    },
-    "license": "MIT",
-    "category": "Tools",
-    "tags": ["dialogue", "narrative", "ui"],
-    "homepageUrl": "https://example.com/dialogue",
-    "repoUrl": "https://github.com/acme/dialogue-system",
-    "documentationUrl": "https://example.com/dialogue/docs",
-    "changelogUrl": "",
-    "minEngineVersion": "2.8.2",
-    "dependencies": {
-        "ui-extensions": "^1.0.0"
-    },
-    "samples": [
-        {
-            "displayName": "Basic",
-            "description": "A minimal conversation wired to a UI canvas.",
-            "path": "Samples/Basic"
-        }
-    ],
-    "hiddenFolders": ["Samples", "Documentation"],
-    "hideInEditor": false
-}
-\`\`\`
-
-| Field | Type | Meaning |
-|-------|------|---------|
-| \`schemaVersion\` | int | Manifest format version. Currently \`1\`. |
-| \`slug\` | string | **Required.** Unique identifier, folder name and registry name: lowercase alphanumeric groups separated by single dashes, 1–100 characters. Must match the folder it lives in. |
-| \`displayName\` | string | **Required.** UI name, 3–80 characters. |
-| \`version\` | string | **Required.** Strict [semver 2.0.0](https://semver.org): \`major.minor.patch\`, optional \`-prerelease\` and \`+build\`. No partial versions, no leading zeros. Determines the release channel (see [version channels](#release-channels)). |
-| \`packageType\` | string | \`"package"\` (default) or \`"assetPack"\`. |
-| \`summary\` | string | **Required.** One-liner for registry cards, 10–160 characters. |
-| \`description\` | string | Long markdown description; rendered in the Description tab and on the store page. |
-| \`author\` | object | \`name\`, \`email\` (optional), \`url\` (optional). |
-| \`license\` | string | SPDX identifier (\`MIT\`, \`Apache-2.0\`, …) or a pointer like \`"See LICENSE.md"\`. |
-| \`category\` | string | Registry category (\`Tools\`, \`UI\`, \`Art\`, …). |
-| \`tags\` | string[] | Search and browse tags. |
-| \`homepageUrl\` | string | Project homepage (optional). |
-| \`repoUrl\` | string | Source repository (optional). |
-| \`documentationUrl\` | string | External docs; the editor falls back to the in-package \`Documentation/\` folder. |
-| \`changelogUrl\` | string | External changelog; falls back to the in-package \`CHANGELOG.md\`. |
-| \`minEngineVersion\` | string | Lowest engine version the package works with (semver, optional). Older engines refuse to install it, and a project containing it won't build on an older engine. |
-| \`dependencies\` | object | Direct dependencies: \`{ "slug": "range" }\`. See [version ranges](#version-ranges). |
-| \`samples\` | array | Importable samples: \`displayName\`, \`description\`, \`path\` (usually under \`Samples/\`). |
-| \`hiddenFolders\` | string[] | Package-root folders excluded from the asset database (samples, documentation). |
-| \`hideInEditor\` | bool | Hides the package's assets from object pickers — a helper for asset packs. |
-
-All content paths are validated: relative, forward slashes, no \`..\` or absolute segments — a manifest can never point outside its package.
-
-You rarely edit this JSON by hand: selecting a \`package.cometPackage\` in the **Project** panel shows the **manifest inspector**, a form with sections for information, description, dependencies and samples, with **Apply / Revert** buttons and validation as you type.
-
-![The manifest inspector: the Information, Description, Dependencies and Samples sections of package.cometPackage as an editable form.](/tutorials/pm-manifest-inspector.png)
-
-Packages live in their own **Packages** section of the Project panel, right below Assets:
-
-![The Project panel browsing Packages ▸ platformer-toolkit: Documentation, Runtime and Samples folders next to the CHANGELOG, LICENSE, README and package manifest files.](/tutorials/pm-project-packages.png)
-
-### Script namespaces
-
-Scripts inside a package should live in a namespace named after it, and the wizard's example script shows the pattern:
-
-\`\`\`angelscript
-namespace DialogueSystem
-{
-    class DialogueRunner : CometBehaviour
-    {
-        void Update()
-        {
-        }
-    }
-}
-\`\`\`
-
-Namespaces are what keep two packages (and your project) from colliding when they both define an \`Enemy\` or a \`Utils\` class. Game code refers to package types as \`DialogueSystem::DialogueRunner\`, or shortens it with \`using namespace DialogueSystem;\`. The exporter warns about package scripts that declare types in the global namespace.
-
-## The project manifest — \`Packages/manifest.cometManifest\`
-
-Your *project's* side of the system is one file: \`Packages/manifest.cometManifest\`. It records what the project depends on, where to resolve it from, how the resolver should behave, and — in the lock — exactly what ended up installed. The Package Manager maintains it as you install and remove; the settings popup edits its knobs; you can also edit it by hand and hit *Resolve now*.
-
-\`\`\`json
-{
-    "schemaVersion": 1,
-    "dependencies": {
-        "dialogue-system": "^1.2.0",
-        "shared-tools": "file:../shared/shared-tools",
-        "experimental-fx": "https://github.com/acme/fx.git?path=/fx#main"
-    },
-    "registries": [
-        {
-            "name": "Comet Marketplace",
-            "url": "https://wahwdszfywobmyyuyihu.supabase.co",
-            "scopes": ["*"]
-        }
-    ],
-    "resolutionStrategy": "lowest",
-    "enableLock": true,
-    "showPreRelease": false,
-    "pinned": [],
-    "lock": {
-        "dialogue-system": {
-            "version": "1.2.0",
-            "depth": 0,
-            "source": "registry",
-            "registryUrl": "https://wahwdszfywobmyyuyihu.supabase.co",
-            "sha256": "9f2c8a…",
-            "dependencies": { "ui-extensions": "^1.0.0" }
-        },
-        "ui-extensions": {
-            "version": "1.0.3",
-            "depth": 1,
-            "source": "registry",
-            "registryUrl": "https://wahwdszfywobmyyuyihu.supabase.co",
-            "sha256": "41bd07…"
-        }
-    }
-}
-\`\`\`
-
-| Field | Type | Meaning |
-|-------|------|---------|
-| \`schemaVersion\` | int | Manifest format version. Currently \`1\`. |
-| \`dependencies\` | object | The project's **direct** dependencies: \`{ "slug": "spec" }\`. A spec is a version range (\`"^1.2.0"\`), a local path (\`"file:../shared/pkg"\`) or a git URL (\`"https://….git?path=…#ref"\`) — the form decides the source. |
-| \`registries\` | array | Registries to resolve versioned dependencies against, in priority order. Each has a \`name\`, a base \`url\` and \`scopes\` — slug patterns it serves (\`"*"\` for everything; scope a company registry to \`"acme-*"\` to keep your internal packages off the public one). New projects are seeded with the official Comet Marketplace. |
-| \`resolutionStrategy\` | string | How far the resolver escalates *indirect* dependency versions inside their allowed ranges: \`"lowest"\` (default), \`"highestPatch"\`, \`"highestMinor"\` or \`"highest"\`. |
-| \`enableLock\` | bool | Whether the resolver records resolved versions and prefers them on the next resolve. On by default. |
-| \`pinned\` | string[] | Slugs locked to exactly the version written in their dependency spec — the resolver will never move them. |
-| \`showPreRelease\` | bool | Whether pre-release versions are offered in this project (the gear-menu toggle writes this). |
-| \`lock\` | object | The resolved package set, maintained by the engine — one entry per installed package. |
-
-Each **lock entry** records everything needed to reproduce the install:
-
-| Field | Meaning |
-|-------|---------|
-| \`version\` | The resolved version. |
-| \`depth\` | Dependency depth: \`0\` for direct project dependencies, \`1+\` for transitive ones. |
-| \`source\` | Where it came from: \`"registry"\`, \`"git"\`, \`"local"\` or \`"archive"\`. |
-| \`registryUrl\` | The registry it was downloaded from (registry source). |
-| \`sha256\` | Integrity hash of the downloaded archive (registry/archive sources) — verified against the cache on reinstall. |
-| \`commit\` | The resolved commit (git source) — a fresh clone reinstalls this exact snapshot. |
-| \`url\` | The original URL or path it was fetched from (git/local/archive sources). |
-| \`dependencies\` | That package's own dependencies at the resolved version, so the resolver works offline. |
-| \`idRemaps\` | Asset-ID remaps applied at install time to fix collisions, replayed on reinstall. |
-
-> [!TIP]
-> Commit \`Packages/manifest.cometManifest\` to version control and **don't** commit installed package folders. A teammate opening the project gets the identical package set re-installed from the lock — same versions, same commits, same hashes, same ID remaps. (Embedded packages are your source code: those you *do* commit.)
-
-A missing manifest is fine — defaults with the official registry are used. A *corrupt* one is an error the manager reports rather than silently overwriting.
-
-## How versions resolve
-
-### Version ranges
-
-Dependency ranges use npm-style operators:
-
-| Range | Accepts |
-|-------|---------|
-| \`1.2.3\` or \`=1.2.3\` | Exactly \`1.2.3\`. |
-| \`^1.2.3\` | \`>=1.2.3\` and \`<2.0.0\` — up to the next **breaking** version. The leftmost non-zero part is the boundary, so \`^0.2.1\` means \`<0.3.0\`. |
-| \`~1.2.3\` | \`>=1.2.3\` and \`<1.3.0\` — patch-level updates only. |
-| \`>=1.2.3\` | Anything from \`1.2.3\` up. |
-
-Caret, tilde and minimum accept partial versions (\`^1.2\`, \`~1\`, \`>=2\`). Pre-release versions only satisfy a range whose own base carries a pre-release tag on the same \`major.minor.patch\` (\`^1.3.0-pre.1\` accepts \`1.3.0-pre.2\`; plain \`^1.2.0\` never picks a pre-release) — the npm rule, so unstable versions are never chosen by accident.
-
-### Release channels
-
-The channel is derived from the version string itself:
-
-- **Release** — a normal \`x.y.z\` with major ≥ 1.
-- **Pre-release** (\`Pre\`) — any pre-release tag except experimental ones: \`1.3.0-pre.1\`, \`2.0.0-rc.2\`. Hidden unless *Show pre-release versions* is on.
-- **Experimental** (\`Exp\`) — any \`0.x\` version, or a pre-release tag starting with \`exp\` (\`1.0.0-exp.3\`). Never offered in the Versions tab; installable only explicitly, by name.
-
-### The resolver
-
-Whenever the package set changes, the resolver computes one consistent set of versions satisfying **every** range — yours and every package's. It works conservatively: it starts from the locked (or lowest allowed) versions and escalates only as far as your \`resolutionStrategy\` permits and constraints require. With the default \`"lowest"\` strategy and the lock enabled, resolution is fully deterministic and never surprises you with an unrequested upgrade; set \`"highestPatch"\` or \`"highestMinor"\` if you'd rather pick up fixes automatically.
-
-When ranges genuinely conflict (one package needs \`^1.0.0\`, another \`^2.0.0\` of the same dependency), the resolve fails with a clear error naming the packages and ranges involved — it appears in the **Errors** view with *Resolve now*, *Open manifest* and *Clear errors* actions next to the details. Fix it by updating the offending packages, widening a range you control, or pinning a version everyone accepts.
-
-### The cache and working offline
-
-Every downloaded archive and git checkout lands in a **machine-wide cache**, keyed by content hash — installing the same package into five projects downloads it once. Reinstalls from the lock are served from the cache even with no network, and when the registry is unreachable the Marketplace view falls back to the last cached catalog and marks itself offline. **Preferences ▸ Package Manager** shows the cache location and usage, lets you move it, and can clear it (it's safe to clear — anything needed is re-downloaded).
-
-## Exporting and publishing
-
-When your embedded package is ready to share, select it and choose **⋯ ▸ Export package…**. The manager validates it and shows a report:
-
-![The Export Package dialog: the validation report, and the Close / Export… / Publish… actions.](/tutorials/pm-export.png)
-
-The validation checks, in plain terms:
-
-- The manifest parses, passes every semantic check, and its \`slug\` matches the folder name.
-- \`CHANGELOG.md\` documents the version being exported.
-- Every declared assembly, sample and hidden folder actually exists.
-- Declared dependencies are resolvable on the registry (so consumers won't hit a dead end).
-- Package scripts don't declare types in the global namespace (a warning).
-- **Self-containment**: every asset reference must stay inside the package or point into another package. References into other packages become **auto-detected dependencies** — the exporter adds them to the staged manifest and tells you. References into your project's \`Assets/\` are a hard failure: the package would break in any other project. Move those assets into the package (or cut the reference) and validate again.
-- The archive stays under the registry's **25 MB** cap.
-
-Failures block the export; warnings don't. **Export…** writes a \`<slug>-<version>.cometpkg\` archive and shows its **sha256** (copy button included) — that archive is directly installable via *Install from disk…* and is what you upload to the Marketplace.
-
-### Publishing on the Marketplace
-
-**Publish…** takes you to [cometengine.org/account](https://www.cometengine.org/account). Sign in, click **Upload New Package**, and **drop the \`.cometpkg\`** on the upload zone. The site reads the manifest *from inside the archive* — there is no metadata form to fill twice: it validates the manifest, checks the slug is free (or yours), extracts your \`README.md\` for the store page and the right \`CHANGELOG.md\` section for the version, shows you a review of exactly what will be published, and publishes on confirm.
-
-Publishing a **new version** of your package is the same flow — bump \`version\` in the manifest, export, drop the new archive. Versions are immutable once published; fix mistakes by publishing a newer version, or mark a bad version (or the whole package) **deprecated** with a message from your account's package management page, which shows the warning to would-be installers without breaking existing projects. Presentation extras — icon, screenshots, links — are edited on the package's page; download statistics appear on your dashboard.
-
-> [!NOTE]
-> The store page, search card and Versions tab all come from the archive you upload: \`summary\` is the card text, \`description\`/README the page body, \`category\` and \`tags\` drive search, and \`minEngineVersion\` gates installs. Well-filled manifests are what make a package findable.
-
-### The build gate
-
-A project **won't export a game build** while its packages are in a bad state — the manifest doesn't parse, a dependency or lock entry has no package on disk, or an installed package needs a newer engine. The build fails immediately with the same message the Errors view shows, instead of producing a broken game.
-
-## Package settings & preferences
-
-The gear menu's **Package settings…** opens the **Packages** page of Project Settings, which edits this project's \`manifest.cometManifest\` knobs:
-
-![The Packages page in Project Settings: the registries list, resolution strategy, pre-release visibility, lock toggle, pinned packages and the lock reset action.](/tutorials/pm-settings.png)
-
-- **Registries** — add, remove and reorder registries (with their scopes). Priority order decides who serves a slug both registries claim.
-- **Resolution ▸ Strategy** — the resolver escalation policy described above.
-- **Show pre-release versions** and **Enable lock** toggles.
-- **Pinned packages** — the pin list.
-- **Delete lock & re-resolve** — throws away the lock and resolves the whole project from scratch: the recovery hammer for a tangled state.
-
-Machine-wide options live in **Preferences ▸ Package Manager**: the cache location (with open/clear actions and current usage) and the git executable used for git dependencies.
-
-## Automating packages
-
-Everything the window does is scriptable from [editor scripts](/tutorials/extending-the-editor) through the \`CometEditor::Packages\` namespace:
-
-\`\`\`angelscript
-using namespace CometEditor;
-
-array<string> installed = Packages::List();
-if (!Packages::IsInstalled("dialogue-system"))
-    Packages::Install("dialogue-system");          // latest; or ("slug", "1.2.0")
-
-Packages::InstallFromPath("C:/downloads/pkg.cometpkg");  // archive or folder
-Packages::Remove("old-package");
-Packages::Embed("dialogue-system");                // installed → embedded
-Packages::Pack("my-package", "C:/out/my-package-0.1.0.cometpkg");
-Packages::Resolve();                               // re-run the resolver
-string infoJson = Packages::GetInfo("dialogue-system");
-\`\`\`
-
-\`GetInfo\` returns the package's state as JSON (version, origin, dependencies…), and \`Packages::GetOnPackagesChanged()\` returns a delegate you can subscribe to for reacting whenever the package set changes.
-
-The same operations are exposed as editor **MCP tools** (\`package_list\`, \`package_install\`, \`package_remove\`, \`package_create_skeleton\`, \`package_export\`, and \`package_ui\` for driving the window itself), so AI assistants and external tooling can manage packages too.
-
-## Troubleshooting
-
-| Symptom | What it means / what to do |
-|---------|---------------------------|
-| *"The registry could not be reached"* | You're offline or the registry is down. The Marketplace serves the cached catalog; installs from the lock still work from the cache. Retry from the list. |
-| Git install fails | Check the URL, the \`#ref\`, and that git is installed — or set the executable in **Preferences ▸ Package Manager**. Private repositories need your git credential helper configured. |
-| Version conflict in the Errors view | Two ranges can't agree. Update the packages involved, widen a range you control, pin an acceptable version, or as a last resort *Delete lock & re-resolve*. |
-| Install button disabled, "Needs engine x.y.z or newer" | The package's \`minEngineVersion\` is above your engine. Update the engine or install an older version from the Versions tab. |
-| Remove is greyed out | Something depends on it — the tooltip and the Dependencies tab's *Used by* list say what. Remove the dependents first. |
-| Local-folder install reports an ID collision | An asset in the source folder shares an ID with one in your project. Fix the ID at the source; live-linked mirrors are never remapped. |
-| Export fails with *"not self-contained"* | The package references assets in \`Assets/\`. Move them into the package, or remove the reference. References into *other packages* are fine — they become dependencies automatically. |
-| Build blocked by packages | The build gate found broken package state. Open **Window ▸ Package Manager ▸ Errors**, fix what it lists, build again. |
-| A package's files look wrong after an update | Reinstall it: remove and install again, or *Delete lock & re-resolve*. Installed packages are reproducible from the lock; never edit them in place — embed instead. |
-
-That's the whole system: install what others built, keep it resolved and locked, and when you build something reusable — wrap it in a manifest, export it, and put it on the Marketplace for everyone.
-`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\n\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\n\n> [!WARNING]\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\n\n## Importing a plugin\n\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\n\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\n\n```\nAssets/MyMath/\n├── MyMath.as              ← the AngelScript wrapper\n├── x86_64/\n│   ├── mymath.dll         ← Windows, x86_64\n│   └── libmymath.so       ← Linux / Android, x86_64\n└── arm64-v8a/\n    └── libmymath.so       ← Android, arm64-v8a\n```\n\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\n\n| The file… | …imports as |\n|-----------|-------------|\n| ends in `.dll` | **Windows** + **Editor** |\n| ends in `.so` | **Linux** + **Android** + **Editor** |\n| ends in `.dylib` | **Editor** only |\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\n\n## The plugin Inspector\n\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\n\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\n\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\n\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\n\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\n\n> [!TIP]\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\n\n## Loading a plugin from AngelScript\n\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\n\n```angelscript\nusing namespace CometEngine;\nusing namespace CometEngine::Native;\n\nclass PluginDemo : CometBehaviour\n{\n    void Start()\n    {\n        // Load never returns null — always check IsLoaded().\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\n        if (!lib.IsLoaded())\n        {\n            Debug::LogError("plugin failed: " + lib.GetError());\n            return;\n        }\n        Debug::Log("loaded from " + lib.GetPath());\n\n        // Resolve a function by its exported symbol + C prototype:\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\n        if (add.IsValid())\n        {\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\n        }\n    }\n}\n```\n\n### Describing a function: the signature\n\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\n\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\n\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\n\n### Making the call\n\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\n\n```angelscript\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\n\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\n\n// A function that returns \'const char*\' returns a pointer — read it back:\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\nstring name = Native::ReadCString(ptr);\n```\n\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\n\n### Structs, out-parameters and raw memory\n\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\n\n```angelscript\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\n\nfloat x = buf.Float(0);\nfloat y = buf.Float(4);\n```\n\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\n\n### Is it even supported here?\n\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\n\n```angelscript\nif (!Native::IsSupported())\n    return;   // e.g. a Web build — no native plugins here\n\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\n```\n\n## How plugins ship\n\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\n\n| Platform | Where the binary lands |\n|----------|------------------------|\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\n| **Web** | not supported for now — browsers can\'t load native binaries |\n\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\n\n> [!NOTE]\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\n\n## Cleaning up\n\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\n\n## Where to go next\n\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\n'},{id:`dynamic-content`,title:`Dynamic Content & Asset Groups`,icon:`fa-layer-group`,category:`Shipping`,blurb:`Load assets by address at runtime, put them in content groups, and stream remote content from a CDN — updatable without a game patch.`,md:`# Dynamic Content & Asset Groups
-
-Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen you swap for a seasonal event — these are things you want to **load on demand, by name, at runtime**, and sometimes **download after the game has shipped**.
-
-Comet's **Content System** is how you do that. You put assets into **content groups**, address them by a short path, and load them from a script whenever you want — the exact same call works in the editor, in a packed build, and against content sitting on a CDN.
-
-![The Content page in Project Settings: the groups table with their delivery, the resolved membership of the selected group, and the strip preview.](/tutorials/content-settings.png)
-
-## The mental model
-
-Three ideas carry the whole system:
-
-1. **Address** — an asset's identity for loading. It's the asset's path relative to \`Assets/\`, **without the extension**: \`Assets/Textures/Enemies/orc.png\` becomes the address \`Textures/Enemies/orc\`. Stable, human-readable, project-unique.
-2. **Content group** — a named bucket that decides *how an asset ships and loads*. Every asset either belongs to a group or it doesn't.
-3. **The rule that ties them together** — **an asset is only addressable if it has a content group.** No group, no address: you can't load it by name, and it doesn't ship on its own.
-
-## Creating groups
-
-Open **Project Settings → Content**. The **Groups** table is where you author them — you decide what groups exist; the engine never invents one for you.
-
-Type a name into the field at the bottom and press **Add Group**. Each group has:
-
-| Column | Meaning |
-|--------|---------|
-| **Name** | The group's identity. You'll refer to it from the folder inspector and from scripts. |
-| **Delivery** | \`Local\` (ships inside the game) or \`Remote\` (downloaded from your CDN — see [Remote content](#remote-content-downloadable-groups)). |
-| **Remote URL** | Only for \`Remote\` groups: the URL template the pack downloads from. |
-
-Right-click a row to **Remove** it, or select it and press **Delete**. Removing a group clears every folder and asset that pointed at it (they fall back to *Inherit*).
-
-Below the table, **Group contents** shows exactly which assets currently resolve into the selected group, with their addresses and sizes — your ground truth for "what's actually in here". The **Strip preview** at the bottom lists assets that have *no* group: these ship only if a build scene references them, and they are never loadable by address.
-
-## Assigning content to a group
-
-You don't add assets to a group from the group list — you assign them from their own **Inspector**. Select a folder (or a single asset) in the Project panel and look at the **Content** section at the top of the Inspector.
-
-![A folder's Inspector: the Content section with its Content State set to a group, the effective Content Group, and the derived Address.](/tutorials/content-inspector.png)
-
-The **Content State** dropdown is the heart of it:
-
-| State | What it does |
-|-------|--------------|
-| **Inherit** | Resolve through the folder hierarchy — this item takes whatever group its nearest grouped ancestor folder has. This is the default. |
-| **Group** | Assign an explicit **Content Group** (pick it from the dropdown that appears). Everything inside a grouped folder inherits it. |
-| **Excluded** | Break inheritance — this subtree or asset belongs to **no** group, even under a grouped parent. Use it to carve a hole in an otherwise-grouped folder. |
-
-Assign a **folder** to a group and every asset inside it (and every subfolder, recursively) comes along — the usual way to work. Assign a **single asset** to override just that one.
-
-## Addresses and overrides
-
-By default an asset's address *is* its path without the extension, and its group's assignment doesn't change that. When you select a grouped folder or asset, the Content section shows its resolved **Address** — the string you'll pass to \`Assets::Load\`.
-
-Sometimes you want a cleaner or more stable address than the folder layout gives you. Edit the **Address** field to override it:
-
-- On a **single asset**, the override replaces its whole address.
-- On a **folder**, the override replaces that folder's prefix in every child's derived address — move or rename the folder later and the addresses your code uses don't have to change.
-
-Press the revert arrow to drop an override and go back to the derived path.
-
-## Loading from code
-
-Everything comes through the **\`Assets\`** namespace. The address is the \`Assets/\`-relative path without extension; the type is optional and filters the result.
-
-\`\`\`angelscript
-using namespace CometEngine;
-
-class BossSpawner : CometBehaviour
-{
-    void Start()
-    {
-        // Synchronous: blocks until the asset is ready, then pins it resident.
-        Texture2D portrait = cast<Texture2D>(
-            Assets::Load("Bosses/Dragon/portrait", ResourceType::TEXTURE));
-
-        // A whole InstanciableEntity by address.
-        Entity boss = Assets::LoadEntity("Bosses/Dragon/Dragon");
-
-        // ... use them ...
-
-        // Release the pins when you're done so they can unload.
-        Assets::Unload(portrait);
-        Assets::UnloadEntity(boss);
-    }
-}
-\`\`\`
-
-For anything big, load **asynchronously** so you never hitch the frame. \`LoadAsync\` returns a \`ResourceAsyncOperation\` you can poll — or \`yield\` on directly inside a coroutine:
-
-\`\`\`angelscript
-ResourceAsyncOperation op = Assets::LoadAsync("Levels/Ice/tileset", ResourceType::SPRITE_ATLAS);
-while (!op.isDone)
-{
-    loadingBar.value = op.progress;   // 0.0 … 1.0
-    yield;                            // resume next frame
-}
-SpriteAtlas atlas = cast<SpriteAtlas>(op.resource);
-\`\`\`
-
-You can also **discover** content without loading it. \`Assets::Find\` returns a lightweight handle, \`FindAssets\` enumerates a folder address, and \`GetGroupAssets\` lists a whole group — none of them touch disk until you actually \`Load\`:
-
-\`\`\`angelscript
-array<AssetHandle>@ enemies = Assets::FindAssets("Enemies", ResourceType::INSTANCIABLE_ENTITY);
-AssetHandle random = enemies[rand() % enemies.length()];
-Entity spawned = cast<Entity>(Assets::Load(random));
-\`\`\`
-
-There's also \`Assets::LoadScene(address)\` / \`LoadSceneAsync\` to bring in a whole scene by address, and \`Assets::UnloadAll()\` to drop every runtime pin at once.
-
-## AssetHandle fields: soft references in the Inspector
-
-A field typed as a concrete resource (\`Texture2D icon;\`) is a **hard** reference — the engine loads it together with whatever owns it. A field typed as **\`Assets::AssetHandle\`** is a **soft** reference: it *names* an asset but stays dormant until you call \`Load\` on it.
-
-\`\`\`angelscript
-using namespace CometEngine;
-
-class RewardChest : CometBehaviour
-{
-    Assets::AssetHandle rewardIcon;   // shows an asset picker in the Inspector
-
-    void Open()
-    {
-        if (rewardIcon.IsSet())
-        {
-            Texture2D icon = cast<Texture2D>(Assets::Load(rewardIcon));
-            // ... show it ...
-        }
-    }
-}
-\`\`\`
-
-## The strip rule
-
-The core promise: **only grouped assets ship and are addressable.** Concretely, at build time:
-
-- An asset **with** an effective group ships and can be loaded by address.
-- An asset **without** a group that *is* referenced by a build scene still ships (as a hard dependency of that scene) — but it is **not** addressable; you can only reach it through the scene.
-- An asset **without** a group that **nothing references** is **stripped** entirely.
-
-Because the editor enforces the exact same rule, a \`Assets::Load\` that would fail in the shipped game also fails in play mode — you find out immediately, not after exporting.
-
-## Local vs Remote: how a group ships
-
-A group's **Delivery** decides where its bytes live in the build.
-
-**Local** (the default) — the group folds into your game's base content: the single \`.ori\` pack, the embedded-in-executable pack, or the loose content tree, depending on your Content Packaging (see [Exporting Builds & Shipping Patches](/tutorials/build-and-patches)). Local content is always present, so loading it is instant and needs no setup. Because mounting is memory-mapped, a bigger pack costs nothing at load time — there's no downside to shipping content locally.
-
-**Remote** — the group is packed into its **own** \`.ori\` file, placed in a \`remote_content/\` folder next to your build instead of inside it. You upload that file to your own server/CDN; the game downloads it on demand. This is how you ship DLC, seasonal content, or anything you'd rather not force into the initial install.
-
-## Remote content: downloadable groups
-
-Give a group **Remote** delivery and set its **Remote URL** — a template with two optional placeholders:
-
-- \`{group}\` → the group's name.
-- \`{version}\` → the content version.
-
-For example \`https://cdn.mygame.com/content/{group}.ori\`. When you export, Comet writes \`remote_content/<group>.ori\` **and** a tiny \`<group>.manifest\` beside it. Upload **both** to the URL you configured.
-
-At runtime, nothing downloads until you ask:
-
-\`\`\`angelscript
-using namespace CometEngine;
-
-class DlcLoader : CometBehaviour
-{
-    bool started = false;
-
-    void Update()
-    {
-        if (!started)
-        {
-            started = true;
-            Assets::EnsureGroup("SeasonalEvent");   // begins the download
-        }
-
-        if (Assets::IsGroupReady("SeasonalEvent"))
-        {
-            // Safe to load anything in the group now.
-            Entity tree = Assets::LoadEntity("SeasonalEvent/Decorations/Tree");
-            started = false;   // (example only — don't re-ensure every frame in real code)
-        }
-        else
-        {
-            float total = float(Assets::GetGroupDownloadSize("SeasonalEvent"));
-            float got   = float(Assets::GetGroupDownloadedBytes("SeasonalEvent"));
-            progressBar.value = total > 0 ? got / total : 0.0F;
-        }
-    }
-}
-\`\`\`
-
-\`EnsureGroup\` downloads the pack (**resumable** and **checksum-verified**), caches it next to the game, and mounts it. \`IsGroupReady\` tells you when its assets are loadable; \`GetGroupDownloadSize\` / \`GetGroupDownloadedBytes\` drive a progress bar. \`ReleaseGroup\` unmounts a remote group's cached pack when you're done — the cache stays, so ensuring it again doesn't re-download. For a **Local** group all of these are no-ops that report "ready" immediately, so the same code path works whether an asset ships local or remote.
-
-### Updating remote content without a game update
-
-This is the real payoff of remote groups. The cached pack is checked against the manifest **once per session**: when you re-export the group and upload the new \`.ori\` + \`.manifest\` pair, the game notices the change on the next \`EnsureGroup\`, discards the stale cache and downloads the current one — **no game update required**. When the CDN is unreachable, the cached pack keeps working offline. (Remember to upload the new \`.manifest\` alongside the \`.ori\`; the manifest is the version signal.)
-
-## Automating the setup from editor scripts
-
-If you generate content or want to script your project's setup, the **\`CometEditor::AssetDataBase\`** API mirrors everything the inspectors do:
-
-\`\`\`angelscript
-using namespace CometEditor;
-
-AssetDataBase::CreateContentGroup("SeasonalEvent");
-AssetDataBase::SetContentGroup("SeasonalEvent/Decorations", "SeasonalEvent");  // by folder path
-AssetDataBase::SetContentState(myTexture, CometEditor::ContentState::EXCLUDED); // by Resource@
-string group = AssetDataBase::GetEffectiveContentGroup("Bosses/Dragon/portrait.png");
-\`\`\`
-
-Paths take folders (no trailing slash) or files — the file extension is optional, and an ambiguous extensionless name does nothing and logs a note asking you to include the extension.
-
-## Where to go next
-
-- Content packaging, single-\`.ori\` vs embedded vs loose, and shipping incremental patches (which also work over HTTP) are covered in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).
-- Loading sprites and atlases by address is shown in context in [Sprite Rendering](/tutorials/sprite-rendering); the same applies to [Audio & Mixers](/tutorials/audio) and every other resource type.
+`},{id:`extending-the-editor`,title:`Extending the Editor`,icon:`fa-puzzle-piece`,category:`Editor Tooling`,blurb:`Build custom editor windows, inspectors and menu-bar tools in AngelScript.`,md:`# Extending the Editor\r
+\r
+The Comet editor is built on the same AngelScript you write your game in — which means you can extend it. Anything you wish the editor did — a bespoke tool in the menu bar, a specialized inspector with a "Bake" button, a whole dockable window for editing your game's data — you write in script. No C++, no recompiling the engine: save the file and the editor picks it up.\r
+\r
+## Editor scripts live in an \`Editor/\` folder\r
+\r
+Any folder named **\`Editor\`** (for example \`Assets/Editor/\`) is special. Scripts inside it are compiled **only for the editor** and stripped from every exported build — they're where your tooling goes so it never ships in the game. (Under the hood they're compiled with \`COMET_EDITOR\` defined; see [Exporting Builds](/tutorials/build-and-patches).)\r
+\r
+There are two base classes, both in the \`CometEditor\` namespace:\r
+\r
+- **\`EditorBehaviour\`** — hosts **menu-bar items** and **custom inspectors**.\r
+- **\`EditorWindow\`** — a **dockable window** you draw yourself.\r
+\r
+Every example below starts with:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+using namespace CometEditor;\r
+\`\`\`\r
+\r
+## Adding items to the main menu bar\r
+\r
+Put \`[MainMenuItem("Path/Name")]\` on a method of an \`EditorBehaviour\` and it appears in the top menu bar. The path builds the submenu structure; the last segment is the clickable item.\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+using namespace CometEditor;\r
+\r
+class ProjectTools : EditorBehaviour\r
+{\r
+    [MainMenuItem("Tools/Open Design Doc")]\r
+    void OpenDesignDoc()\r
+    {\r
+        App::OpenURL("https://docs.google.com/document/d/your-doc-here");\r
+    }\r
+\r
+    [MainMenuItem("Tools/Rebuild Atlas")]\r
+    void RebuildAtlas()\r
+    {\r
+        Debug::Log("Rebuilding atlas...");\r
+        // ...run your tool: read assets, write files, call Shell::ExecuteCommand, etc.\r
+    }\r
+}\r
+\`\`\`\r
+\r
+\`Tools\` becomes a top-level menu (or nests under an existing one), with **Open Design Doc** and **Rebuild Atlas** beneath it. This is the fastest way to wire a one-shot tool — an importer, a validator, a "download latest localizations" button — into the editor UI.\r
+\r
+## Custom inspectors\r
+\r
+There are two levels of control over how a component looks in the **Inspector**.\r
+\r
+### 1. Decorate the fields (the quick way)\r
+\r
+Most of the time you don't need a full custom inspector — you just want a field labelled, clamped or hidden. Annotate the fields of your \`CometBehaviour\` directly:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+\r
+class Enemy : CometBehaviour\r
+{\r
+    [Header("Stats")]\r
+    [Range(1, 100)] int health = 50;\r
+    [Tooltip("Seconds between attacks")] float attackCooldown = 1.5F;\r
+\r
+    [Space]\r
+    [Header("Visuals")]\r
+    [PreviewTexture] Texture portrait;\r
+\r
+    [HideInInspector] float internalTimer;   // still serialized, just not shown\r
+    [ReadOnly] int spawnId;                   // shown, but greyed out\r
+}\r
+\`\`\`\r
+\r
+The field attributes:\r
+\r
+| Attribute | Effect |\r
+| --- | --- |\r
+| \`[Header("...")]\` | A bold section label above the following field. |\r
+| \`[Tooltip("...")]\` | Hover help on the field. |\r
+| \`[Range(min, max)]\` | Draw a slider; \`[Min(n)]\` / \`[Max(n)]\` clamp one end. |\r
+| \`[Space]\` | A vertical gap. |\r
+| \`[HideInInspector]\` | Keep the field serialized but hide it from the Inspector. |\r
+| \`[ReadOnly]\` | Show the value greyed-out and non-editable. |\r
+| \`[PreviewTexture]\` | Draw a thumbnail for a \`Texture\` / \`Sprite\` field. |\r
+| \`[TreeNodeDefaultOpen]\` | Start a nested object expanded. |\r
+| \`[AssetIcon]\` | Use the referenced asset's icon. |\r
+\r
+### 2. Draw the whole inspector yourself\r
+\r
+When you want buttons, coloured text, live previews or conditional layout, take the inspector over completely. Put \`[CustomInspector("TargetType")]\` on an \`EditorBehaviour\` and implement \`OnCustomInspector\`:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+using namespace CometEditor;\r
+\r
+[CustomInspector("Enemy")]\r
+class EnemyInspector : EditorBehaviour\r
+{\r
+    void OnCustomInspector(Enemy target)\r
+    {\r
+        GUI::TextColored(Color::red, "Enemy - danger level " + target.health);\r
+\r
+        GUI::ShowProperty("health");          // the default widget for one field\r
+        GUI::ShowProperty("attackCooldown");\r
+\r
+        if (GUI::Button("Kill"))\r
+            target.health = 0;\r
+        GUI::SameLine();\r
+        if (GUI::Button("Full Heal"))\r
+            target.health = 100;\r
+\r
+        GUI::ShowTexture(target.portrait, Vector2(150, 100));\r
+    }\r
+}\r
+\`\`\`\r
+\r
+- \`[CustomInspector("Enemy")]\` binds this drawer to the \`Enemy\` component by class name. Engine resource types work too — the built-in rule-tile editors use \`[CustomInspector("CometEngine::Tilemaps::RuleTile")]\`.\r
+- \`OnCustomInspector(Enemy target)\` runs every frame the component is selected. \`target\` is the **live instance** — read and write its fields directly and the scene updates.\r
+- \`GUI::ShowProperty("name")\` draws the default widget for a single field; \`GUI::ShowAllProperties()\` draws them all at once — a handy starting point you then add buttons around.\r
+\r
+## The \`GUI\` API\r
+\r
+Everything you draw — in an inspector or a window — goes through the immediate-mode **\`GUI\`** namespace. You call a widget **every frame**, and its return value *is* the interaction: \`GUI::Button\` returns \`true\` on the frame it's clicked, input widgets return the edited value.\r
+\r
+\`\`\`angelscript\r
+GUI::Text("A plain label");\r
+GUI::TextColored(Color::green, "A coloured one");\r
+\r
+if (GUI::Button("Do it")) { /* clicked this frame */ }\r
+\r
+// Input widgets take the current value and return the (possibly) edited one.\r
+// Store that value in a member field so it survives to the next frame.\r
+count   = GUI::InputInt("Count", count);\r
+speed   = GUI::DragInt("Speed", speed, 0.1F);   // drag left/right to scrub\r
+enabled = GUI::Checkbox("Enabled", enabled);\r
+\r
+bool edited = false;\r
+name = GUI::InputText("Name", name, edited, GUI::InputTextFlags::EnterToAccept);\r
+if (edited) Debug::Log("Committed: " + name);\r
+\r
+if (GUI::BeginCombo("Mode", mode, GUI::ComboFlags::HeightLargest))\r
+{\r
+    if (GUI::Selectable("Easy", mode == "Easy")) mode = "Easy";\r
+    if (GUI::Selectable("Hard", mode == "Hard")) mode = "Hard";\r
+    GUI::EndCombo();\r
+}\r
+\`\`\`\r
+\r
+A few things you'll reach for constantly:\r
+\r
+- **Layout** — \`GUI::SameLine()\` keeps the next widget on the current row; \`GUI::SetCursorPosX(x)\` places it by hand.\r
+- **IDs in loops** — when you draw the same label inside a loop, wrap each iteration in \`GUI::PushIDNum(i)\` / \`GUI::PopID()\` so every widget keeps a unique identity (otherwise they fight over one).\r
+- **Inspector helpers** — \`GUI::ShowProperty\`, \`GUI::ShowAllProperties\`, \`GUI::ShowTexture\`, \`GUI::ShowSprite\`, and asset pickers like \`GUI::ShowResourceProperty\`.\r
+- **Filtering** — a \`GUI::TextFilter\` gives you a search box that filters a list with \`.Pass(text)\`.\r
+\r
+> [!TIP]\r
+> Bracket a change with \`GUI::SaveState()\` right **before** you mutate the target, and the edit joins the editor's undo history — Ctrl+Z restores the previous value.\r
+\r
+## Custom editor windows\r
+\r
+For bigger tools — a level validator, an asset browser, a spawn-table editor — subclass **\`EditorWindow\`**. Its \`OnGUI()\` runs every frame the window is open, drawn with the same \`GUI\` API:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+using namespace CometEditor;\r
+\r
+[MainMenuItemWindow("Tools/Spawn Editor", "Spawn Editor")]\r
+class SpawnEditor : EditorWindow\r
+{\r
+    private array<string> entries = {"Goblin", "Slime", "Bat"};\r
+    private string filter;\r
+\r
+    void Awake()\r
+    {\r
+        saveChangesMessage = "Save changes to the spawn table?";\r
+    }\r
+\r
+    void OnGUI()\r
+    {\r
+        GUI::Text("Spawn table");\r
+        filter = GUI::InputText("Filter", filter);\r
+        GUI::TextFilter tf = GUI::TextFilter(filter);\r
+\r
+        int toRemove = -1;\r
+        for (uint i = 0; i < entries.length(); i++)\r
+        {\r
+            if (!tf.Pass(entries[i])) continue;\r
+\r
+            GUI::PushIDNum(i);                 // unique id per row\r
+            GUI::Text(entries[i]);\r
+            GUI::SameLine();\r
+            if (GUI::Button("Remove")) toRemove = int(i);\r
+            GUI::PopID();\r
+        }\r
+        if (toRemove >= 0)                     // mutate after the loop, not during\r
+        {\r
+            entries.removeAt(toRemove);\r
+            hasUnsavedChanges = true;\r
+        }\r
+\r
+        if (GUI::Button("Add Goblin"))\r
+        {\r
+            entries.insertLast("Goblin");\r
+            hasUnsavedChanges = true;\r
+        }\r
+    }\r
+\r
+    WindowConfig OnGetWindowConfig()\r
+    {\r
+        WindowConfig config;\r
+        config.initialSize = Vector2i(360, 480);\r
+        config.initialPositionType = WindowConfigPositionType::CENTERED;\r
+        config.dockable = true;\r
+        config.iconRaw = RawIcon::AddressBook;\r
+        return config;\r
+    }\r
+}\r
+\`\`\`\r
+\r
+### Opening a window\r
+\r
+Two ways, and you'll often use both:\r
+\r
+- **\`[MainMenuItemWindow("Tools/Spawn Editor", "Spawn Editor")]\`** on the class adds a menu-bar item that opens it. The second argument is the window title.\r
+- **\`EditorWindow::CreateOrShow("SpawnEditor", "Spawn Editor")\`** opens (or focuses, if it's already open) the window by class name — call it from a \`[MainMenuItem]\`, a button in a custom inspector, anywhere.\r
+\r
+### Configuring the window\r
+\r
+\`OnGetWindowConfig()\` is optional and sets the window up the first time it appears. Beyond the fields above, \`WindowConfig\` also carries \`initialPosition\` (with \`WindowConfigPositionType::CUSTOM\`), \`resizable\`, \`hasMenuBar\`, \`hasCloseButton\`, \`hasTitleBar\`, \`canCollapse\` and more. \`iconRaw\` takes a \`RawIcon::\` name for the tab icon.\r
+\r
+### A menu bar inside your window\r
+\r
+Set \`hasMenuBar\` and draw one at the top of \`OnGUI\` with the menu widgets:\r
+\r
+\`\`\`angelscript\r
+if (GUI::BeginMenuBar())\r
+{\r
+    if (GUI::BeginMenu("File"))\r
+    {\r
+        if (GUI::MenuItem("Save"))  Save();\r
+        if (GUI::MenuItem("Close")) Close();\r
+        GUI::EndMenu();\r
+    }\r
+    GUI::EndMenuBar();\r
+}\r
+\`\`\`\r
+\r
+### Unsaved changes\r
+\r
+Set \`hasUnsavedChanges = true\` whenever the user edits something. If they try to close the window with unsaved work, the editor shows a confirmation using your \`saveChangesMessage\`, then calls **\`OnSaveChanges()\`** or **\`OnDiscardChanges()\`** so you can react:\r
+\r
+\`\`\`angelscript\r
+void OnSaveChanges()    { WriteTableToDisk(); hasUnsavedChanges = false; }\r
+void OnDiscardChanges() { ReloadTableFromDisk(); }\r
+\`\`\`\r
+\r
+Windows also expose \`Focus()\`, \`Show()\`, \`Hide()\`, \`Close()\`, and read-only state like \`isDocked\`, \`isFocused\`, \`isHovered\` and \`isVisible\` — handy when one tool drives another.\r
+\r
+## Custom asset types on the Create menu\r
+\r
+\`[AssetMenu("Display Name", "Path/In/Create/Menu")]\` on a \`CometObject\` script adds an entry to the Project panel's **Create** menu, so you (and your team) can make instances of your own data types right in the editor:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+\r
+[AssetMenu("Dialogue Table", "Gameplay/Dialogue Table")]\r
+class DialogueTable : CometObject\r
+{\r
+    array<string> speakers;\r
+    array<string> lines;\r
+}\r
+\`\`\`\r
+\r
+Now **Create → Gameplay → Dialogue Table** drops a new \`DialogueTable\` asset into the project, editable in the Inspector — and skinnable with a \`[CustomInspector("DialogueTable")]\` of its own.\r
+\r
+## Where to go next\r
+\r
+Editor tooling compounds. A \`[CustomInspector]\` with a **Bake** button, an \`EditorWindow\` that lists every broken reference in your scenes, a \`[MainMenuItem]\` that kicks off your [export pipeline](/tutorials/build-and-patches) — each one shaves minutes off every day. And because it all lives in an \`Editor/\` folder, none of it ships in the game: it exists purely to make *building* the game faster.\r
+`},{id:`packages`,title:`Packages & the Package Manager`,icon:`fa-cubes`,category:`Packages`,blurb:`Install add-ons from the Marketplace, resolve versions and locks, and create, export and publish packages of your own.`,md:`# Packages & the Package Manager\r
+\r
+A **package** is a versioned, self-contained folder of assets and scripts that can be shared between projects and between people: a dialogue system, a shader collection, a set of tilesets, a whole toolkit. Comet's **Package Manager** installs them from the Comet Marketplace, from git repositories, from folders on your disk or from \`.cometpkg\` archives — resolves their dependencies, keeps them updated, and helps you create, version and publish your own.\r
+\r
+This tutorial covers the whole system: the Package Manager window, every way to install and remove packages, how dependency resolution and version locking work, how to create a package of your own, every file a package contains and every field of those files, and how to export and publish to the Marketplace.\r
+\r
+![The Package Manager window: source navigation on the left, the package list in the middle, and the selected package's details on the right.](/tutorials/pm-window.png)\r
+\r
+## What a package is\r
+\r
+On disk, a package is simply a folder with a \`package.cometPackage\` manifest at its root. The manifest gives it an identity (a **slug** like \`platformer-toolkit\`), a semantic **version** like \`1.2.0\`, presentation metadata, and declarations for everything it ships: dependencies and importable samples.\r
+\r
+There are two package types:\r
+\r
+- **\`package\`** — the normal kind. It installs under \`Packages/<slug>/\` in your project and is treated as **read-only**: the editor won't let you accidentally modify a library you'd lose changes to on the next update.\r
+- **\`assetPack\`** — a one-time content import (sprite packs, audio bundles). Its files land in \`Assets/<slug>/\` as ordinary **editable** assets, and the Package Manager doesn't manage them afterwards — there is nothing to update or resolve.\r
+\r
+A package in your project has an **origin**, shown as a chip next to its version in the list:\r
+\r
+| Chip | Origin | Meaning |\r
+|------|--------|---------|\r
+| \`Registry\` | Comet Marketplace | Downloaded from a registry, verified by hash, updatable. |\r
+| \`Git\` | Git repository | Fetched from a git URL, locked to a commit. |\r
+| \`Local\` | Local folder | Live-linked to a folder on your disk (see [From a local folder](#from-a-local-folder)). |\r
+| \`Archive\` | \`.cometpkg\` file | Installed from an archive on disk. |\r
+| \`Custom\` | Embedded | Lives in your project as editable source — this is *your* package (or one you chose to take ownership of). |\r
+\r
+Everything except \`Custom\` is **installed** (read-only, reproducible from the lock file). \`Custom\` packages are **embedded**: the folder under \`Packages/\` *is* the source, you edit it directly, and it's how you develop packages of your own.\r
+\r
+A second set of chips marks the **release channel** of a version: \`Exp\` (experimental — any \`0.x\` version, or a pre-release tag starting with \`exp\`), \`Pre\` (any other pre-release tag such as \`-pre.1\` or \`-rc.2\`), and \`Deprecated\` for versions their author has withdrawn. Plain releases get no chip.\r
+\r
+## The Package Manager window\r
+\r
+Open it from **Window ▸ Package Manager**. It has four areas:\r
+\r
+**The toolbar.** The **+ Install** button opens a menu with every install source — *Install from disk…*, *Install from folder…*, *Install from git URL…*, *Install by name…* — plus *Create package…*, which opens the [Create Package wizard](#creating-a-package). Next to it: a refresh button, the name of the current view, a search field that filters the list, and a gear menu with *Package settings…*, *Resolve now*, a *Show pre-release versions* toggle and *Open manifest*.\r
+\r
+**The navigation column.** *In Project* lists everything in your project. When updates are available an *Updates* entry appears with a count; when something is wrong an *Errors* entry appears. *Marketplace* browses the online registry.\r
+\r
+**The package list.** Each row shows the display name, the installed (or latest) version, and its chips — origin, channel, a blue ↑ when an update is available, and an \`AssetPack\` marker in the Marketplace view.\r
+\r
+**The details pane.** The selected package's header (name, slug, version, origin), its action buttons, and tabs:\r
+\r
+- **Description** — the package's markdown description, followed by its category, tags, license, minimum engine version, download count (Marketplace) and links (Documentation / Changelog / Homepage / Repository).\r
+- **Versions** — the registry version history (see [Choosing versions](#choosing-versions-updating-downgrading)).\r
+- **Dependencies** — what this package *depends on* (click through to each dependency, with the range and the version it resolved to) and what it is *used by* in your project.\r
+- **Samples** — the package's importable samples, if it ships any.\r
+- **Images** — screenshots, for Marketplace packages that provide them.\r
+\r
+A status bar at the bottom shows the last registry refresh and what the manager is currently doing.\r
+\r
+## Installing packages\r
+\r
+### From the Marketplace\r
+\r
+Select **Marketplace** in the navigation, browse or search, select a package and press **Install**. The latest published release is downloaded into the machine-wide package cache, its integrity hash is verified, and it's installed read-only under \`Packages/<slug>/\`. Your project manifest records the dependency and the lock records exactly what was installed.\r
+\r
+If the package needs a newer engine than you're running, the Install button is disabled and a tooltip tells you the required version.\r
+\r
+### Choosing versions, updating, downgrading\r
+\r
+The **Versions** tab lists a registry package's history, newest first, with each version's channel chips, publish date, download count and an expandable changelog. Each entry has a context-sensitive button: **Install** if you have none, **Update** for newer versions, **Downgrade** for older ones. The currently installed version is marked ✓ *Current*.\r
+\r
+Two visibility rules keep unstable versions out of the way:\r
+\r
+- **Pre-release** versions (\`Pre\`) are hidden unless you enable *Show pre-release versions* in the gear menu (the setting is saved per project).\r
+- **Experimental** versions (\`Exp\`) are never offered from the Versions tab — you only see one if it's what you already have installed. To install one deliberately, use *Install by name…* with the exact version.\r
+\r
+### From a \`.cometpkg\` on disk\r
+\r
+**+ Install ▸ Install from disk…** installs a \`.cometpkg\` (or plain \`.zip\`) archive someone sent you or that you exported yourself. Installing an archive for a slug you already have **replaces** it — that's how you hand-update an archive-sourced package.\r
+\r
+### From a local folder\r
+\r
+**+ Install ▸ Install from folder…** points at any folder containing a \`package.cometPackage\` — typically a package you're developing in a separate repository and want to use in several projects at once.\r
+\r
+The folder is **live-linked**: it's mirrored read-only into \`Packages/<slug>/\`, and a file watcher re-syncs the mirror whenever you edit the source folder. The dependency is recorded as a \`file:\` path (relative to the project root when possible), so teammates who have the folder in the same relative place get the same link.\r
+\r
+> [!NOTE]\r
+> If a live-linked folder contains an asset whose ID collides with one already in your project, the install fails with an error instead of silently remapping — fix the ID in the source folder, since remapping a mirror would be undone by the next sync. (Registry and archive installs *do* remap colliding IDs automatically and record the remap in the lock.)\r
+\r
+### From a git repository\r
+\r
+**+ Install ▸ Install from git URL…** fetches a package straight from a repository. The URL accepts two optional extras:\r
+\r
+\`\`\`\r
+https://github.com/acme/comet-packages.git?path=/dialogue-system#v1.2.0\r
+\`\`\`\r
+\r
+- \`?path=\` — the folder inside the repository that contains the package (for monorepos).\r
+- \`#\` — a branch, tag or commit. Without it, the default branch is used.\r
+\r
+The lock records the **resolved commit**, so a teammate cloning your project reinstalls the identical snapshot — served from the cache, even offline. Re-running the same install re-resolves the branch or tag, which is how you pull updates from a git dependency.\r
+\r
+Git installs shell out to the \`git\` executable on your PATH; you can point the engine at a specific one in **Preferences ▸ Package Manager**.\r
+\r
+### By name\r
+\r
+**+ Install ▸ Install by name…** takes a slug and an optional exact version — the quickest route when you know precisely what you want (\`platformer-toolkit\`, \`2.0.0-pre.1\`), and the only route to an experimental version.\r
+\r
+### The plan preview\r
+\r
+Whenever an operation would touch **more than the package you asked for** — dependencies that need installing, other packages that need to move versions, orphans that would be removed — the manager doesn't just do it. A **plan preview** popup lists every action first (*"Will also install \`platformer-toolkit-core\` 2.1.0"*), and nothing happens until you confirm.\r
+\r
+## Updating and removing\r
+\r
+When a registry package has a newer visible version, an ↑ chip appears in the list, the *Updates* view collects everything updatable, and the details pane grows an **Update to \`x.y.z\`** button. Updates run through the same resolution and plan preview as installs.\r
+\r
+**Remove** uninstalls a package: its files, its loaded resources, and its manifest and lock entries. Two safety nets apply:\r
+\r
+- If other packages depend on it, Remove is **disabled** — the tooltip and the Dependencies tab list what still uses it. Remove the dependents first (or rely on orphan cleanup: a package that was only installed to satisfy a dependency is offered for removal in the plan once nothing needs it).\r
+- Removing an **embedded** package gets a stronger confirmation: its folder is the *source*, not a cache copy, so deleting it cannot be undone by reinstalling. Export an archive first if you want a backup.\r
+\r
+**Resolve now** (gear menu) re-runs the resolver over the whole project — useful after editing the manifest by hand or changing resolver settings. If everything is consistent it tells you so; otherwise you get a plan preview with the corrections.\r
+\r
+## Embedding: making a package yours\r
+\r
+**Embed** (shown for any installed, non-embedded package) converts it into an embedded one: the folder stays exactly where it is under \`Packages/<slug>/\`, the manifest dependency and lock entries are dropped, and the origin chip flips to \`Custom\`. From that moment the package is ordinary editable source in your project — the standard way to fork a package you need to modify.\r
+\r
+The reverse trip is the **package development loop**: embed (or [create](#creating-a-package)) a package, edit it, bump its \`version\`, [export and publish it](#exporting-and-publishing), and other projects install the new release.\r
+\r
+## Creating a package\r
+\r
+**+ Install ▸ Create package…** opens the wizard:\r
+\r
+![The Create Package wizard: display name, auto-derived slug, type, author, license, category, and the optional skeleton parts.](/tutorials/pm-create-wizard.png)\r
+\r
+- **Display name** — the human-readable name (3–80 characters). The slug is derived from it as you type.\r
+- **Slug** — the package's unique identifier, folder name and future registry name: lowercase alphanumeric words separated by single dashes (\`dialogue-system\`). Validated live; you can edit it by hand.\r
+- **Type** — \`package\` or \`assetPack\`.\r
+- **Author**, **License** (a set of common SPDX licenses, or "See LICENSE.md"), **Category**.\r
+- **Include** — optional skeleton parts: a runtime script assembly, an editor-only assembly, a starter sample, and a documentation folder.\r
+\r
+**Create** generates \`Packages/<slug>/\` with a complete, valid skeleton — manifest at version \`0.1.0\`, \`README.md\`, a [Keep a Changelog](https://keepachangelog.com)-style \`CHANGELOG.md\`, \`LICENSE.md\`, the assemblies you ticked and a namespaced example script — and the package appears immediately in the *In Project* list as an embedded \`Custom\` package, ready to edit.\r
+\r
+## Anatomy of a package\r
+\r
+A full-featured package looks like this:\r
+\r
+\`\`\`\r
+Packages/dialogue-system/\r
+├── package.cometPackage        ← the manifest (identity, metadata, declarations)\r
+├── README.md                   ← what the package is; shown on the Marketplace page\r
+├── CHANGELOG.md                ← version history (Keep a Changelog format)\r
+├── LICENSE.md                  ← license text\r
+├── Runtime/\r
+│   ├── DialogueSystem.cometAssembly      ← runtime script assembly\r
+│   ├── DialogueSystemExample.as          ← scripts, inside a namespace\r
+│   └── DialogueSystemExample.as.meta     ← asset metadata (IDs), like any asset\r
+├── Editor/\r
+│   └── DialogueSystemEditor.cometAssembly ← editor-only assembly (never ships in builds)\r
+├── Samples/                    ← hidden from the asset database until imported\r
+│   └── Basic/\r
+│       └── ...\r
+└── Documentation/              ← hidden reference docs\r
+    └── index.md\r
+\`\`\`\r
+\r
+Every file, in detail:\r
+\r
+**\`package.cometPackage\`** — the manifest; the only mandatory file. Full field reference [below](#packagecometpackage-every-field).\r
+\r
+**\`README.md\`** — the long-form introduction. When you publish, the Marketplace reads it out of the archive and uses it as the store page body.\r
+\r
+**\`CHANGELOG.md\`** — the version history in [Keep a Changelog](https://keepachangelog.com) format: one \`## [x.y.z]\` section per version. The exporter checks that a section exists for the version you're exporting, and the Marketplace extracts that section as the per-version changelog shown in the Versions tab.\r
+\r
+**\`LICENSE.md\`** — the license text your \`license\` field points at.\r
+\r
+**\`Runtime/\`, \`Editor/\` and \`.cometAssembly\` files** — an **assembly** groups the scripts in its folder into one compilation unit. The \`.cometAssembly\` file itself is a small JSON (\`{ "Shared": false, "Platforms": -1 }\`) whose platform mask (\`-1\` means every platform) you edit through its inspector — untick platforms the scripts shouldn't compile for. Assemblies under \`Editor/\` exist only in the editor and are stripped from every exported game.\r
+\r
+**\`.meta\` files** — every asset in a package carries its \`.meta\` with a stable asset ID, exactly like assets in \`Assets/\`. Stable IDs are what let scenes reference package assets across installs and updates. If an incoming package's ID collides with something already in the project, the installer remaps the copy and records the remap in the lock.\r
+\r
+**\`Samples/\`** — content users can *optionally* import (a demo scene, example prefabs). Samples are declared in the manifest and their folder is listed in \`hiddenFolders\`, so they don't clutter the asset database until imported. The **Samples** tab imports one into \`Assets/Samples/<package>/<version>/<sample>/\` as editable copies with fresh asset IDs — safe to re-import (an existing import is replaced).\r
+\r
+**\`Documentation/\`** — reference docs, also hidden via \`hiddenFolders\`. The Description tab's *Documentation* button prefers the manifest's \`documentationUrl\` and falls back to this folder.\r
+\r
+An \`assetPack\`-type package replaces \`Runtime/\` with a \`Content/\` folder — its assets are meant to be imported and edited, so it ships no assemblies.\r
+\r
+### \`package.cometPackage\` — every field\r
+\r
+The manifest is JSON (comments are tolerated when read). A complete example:\r
+\r
+\`\`\`json\r
+{\r
+    "schemaVersion": 1,\r
+    "slug": "dialogue-system",\r
+    "displayName": "Dialogue System",\r
+    "version": "1.2.0",\r
+    "packageType": "package",\r
+    "summary": "Branching dialogue trees with a node editor and localization hooks.",\r
+    "description": "# Dialogue System\\n\\nEverything you need for branching conversations...",\r
+    "author": {\r
+        "name": "Comet Team",\r
+        "email": "team@example.com",\r
+        "url": "https://example.com"\r
+    },\r
+    "license": "MIT",\r
+    "category": "Tools",\r
+    "tags": ["dialogue", "narrative", "ui"],\r
+    "homepageUrl": "https://example.com/dialogue",\r
+    "repoUrl": "https://github.com/acme/dialogue-system",\r
+    "documentationUrl": "https://example.com/dialogue/docs",\r
+    "changelogUrl": "",\r
+    "minEngineVersion": "2.8.2",\r
+    "dependencies": {\r
+        "ui-extensions": "^1.0.0"\r
+    },\r
+    "samples": [\r
+        {\r
+            "displayName": "Basic",\r
+            "description": "A minimal conversation wired to a UI canvas.",\r
+            "path": "Samples/Basic"\r
+        }\r
+    ],\r
+    "hiddenFolders": ["Samples", "Documentation"],\r
+    "hideInEditor": false\r
+}\r
+\`\`\`\r
+\r
+| Field | Type | Meaning |\r
+|-------|------|---------|\r
+| \`schemaVersion\` | int | Manifest format version. Currently \`1\`. |\r
+| \`slug\` | string | **Required.** Unique identifier, folder name and registry name: lowercase alphanumeric groups separated by single dashes, 1–100 characters. Must match the folder it lives in. |\r
+| \`displayName\` | string | **Required.** UI name, 3–80 characters. |\r
+| \`version\` | string | **Required.** Strict [semver 2.0.0](https://semver.org): \`major.minor.patch\`, optional \`-prerelease\` and \`+build\`. No partial versions, no leading zeros. Determines the release channel (see [version channels](#release-channels)). |\r
+| \`packageType\` | string | \`"package"\` (default) or \`"assetPack"\`. |\r
+| \`summary\` | string | **Required.** One-liner for registry cards, 10–160 characters. |\r
+| \`description\` | string | Long markdown description; rendered in the Description tab and on the store page. |\r
+| \`author\` | object | \`name\`, \`email\` (optional), \`url\` (optional). |\r
+| \`license\` | string | SPDX identifier (\`MIT\`, \`Apache-2.0\`, …) or a pointer like \`"See LICENSE.md"\`. |\r
+| \`category\` | string | Registry category (\`Tools\`, \`UI\`, \`Art\`, …). |\r
+| \`tags\` | string[] | Search and browse tags. |\r
+| \`homepageUrl\` | string | Project homepage (optional). |\r
+| \`repoUrl\` | string | Source repository (optional). |\r
+| \`documentationUrl\` | string | External docs; the editor falls back to the in-package \`Documentation/\` folder. |\r
+| \`changelogUrl\` | string | External changelog; falls back to the in-package \`CHANGELOG.md\`. |\r
+| \`minEngineVersion\` | string | Lowest engine version the package works with (semver, optional). Older engines refuse to install it, and a project containing it won't build on an older engine. |\r
+| \`dependencies\` | object | Direct dependencies: \`{ "slug": "range" }\`. See [version ranges](#version-ranges). |\r
+| \`samples\` | array | Importable samples: \`displayName\`, \`description\`, \`path\` (usually under \`Samples/\`). |\r
+| \`hiddenFolders\` | string[] | Package-root folders excluded from the asset database (samples, documentation). |\r
+| \`hideInEditor\` | bool | Hides the package's assets from object pickers — a helper for asset packs. |\r
+\r
+All content paths are validated: relative, forward slashes, no \`..\` or absolute segments — a manifest can never point outside its package.\r
+\r
+You rarely edit this JSON by hand: selecting a \`package.cometPackage\` in the **Project** panel shows the **manifest inspector**, a form with sections for information, description, dependencies and samples, with **Apply / Revert** buttons and validation as you type.\r
+\r
+![The manifest inspector: the Information, Description, Dependencies and Samples sections of package.cometPackage as an editable form.](/tutorials/pm-manifest-inspector.png)\r
+\r
+Packages live in their own **Packages** section of the Project panel, right below Assets:\r
+\r
+![The Project panel browsing Packages ▸ platformer-toolkit: Documentation, Runtime and Samples folders next to the CHANGELOG, LICENSE, README and package manifest files.](/tutorials/pm-project-packages.png)\r
+\r
+### Script namespaces\r
+\r
+Scripts inside a package should live in a namespace named after it, and the wizard's example script shows the pattern:\r
+\r
+\`\`\`angelscript\r
+namespace DialogueSystem\r
+{\r
+    class DialogueRunner : CometBehaviour\r
+    {\r
+        void Update()\r
+        {\r
+        }\r
+    }\r
+}\r
+\`\`\`\r
+\r
+Namespaces are what keep two packages (and your project) from colliding when they both define an \`Enemy\` or a \`Utils\` class. Game code refers to package types as \`DialogueSystem::DialogueRunner\`, or shortens it with \`using namespace DialogueSystem;\`. The exporter warns about package scripts that declare types in the global namespace.\r
+\r
+## The project manifest — \`Packages/manifest.cometManifest\`\r
+\r
+Your *project's* side of the system is one file: \`Packages/manifest.cometManifest\`. It records what the project depends on, where to resolve it from, how the resolver should behave, and — in the lock — exactly what ended up installed. The Package Manager maintains it as you install and remove; the settings popup edits its knobs; you can also edit it by hand and hit *Resolve now*.\r
+\r
+\`\`\`json\r
+{\r
+    "schemaVersion": 1,\r
+    "dependencies": {\r
+        "dialogue-system": "^1.2.0",\r
+        "shared-tools": "file:../shared/shared-tools",\r
+        "experimental-fx": "https://github.com/acme/fx.git?path=/fx#main"\r
+    },\r
+    "registries": [\r
+        {\r
+            "name": "Comet Marketplace",\r
+            "url": "https://wahwdszfywobmyyuyihu.supabase.co",\r
+            "scopes": ["*"]\r
+        }\r
+    ],\r
+    "resolutionStrategy": "lowest",\r
+    "enableLock": true,\r
+    "showPreRelease": false,\r
+    "pinned": [],\r
+    "lock": {\r
+        "dialogue-system": {\r
+            "version": "1.2.0",\r
+            "depth": 0,\r
+            "source": "registry",\r
+            "registryUrl": "https://wahwdszfywobmyyuyihu.supabase.co",\r
+            "sha256": "9f2c8a…",\r
+            "dependencies": { "ui-extensions": "^1.0.0" }\r
+        },\r
+        "ui-extensions": {\r
+            "version": "1.0.3",\r
+            "depth": 1,\r
+            "source": "registry",\r
+            "registryUrl": "https://wahwdszfywobmyyuyihu.supabase.co",\r
+            "sha256": "41bd07…"\r
+        }\r
+    }\r
+}\r
+\`\`\`\r
+\r
+| Field | Type | Meaning |\r
+|-------|------|---------|\r
+| \`schemaVersion\` | int | Manifest format version. Currently \`1\`. |\r
+| \`dependencies\` | object | The project's **direct** dependencies: \`{ "slug": "spec" }\`. A spec is a version range (\`"^1.2.0"\`), a local path (\`"file:../shared/pkg"\`) or a git URL (\`"https://….git?path=…#ref"\`) — the form decides the source. |\r
+| \`registries\` | array | Registries to resolve versioned dependencies against, in priority order. Each has a \`name\`, a base \`url\` and \`scopes\` — slug patterns it serves (\`"*"\` for everything; scope a company registry to \`"acme-*"\` to keep your internal packages off the public one). New projects are seeded with the official Comet Marketplace. |\r
+| \`resolutionStrategy\` | string | How far the resolver escalates *indirect* dependency versions inside their allowed ranges: \`"lowest"\` (default), \`"highestPatch"\`, \`"highestMinor"\` or \`"highest"\`. |\r
+| \`enableLock\` | bool | Whether the resolver records resolved versions and prefers them on the next resolve. On by default. |\r
+| \`pinned\` | string[] | Slugs locked to exactly the version written in their dependency spec — the resolver will never move them. |\r
+| \`showPreRelease\` | bool | Whether pre-release versions are offered in this project (the gear-menu toggle writes this). |\r
+| \`lock\` | object | The resolved package set, maintained by the engine — one entry per installed package. |\r
+\r
+Each **lock entry** records everything needed to reproduce the install:\r
+\r
+| Field | Meaning |\r
+|-------|---------|\r
+| \`version\` | The resolved version. |\r
+| \`depth\` | Dependency depth: \`0\` for direct project dependencies, \`1+\` for transitive ones. |\r
+| \`source\` | Where it came from: \`"registry"\`, \`"git"\`, \`"local"\` or \`"archive"\`. |\r
+| \`registryUrl\` | The registry it was downloaded from (registry source). |\r
+| \`sha256\` | Integrity hash of the downloaded archive (registry/archive sources) — verified against the cache on reinstall. |\r
+| \`commit\` | The resolved commit (git source) — a fresh clone reinstalls this exact snapshot. |\r
+| \`url\` | The original URL or path it was fetched from (git/local/archive sources). |\r
+| \`dependencies\` | That package's own dependencies at the resolved version, so the resolver works offline. |\r
+| \`idRemaps\` | Asset-ID remaps applied at install time to fix collisions, replayed on reinstall. |\r
+\r
+> [!TIP]\r
+> Commit \`Packages/manifest.cometManifest\` to version control and **don't** commit installed package folders. A teammate opening the project gets the identical package set re-installed from the lock — same versions, same commits, same hashes, same ID remaps. (Embedded packages are your source code: those you *do* commit.)\r
+\r
+A missing manifest is fine — defaults with the official registry are used. A *corrupt* one is an error the manager reports rather than silently overwriting.\r
+\r
+## How versions resolve\r
+\r
+### Version ranges\r
+\r
+Dependency ranges use npm-style operators:\r
+\r
+| Range | Accepts |\r
+|-------|---------|\r
+| \`1.2.3\` or \`=1.2.3\` | Exactly \`1.2.3\`. |\r
+| \`^1.2.3\` | \`>=1.2.3\` and \`<2.0.0\` — up to the next **breaking** version. The leftmost non-zero part is the boundary, so \`^0.2.1\` means \`<0.3.0\`. |\r
+| \`~1.2.3\` | \`>=1.2.3\` and \`<1.3.0\` — patch-level updates only. |\r
+| \`>=1.2.3\` | Anything from \`1.2.3\` up. |\r
+\r
+Caret, tilde and minimum accept partial versions (\`^1.2\`, \`~1\`, \`>=2\`). Pre-release versions only satisfy a range whose own base carries a pre-release tag on the same \`major.minor.patch\` (\`^1.3.0-pre.1\` accepts \`1.3.0-pre.2\`; plain \`^1.2.0\` never picks a pre-release) — the npm rule, so unstable versions are never chosen by accident.\r
+\r
+### Release channels\r
+\r
+The channel is derived from the version string itself:\r
+\r
+- **Release** — a normal \`x.y.z\` with major ≥ 1.\r
+- **Pre-release** (\`Pre\`) — any pre-release tag except experimental ones: \`1.3.0-pre.1\`, \`2.0.0-rc.2\`. Hidden unless *Show pre-release versions* is on.\r
+- **Experimental** (\`Exp\`) — any \`0.x\` version, or a pre-release tag starting with \`exp\` (\`1.0.0-exp.3\`). Never offered in the Versions tab; installable only explicitly, by name.\r
+\r
+### The resolver\r
+\r
+Whenever the package set changes, the resolver computes one consistent set of versions satisfying **every** range — yours and every package's. It works conservatively: it starts from the locked (or lowest allowed) versions and escalates only as far as your \`resolutionStrategy\` permits and constraints require. With the default \`"lowest"\` strategy and the lock enabled, resolution is fully deterministic and never surprises you with an unrequested upgrade; set \`"highestPatch"\` or \`"highestMinor"\` if you'd rather pick up fixes automatically.\r
+\r
+When ranges genuinely conflict (one package needs \`^1.0.0\`, another \`^2.0.0\` of the same dependency), the resolve fails with a clear error naming the packages and ranges involved — it appears in the **Errors** view with *Resolve now*, *Open manifest* and *Clear errors* actions next to the details. Fix it by updating the offending packages, widening a range you control, or pinning a version everyone accepts.\r
+\r
+### The cache and working offline\r
+\r
+Every downloaded archive and git checkout lands in a **machine-wide cache**, keyed by content hash — installing the same package into five projects downloads it once. Reinstalls from the lock are served from the cache even with no network, and when the registry is unreachable the Marketplace view falls back to the last cached catalog and marks itself offline. **Preferences ▸ Package Manager** shows the cache location and usage, lets you move it, and can clear it (it's safe to clear — anything needed is re-downloaded).\r
+\r
+## Exporting and publishing\r
+\r
+When your embedded package is ready to share, select it and choose **⋯ ▸ Export package…**. The manager validates it and shows a report:\r
+\r
+![The Export Package dialog: the validation report, and the Close / Export… / Publish… actions.](/tutorials/pm-export.png)\r
+\r
+The validation checks, in plain terms:\r
+\r
+- The manifest parses, passes every semantic check, and its \`slug\` matches the folder name.\r
+- \`CHANGELOG.md\` documents the version being exported.\r
+- Every declared assembly, sample and hidden folder actually exists.\r
+- Declared dependencies are resolvable on the registry (so consumers won't hit a dead end).\r
+- Package scripts don't declare types in the global namespace (a warning).\r
+- **Self-containment**: every asset reference must stay inside the package or point into another package. References into other packages become **auto-detected dependencies** — the exporter adds them to the staged manifest and tells you. References into your project's \`Assets/\` are a hard failure: the package would break in any other project. Move those assets into the package (or cut the reference) and validate again.\r
+- The archive stays under the registry's **25 MB** cap.\r
+\r
+Failures block the export; warnings don't. **Export…** writes a \`<slug>-<version>.cometpkg\` archive and shows its **sha256** (copy button included) — that archive is directly installable via *Install from disk…* and is what you upload to the Marketplace.\r
+\r
+### Publishing on the Marketplace\r
+\r
+**Publish…** takes you to [cometengine.org/account](https://www.cometengine.org/account). Sign in, click **Upload New Package**, and **drop the \`.cometpkg\`** on the upload zone. The site reads the manifest *from inside the archive* — there is no metadata form to fill twice: it validates the manifest, checks the slug is free (or yours), extracts your \`README.md\` for the store page and the right \`CHANGELOG.md\` section for the version, shows you a review of exactly what will be published, and publishes on confirm.\r
+\r
+Publishing a **new version** of your package is the same flow — bump \`version\` in the manifest, export, drop the new archive. Versions are immutable once published; fix mistakes by publishing a newer version, or mark a bad version (or the whole package) **deprecated** with a message from your account's package management page, which shows the warning to would-be installers without breaking existing projects. Presentation extras — icon, screenshots, links — are edited on the package's page; download statistics appear on your dashboard.\r
+\r
+> [!NOTE]\r
+> The store page, search card and Versions tab all come from the archive you upload: \`summary\` is the card text, \`description\`/README the page body, \`category\` and \`tags\` drive search, and \`minEngineVersion\` gates installs. Well-filled manifests are what make a package findable.\r
+\r
+### The build gate\r
+\r
+A project **won't export a game build** while its packages are in a bad state — the manifest doesn't parse, a dependency or lock entry has no package on disk, or an installed package needs a newer engine. The build fails immediately with the same message the Errors view shows, instead of producing a broken game.\r
+\r
+## Package settings & preferences\r
+\r
+The gear menu's **Package settings…** opens the **Packages** page of Project Settings, which edits this project's \`manifest.cometManifest\` knobs:\r
+\r
+![The Packages page in Project Settings: the registries list, resolution strategy, pre-release visibility, lock toggle, pinned packages and the lock reset action.](/tutorials/pm-settings.png)\r
+\r
+- **Registries** — add, remove and reorder registries (with their scopes). Priority order decides who serves a slug both registries claim.\r
+- **Resolution ▸ Strategy** — the resolver escalation policy described above.\r
+- **Show pre-release versions** and **Enable lock** toggles.\r
+- **Pinned packages** — the pin list.\r
+- **Delete lock & re-resolve** — throws away the lock and resolves the whole project from scratch: the recovery hammer for a tangled state.\r
+\r
+Machine-wide options live in **Preferences ▸ Package Manager**: the cache location (with open/clear actions and current usage) and the git executable used for git dependencies.\r
+\r
+## Automating packages\r
+\r
+Everything the window does is scriptable from [editor scripts](/tutorials/extending-the-editor) through the \`CometEditor::Packages\` namespace:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEditor;\r
+\r
+array<string> installed = Packages::List();\r
+if (!Packages::IsInstalled("dialogue-system"))\r
+    Packages::Install("dialogue-system");          // latest; or ("slug", "1.2.0")\r
+\r
+Packages::InstallFromPath("C:/downloads/pkg.cometpkg");  // archive or folder\r
+Packages::Remove("old-package");\r
+Packages::Embed("dialogue-system");                // installed → embedded\r
+Packages::Pack("my-package", "C:/out/my-package-0.1.0.cometpkg");\r
+Packages::Resolve();                               // re-run the resolver\r
+string infoJson = Packages::GetInfo("dialogue-system");\r
+\`\`\`\r
+\r
+\`GetInfo\` returns the package's state as JSON (version, origin, dependencies…), and \`Packages::GetOnPackagesChanged()\` returns a delegate you can subscribe to for reacting whenever the package set changes.\r
+\r
+The same operations are exposed as editor **MCP tools** (\`package_list\`, \`package_install\`, \`package_remove\`, \`package_create_skeleton\`, \`package_export\`, and \`package_ui\` for driving the window itself), so AI assistants and external tooling can manage packages too.\r
+\r
+## Troubleshooting\r
+\r
+| Symptom | What it means / what to do |\r
+|---------|---------------------------|\r
+| *"The registry could not be reached"* | You're offline or the registry is down. The Marketplace serves the cached catalog; installs from the lock still work from the cache. Retry from the list. |\r
+| Git install fails | Check the URL, the \`#ref\`, and that git is installed — or set the executable in **Preferences ▸ Package Manager**. Private repositories need your git credential helper configured. |\r
+| Version conflict in the Errors view | Two ranges can't agree. Update the packages involved, widen a range you control, pin an acceptable version, or as a last resort *Delete lock & re-resolve*. |\r
+| Install button disabled, "Needs engine x.y.z or newer" | The package's \`minEngineVersion\` is above your engine. Update the engine or install an older version from the Versions tab. |\r
+| Remove is greyed out | Something depends on it — the tooltip and the Dependencies tab's *Used by* list say what. Remove the dependents first. |\r
+| Local-folder install reports an ID collision | An asset in the source folder shares an ID with one in your project. Fix the ID at the source; live-linked mirrors are never remapped. |\r
+| Export fails with *"not self-contained"* | The package references assets in \`Assets/\`. Move them into the package, or remove the reference. References into *other packages* are fine — they become dependencies automatically. |\r
+| Build blocked by packages | The build gate found broken package state. Open **Window ▸ Package Manager ▸ Errors**, fix what it lists, build again. |\r
+| A package's files look wrong after an update | Reinstall it: remove and install again, or *Delete lock & re-resolve*. Installed packages are reproducible from the lock; never edit them in place — embed instead. |\r
+\r
+That's the whole system: install what others built, keep it resolved and locked, and when you build something reusable — wrap it in a manifest, export it, and put it on the Marketplace for everyone.\r
+`},{id:`native-plugins`,title:`Native Plugins & the FFI`,icon:`fa-plug`,category:`Packages`,blurb:`Ship a C/C++ library with your game and call into it from AngelScript — import, inspector settings, loading and marshalling.`,md:'# Native Plugins & the FFI\r\n\r\nSometimes the code you need already exists as a C library — a platform SDK, a licensed middleware, a compiled algorithm. Comet\'s **native plugin** system lets you ship that `.dll` / `.so` / `.dylib` alongside your game and call straight into it from AngelScript, no engine recompile required. It\'s a foreign-function interface (FFI): you import the binary as an asset, tick the platforms it targets, and load it at runtime.\r\n\r\n> [!WARNING]\r\n> Native calls are unsafe by nature: you\'re calling straight into machine code through a prototype you declared by hand. A mismatched signature or a bad pointer can crash the whole process. Describe every function precisely, and treat a third-party binary with the same trust you\'d give any dependency.\r\n\r\n## Importing a plugin\r\n\r\nDrop the binary **anywhere in your project** and Comet imports it as a **Native Plugin** asset — every `.dll`, `.so` or `.dylib` under `Assets/` (or inside any installed [package](/tutorials/packages)) is picked up.\r\n\r\nOrganise the binaries however suits your project — keep them next to the script that wraps them, or gather them in a folder of their own. Per-architecture subfolders are still a handy convention, because the same logical plugin can then carry a build for every target and Comet reads the folder and file names to guess the import settings:\r\n\r\n```\r\nAssets/MyMath/\r\n├── MyMath.as              ← the AngelScript wrapper\r\n├── x86_64/\r\n│   ├── mymath.dll         ← Windows, x86_64\r\n│   └── libmymath.so       ← Linux / Android, x86_64\r\n└── arm64-v8a/\r\n    └── libmymath.so       ← Android, arm64-v8a\r\n```\r\n\r\nThe importer reads the folder and file name to guess the right settings — which you can always override in the Inspector (next section). It looks at the whole path, so these folders can sit anywhere:\r\n\r\n| The file… | …imports as |\r\n|-----------|-------------|\r\n| ends in `.dll` | **Windows** + **Editor** |\r\n| ends in `.so` | **Linux** + **Android** + **Editor** |\r\n| ends in `.dylib` | **Editor** only |\r\n| sits in a `Windows/`, `Linux/` or `Android/` folder | narrows to that platform |\r\n| sits in an `x86_64/`, `x86/`, `arm64-v8a/` or `armeabi-v7a/` folder | sets that **Architecture** |\r\n\r\n## The plugin Inspector\r\n\r\nSelect the imported plugin to see its import settings. This is where you tell Comet **which builds the binary belongs in** — only matching plugins are shipped.\r\n\r\n![The Native Plugin inspector: the Platforms checkboxes (Windows, Linux, Android, Editor) and the Architecture dropdown.](/tutorials/native-plugin-inspector.png)\r\n\r\n**Platforms** — four checkboxes: **Windows**, **Linux**, **Android** and **Editor**. Tick the platforms this exact file can run on. At build time, only the plugins whose platforms include the target are copied into the game; everything else is left out. **Editor** controls whether the library is loadable while you\'re in the editor and in play mode — handy to keep on so you can test without exporting.\r\n\r\n**Architecture** — a dropdown: **Any**, **x86_64**, **x86**, **arm64-v8a** or **armeabi-v7a**.\r\n\r\n- Pick the CPU architecture the binary was compiled for. It then ships only when the build targets that architecture, and the runtime loader looks for it in `Plugins/<architecture>/`.\r\n- Choose **Any** for an architecture-agnostic file (rare for native code) — it ships with every architecture.\r\n\r\n> [!TIP]\r\n> One "plugin" is usually *several* imported files — a Windows `.dll`, a Linux `.so`, an Android `.so` per ABI — each with its own Platforms/Architecture settings. `NativeLibrary::Load("mymath")` picks the right one for wherever the game is running.\r\n\r\n## Loading a plugin from AngelScript\r\n\r\nThe scripting API lives in the `CometEngine::Native` namespace. Load a library by **logical name** — no `lib` prefix, no extension — and Comet resolves it to the right file for wherever the game is running. In the editor it matches the name against every imported Native Plugin asset, wherever it lives in the project or a package, preferring the one built for the current architecture. In an exported build the matching binaries have been gathered into a `Plugins/` folder next to the game, so the loader searches `Plugins/<arch>/` and `Plugins/`, then falls back to the operating-system search path.\r\n\r\n```angelscript\r\nusing namespace CometEngine;\r\nusing namespace CometEngine::Native;\r\n\r\nclass PluginDemo : CometBehaviour\r\n{\r\n    void Start()\r\n    {\r\n        // Load never returns null — always check IsLoaded().\r\n        NativeLibrary@ lib = NativeLibrary::Load("mymath");\r\n        if (!lib.IsLoaded())\r\n        {\r\n            Debug::LogError("plugin failed: " + lib.GetError());\r\n            return;\r\n        }\r\n        Debug::Log("loaded from " + lib.GetPath());\r\n\r\n        // Resolve a function by its exported symbol + C prototype:\r\n        NativeFunction@ add = lib.GetFunction("my_add", "int(int,int)");\r\n        if (add.IsValid())\r\n        {\r\n            int sum = add.Call().Int(20).Int(22).InvokeInt();\r\n            Debug::Log("my_add(20, 22) = " + sum);   // 42\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n### Describing a function: the signature\r\n\r\nA signature is a C prototype written as `returnType(argType, argType, …)` from these tokens:\r\n\r\n`void` · `bool` · `int` · `uint` · `int64` · `uint64` · `float` · `double` · `ptr` · `str`\r\n\r\n`ptr` passes a raw address as a `uint64` (a buffer, a resolved symbol, or `0` for null); `str` marshals an AngelScript `string` as a UTF-8 `const char*` valid for the duration of the call. So `"bool(ptr,str)"` is `bool fn(void*, const char*)`.\r\n\r\n### Making the call\r\n\r\n`GetFunction` gives you a `NativeFunction`. Start a call with `Call()`, push the arguments **in order** with the chainable `Int`/`UInt`/`Int64`/`UInt64`/`Bool`/`Float`/`Double`/`Ptr`/`Str` methods, then finish with the `Invoke*` that matches the return type:\r\n\r\n```angelscript\r\nlib.GetFunction("set_volume", "void(float)").Call().Float(0.8f).InvokeVoid();\r\n\r\nbool ok = lib.GetFunction("init", "bool()").Call().InvokeBool();\r\n\r\n// A function that returns \'const char*\' returns a pointer — read it back:\r\nuint64 ptr = lib.GetFunction("get_name", "ptr()").Call().InvokePtr();\r\nstring name = Native::ReadCString(ptr);\r\n```\r\n\r\nThe pushed argument count must match the signature or the call is rejected and returns a zero value.\r\n\r\n### Structs, out-parameters and raw memory\r\n\r\nFor functions that read or write a struct, allocate a **`NativeBuffer`** — a bounds-checked block of native memory — pass its address as a `ptr`, then read the fields back by byte offset:\r\n\r\n```angelscript\r\n// struct Vec2 { float x, y; };  void get_position(Vec2* out);\r\nNativeBuffer@ buf = NativeBuffer::Create(8);        // two floats\r\nlib.GetFunction("get_position", "void(ptr)").Call().Ptr(buf.GetAddress()).InvokeVoid();\r\n\r\nfloat x = buf.Float(0);\r\nfloat y = buf.Float(4);\r\n```\r\n\r\nThe `Native::` namespace also has free helpers to peek raw addresses returned by a call — `ReadInt32`, `ReadFloat`, `ReadCString`, `ReadBytes(addr, len)` and the `Write*` counterparts.\r\n\r\n### Is it even supported here?\r\n\r\nNative calls work on Windows, Linux and Android. They\'re **not** available in Web builds for now — a browser has no way to load a native binary — so always guard plugin code with `Native::IsSupported()` and provide a fallback:\r\n\r\n```angelscript\r\nif (!Native::IsSupported())\r\n    return;   // e.g. a Web build — no native plugins here\r\n\r\nDebug::Log("running on " + Native::GetOS() + " / " + Native::GetArchitecture());\r\n```\r\n\r\n## How plugins ship\r\n\r\nWhen you [export a build](/tutorials/build-and-patches), Comet gathers the plugins whose settings match the target — wherever they live in your project — and leaves everything else out:\r\n\r\n| Platform | Where the binary lands |\r\n|----------|------------------------|\r\n| **Windows / Linux** | a `Plugins/` folder next to the game executable |\r\n| **Android** | packed into the APK/AAB\'s `jniLibs/<abi>/`, so the system loader finds it by name |\r\n| **Web** | not supported for now — browsers can\'t load native binaries |\r\n\r\nThe runtime loader mirrors this: in a build it searches `Plugins/<arch>/`, `Plugins/`, then the executable\'s own folder; on Android it resolves the library straight out of the packed native libraries.\r\n\r\n> [!NOTE]\r\n> **Android naming.** Android loads native libraries by their `lib…​.so` name. Name the file `lib<something>.so` (e.g. `libmymath.so`) and load it with the logical name — `NativeLibrary::Load("mymath")` — and Comet adds the `lib` prefix and `.so` suffix for you.\r\n\r\n## Cleaning up\r\n\r\nA loaded library and its resolved functions stay alive as long as your script holds the handles. Call `lib.Unload()` to free the OS module early — every `NativeFunction` resolved from it becomes unusable afterward — or just let the handle go out of scope.\r\n\r\n## Where to go next\r\n\r\nNative plugins let you wrap an entire third-party library as a clean AngelScript API and hand it out as a reusable [package](/tutorials/packages) — drop the binaries anywhere in the package, next to the script that wraps them works nicely. When you\'re ready to distribute, the [Exporting Builds](/tutorials/build-and-patches) tutorial covers how the matching plugins are bundled for each platform.\r\n'},{id:`dynamic-content`,title:`Dynamic Content & Asset Groups`,icon:`fa-layer-group`,category:`Shipping`,blurb:`Load assets by address at runtime, put them in content groups, and stream remote content from a CDN — updatable without a game patch.`,md:`# Dynamic Content & Asset Groups\r
+\r
+Not every asset should be glued into your scenes. A boss you only fight in world 3, a pack of localized voice lines, the art for a DLC island, a title screen you swap for a seasonal event — these are things you want to **load on demand, by name, at runtime**, and sometimes **download after the game has shipped**.\r
+\r
+Comet's **Content System** is how you do that. You put assets into **content groups**, address them by a short path, and load them from a script whenever you want — the exact same call works in the editor, in a packed build, and against content sitting on a CDN.\r
+\r
+![The Content page in Project Settings: the groups table with their delivery, the resolved membership of the selected group, and the strip preview.](/tutorials/content-settings.png)\r
+\r
+## The mental model\r
+\r
+Three ideas carry the whole system:\r
+\r
+1. **Address** — an asset's identity for loading. It's the asset's path relative to \`Assets/\`, **without the extension**: \`Assets/Textures/Enemies/orc.png\` becomes the address \`Textures/Enemies/orc\`. Stable, human-readable, project-unique.\r
+2. **Content group** — a named bucket that decides *how an asset ships and loads*. Every asset either belongs to a group or it doesn't.\r
+3. **The rule that ties them together** — **an asset is only addressable if it has a content group.** No group, no address: you can't load it by name, and it doesn't ship on its own.\r
+\r
+## Creating groups\r
+\r
+Open **Project Settings → Content**. The **Groups** table is where you author them — you decide what groups exist; the engine never invents one for you.\r
+\r
+Type a name into the field at the bottom and press **Add Group**. Each group has:\r
+\r
+| Column | Meaning |\r
+|--------|---------|\r
+| **Name** | The group's identity. You'll refer to it from the folder inspector and from scripts. |\r
+| **Delivery** | \`Local\` (ships inside the game) or \`Remote\` (downloaded from your CDN — see [Remote content](#remote-content-downloadable-groups)). |\r
+| **Remote URL** | Only for \`Remote\` groups: the URL template the pack downloads from. |\r
+\r
+Right-click a row to **Remove** it, or select it and press **Delete**. Removing a group clears every folder and asset that pointed at it (they fall back to *Inherit*).\r
+\r
+Below the table, **Group contents** shows exactly which assets currently resolve into the selected group, with their addresses and sizes — your ground truth for "what's actually in here". The **Strip preview** at the bottom lists assets that have *no* group: these ship only if a build scene references them, and they are never loadable by address.\r
+\r
+## Assigning content to a group\r
+\r
+You don't add assets to a group from the group list — you assign them from their own **Inspector**. Select a folder (or a single asset) in the Project panel and look at the **Content** section at the top of the Inspector.\r
+\r
+![A folder's Inspector: the Content section with its Content State set to a group, the effective Content Group, and the derived Address.](/tutorials/content-inspector.png)\r
+\r
+The **Content State** dropdown is the heart of it:\r
+\r
+| State | What it does |\r
+|-------|--------------|\r
+| **Inherit** | Resolve through the folder hierarchy — this item takes whatever group its nearest grouped ancestor folder has. This is the default. |\r
+| **Group** | Assign an explicit **Content Group** (pick it from the dropdown that appears). Everything inside a grouped folder inherits it. |\r
+| **Excluded** | Break inheritance — this subtree or asset belongs to **no** group, even under a grouped parent. Use it to carve a hole in an otherwise-grouped folder. |\r
+\r
+Assign a **folder** to a group and every asset inside it (and every subfolder, recursively) comes along — the usual way to work. Assign a **single asset** to override just that one.\r
+\r
+## Addresses and overrides\r
+\r
+By default an asset's address *is* its path without the extension, and its group's assignment doesn't change that. When you select a grouped folder or asset, the Content section shows its resolved **Address** — the string you'll pass to \`Assets::Load\`.\r
+\r
+Sometimes you want a cleaner or more stable address than the folder layout gives you. Edit the **Address** field to override it:\r
+\r
+- On a **single asset**, the override replaces its whole address.\r
+- On a **folder**, the override replaces that folder's prefix in every child's derived address — move or rename the folder later and the addresses your code uses don't have to change.\r
+\r
+Press the revert arrow to drop an override and go back to the derived path.\r
+\r
+## Loading from code\r
+\r
+Everything comes through the **\`Assets\`** namespace. The address is the \`Assets/\`-relative path without extension; the type is optional and filters the result.\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+\r
+class BossSpawner : CometBehaviour\r
+{\r
+    void Start()\r
+    {\r
+        // Synchronous: blocks until the asset is ready, then pins it resident.\r
+        Texture2D portrait = cast<Texture2D>(\r
+            Assets::Load("Bosses/Dragon/portrait", ResourceType::TEXTURE));\r
+\r
+        // A whole InstanciableEntity by address.\r
+        Entity boss = Assets::LoadEntity("Bosses/Dragon/Dragon");\r
+\r
+        // ... use them ...\r
+\r
+        // Release the pins when you're done so they can unload.\r
+        Assets::Unload(portrait);\r
+        Assets::UnloadEntity(boss);\r
+    }\r
+}\r
+\`\`\`\r
+\r
+For anything big, load **asynchronously** so you never hitch the frame. \`LoadAsync\` returns a \`ResourceAsyncOperation\` you can poll — or \`yield\` on directly inside a coroutine:\r
+\r
+\`\`\`angelscript\r
+ResourceAsyncOperation op = Assets::LoadAsync("Levels/Ice/tileset", ResourceType::SPRITE_ATLAS);\r
+while (!op.isDone)\r
+{\r
+    loadingBar.value = op.progress;   // 0.0 … 1.0\r
+    yield;                            // resume next frame\r
+}\r
+SpriteAtlas atlas = cast<SpriteAtlas>(op.resource);\r
+\`\`\`\r
+\r
+You can also **discover** content without loading it. \`Assets::Find\` returns a lightweight handle, \`FindAssets\` enumerates a folder address, and \`GetGroupAssets\` lists a whole group — none of them touch disk until you actually \`Load\`:\r
+\r
+\`\`\`angelscript\r
+array<AssetHandle>@ enemies = Assets::FindAssets("Enemies", ResourceType::INSTANCIABLE_ENTITY);\r
+AssetHandle random = enemies[rand() % enemies.length()];\r
+Entity spawned = cast<Entity>(Assets::Load(random));\r
+\`\`\`\r
+\r
+There's also \`Assets::LoadScene(address)\` / \`LoadSceneAsync\` to bring in a whole scene by address, and \`Assets::UnloadAll()\` to drop every runtime pin at once.\r
+\r
+## AssetHandle fields: soft references in the Inspector\r
+\r
+A field typed as a concrete resource (\`Texture2D icon;\`) is a **hard** reference — the engine loads it together with whatever owns it. A field typed as **\`Assets::AssetHandle\`** is a **soft** reference: it *names* an asset but stays dormant until you call \`Load\` on it.\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+\r
+class RewardChest : CometBehaviour\r
+{\r
+    Assets::AssetHandle rewardIcon;   // shows an asset picker in the Inspector\r
+\r
+    void Open()\r
+    {\r
+        if (rewardIcon.IsSet())\r
+        {\r
+            Texture2D icon = cast<Texture2D>(Assets::Load(rewardIcon));\r
+            // ... show it ...\r
+        }\r
+    }\r
+}\r
+\`\`\`\r
+\r
+## The strip rule\r
+\r
+The core promise: **only grouped assets ship and are addressable.** Concretely, at build time:\r
+\r
+- An asset **with** an effective group ships and can be loaded by address.\r
+- An asset **without** a group that *is* referenced by a build scene still ships (as a hard dependency of that scene) — but it is **not** addressable; you can only reach it through the scene.\r
+- An asset **without** a group that **nothing references** is **stripped** entirely.\r
+\r
+Because the editor enforces the exact same rule, a \`Assets::Load\` that would fail in the shipped game also fails in play mode — you find out immediately, not after exporting.\r
+\r
+## Local vs Remote: how a group ships\r
+\r
+A group's **Delivery** decides where its bytes live in the build.\r
+\r
+**Local** (the default) — the group folds into your game's base content: the single \`.ori\` pack, the embedded-in-executable pack, or the loose content tree, depending on your Content Packaging (see [Exporting Builds & Shipping Patches](/tutorials/build-and-patches)). Local content is always present, so loading it is instant and needs no setup. Because mounting is memory-mapped, a bigger pack costs nothing at load time — there's no downside to shipping content locally.\r
+\r
+**Remote** — the group is packed into its **own** \`.ori\` file, placed in a \`remote_content/\` folder next to your build instead of inside it. You upload that file to your own server/CDN; the game downloads it on demand. This is how you ship DLC, seasonal content, or anything you'd rather not force into the initial install.\r
+\r
+## Remote content: downloadable groups\r
+\r
+Give a group **Remote** delivery and set its **Remote URL** — a template with two optional placeholders:\r
+\r
+- \`{group}\` → the group's name.\r
+- \`{version}\` → the content version.\r
+\r
+For example \`https://cdn.mygame.com/content/{group}.ori\`. When you export, Comet writes \`remote_content/<group>.ori\` **and** a tiny \`<group>.manifest\` beside it. Upload **both** to the URL you configured.\r
+\r
+At runtime, nothing downloads until you ask:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEngine;\r
+\r
+class DlcLoader : CometBehaviour\r
+{\r
+    bool started = false;\r
+\r
+    void Update()\r
+    {\r
+        if (!started)\r
+        {\r
+            started = true;\r
+            Assets::EnsureGroup("SeasonalEvent");   // begins the download\r
+        }\r
+\r
+        if (Assets::IsGroupReady("SeasonalEvent"))\r
+        {\r
+            // Safe to load anything in the group now.\r
+            Entity tree = Assets::LoadEntity("SeasonalEvent/Decorations/Tree");\r
+            started = false;   // (example only — don't re-ensure every frame in real code)\r
+        }\r
+        else\r
+        {\r
+            float total = float(Assets::GetGroupDownloadSize("SeasonalEvent"));\r
+            float got   = float(Assets::GetGroupDownloadedBytes("SeasonalEvent"));\r
+            progressBar.value = total > 0 ? got / total : 0.0F;\r
+        }\r
+    }\r
+}\r
+\`\`\`\r
+\r
+\`EnsureGroup\` downloads the pack (**resumable** and **checksum-verified**), caches it next to the game, and mounts it. \`IsGroupReady\` tells you when its assets are loadable; \`GetGroupDownloadSize\` / \`GetGroupDownloadedBytes\` drive a progress bar. \`ReleaseGroup\` unmounts a remote group's cached pack when you're done — the cache stays, so ensuring it again doesn't re-download. For a **Local** group all of these are no-ops that report "ready" immediately, so the same code path works whether an asset ships local or remote.\r
+\r
+### Updating remote content without a game update\r
+\r
+This is the real payoff of remote groups. The cached pack is checked against the manifest **once per session**: when you re-export the group and upload the new \`.ori\` + \`.manifest\` pair, the game notices the change on the next \`EnsureGroup\`, discards the stale cache and downloads the current one — **no game update required**. When the CDN is unreachable, the cached pack keeps working offline. (Remember to upload the new \`.manifest\` alongside the \`.ori\`; the manifest is the version signal.)\r
+\r
+## Automating the setup from editor scripts\r
+\r
+If you generate content or want to script your project's setup, the **\`CometEditor::AssetDataBase\`** API mirrors everything the inspectors do:\r
+\r
+\`\`\`angelscript\r
+using namespace CometEditor;\r
+\r
+AssetDataBase::CreateContentGroup("SeasonalEvent");\r
+AssetDataBase::SetContentGroup("SeasonalEvent/Decorations", "SeasonalEvent");  // by folder path\r
+AssetDataBase::SetContentState(myTexture, CometEditor::ContentState::EXCLUDED); // by Resource@\r
+string group = AssetDataBase::GetEffectiveContentGroup("Bosses/Dragon/portrait.png");\r
+\`\`\`\r
+\r
+Paths take folders (no trailing slash) or files — the file extension is optional, and an ambiguous extensionless name does nothing and logs a note asking you to include the extension.\r
+\r
+## Where to go next\r
+\r
+- Content packaging, single-\`.ori\` vs embedded vs loose, and shipping incremental patches (which also work over HTTP) are covered in [Exporting Builds & Shipping Patches](/tutorials/build-and-patches).\r
+- Loading sprites and atlases by address is shown in context in [Sprite Rendering](/tutorials/sprite-rendering); the same applies to [Audio & Mixers](/tutorials/audio) and every other resource type.\r
 `},{id:`build-and-patches`,title:`Exporting Builds & Shipping Patches`,icon:`fa-box-open`,category:`Shipping`,blurb:`Export to Windows, Linux, Android and Web, then ship incremental patches to players.`,md:`# Exporting Builds & Shipping Patches\r
 \r
 Your game runs great in the editor — time to put it in players' hands. Comet exports self-contained builds for **Windows, Linux, Android and Web**, packs your content into memory-mapped \`.ori\` archives, and — the killer feature — builds **incremental patches** that ship only what changed since the version your players already have.\r

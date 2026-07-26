@@ -1,0 +1,756 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::UI::HorizontalAlignment">
+            <summary>
+            Specifies horizontal alignment for UI text.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::LEFT">
+            <summary>Align to the left.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::CENTER">
+            <summary>Align to the center.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::HorizontalAlignment::RIGHT">
+            <summary>Align to the right.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::VerticalAlignment">
+            <summary>
+            Specifies vertical alignment for UI text.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::TOP">
+            <summary>Align to the top.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::MIDDLE">
+            <summary>Align to the middle.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::VerticalAlignment::BOTTOM">
+            <summary>Align to the bottom.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::OverflowMode">
+            <summary>
+            Determines how text behaves when it exceeds its bounds.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::OverflowMode::OVERFLOW_">
+            <summary>Text continues outside the bounds.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::OverflowMode::TRUNCATE">
+            <summary>Text is cut off at the bounds.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::AutoContentSizeMode">
+            <summary>
+            Specifies how a UI element automatically resizes to its content.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::AutoContentSizeMode::NONE">
+            <summary>No automatic resizing.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::AutoContentSizeMode::WIDTH">
+            <summary>Resize width to fit content.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::AutoContentSizeMode::HEIGHT">
+            <summary>Resize height to fit content.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::AutoContentSizeMode::ALL">
+            <summary>Resize both width and height.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::NavigationFlags">
+            <summary>
+            Flags determining how navigation works between UI elements.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NONE">
+            <summary>No navigation enabled.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::HORIZONTAL">
+            <summary>Allow horizontal navigation.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::VERTICAL">
+            <summary>Allow vertical navigation.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::AUTOMATIC">
+            <summary>Automatic navigation based on proximity.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::EXPLICIT">
+            <summary>Explicitly defined navigation targets.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::SelectableTransitionType">
+            <summary>
+            Specifies the visual transition effect for selectable UI elements.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::NONE">
+            <summary>No transition effect.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::COLOR_TINT">
+            <summary>Changes the color of the graphic.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::SPRITE_SWAP">
+            <summary>Swaps the sprite of the graphic.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::ANIMATION">
+            <summary>Triggers an animation on the element.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ContentType">
+            <summary>
+            Specifies the type of content allowed in an input field.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::STANDARD">
+            <summary>Standard text input.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::AUTOCORRECTED">
+            <summary>Text input with autocorrection.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::INTEGER_NUMBER">
+            <summary>Only integer numbers allowed.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::DECIMAL_NUMBER">
+            <summary>Decimal numbers allowed.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::ALPHANUMERIC">
+            <summary>Alphanumeric characters only.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::NAME">
+            <summary>Optimized for name input.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::EMAIL_ADDRESS">
+            <summary>Optimized for email input.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::PASSWORD">
+            <summary>Password input (characters masked).</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::PIN">
+            <summary>PIN input (numbers masked).</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ContentType::CUSTOM">
+            <summary>Custom user-defined validation.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::LineType">
+            <summary>
+            Specifies the line behavior of an input field.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::LineType::SINGLE_LINE">
+            <summary>Single line input only.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::LineType::MULTI_LINE_SUBMIT">
+            <summary>Multiple lines, pressing enter submits.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::LineType::MULTI_LINE_NEWLINE">
+            <summary>Multiple lines, pressing enter adds a newline.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::LineType::MULTI_LINE_NEW_LINE">
+            <summary>
+            Multi-line input where pressing Enter inserts a new line.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::SliderDirection">
+            <summary>
+            Specifies the direction of a UI slider.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SliderDirection::LEFT_TO_RIGHT">
+            <summary>Horizontal, left to right.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SliderDirection::RIGHT_TO_LEFT">
+            <summary>Horizontal, right to left.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SliderDirection::BOTTOM_TO_TOP">
+            <summary>Vertical, bottom to top.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SliderDirection::TOP_TO_BOTTOM">
+            <summary>Vertical, top to bottom.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ScrollbarDirection">
+            <summary>
+            Specifies the direction of a UI scrollbar.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarDirection::LEFT_TO_RIGHT">
+            <summary>Horizontal, left to right.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarDirection::RIGHT_TO_LEFT">
+            <summary>Horizontal, right to left.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarDirection::BOTTOM_TO_TOP">
+            <summary>Vertical, bottom to top.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarDirection::TOP_TO_BOTTOM">
+            <summary>Vertical, top to bottom.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::MovementType">
+            <summary>
+            Specifies the movement behavior for a ScrollRect.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MovementType::UNRESTRICTED">
+            <summary>Unlimited scrolling.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MovementType::ELASTIC">
+            <summary>Bounces back when reaching boundaries.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MovementType::CLAMPED">
+            <summary>Stops at boundaries.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ScrollbarVisibility">
+            <summary>
+            Specifies when a scrollbar is visible in a ScrollRect.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarVisibility::PERMANENT">
+            <summary>Always visible.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarVisibility::AUTO_HIDE">
+            <summary>Hidden when not needed.</summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScrollbarVisibility::AUTO_HIDE_AND_EXPAND_VIEWPORT">
+            <summary>Hidden when not needed, and expands viewport to take its space.</summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IBeginDragAction">
+            <summary>
+            Interface for handling the start of a drag interaction.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IDragAction">
+            <summary>
+            Interface for handling an ongoing drag interaction.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IEndDragAction">
+            <summary>
+            Interface for handling the end of a drag interaction.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ISubmitAction">
+            <summary>
+            Interface for handling a submit action (e.g., Enter key or Button click).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerEnterAction">
+            <summary>
+            Interface for handling a pointer entering the element area.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerExitAction">
+            <summary>
+            Interface for handling a pointer exiting the element area.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerDownAction">
+            <summary>
+            Interface for handling a pointer down event (press).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerClickAction">
+            <summary>
+            Interface for handling a pointer click event.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerUpAction">
+            <summary>
+            Interface for handling a pointer up event (release).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IPointerUpOutsideAction">
+            <summary>
+            Interface for handling a pointer up event that occurs outside the element.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ISelectAction">
+            <summary>
+            Interface for handling an element selection event.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::IDeselectAction">
+            <summary>
+            Interface for handling an element deselection event.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_NONE">
+            <summary>
+            No navigation.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_HORIZONTAL">
+            <summary>
+            Navigation auto horizontal.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_VERTICAL">
+            <summary>
+            Navigation auto vertical.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_EXPLICIT">
+            <summary>
+            Navigation to every side to a fixed Entity.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_AUTOMATIC">
+            <summary>
+            Automatic navigation.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::NavigationFlags::NAVIGATION_EVERYTHING">
+            <summary>
+            All navigation types valid.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::RenderModeType">
+            <summary>
+            Enumeration of the differents UI rendering modes.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::RenderModeType::SCREEN_SPACE">
+            <summary>
+            UI is rendered on the screen.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::RenderModeType::WORLD_SPACE">
+            <summary>
+            UI is rendered in the world as it were a normal object.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ScaleModeType">
+            <summary>
+            Enumeration of the differents UI scale modes.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScaleModeType::CONSTANT_PIXEL_SIZE">
+            <summary>
+            UI elements retain the same pixel size regardless of screen size
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScaleModeType::SCALE_WITH_SCREEN_SIZE">
+            <summary>
+            UI elements are bigger the bigger screen is
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ScreenMatchMode">
+            <summary>
+            Enumeration of all available match modes.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::WIDTH_OR_HEIGHT">
+            <summary>
+            Scales the canvas area with the width as reference, the height as reference, or something in between.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::EXPAND">
+            <summary>
+            Expands the canvas area either horizontally or vertically, so the size of the canvas will never be smaller than the reference.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScreenMatchMode::SHRINK">
+            <summary>
+            Crops the canvas area either horizontally or vertically, so the size of the canvas will never be larger than the reference.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ScreenSpaceType">
+            <summary>
+            Enumeration of all available screen spaces.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScreenSpaceType::OVERLAY">
+            <summary>
+            UI is rendered on the real screen
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ScreenSpaceType::CAMERA">
+            <summary>
+            UI is rendered only on the given camera screen
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::COLOR">
+            <summary>
+            Image will change its color depending on the state.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::SelectableTransitionType::SPRITE">
+            <summary>
+            Image will change its sprite depending on the state.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IBeginDragAction::OnBeginDrag()">
+            <summary>
+            Callback called at the start of a drag action on the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IDeselectAction::OnDeselected()">
+            <summary>
+            Callback called when the UI Element of the Entity is deselected.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IDragAction::OnDrag()">
+            <summary>
+            Callback called when a drag action is performed on the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IEndDragAction::OnEndDrag()">
+            <summary>
+            Callback called at the end of a drag action on the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IPointerClickAction::OnPointerClick()">
+            <summary>
+            Callback called when the pointer is clicked to the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IPointerDownAction::OnPointerDown()">
+            <summary>
+            Callback called when the pointer is down to the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IPointerEnterAction::OnPointerEnter()">
+            <summary>
+            Callback called when the pointer enters to the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IPointerExitAction::OnPointerExit()">
+            <summary>
+            Callback called when the pointer exits to the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::IPointerUpAction::OnPointerUp()">
+            <summary>
+            Callback called when the pointer is up to the UI Element of the Entity.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::ISelectAction::OnSelected()">
+            <summary>
+            Callback called when the UI Element of the Entity is selected.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::ISubmitAction::OnSubmit()">
+            <summary>
+            Callback called when the UI Element is submitted.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::UI::InputHandler::GetCurrent()">
+            <summary>
+            Gets the current active input handler for the UI.
+            </summary>
+            <return> The current InputHandler instance.</return>
+
+        </member>
+        <member name="T:CometEngine::UI::MouseFilter">
+            <summary>
+            Determines how UI elements handle mouse events (None, Block, Ignore).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MouseFilter::PROPAGATE">
+            <summary>
+            Handle mouse input on this element and let it keep propagating to elements behind it.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MouseFilter::STOP">
+            <summary>
+            Handle mouse input on this element and stop it from reaching elements behind it.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MouseFilter::IGNORE">
+            <summary>
+            Ignore mouse input on this element so it passes through to elements behind it.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::MouseFilter::BLOCK">
+            <summary>
+            Block mouse input from reaching elements behind without handling it.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::GridLayoutConstraint">
+            <summary>
+            Specifies constraints for grid layouts (Flexible, FixedColumnCount, FixedRowCount).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutConstraint::FLEXIBLE">
+            <summary>
+            The number of rows and columns is chosen automatically to fit the content.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutConstraint::FIXED_COLUMNS">
+            <summary>
+            Use a fixed number of columns.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutConstraint::FIXED_ROWS">
+            <summary>
+            Use a fixed number of rows.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::GridLayoutAxis">
+            <summary>
+            Defines the primary axis for grid layout expansion (Horizontal or Vertical).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutAxis::HORIZONTAL">
+            <summary>
+            Fill the grid along the horizontal axis first.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutAxis::VERTICAL">
+            <summary>
+            Fill the grid along the vertical axis first.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::GridLayoutCorner">
+            <summary>
+            Specifies the starting corner for grid layouts (UpperLeft, UpperRight, LowerLeft, LowerRight).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutCorner::UPPER_LEFT">
+            <summary>
+            Start placing children from the upper-left corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutCorner::UPPER_RIGHT">
+            <summary>
+            Start placing children from the upper-right corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutCorner::LOWER_LEFT">
+            <summary>
+            Start placing children from the lower-left corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::GridLayoutCorner::LOWER_RIGHT">
+            <summary>
+            Start placing children from the lower-right corner.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ImageRenderMode">
+            <summary>
+            Defines the rendering mode for UI Image components (Simple, Sliced, Tiled).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ImageRenderMode::SIMPLE">
+            <summary>
+            The sprite is drawn stretched to fit its size.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ImageRenderMode::SLICED">
+            <summary>
+            The sprite is drawn as a 9-slice, keeping its borders unstretched.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ImageRenderMode::TILED">
+            <summary>
+            The sprite is drawn tiled, repeating its center to fill the size.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ChildAlignment">
+            <summary>
+            Specifies how child elements are aligned within a layout group (TopLeft, MiddleCenter, etc.).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::UPPER_LEFT">
+            <summary>
+            Align children to the upper-left.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::UPPER_CENTER">
+            <summary>
+            Align children to the upper-center.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::UPPER_RIGHT">
+            <summary>
+            Align children to the upper-right.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::MIDDLE_LEFT">
+            <summary>
+            Align children to the middle-left.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::MIDDLE_CENTER">
+            <summary>
+            Align children to the middle-center.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::MIDDLE_RIGHT">
+            <summary>
+            Align children to the middle-right.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::LOWER_LEFT">
+            <summary>
+            Align children to the lower-left.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::LOWER_CENTER">
+            <summary>
+            Align children to the lower-center.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildAlignment::LOWER_RIGHT">
+            <summary>
+            Align children to the lower-right.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::UI::ChildFitMode">
+            <summary>
+            Determines how children are fitted within a layout group (Unconstrained, MinSize, PreferredSize).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildFitMode::NONE">
+            <summary>
+            Do not resize children to fit.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildFitMode::FIT_PARENT">
+            <summary>
+            Resize children to fit the parent size.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::UI::ChildFitMode::FIT_AVAILABLE">
+            <summary>
+            Resize children to fit the available space.
+            </summary>
+
+        </member>
+    </members>
+</doc>

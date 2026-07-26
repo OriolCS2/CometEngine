@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::ParticleSystemAliveMode">
+            <summary>
+            Determines how the particle system handles its lifecycle.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemAliveMode::STANDARD">
+            <summary>Standard lifecycle management.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemAliveMode::ALIVE_UNTIL_NEEDED">
+            <summary>Stays alive until no longer needed by the engine.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemAliveMode::FORCE_RESPAWN">
+            <summary>Forces particles to respawn immediately.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemScalingMode">
+            <summary>
+            Defines how particle system scaling is applied.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemScalingMode::HIERARCHY">
+            <summary>Inherits scaling from the parent hierarchy.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemScalingMode::LOCAL">
+            <summary>Uses only local scaling values.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemScalingMode::SHAPE">
+            <summary>Scaling affects only the emission shape.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemSimulationSpace">
+            <summary>
+            Specifies the coordinate space for particle simulation.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemSimulationSpace::LOCAL">
+            <summary>Simulate in local space.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemSimulationSpace::WORLD">
+            <summary>Simulate in global world space.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemSimulationSpace::CUSTOM">
+            <summary>Simulate relative to a custom transform.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemStopAction">
+            <summary>
+            Specifies the action taken when the particle system stops.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemStopAction::NONE">
+            <summary>No action taken.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemStopAction::DISABLE">
+            <summary>Disables the component when finished.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemStopAction::DESTROY">
+            <summary>Destroys the entity when finished.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemStopAction::COMET_EVENT">
+            <summary>Triggers a Comet event when finished.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyAnimationMode">
+            <summary>
+            Specifies the source for particle texture animations.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationMode::TEXTURE">
+            <summary>Use a texture sheet for animation.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationMode::SPRITES">
+            <summary>Use an array of sprites for animation.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyAnimationSheetMode">
+            <summary>
+            Specifies how the texture sheet is read for animations.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationSheetMode::WHOLE_SHEET">
+            <summary>Animate through the entire sheet.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationSheetMode::SINGLE_ROW">
+            <summary>Animate through a single row of the sheet.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyAnimationSingleRowMode">
+            <summary>
+            Specifies how to select the row for particle animations.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationSingleRowMode::RANDOM">
+            <summary>Pick a random row for each particle.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationSingleRowMode::CUSTOM">
+            <summary>Use a specific custom row index.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyAnimationTimeMode">
+            <summary>
+            Specifies the time reference for particle animations.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationTimeMode::LIFETIME">
+            <summary>Animate over the particle's lifetime.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationTimeMode::LIFETIME_LINEAL">
+            <summary>Linear animation over lifetime.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyAnimationTimeMode::FPS">
+            <summary>Animate at a fixed frames-per-second rate.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyLinearSpace">
+            <summary>
+            Specifies the coordinate space for particle velocity.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyLinearSpace::LOCAL">
+            <summary>Velocity in local emitter space.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyLinearSpace::WORLD">
+            <summary>Velocity in world space.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyShapeType">
+            <summary>
+            Specifies the emission shape for a particle system.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyShapeType::CIRCLE">
+            <summary>Emit from a circle.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyShapeType::RECTANGLE">
+            <summary>Emit from a rectangle.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyShapeType::EDGE">
+            <summary>Emit from an edge/line.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyRenderMode">
+            <summary>
+            Specifies how particles are rendered.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyRenderMode::CHUNK">
+            <summary>Render particles in batches (chunks).</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyRenderMode::INDIVIDUAL">
+            <summary>Render each particle individually.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertySortMode">
+            <summary>
+            Specifies the draw order for particles.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertySortMode::OLDEST_IN_FRONT">
+            <summary>Draw older particles on top.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertySortMode::YOUNGEST_IN_FRONT">
+            <summary>Draw newer particles on top.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticlePropertyForceSpace">
+            <summary>
+            Specifies the coordinate space for forces applied to particles.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyForceSpace::LOCAL">
+            <summary>Force in local emitter space.</summary>
+
+        </member>
+        <member name="F:CometEngine::ParticlePropertyForceSpace::WORLD">
+            <summary>Force in world space.</summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticleSystemAliveMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticleSystemScalingMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticleSystemSimulationSpace">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticleSystemStopAction">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyForceSpace">
+            <summary>
+            Specifies the space (Local or World) in which forces are applied to particles.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyRenderMode">
+            <summary>
+            Defines the rendering technique for particles (Billboard, Stretched, Mesh).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertySortMode">
+            <summary>
+            Determines the order in which particles are sorted for rendering (None, Distance, OldestFirst, YoungestFirst).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyShapeType">
+            <summary>
+            Specifies the emission shape for the particle system (Sphere, Box, Cone, etc.).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyAnimationMode">
+            <summary>
+            Defines how particles animate over their lifetime (WholeSheet, SingleRow).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyAnimationSheetMode">
+            <summary>
+            Specifies the sheet mode for particle texture animation (Grid, Random).
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyAnimationSingleRowMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyAnimationTimeMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticlePropertyLinearSpace">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::ParticleSystemModule::ParticleShapeFlatSpawnMode">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemModule::ParticleShapeFlatSpawnMode::RANDOM">
+            <summary>
+            Spawn particles at random positions along the shape.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemModule::ParticleShapeFlatSpawnMode::LOOP">
+            <summary>
+            Spawn particles sequentially along the shape, looping back to the start.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::ParticleSystemModule::ParticleShapeFlatSpawnMode::PING_PONG">
+            <summary>
+            Spawn particles sequentially along the shape, reversing direction at each end.
+            </summary>
+
+        </member>
+    </members>
+</doc>

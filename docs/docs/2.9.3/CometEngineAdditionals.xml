@@ -1,0 +1,452 @@
+<?xml version="1.0"?>
+<!-- Callback Example Complete
+<callbacks name="CometEngine::Object">
+    <callback name="Method1">
+        <summary>
+        Description of Method1
+        </summary>
+        <param type="Behaviour" reference="true" name="beha" namespace="CometEngine" internal="true">
+        Description of param beha
+        </param>
+        <param type="Single" name="value">
+        Description of param value
+        </param>
+        <return type="Entity" namespace="CometEngine" internal="true">
+        Description of the return
+        </return>
+    </callback>
+</callbacks>
+-->
+<doc>
+    <callbacks name="CometEngine::CometBehaviour">
+        <callback name="PreUpdate" return="void">
+            <summary>
+            Called at the start of every frame.
+            </summary>
+        </callback>
+        <callback name="Update" return="void">
+            <summary>
+            Called at the middle of every frame.
+            </summary>
+        </callback>
+        <callback name="PostUpdate" return="void">
+            <summary>
+            Called at the end of every frame.
+            </summary>
+        </callback>
+        <callback name="OnEnable" return="void">
+            <summary>
+            Called when this behaviour gets enabled.
+            </summary>
+        </callback>
+        <callback name="OnDisable" return="void">
+            <summary>
+            Called when this behaviour gets disabled.
+            </summary>
+        </callback>
+        <callback name="Awake" return="void">
+            <summary>
+            Called when the behaviour is created.
+            </summary>
+        </callback>
+        <callback name="OnDestroy" return="void">
+            <summary>
+            Called when the behavior is going to be destroyed.
+            </summary>
+        </callback>
+        <callback name="Start" return="void">
+            <summary>
+            Called before the first enabled frame ever.
+            </summary>
+        </callback>
+        <callback name="FixedUpdate" return="void">
+            <summary>
+            Called every frame that physics updates.
+            </summary>
+        </callback>
+        <callback name="OnBecameVisible" return="void">
+            <summary>
+            Called when this behaviour owns a renderer and it has just become visible for any camera.
+            </summary>
+        </callback>
+        <callback name="OnBecameInvisible" return="void">
+            <summary>
+            Called when this behaviour owns a renderer and it has just become invisible for every camera.
+            </summary>
+        </callback>
+        <callback name="OnDrawGizmos" return="void">
+            <summary>
+            Allows drawing custom gizmos to the scene view. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="OnDrawGizmosSelected" return="void">
+            <summary>
+            Allows drawing custom gizmos to the scene view only when the Entity is selected. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="OnEdited" return="void">
+            <summary>
+            Called when the user modifies a property with the Inspector or when the behaviour is loaded. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="Reset" return="void">
+            <summary>
+            Called when the user clicks the Reset button in the Inspector's context menu or when the behaviour is added for the first time. This callback is only called in editor mode.
+            </summary>
+        </callback>
+    </callbacks>
+    <callbacks name="CometEngine::CometObject">
+        <callback name="Reset" return="void">
+            <summary>
+            Called when the user clicks the Reset button in the Inspector or when the Object is created for the first time. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="OnEdited" return="void">
+            <summary>
+            Called when the user modifies a property with the Inspector. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="OnEnable" return="void">
+            <summary>
+            Called when this object gets enabled.
+            </summary>
+        </callback>
+        <callback name="OnDisable" return="void">
+            <summary>
+            Called when this object gets disabled.
+            </summary>
+        </callback>
+    </callbacks>
+    <callbacks name="CometEngine::ProjectSetting">
+        <callback name="OnStart" return="void">
+            <summary>
+            Called once when the project setting is started.
+            </summary>
+        </callback>
+        <callback name="OnEdited" return="void">
+            <summary>
+            Called when the user modifies a property inside the ProjectSettings window. This callback is only called in editor mode.
+            </summary>
+        </callback>
+        <callback name="GetInfo" return="CometEngine::ProjectSettingInfo">
+            <summary>
+            Called once when the setting is being created to get its information. This callback is only called in editor mode.
+            </summary>
+        </callback>
+    </callbacks>
+    <callbacks name="CometEditor::EditorPreference">
+        <callback name="GetInfo" return="CometEditor::EditorPreferenceInfo">
+            <summary>
+            Called once when the preference is being created to get its information.
+            </summary>
+        </callback>
+        <callback name="OnEdited" return="void">
+            <summary>
+            Called when the user modifies a property inside the Preferences window.
+            </summary>
+        </callback>
+    </callbacks>
+    <callbacks name="CometEditor::EditorBehaviour">
+        <callback name="Init" return="void">
+            <summary>
+            Called once when this editor behaviour instance is initialized by the editor.
+            </summary>
+        </callback>
+        <callback name="OnDestroy" return="void">
+            <summary>
+            Called once when this editor behaviour instance is destroyed by the editor.
+            </summary>
+        </callback>
+        <callback name="Update" return="void">
+            <summary>
+            Called every editor frame.
+            </summary>
+        </callback>
+        <callback name="OnCustomInspector" return="void">
+            <summary>
+            Called when the inspector of the behaviour requested with the attribute CustomInspector needs to be drawn. This allows to create a custom inspector for user script behaviours.
+            </summary>
+            <param type="?" reference="true" name="target">
+            The target object of the inspector.
+            </param>
+        </callback>
+    </callbacks>
+    <callbacks name="CometEditor::EditorWindow">
+        <callback name="OnBecameInvisible" return="void">
+            <summary>
+            Called when the window is hidden.
+            </summary>
+        </callback>
+        <callback name="OnBecameVisible" return="void">
+            <summary>
+            Called when the window is shown.
+            </summary>
+        </callback>
+        <callback name="Awake" return="void">
+            <summary>
+            Called when the window is created.
+            </summary>
+        </callback>
+        <callback name="OnFocused" return="void">
+            <summary>
+            Called when the window gains focus.
+            </summary>
+        </callback>
+        <callback name="OnLostFocus" return="void">
+            <summary>
+            Called when the window loses focus.
+            </summary>
+        </callback>
+        <callback name="OnDestroy" return="void">
+            <summary>
+            Called when the window is about to be destroyed.
+            </summary>
+        </callback>
+        <callback name="OnGUI" return="void">
+            <summary>
+            Called to render the window's UI using the CometEditor::GUI API.
+            </summary>
+        </callback>
+        <callback name="OnSaveChanges" return="void">
+            <summary>
+            Called when the window is requested to save its changes.
+            </summary>
+        </callback>
+        <callback name="OnDiscardChanges" return="void">
+            <summary>
+            Called when the window is requested to discard its changes.
+            </summary>
+        </callback>
+        <callback name="OnAbortCloseSaveChanges" return="void">
+            <summary>
+            Called when the popup to confirm save changes is aborted with the 'X' button.
+            </summary>
+        </callback>
+        <callback name="OnGetWindowConfig" return="WindowConfig">
+            <summary>
+            Called when the window is going to be created to get its configuration. This allows to configure the window properties like its size, whether it is resizable or not, etc.
+            </summary>
+            <return type="WindowConfig" namespace="CometEditor" internal="true">
+            Returns the configuration to use for the window.
+            </return>
+        </callback>
+    </callbacks>
+
+     <attributes>
+        <attribute name="AssetIcon" usage="fields">
+            <summary>
+            Attribute that can be used with fields that are Sprite, Sprite[], Texture2D or Texture2D[] if they belong to a CometObject. If so, it will set the given Sprite/Texture2D as the icon of the asset inside the Panel Project.
+            </summary>
+        </attribute>
+        <attribute name="AssetMenu" usage="class">
+            <summary>
+            Adds a new entry to the Assets/Create submenu with the given data.
+            </summary>
+            <param type="string" name="newFileName">
+            The name of the new file to create.
+            </param>
+            <param type="string" name="menuName">
+            The name of the menu item.
+            </param>
+        </attribute>
+        <attribute name="ContextMenu" usage="methods">
+            <summary>
+            Adds the method to the context menu of the behaviour when right-clicking the behaviour header in the Inspector.
+            </summary>
+            <param type="string" name="name">
+            The name of the context menu item.            
+            </param>
+        </attribute>
+        <attribute name="MainMenuItem" usage="methods">
+            <summary>
+            Adds the method to the main menu bar with the given path. The path is defined with slashes separating the different levels of the menu. Example: "Tools/Custom/Do Something" will create a "Do Something" item inside a "Custom" submenu of the "Tools" menu.
+            </summary>
+            <param type="string" name="path">
+            The path of the main menu item.            
+            </param>
+        </attribute>
+        <attribute name="MainMenu" usage="methods">
+            <summary>
+            Adds the method to the main menu bar as a submenu, it will be called when the submenu is opened in order to customize it. The path is defined with slashes separating the different levels of the menu. Example: "Tools/Custom" will create "Custom" submenu inside the "Tools" menu.
+            </summary>
+            <param type="string" name="path">
+            The path of the main menu.            
+            </param>
+        </attribute>
+        <attribute name="MainMenuItemWindow" usage="class">
+            <summary>
+            Adds an option to open an EditorWindow from the main menu bar with the given path. The path is defined with slashes separating the different levels of the menu. Example: "Tools/Custom/Do Something" will create a "Do Something" item inside a "Custom" submenu of the "Tools" menu. This attribute is only valid for scripts that inherit from CometEditor::EditorWindow.
+            </summary>
+            <param type="string" name="path">
+            The path of the main menu item window.            
+            </param>
+            <param type="string" name="windowTitle">
+            The title of the main menu item window. If this parameter is empty, it will use the name of the class as the window title.           
+            </param>
+        </attribute>
+        <attribute name="ContextMenuItem" usage="fields">
+            <summary>
+            Adds a method to the context menu of the field for the behaviour when right-clicking the field in the Inspector.
+            </summary>
+            <param type="string" name="name">
+            The name of the context menu item.
+            </param>
+            <param type="string" name="methodName">
+            The name of the method to call.
+            </param>
+        </attribute>
+        <attribute name="DictionaryType" usage="fields">
+            <summary>
+            Specifies the default value type for a Dictionary field in the Inspector's "Add Item" panel. When set, the type combo will be pre-selected to the given type. Accepts primitive type names (e.g. "int", "float", "bool"...), built-in engine type names (e.g. "CometEngine::Color", "CometEngine::Entity"...) or user-defined class names.
+            </summary>
+            <param type="string" name="typeName">
+            The name of the value type to use by default when adding new entries to the dictionary.
+            </param>
+        </attribute>
+        <attribute name="DoNotShowArraySize" usage="fields">
+            <summary>
+            Hides the "Size" widget of an array field in the Inspector, so its length can not be edited there. Elements can still be deleted from the right click menu of the element and reordered by dragging them, and arrays of Entity, behaviour, Resource or sub resource still grow when items are dropped on them. The field must be an array.
+            </summary>
+        </attribute>
+        <attribute name="Header" usage="fields">
+            <summary>
+            Creates a header above the field in the Inspector with the given name.
+            </summary>
+            <param type="string" name="headerName">
+            The name of the header.
+            </param>
+        </attribute>
+        <attribute name="HelpURL" usage="class">
+            <summary>
+            Adds a help icon to the top right of the Inspector that opens the given URL.
+            </summary>
+            <param type="string" name="url">
+            The URL to open when clicking the help icon.
+            </param>
+        </attribute>
+        <attribute name="HideInInspector" usage="fields, methods">
+            <summary>
+            Hides the field or method from being shown in the Inspector.
+            </summary>
+        </attribute>
+        <attribute name="Input" usage="fields">
+            <summary>
+            Marks the field as an input data pin of a graph node. Input pins can be connected to an output pin of another node and are editable inline in the Node Graph editor when unconnected. This attribute is only valid for fields of classes that derive from CometEngine::GraphNode::FlowNode or CometEngine::GraphNode::PureNode.
+            </summary>
+        </attribute>
+        <attribute name="Output" usage="fields">
+            <summary>
+            Marks the field as an output data pin of a graph node. Output pins can be connected to input pins of other nodes and their value must be assigned inside the node's OnExecute or Evaluate callback. This attribute is only valid for fields of classes that derive from CometEngine::GraphNode::FlowNode or CometEngine::GraphNode::PureNode.
+            </summary>
+        </attribute>
+        <attribute name="PreviewTexture" usage="fields">
+            <summary>
+            Shows a preview of the texture or sprite in the inspector if the field is of type Texture2D, Texture2D[], Sprite or Sprite[].
+            </summary>
+            <param type="float" name="size" default="0.0F">
+            The size of the preview texture. If 0, it will be auto calculated.
+            </param>
+        </attribute>
+        <attribute name="RequiereBehaviour" usage="class">
+            <summary>
+            Indicates that the behaviour requires the given behaviour to be attached to the same Entity. If the required behaviour is not attached, it will be automatically added.
+            </summary>
+            <param type="string" name="behaviourName">
+            The name of the required behaviour. Example: "CometEngine::Camera".
+            </param>
+        </attribute>
+        <attribute name="CustomInspector" usage="class">
+            <summary>
+            This attribute can only be used for classes that derive from CometEditor::EditorBehaviour to override the inspector of classes that derive from CometEngine::CometBehaviour. It is used to create custom inspectors for user script behaviours.
+            </summary>
+            <param type="string" name="behaviourName">
+            The name of the user script behaviour to override its inspector. Example: "MyNamespace::MyBehaviour".
+            </param>
+        </attribute>
+        <attribute name="SelectionBase" usage="class">
+            <summary>
+            Indicates that the Entity that owns this behaviour should be selected when clicking any of its children in the Scene view.
+            </summary>
+        </attribute>
+        <attribute name="Serialize" usage="fields, methods">
+            <summary>
+            Indicates that the field or method should be serialized and shown in the Inspector.
+            </summary>
+        </attribute>
+        <attribute name="ShowButton" usage="methods">
+            <summary>
+            Shows a button in the Inspector that calls the method when clicked.
+            </summary>
+            <param type="string" name="name">
+            The name of the button.
+            </param>
+        </attribute>
+        <attribute name="ShowClassNameAtElementName" usage="fields">
+            <summary>
+            Labels every element of an array with the name of the class it actually holds instead of "Element N". Useful for arrays of a polymorphic class, where each element may be a different subclass. The field must be an array of a class type.
+            </summary>
+            <param type="bool" name="formatted" default="false">
+            If true, the class name is split into words ("DrawCardBehaviour" becomes "Draw Card Behaviour").
+            </param>
+        </attribute>
+        <attribute name="ShowSlider" usage="fields">
+            <summary>
+            Shows a slider in the Inspector to modify the value of the field. The field must be a numeric type.
+            </summary>
+            <param type="float" name="minValue">
+            The minimum value of the slider.
+            </param>
+            <param type="float" name="maxValue">
+            The maximum value of the slider.
+            </param>
+        </attribute>
+        <attribute name="Spacing" usage="fields">
+            <summary>
+            Adds spacing in the Inspector before the field.
+            </summary>
+            <param type="float" name="extraSpacingY" default="0.0F">
+            The amount of extra spacing to add before the field.
+            </param>
+        </attribute>
+        <attribute name="TextArea" usage="fields">
+            <summary>
+            Shows a multi-line text area in the Inspector to edit the value of the field. The field must be of type String.
+            </summary>
+            <param type="int" name="lines" default="0">
+            The number of lines to show. If 0, it will be auto calculated.
+            </param>
+        </attribute>
+        <attribute name="Tooltip" usage="fields, methods">
+            <summary>
+            Shows a tooltip when hovering the field or method in the Inspector with the mouse.
+            </summary>
+            <param type="string" name="tooltip">
+            The text to show in the tooltip.
+            </param>
+        </attribute>
+        <attribute name="Tab" usage="fields">
+            <summary>
+            The field will now be showed inside a tab with all the other fields that request the same tab consecutive.
+            </summary>
+            <param type="string" name="name">
+            The name of the tab.
+            </param>
+            <param type="bool" name="consecutive" default="true">
+            If it is true, all consecutive tab will appear on the same tab bar. If it is set to false, a new tab bar will be created.
+            </param>
+        </attribute>
+        <attribute name="TreeNode" usage="fields">
+            <summary>
+            The field will now be showed inside a tree node with all the other fields that request the same tree node name.
+            </summary>
+            <param type="string" name="name">
+            The name of the node.
+            </param>
+        </attribute>
+        <attribute name="TreeNodeDefaultOpen" usage="fields">
+            <summary>
+            If the field is a class or an array, it will be shown as a tree node in the Inspector. This attribute indicates that the tree node should be open by default.
+            </summary>
+        </attribute>
+    </attributes>
+</doc>

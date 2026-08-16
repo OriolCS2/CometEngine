@@ -1,0 +1,14 @@
+{
+  "modules": [
+    { "name": "Animation", "file": "AnimationAngelScript.xml" },
+    { "name": "Audio", "file": "AudioAngelScript.xml" },
+    { "name": "Multiplayer", "file": "MultiplayerAngelScript.xml" },
+    { "name": "NativeInterop", "file": "NativeInteropAngelScript.xml" },
+    { "name": "NodeGraph", "file": "NodeGraphAngelScript.xml" },
+    { "name": "Particles", "file": "ParticlesAngelScript.xml" },
+    { "name": "Physics", "file": "PhysicsAngelScript.xml" },
+    { "name": "Tilemap", "file": "TilemapAngelScript.xml" },
+    { "name": "UI", "file": "UIAngelScript.xml" },
+    { "name": "Video", "file": "VideoAngelScript.xml" }
+  ]
+}

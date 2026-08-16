@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::TileColliderType">
+            <summary>
+            Defines the collision geometry for a tile.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::TileColliderType::NONE">
+            <summary>
+            No collision for this tile.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::TileColliderType::SPRITE">
+            <summary>
+            Collision based on the sprite's physics shape.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::TileColliderType::GRID">
+            <summary>
+            Collision based on the grid cell boundaries.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::GridCellType">
+            <summary>
+            Specifies the shape of the grid cells (Rectangle, Hexagon, etc.).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::GridCellType::RECTANGULAR">
+            <summary>
+            Rectangular (square) grid cells.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::GridCellType::ISOMETRIC">
+            <summary>
+            Isometric (diamond) grid cells.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::GridCellType::HEXAGONAL_FLAT">
+            <summary>
+            Hexagonal grid cells with a flat top.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::GridCellType::HEXAGONAL_POINTED">
+            <summary>
+            Hexagonal grid cells with a pointed top.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::RuleTileTransform">
+            <summary>
+            Extra transforms a tiling rule is also allowed to match under.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::FIXED">
+            <summary>
+            Match the rule without applying any transform.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::ROTATED">
+            <summary>
+            Also match the rule under rotation.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::MIRROR_X">
+            <summary>
+            Also match the rule mirrored on the X axis.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::MIRROR_Y">
+            <summary>
+            Also match the rule mirrored on the Y axis.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::MIRROR_XY">
+            <summary>
+            Also match the rule mirrored on both axes.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileTransform::ROTATED_MIRROR">
+            <summary>
+            Also match the rule under rotation combined with mirroring.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::RuleTileOutput">
+            <summary>
+            How a tiling rule produces its output sprite.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileOutput::SINGLE">
+            <summary>
+            Output a single sprite.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileOutput::RANDOM">
+            <summary>
+            Output a sprite chosen randomly from the list.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::RuleTileOutput::ANIMATION">
+            <summary>
+            Output an animated sequence of sprites.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::MaskType">
+            <summary>
+            How an AutoTile reads its surrounding tiles to choose which sprite to display.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::MaskType::_2x2">
+            <summary>
+            Use a 2x2 corner-based neighbor mask to pick the sprite.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::MaskType::_3x3">
+            <summary>
+            Use a 3x3 neighbor mask to pick the sprite.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::TilemapSortingOrder">
+            <summary>
+            Determines the order in which tiles are sorted for rendering (TopLeft, BottomRight, etc.).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapSortingOrder::BOTTOM_LEFT">
+            <summary>
+            Sort tiles starting from the bottom-left corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapSortingOrder::BOTTOM_RIGHT">
+            <summary>
+            Sort tiles starting from the bottom-right corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapSortingOrder::TOP_LEFT">
+            <summary>
+            Sort tiles starting from the top-left corner.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapSortingOrder::TOP_RIGHT">
+            <summary>
+            Sort tiles starting from the top-right corner.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::TilemapRenderingMode">
+            <summary>
+            Defines the rendering mode for the tilemap (Chunk, Individual).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapRenderingMode::CHUNK">
+            <summary>
+            Tiles are batched and rendered per chunk.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Tilemaps::TilemapRenderingMode::INDIVIDUAL">
+            <summary>
+            Each tile is rendered individually.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::Tilemaps::TileColliderType">
+            <summary>
+
+            </summary>
+
+        </member>
+    </members>
+</doc>

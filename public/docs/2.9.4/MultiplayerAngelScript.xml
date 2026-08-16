@@ -1,0 +1,796 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?,?,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::Rpc(CometBehaviour,string,?,?,?,?,?,?,?,?)">
+            <summary>
+            Calls a method marked with the [Rpc] attribute remotely on the same entity across the network. Which peers run the call follows the method's [Rpc] mode and the entity's multiplayer authority.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?,?,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="M:CometEngine::Network::Multiplayer::RpcId(CometBehaviour,int,string,?,?,?,?,?,?,?,?)">
+            <summary>
+            Like Rpc, but targets a specific peer instead of following the [Rpc] broadcast routing - use it to reply to a single client or to exclude one peer.
+            </summary>
+            <param name="self">The behaviour whose entity owns the call; pass this.</param>
+            <param name="peer">Target peer: 0 broadcasts to everyone, a positive id targets only that peer, a negative id targets everyone except peer -peer.</param>
+            <param name="method">Name of the [Rpc]-marked method to invoke remotely.</param>
+        </member>
+        <member name="T:CometEngine::Network::StreamPeerSocketStatus">
+            <summary>
+            Connection state of a socket-backed stream peer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerSocketStatus::SOCKET_STATUS_NONE">
+            <summary>No connection is active.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerSocketStatus::SOCKET_STATUS_CONNECTING">
+            <summary>A connection is being established.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerSocketStatus::SOCKET_STATUS_CONNECTED">
+            <summary>The socket is connected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerSocketStatus::SOCKET_STATUS_ERROR">
+            <summary>The connection is in an error state.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::TransferMode">
+            <summary>
+            Reliability/ordering mode for a multiplayer packet.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TransferMode::TRANSFER_MODE_UNRELIABLE">
+            <summary>Packets are sent unreliably and may arrive out of order or not at all.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TransferMode::TRANSFER_MODE_UNRELIABLE_ORDERED">
+            <summary>Packets are sent unreliably but delivered in order, dropping late arrivals.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TransferMode::TRANSFER_MODE_RELIABLE">
+            <summary>Packets are guaranteed to arrive and are delivered in order.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::MultiplayerConnectionStatus">
+            <summary>
+            Connection state of a MultiplayerPeer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::MultiplayerConnectionStatus::MP_CONNECTION_DISCONNECTED">
+            <summary>The multiplayer peer is not connected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::MultiplayerConnectionStatus::MP_CONNECTION_CONNECTING">
+            <summary>The multiplayer peer is establishing a connection.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::MultiplayerConnectionStatus::MP_CONNECTION_CONNECTED">
+            <summary>The multiplayer peer is connected.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::HashType">
+            <summary>
+            Message-digest algorithm used by the crypto layer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HashType::HASH_TYPE_SHA1">
+            <summary>The SHA-1 hashing algorithm.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HashType::HASH_TYPE_SHA256">
+            <summary>The SHA-256 hashing algorithm.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HashType::HASH_TYPE_SHA512">
+            <summary>The SHA-512 hashing algorithm.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::TLSOptionsMode">
+            <summary>
+            Role/verification mode of a TLSOptions configuration.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TLSOptionsMode::TLS_MODE_CLIENT">
+            <summary>Client mode with certificate verification enabled.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TLSOptionsMode::TLS_MODE_CLIENT_UNSAFE">
+            <summary>Client mode with certificate verification disabled.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::TLSOptionsMode::TLS_MODE_SERVER">
+            <summary>Server mode using a certificate and private key.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::StreamPeerTLSStatus">
+            <summary>
+            Handshake/connection state of a StreamPeerTLS.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerTLSStatus::TLS_STATUS_DISCONNECTED">
+            <summary>The TLS stream is disconnected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerTLSStatus::TLS_STATUS_HANDSHAKING">
+            <summary>The TLS handshake is in progress.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerTLSStatus::TLS_STATUS_CONNECTED">
+            <summary>The TLS stream is connected and secured.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerTLSStatus::TLS_STATUS_ERROR">
+            <summary>A general TLS error occurred.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::StreamPeerTLSStatus::TLS_STATUS_ERROR_HOSTNAME_MISMATCH">
+            <summary>The peer's certificate does not match the expected hostname.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::PacketPeerDTLSStatus">
+            <summary>
+            Handshake/connection state of a PacketPeerDTLS.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::PacketPeerDTLSStatus::DTLS_STATUS_DISCONNECTED">
+            <summary>The DTLS connection is disconnected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::PacketPeerDTLSStatus::DTLS_STATUS_HANDSHAKING">
+            <summary>The DTLS handshake is in progress.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::PacketPeerDTLSStatus::DTLS_STATUS_CONNECTED">
+            <summary>The DTLS connection is established and secured.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::PacketPeerDTLSStatus::DTLS_STATUS_ERROR">
+            <summary>A general DTLS error occurred.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::PacketPeerDTLSStatus::DTLS_STATUS_ERROR_HOSTNAME_MISMATCH">
+            <summary>The peer's certificate does not match the expected hostname.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::ENetCompressionMode">
+            <summary>
+            Compression codec applied to an ENet host's traffic.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetCompressionMode::COMPRESS_NONE">
+            <summary>No compression is applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetCompressionMode::COMPRESS_RANGE_CODER">
+            <summary>ENet's built-in range coder compression.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetCompressionMode::COMPRESS_FASTLZ">
+            <summary>FastLZ compression.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetCompressionMode::COMPRESS_ZLIB">
+            <summary>zlib (deflate) compression.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetCompressionMode::COMPRESS_ZSTD">
+            <summary>Zstandard compression.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::ENetPeerState">
+            <summary>
+            Low-level connection state of an ENet peer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_DISCONNECTED">
+            <summary>The peer is disconnected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_CONNECTING">
+            <summary>The peer is initiating a connection.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_ACKNOWLEDGING_CONNECT">
+            <summary>The peer is acknowledging an incoming connection request.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_CONNECTION_PENDING">
+            <summary>The connection is pending acknowledgement.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_CONNECTION_SUCCEEDED">
+            <summary>The connection has succeeded and is being finalized.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_CONNECTED">
+            <summary>The peer is fully connected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_DISCONNECT_LATER">
+            <summary>The peer will disconnect once all queued packets are sent.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_DISCONNECTING">
+            <summary>The peer is in the process of disconnecting.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_ACKNOWLEDGING_DISCONNECT">
+            <summary>The peer is acknowledging a disconnect request.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::ENetPeerState::STATE_ZOMBIE">
+            <summary>The peer has timed out and is pending removal.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebSocketPeerState">
+            <summary>
+            Ready state of a WebSocketPeer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketPeerState::WS_STATE_CONNECTING">
+            <summary>The WebSocket connection is being established.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketPeerState::WS_STATE_OPEN">
+            <summary>The WebSocket connection is open and ready to communicate.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketPeerState::WS_STATE_CLOSING">
+            <summary>The WebSocket connection is in the process of closing.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketPeerState::WS_STATE_CLOSED">
+            <summary>The WebSocket connection is closed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebSocketWriteMode">
+            <summary>
+            Frame type used when sending a WebSocket message.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketWriteMode::WS_WRITE_MODE_TEXT">
+            <summary>The message is sent as a UTF-8 text frame.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebSocketWriteMode::WS_WRITE_MODE_BINARY">
+            <summary>The message is sent as a binary frame.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebRTCWriteMode">
+            <summary>
+            Message type used when sending on a WebRTC data channel.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCWriteMode::RTC_WRITE_MODE_TEXT">
+            <summary>The message is sent as text.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCWriteMode::RTC_WRITE_MODE_BINARY">
+            <summary>The message is sent as binary data.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebRTCChannelState">
+            <summary>
+            Ready state of a WebRTC data channel.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCChannelState::RTC_CHANNEL_CONNECTING">
+            <summary>The data channel is being established.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCChannelState::RTC_CHANNEL_OPEN">
+            <summary>The data channel is open and ready to transfer data.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCChannelState::RTC_CHANNEL_CLOSING">
+            <summary>The data channel is in the process of closing.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCChannelState::RTC_CHANNEL_CLOSED">
+            <summary>The data channel is closed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebRTCConnectionState">
+            <summary>
+            Overall state of a WebRTC peer connection.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_NEW">
+            <summary>The connection has been created but not yet started.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_CONNECTING">
+            <summary>The connection is being established.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_CONNECTED">
+            <summary>The connection is established.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_DISCONNECTED">
+            <summary>The connection has been temporarily lost.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_FAILED">
+            <summary>The connection failed and cannot recover.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCConnectionState::RTC_CONN_CLOSED">
+            <summary>The connection is closed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebRTCGatheringState">
+            <summary>
+            ICE candidate gathering state of a WebRTC peer connection.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCGatheringState::RTC_GATHERING_NEW">
+            <summary>Candidate gathering has not started.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCGatheringState::RTC_GATHERING_GATHERING">
+            <summary>Candidate gathering is in progress.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCGatheringState::RTC_GATHERING_COMPLETE">
+            <summary>Candidate gathering has completed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::WebRTCSignalingState">
+            <summary>
+            Signaling state of a WebRTC peer connection.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_STABLE">
+            <summary>No offer or answer exchange is in progress.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_HAVE_LOCAL_OFFER">
+            <summary>A local offer has been applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_HAVE_REMOTE_OFFER">
+            <summary>A remote offer has been applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_HAVE_LOCAL_PRANSWER">
+            <summary>A local provisional answer has been applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_HAVE_REMOTE_PRANSWER">
+            <summary>A remote provisional answer has been applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::WebRTCSignalingState::RTC_SIGNALING_CLOSED">
+            <summary>The signaling process is closed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::HTTPClientMethod">
+            <summary>
+            HTTP request method.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_GET">
+            <summary>The HTTP GET method, used to retrieve a resource.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_HEAD">
+            <summary>The HTTP HEAD method, like GET but without a response body.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_POST">
+            <summary>The HTTP POST method, used to submit data to a resource.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_PUT">
+            <summary>The HTTP PUT method, used to create or replace a resource.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_DELETE">
+            <summary>The HTTP DELETE method, used to remove a resource.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_OPTIONS">
+            <summary>The HTTP OPTIONS method, used to query supported communication options.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_TRACE">
+            <summary>The HTTP TRACE method, used for diagnostic loopback of the request.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_CONNECT">
+            <summary>The HTTP CONNECT method, used to establish a tunnel to the server.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientMethod::HTTP_METHOD_PATCH">
+            <summary>The HTTP PATCH method, used to apply partial modifications to a resource.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::HTTPClientStatus">
+            <summary>
+            Lifecycle state of an HTTPClient.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_DISCONNECTED">
+            <summary>Disconnected from the server.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_RESOLVING">
+            <summary>Resolving the server's hostname.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_CANT_RESOLVE">
+            <summary>Failed to resolve the server's hostname.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_CONNECTING">
+            <summary>Connecting to the server.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_CANT_CONNECT">
+            <summary>Failed to connect to the server.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_CONNECTED">
+            <summary>Connected to the server and ready to send a request.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_REQUESTING">
+            <summary>A request has been sent and the response is being awaited.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_BODY">
+            <summary>Receiving the response body.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_CONNECTION_ERROR">
+            <summary>A connection error occurred.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::HTTPClientStatus::HTTP_STATUS_TLS_HANDSHAKE_ERROR">
+            <summary>The TLS handshake with the server failed.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::UPNPResult">
+            <summary>
+            Result code returned by UPnP/IGD port-mapping operations.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_SUCCESS">
+            <summary>The operation completed successfully.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_NOT_AUTHORIZED">
+            <summary>The action was not authorized by the gateway.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_PORT_MAPPING_NOT_FOUND">
+            <summary>The requested port mapping was not found.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INCONSISTENT_PARAMETERS">
+            <summary>The supplied parameters are inconsistent with each other.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_NO_SUCH_ENTRY_IN_ARRAY">
+            <summary>No matching entry exists in the gateway's mapping array.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_ACTION_FAILED">
+            <summary>The gateway reported a generic action failure.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_SRC_IP_WILDCARD_NOT_PERMITTED">
+            <summary>A wildcard source IP address is not permitted.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_EXT_PORT_WILDCARD_NOT_PERMITTED">
+            <summary>A wildcard external port is not permitted.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INT_PORT_WILDCARD_NOT_PERMITTED">
+            <summary>A wildcard internal port is not permitted.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_REMOTE_HOST_MUST_BE_WILDCARD">
+            <summary>The remote host must be specified as a wildcard.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_EXT_PORT_MUST_BE_WILDCARD">
+            <summary>The external port must be specified as a wildcard.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_NO_PORT_MAPS_AVAILABLE">
+            <summary>No port mappings are available on the gateway.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_CONFLICT_WITH_OTHER_MECHANISM">
+            <summary>The mapping conflicts with another port-mapping mechanism.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_CONFLICT_WITH_OTHER_MAPPING">
+            <summary>The mapping conflicts with an existing port mapping.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_SAME_PORT_VALUES_REQUIRED">
+            <summary>The internal and external port values must match.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_ONLY_PERMANENT_LEASE_SUPPORTED">
+            <summary>Only permanent (non-expiring) lease durations are supported.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_GATEWAY">
+            <summary>The gateway is invalid or unreachable.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_PORT">
+            <summary>The specified port is invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_PROTOCOL">
+            <summary>The specified protocol is invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_DURATION">
+            <summary>The specified lease duration is invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_ARGS">
+            <summary>One or more arguments are invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_RESPONSE">
+            <summary>The gateway returned an invalid response.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_INVALID_PARAM">
+            <summary>A supplied parameter is invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_HTTP_ERROR">
+            <summary>An HTTP error occurred while communicating with the gateway.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_SOCKET_FAILED">
+            <summary>A socket operation failed.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_MEM_ALLOC_ERROR">
+            <summary>A memory allocation failed.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_NO_GATEWAY">
+            <summary>No gateway was found.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_NO_DEVICES">
+            <summary>No UPnP devices were discovered.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::UPNPResult::UPNP_RESULT_UNKNOWN_ERROR">
+            <summary>An unknown error occurred.</summary>
+
+        </member>
+        <member name="T:CometEngine::Network::IGDStatus">
+            <summary>
+            Validity state of a discovered UPnP Internet Gateway Device.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_OK">
+            <summary>The Internet Gateway Device is valid and usable.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_HTTP_ERROR">
+            <summary>An HTTP error occurred while querying the device.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_HTTP_EMPTY">
+            <summary>The device returned an empty HTTP response.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_NO_URLS">
+            <summary>The device description contained no control URLs.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_NO_IGD">
+            <summary>No Internet Gateway Device was found.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_DISCONNECTED">
+            <summary>The gateway device is disconnected.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_UNKNOWN_DEVICE">
+            <summary>The discovered device is not a recognized gateway.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_INVALID_CONTROL">
+            <summary>The device's control URL is invalid.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_MALLOC_ERROR">
+            <summary>A memory allocation failed while processing the device.</summary>
+
+        </member>
+        <member name="F:CometEngine::Network::IGDStatus::IGD_STATUS_UNKNOWN_ERROR">
+            <summary>An unknown error occurred.</summary>
+
+        </member>
+    </members>
+    <attributes>
+        <attribute name="Rpc" usage="methods">
+            <summary>
+            Marks a method as a Remote Procedure Call that can be invoked on other peers with CometEngine::Network::Multiplayer::Rpc / RpcId. Takes any number of the following tokens, in any order: "authority" (default, only the entity's authority may invoke it) or "any_peer" (any peer may invoke it); "call_remote" (default, does not run on the caller) or "call_local" (also runs on the caller); "reliable" (default), "unreliable" or "unreliable_ordered"; and a number for the transfer channel (default 0).
+            </summary>
+            <param type="string" name="caller" default="authority">
+            "authority" (default) so only the entity's authority may invoke it, or "any_peer" so any peer may (validate the sender inside the method).
+            </param>
+            <param type="string" name="locality" default="call_remote">
+            "call_remote" (default) to skip the caller, or "call_local" to also run the method on the caller.
+            </param>
+            <param type="string" name="delivery" default="reliable">
+            "reliable" (default), "unreliable" or "unreliable_ordered".
+            </param>
+            <param type="int" name="channel" default="0">
+            The transfer channel to send the call on.
+            </param>
+        </attribute>
+        <attribute name="Replicate" usage="fields">
+            <summary>
+            Continuously keeps a script variable in sync from the entity's multiplayer authority to every other peer, and also includes it in the spawn message. Requires a MultiplayerSynchronizer on the same entity, which auto-discovers the field at runtime. Supported types: numbers, bool, string, Vector2/Vector3/Vector4, Color and resource references.
+            </summary>
+            <param type="string" name="mode" default="on_change">
+            How the value is synced: "on_change" (default, reliable, sent only when the value changes), "always" (every frame, unreliable, for fast-changing values like position) or "never" (not synced continuously, only sent inside the spawn message).
+            </param>
+        </attribute>
+        <attribute name="ReplicateOnSpawn" usage="fields">
+            <summary>
+            Sends this field's value once, inside the spawn message, so freshly spawned copies and late joiners start with the correct initial value (a bullet's direction, a team colour, a weapon id...). Requires a MultiplayerSynchronizer on the same entity, which auto-discovers the field at runtime. Supported types: numbers, bool, string, Vector2/Vector3/Vector4, Color and resource references.
+            </summary>
+        </attribute>
+    </attributes>
+</doc>

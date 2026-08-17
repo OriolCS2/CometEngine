@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::GraphNode::EndUpdateAction">
+            <summary>
+
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::NONE">
+            <summary>
+            Do nothing when the graph finishes an update.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::RESTART">
+            <summary>
+            Restart the graph from its entry node.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::DISABLE_BEHAVIOUR">
+            <summary>
+            Disable the GraphUpdater behaviour.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::DESTROY_BEHAVIOUR">
+            <summary>
+            Destroy the GraphUpdater behaviour.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::DISABLE_ENTITY">
+            <summary>
+            Disable the entity that owns the graph.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::GraphNode::EndUpdateAction::DESTROY_ENTITY">
+            <summary>
+            Destroy the entity that owns the graph.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::GraphNode::SetGraphInput(CometBehaviour,string,?)">
+            <summary>
+            Sets the value of a named graph input on a GraphUpdater before or during its execution.
+            </summary>
+            <param name="graphUpdater">The GraphUpdater whose input is set.</param>
+            <param name="name">The name of the graph input.</param>
+            <param name="value">The value to assign to the input.</param>
+
+        </member>
+        <member name="M:CometEngine::GraphNode::GetGraphOutput(CometBehaviour,string,?)">
+            <summary>
+            Reads the value of a named graph output from a GraphUpdater into the provided variable.
+            </summary>
+            <param name="graphUpdater">The GraphUpdater whose output is read.</param>
+            <param name="name">The name of the graph output.</param>
+            <param name="value">The variable that receives the output value.</param>
+            <return>Returns true if the output exists and was read successfully.</return>
+
+        </member>
+    </members>
+    <callbacks name="CometEngine::GraphNode::GraphNode">
+        <callback name="OnGraphUpdaterStart" return="void">
+            <summary>
+            Called when a graph updater starts updating this graph node.
+            </summary>
+            <param type="GraphUpdater" reference="true" name="graphUpdater" namespace="CometEngine::GraphNode" internal="true">
+            The graph updater that is starting to update the graph node.
+            </param>
+        </callback>
+        <callback name="OnGraphUpdaterEnd" return="void">
+            <summary>
+            Called when a graph updater stops updating the graph node, informing whether it has finished or not.
+            </summary>
+            <param type="GraphUpdater" reference="true" name="graphUpdater" namespace="CometEngine::GraphNode" internal="true">
+            The graph updater that has stopped updating the graph node.
+            </param>
+            <param forced="true" type="1" name="finished">
+            Whether it has finished (true) or has been stopped (false).
+            </param>
+        </callback>
+    </callbacks>
+    <attributes>
+        <attribute name="GraphNodeMenuItem" usage="class">
+            <summary>
+            Registers this node in the node creation popup with a specified location and allowed graph node classes. Only applies to NodeGraph classes.
+            </summary>
+            <param type="string" name="menuPath">
+            The path where the node appears in the creation popup.
+            </param>
+            <param type="string" name="validGraphNodeClasses">
+            Comma-separated list of NodeGraph class names where this node can be created. If empty, the node is valid for all NodeGraph classes.
+            </param>
+        </attribute>
+         <attribute name="NodeColor" usage="class">
+            <summary>
+            Sets the color of the node in the graph editor. Only applies to GraphNode classes.
+            </summary>
+            <param type="float" name="r">
+            The red component of the node color.
+            </param>
+            <param type="float" name="g">
+            The green component of the node color.
+            </param>
+            <param type="float" name="b">
+            The blue component of the node color.
+            </param>
+        </attribute>
+    </attributes>
+</doc>

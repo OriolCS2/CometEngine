@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::PhysicMaterialCombine">
+            <summary>
+            Defines how friction or bounciness of two colliding materials are combined.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::PhysicMaterialCombine::AVERAGE">
+            <summary>Uses the average of the two values.</summary>
+
+        </member>
+        <member name="F:CometEngine::PhysicMaterialCombine::MINIMUM">
+            <summary>Uses the smaller of the two values.</summary>
+
+        </member>
+        <member name="F:CometEngine::PhysicMaterialCombine::MULTIPLY">
+            <summary>Multiplies the two values together.</summary>
+
+        </member>
+        <member name="F:CometEngine::PhysicMaterialCombine::MAXIMUM">
+            <summary>Uses the larger of the two values.</summary>
+
+        </member>
+        <member name="T:CometEngine::CollisionDetection">
+            <summary>
+            Specifies the collision detection mode for a rigid body.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::CollisionDetection::DISCRETE">
+            <summary>Standard collision detection mode.</summary>
+
+        </member>
+        <member name="F:CometEngine::CollisionDetection::CONTINUOUS">
+            <summary>Continuous collision detection to prevent tunneling.</summary>
+
+        </member>
+        <member name="T:CometEngine::RigidBodyType">
+            <summary>
+            Defines the physical behavior of a rigid body.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::RigidBodyType::DYNAMIC">
+            <summary>Affected by forces and collisions.</summary>
+
+        </member>
+        <member name="F:CometEngine::RigidBodyType::KINEMATIC">
+            <summary>Moved by script, not affected by physics forces but affects others.</summary>
+
+        </member>
+        <member name="F:CometEngine::RigidBodyType::STATIC">
+            <summary>Does not move.</summary>
+
+        </member>
+        <member name="T:CometEngine::InterpolationMode">
+            <summary>
+            Controls how a rigid body's Transform is visually interpolated between fixed physics steps.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::InterpolationMode::NONE">
+            <summary>
+            No interpolation; the transform is shown at its last physics position.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::InterpolationMode::INTERPOLATE">
+            <summary>
+            Smoothly interpolate the transform between the previous and current physics positions.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::InterpolationMode::EXTRAPOLATE">
+            <summary>
+            Extrapolate the transform forward from the current physics position using its velocity.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::CapsuleDirection">
+            <summary>
+            Specifies the orientation of a capsule collider.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::CapsuleDirection::VERTICAL">
+            <summary>Oriented vertically.</summary>
+
+        </member>
+        <member name="F:CometEngine::CapsuleDirection::HORIZONTAL">
+            <summary>Oriented horizontally.</summary>
+
+        </member>
+        <member name="T:CometEngine::PackerColliderCreationMode">
+            <summary>
+            Defines how colliders are generated during asset packing (e.g. Tight, Loose).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::PackerColliderCreationMode::AUTOMATIC">
+            <summary>
+            Collider shapes are generated automatically from the packed sprites.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::PackerColliderCreationMode::MANUAL">
+            <summary>
+            Collider shapes are defined manually.
+            </summary>
+
+        </member>
+        <member name="T:CometEngine::EffectorTarget">
+            <summary>
+            Specifies the target for physics effectors (Collider or RigidBody).
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::EffectorTarget::COLLIDER">
+            <summary>
+            The effector acts on colliders.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::EffectorTarget::RIGIDBODY">
+            <summary>
+            The effector acts on rigid bodies.
+            </summary>
+
+        </member>
+    </members>
+    <callbacks name="CometEngine::CometBehaviour">
+        <callback name="OnMouseDown" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse is just clicked inside it.
+            </summary>
+        </callback>
+        <callback name="OnMouseDownUp" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse was down and now is just released inside it.
+            </summary>
+        </callback>
+        <callback name="OnMouseDrag" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse is dragging it.
+            </summary>
+        </callback>
+        <callback name="OnMouseEnter" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse pointer enters the collider.
+            </summary>
+        </callback>
+        <callback name="OnMouseExit" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse pointer leaves the collider.
+            </summary>
+        </callback>
+        <callback name="OnMouseHover" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse is inside it.
+            </summary>
+        </callback>
+        <callback name="OnMouseUp" return="void">
+            <summary>
+            Called when this behaviour owns a collider and the mouse is just released inside it.
+            </summary>
+        </callback>
+        <callback name="OnCollisionEnter" return="void">
+            <summary>
+            Called when this behaviour owns a Collider or a RigidBody and it has just started colliding to another.
+            </summary>
+            <param type="Collision" reference="true" name="collision" namespace="CometEngine" internal="true">
+            Handles all the information about the collision.
+            </param>
+        </callback>
+        <callback name="OnCollisionStay" return="void">
+            <summary>
+            Called when this behaviour owns a Collider or a RigidBody and it is colliding to another.
+            </summary>
+            <param type="Collision" reference="true" name="collision" namespace="CometEngine" internal="true">
+            Handles all the information about the collision.
+            </param>
+        </callback>
+        <callback name="OnCollisionExit" return="void">
+            <summary>
+            Called when this behaviour owns a Collider or a RigidBody and it has just stopped colliding to another.
+            </summary>
+            <param type="Collision" reference="true" name="collision" namespace="CometEngine" internal="true">
+            Handles all the information about the collision.
+            </param>
+        </callback>
+        <callback name="OnTriggerEnter" return="void">
+            <summary>
+            Called when this behaviour owns a Collider trigger or a RigidBody and it just entered another inside.
+            </summary>
+            <param type="Collider" reference="true" name="collider" namespace="CometEngine" internal="true">
+            The other collider that has entered inside the trigger.
+            </param>
+        </callback>
+        <callback name="OnTriggerStay" return="void">
+            <summary>
+            Called when this behaviour owns a Collider trigger or a RigidBody and it is another inside.
+            </summary>
+            <param type="Collider" reference="true" name="collider" namespace="CometEngine" internal="true">
+            The other collider that is inside the trigger.
+            </param>
+        </callback>
+        <callback name="OnTriggerExit" return="void">
+            <summary>
+            Called when this behaviour owns a Collider trigger or a RigidBody and it has just left another.
+            </summary>
+            <param type="Collider" reference="true" name="collider" namespace="CometEngine" internal="true">
+            The other collider that has just left the trigger.
+            </param>
+        </callback>
+        <callback name="OnJointBreak" return="void">
+            <summary>
+            Called when this behaviour owns a Joint and it breaks.
+            </summary>
+            <param type="Joint" reference="true" name="joint" namespace="CometEngine" internal="true">
+            The joint object that has just been broken.
+            </param>
+        </callback>
+    </callbacks>
+</doc>

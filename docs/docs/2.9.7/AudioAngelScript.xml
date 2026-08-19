@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::AudioSourceMode">
+            <summary>
+            Specifies how an audio source behaves.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::AudioSourceMode::MODE_2D">
+            <summary>Sound is played without spatial positioning.</summary>
+
+        </member>
+        <member name="F:CometEngine::AudioSourceMode::MODE_3D">
+            <summary>Sound is positioned in 3D space.</summary>
+
+        </member>
+        <member name="M:CometEngine::AudioSource::PlaySingle(AudioSample,float)">
+            <summary>
+            Plays an audio sample once on this source with a specific volume.
+            </summary>
+            <param name="audioSample">The sample to play.</param>
+            <param name="volume">The playback volume (0.0 to 1.0).</param>
+
+        </member>
+        <member name="M:CometEngine::AudioSource::PlaySingleAtPosition(AudioSample,Vector3,float)">
+            <summary>
+            Plays an audio sample at a specific world position once.
+            </summary>
+            <param name="audioSample">The sample to play.</param>
+            <param name="position">The world position for the sound.</param>
+            <param name="volume">The playback volume (0.0 to 1.0).</param>
+
+        </member>
+        <member name="M:CometEngine::AudioSource::PlaySingleTracked(AudioSample,float)">
+            <summary>
+            Plays an audio sample once and returns a temporary AudioSource tracking its playback.
+            </summary>
+            <param name="audioSample">The sample to play.</param>
+            <param name="volume">The playback volume (0.0 to 1.0).</param>
+            <return>The AudioSource component created for this playback.</return>
+
+        </member>
+        <member name="M:CometEngine::AudioSource::PlaySingleAtPositionTracked(AudioSample,Vector3,float)">
+            <summary>
+            Plays an audio sample at a position and returns a temporary AudioSource tracking its playback.
+            </summary>
+            <param name="audioSample">The sample to play.</param>
+            <param name="position">The world position for the sound.</param>
+            <param name="volume">The playback volume (0.0 to 1.0).</param>
+            <return>The AudioSource component created for this playback.</return>
+
+        </member>
+    </members>
+</doc>

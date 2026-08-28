@@ -11,8 +11,10 @@ export async function renderHome(container) {
         <div style="font-size: 1.5rem; margin-bottom: 2rem; display: flex; justify-content: center; gap: 1.5rem; color: var(--text-dim);">
           <i class="fab fa-windows" title="Windows"></i>
           <i class="fab fa-linux" title="Linux"></i>
+          <i class="fab fa-apple" title="macOS"></i>
           <i class="fab fa-chrome" title="Web"></i>
           <i class="fab fa-android" title="Android"></i>
+          <i class="fab fa-app-store-ios" title="iOS"></i>
         </div>
         <div id="latest-release-container">
           <div class="loading">Finding latest version...</div>
@@ -91,7 +93,7 @@ async function updateLatestRelease(container) {
           <i class="fas fa-download"></i>
           Download ${featuredRelease.tag_name} ${isRC ? '(RC)' : ''}
         </a>
-        <div class="os-info">Available Editor for Windows and Linux</div>
+        <div class="os-info">Available Editor for Windows, Linux and macOS</div>
         ${latestStable && latestRC && new Date(latestRC.published_at) > new Date(latestStable.published_at) ?
         `<p style="font-size: 0.9rem; color: var(--accent-color);">New Release Candidate available: <a href="/releases/${latestRC.tag_name}" style="text-decoration: underline;">${latestRC.tag_name}</a></p>` : ''}
       </div>

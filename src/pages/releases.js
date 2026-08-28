@@ -171,7 +171,7 @@ async function renderReleaseDetail(container, tagName) {
     const detectedOS = getDetectedOS();
     let defaultPlatform = 'windows';
     if (detectedOS === 'linux' && hasLinux) defaultPlatform = 'linux';
-    else if (detectedOS === 'mac' && hasMac) defaultPlatform = 'mac';
+    else if (detectedOS === 'mac') defaultPlatform = 'mac';
     else if (hasWindows) defaultPlatform = 'windows';
     else if (hasLinux) defaultPlatform = 'linux';
     else if (hasMac) defaultPlatform = 'mac';
@@ -212,7 +212,7 @@ async function renderReleaseDetail(container, tagName) {
               <div id="platform-tabs" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
                 ${hasWindows ? `<button class="filter-btn ${defaultPlatform === 'windows' ? 'active' : ''}" data-platform="windows"><i class="fab fa-windows"></i> Windows</button>` : ''}
                 ${hasLinux ? `<button class="filter-btn ${defaultPlatform === 'linux' ? 'active' : ''}" data-platform="linux"><i class="fab fa-linux"></i> Linux</button>` : ''}
-                ${hasMac ? `<button class="filter-btn ${defaultPlatform === 'mac' ? 'active' : ''}" data-platform="mac"><i class="fab fa-apple"></i> macOS</button>` : ''}
+                <button class="filter-btn ${defaultPlatform === 'mac' ? 'active' : ''}" data-platform="mac"><i class="fab fa-apple"></i> macOS</button>
                 ${hasOther ? `<button class="filter-btn ${defaultPlatform === 'other' ? 'active' : ''}" data-platform="other"><i class="fas fa-box"></i> Other</button>` : ''}
               </div>
               <div id="assets-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;">
@@ -233,7 +233,59 @@ async function renderReleaseDetail(container, tagName) {
     const assetsList = document.getElementById('assets-list');
     const tabBtns = document.querySelectorAll('#platform-tabs .filter-btn');
 
+    const loadMacFallback = async () => {
+      try {
+        const allReleasesRes = await fetch('https://api.github.com/repos/OriolCS2/CometEngine/releases');
+        const allReleases = await allReleasesRes.json();
+        allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+        const currentIndex = allReleases.findIndex(r => r.tag_name === release.tag_name);
+        let nearestOlder = null;
+        let nearestNewer = null;
+
+        for (let i = currentIndex + 1; i < allReleases.length; i++) {
+          if (allReleases[i].assets && allReleases[i].assets.some(a => a.name.toLowerCase().includes('mac'))) {
+            nearestOlder = allReleases[i];
+            break;
+          }
+        }
+        for (let i = currentIndex - 1; i >= 0; i--) {
+          if (allReleases[i].assets && allReleases[i].assets.some(a => a.name.toLowerCase().includes('mac'))) {
+            nearestNewer = allReleases[i];
+            break;
+          }
+        }
+
+        assetsList.innerHTML = `
+          <div style="grid-column: 1/-1; display: flex; flex-direction: column; gap: 1.25rem; padding: 0.5rem 0;">
+            ${nearestOlder ? `
+              <a href="/releases/${nearestOlder.tag_name}" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); width: fit-content;">
+                <i class="fas fa-arrow-down"></i> Nearest older release with macOS: ${nearestOlder.tag_name}
+              </a>
+            ` : ''}
+            ${nearestNewer ? `
+              <a href="/releases/${nearestNewer.tag_name}" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); width: fit-content;">
+                <i class="fas fa-arrow-up"></i> Nearest newer release with macOS: ${nearestNewer.tag_name}
+              </a>
+            ` : ''}
+            <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0.25rem 0 0;">
+              macOS isn't always shipped for every release. If you need it, feel free to
+              <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" style="color: var(--accent-color);">send me a message on LinkedIn</a>.
+            </p>
+          </div>
+        `;
+      } catch (err) {
+        assetsList.innerHTML = `<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">Error finding nearby macOS releases.</div>`;
+      }
+    };
+
     const filterAssets = (platform) => {
+      if (platform === 'mac' && !hasMac) {
+        assetsList.innerHTML = `<div style="padding: 1.5rem; color: var(--text-dim); grid-column: 1/-1;" class="loading">Looking for nearby macOS releases...</div>`;
+        loadMacFallback();
+        return;
+      }
+
       let filtered = [];
       if (platform === 'other') {
         filtered = assets.filter(a => !['windows', 'linux', 'mac'].some(p => a.name.toLowerCase().includes(p)));

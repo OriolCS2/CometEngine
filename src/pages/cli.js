@@ -50,10 +50,11 @@ function parseMarkdownPreview(text) {
  * navigator.platform is deprecated; prefer the UA-CH platform and fall back to the UA string.
  */
 function getDetectedOS() {
-  const platform = (navigator.userAgentData?.platform || navigator.userAgent || '').toLowerCase();
-  if (platform.includes('win')) return 'windows';
-  if (platform.includes('linux') || platform.includes('android')) return 'linux';
-  if (platform.includes('mac') || platform.includes('darwin')) return 'mac';
+  const userAgent = (navigator.userAgent || '').toLowerCase();
+  const platform = (navigator.platform || navigator.userAgentData?.platform || '').toLowerCase();
+  if (platform.includes('mac') || platform.includes('darwin') || userAgent.includes('macintosh') || userAgent.includes('mac os')) return 'mac';
+  if (platform.includes('win') || userAgent.includes('windows')) return 'windows';
+  if (platform.includes('linux') || platform.includes('android') || userAgent.includes('linux')) return 'linux';
   return 'windows';
 }
 
@@ -200,13 +201,13 @@ async function renderCliReleaseDetail(container, tagName) {
     const others = assets.filter(a => !['windows', 'linux', 'mac'].some(p => a.name.toLowerCase().includes(p)));
 
     const detectedOS = getDetectedOS();
-    let defaultPlatform = 'other';
-    if (detectedOS === 'windows' && hasWindows) defaultPlatform = 'windows';
-    else if (detectedOS === 'linux' && hasLinux) defaultPlatform = 'linux';
-    else if (detectedOS === 'mac' && hasMac) defaultPlatform = 'mac';
+    let defaultPlatform = 'windows';
+    if (detectedOS === 'linux' && hasLinux) defaultPlatform = 'linux';
+    else if (detectedOS === 'mac') defaultPlatform = 'mac';
     else if (hasWindows) defaultPlatform = 'windows';
     else if (hasLinux) defaultPlatform = 'linux';
     else if (hasMac) defaultPlatform = 'mac';
+    else if (others.length) defaultPlatform = 'other';
 
     container.innerHTML = `
       <style>
@@ -237,8 +238,29 @@ async function renderCliReleaseDetail(container, tagName) {
               <div id="platform-tabs" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
                 ${hasWindows ? `<button class="filter-btn ${defaultPlatform === 'windows' ? 'active' : ''}" data-platform="windows"><i class="fab fa-windows"></i> Windows</button>` : ''}
                 ${hasLinux ? `<button class="filter-btn ${defaultPlatform === 'linux' ? 'active' : ''}" data-platform="linux"><i class="fab fa-linux"></i> Linux</button>` : ''}
-                ${hasMac ? `<button class="filter-btn ${defaultPlatform === 'mac' ? 'active' : ''}" data-platform="mac"><i class="fab fa-apple"></i> macOS</button>` : ''}
+                <button class="filter-btn ${defaultPlatform === 'mac' ? 'active' : ''}" data-platform="mac"><i class="fab fa-apple"></i> macOS</button>
                 ${others.length ? `<button class="filter-btn ${defaultPlatform === 'other' ? 'active' : ''}" data-platform="other"><i class="fas fa-box"></i> Other</button>` : ''}
+              </div>
+              <div id="cli-mac-warning" class="mac-warning-banner" style="display: ${defaultPlatform === 'mac' && hasMac ? 'block' : 'none'};">
+                <div class="warning-header">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <span>macOS Security Notice (Gatekeeper)</span>
+                </div>
+                <p>
+                  Because CometCli is an open-source tool without a paid Apple Developer subscription ($99/year), macOS Gatekeeper will block the downloaded binary from running.
+                </p>
+                <p style="margin-bottom: 0.5rem;">
+                  Open your <strong>Terminal</strong>, navigate (<code>cd</code>) to the exact directory where your downloaded and extracted file is located (e.g. <code>cd ~/Downloads</code>), and run this command <strong>once</strong> replacing <code>&lt;filename&gt;</code> with the exact name of the file you downloaded (e.g. <code>CometCli</code>):
+                </p>
+                <div class="command-box">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="color: var(--accent-color); user-select: none;">$</span>
+                    <code>xattr -cr &lt;filename&gt;</code>
+                  </div>
+                  <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText('xattr -cr <filename>'); this.innerHTML='<i class=\\'fas fa-check\\'></i> Copied!'; setTimeout(() => this.innerHTML='<i class=\\'fas fa-copy\\'></i> Copy', 2000);">
+                    <i class="fas fa-copy"></i> Copy
+                  </button>
+                </div>
               </div>
               <div id="assets-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;"></div>
               <p style="color: var(--text-dim); margin-top: 1.5rem; font-size: 0.9rem;">
@@ -258,9 +280,71 @@ async function renderCliReleaseDetail(container, tagName) {
     `;
 
     const assetsList = document.getElementById('assets-list');
+    const macWarning = document.getElementById('cli-mac-warning');
     const tabBtns = document.querySelectorAll('#platform-tabs .filter-btn');
 
+    const loadMacFallback = async () => {
+      try {
+        const allReleases = await fetchJson(RELEASES_API);
+        allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+        const currentIndex = allReleases.findIndex(r => r.tag_name === release.tag_name);
+        let nearestOlder = null;
+        let nearestNewer = null;
+
+        for (let i = currentIndex + 1; i < allReleases.length; i++) {
+          if (allReleases[i].assets && allReleases[i].assets.some(a => a.name.toLowerCase().includes('mac'))) {
+            nearestOlder = allReleases[i];
+            break;
+          }
+        }
+        for (let i = currentIndex - 1; i >= 0; i--) {
+          if (allReleases[i].assets && allReleases[i].assets.some(a => a.name.toLowerCase().includes('mac'))) {
+            nearestNewer = allReleases[i];
+            break;
+          }
+        }
+
+        assetsList.innerHTML = `
+          <div style="grid-column: 1/-1; display: flex; flex-direction: column; gap: 1.25rem; padding: 0.5rem 0;">
+            <div class="mac-warning-banner" style="margin-bottom: 0;">
+              <div class="warning-header">
+                <i class="fas fa-info-circle"></i>
+                <span>macOS Build Availability</span>
+              </div>
+              <p style="margin: 0;">
+                macOS builds are not always shipped for every release. If you need it, feel free to
+                <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">send me a message on LinkedIn</a>.
+              </p>
+            </div>
+            ${nearestOlder ? `
+              <a href="/cli/${nearestOlder.tag_name}" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); width: fit-content;">
+                <i class="fas fa-arrow-down"></i> Nearest older release with macOS: ${nearestOlder.tag_name}
+              </a>
+            ` : ''}
+            ${nearestNewer ? `
+              <a href="/cli/${nearestNewer.tag_name}" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); width: fit-content;">
+                <i class="fas fa-arrow-up"></i> Nearest newer release with macOS: ${nearestNewer.tag_name}
+              </a>
+            ` : ''}
+          </div>
+        `;
+      } catch (err) {
+        assetsList.innerHTML = `<div style="padding: 2rem; color: var(--text-dim); grid-column: 1/-1;">Error finding nearby macOS releases.</div>`;
+      }
+    };
+
     const filterAssets = (platform) => {
+      if (macWarning) {
+        macWarning.style.display = (platform === 'mac' && hasMac) ? 'block' : 'none';
+      }
+
+      if (platform === 'mac' && !hasMac) {
+        assetsList.innerHTML = `<div style="padding: 1.5rem; color: var(--text-dim); grid-column: 1/-1;" class="loading">Looking for nearby macOS releases...</div>`;
+        loadMacFallback();
+        return;
+      }
+
       const filtered = platform === 'other' ? others : named(platform);
       assetsList.innerHTML = filtered.map(asset => `
         <a href="${asset.browser_download_url}" class="download-btn" style="justify-content: space-between; font-size: 0.95rem; background: var(--bg-secondary); border: 1px solid var(--border-color); width: 100%;">

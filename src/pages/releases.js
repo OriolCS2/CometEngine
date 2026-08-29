@@ -215,6 +215,27 @@ async function renderReleaseDetail(container, tagName) {
                 <button class="filter-btn ${defaultPlatform === 'mac' ? 'active' : ''}" data-platform="mac"><i class="fab fa-apple"></i> macOS</button>
                 ${hasOther ? `<button class="filter-btn ${defaultPlatform === 'other' ? 'active' : ''}" data-platform="other"><i class="fas fa-box"></i> Other</button>` : ''}
               </div>
+              <div id="mac-warning" class="mac-warning-banner" style="display: ${defaultPlatform === 'mac' && hasMac ? 'block' : 'none'};">
+                <div class="warning-header">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <span>macOS Security Notice (Gatekeeper)</span>
+                </div>
+                <p>
+                  Because Comet Engine is an open-source project without a paid Apple Developer subscription ($99/year), macOS Gatekeeper will block the downloaded application from opening.
+                </p>
+                <p style="margin-bottom: 0.5rem;">
+                  Open your <strong>Terminal</strong>, navigate (<code>cd</code>) to the exact directory where your downloaded and extracted file is located (e.g. <code>cd ~/Downloads</code>), and run this command <strong>once</strong> replacing <code>&lt;filename&gt;</code> with the exact name of the file or folder you downloaded (e.g. <code>CometEngine.app</code>):
+                </p>
+                <div class="command-box">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="color: var(--accent-color); user-select: none;">$</span>
+                    <code>xattr -cr &lt;filename&gt;</code>
+                  </div>
+                  <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText('xattr -cr <filename>'); this.innerHTML='<i class=\\'fas fa-check\\'></i> Copied!'; setTimeout(() => this.innerHTML='<i class=\\'fas fa-copy\\'></i> Copy', 2000);">
+                    <i class="fas fa-copy"></i> Copy
+                  </button>
+                </div>
+              </div>
               <div id="assets-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;">
                 </div>
             </div>
@@ -231,6 +252,7 @@ async function renderReleaseDetail(container, tagName) {
     `;
 
     const assetsList = document.getElementById('assets-list');
+    const macWarning = document.getElementById('mac-warning');
     const tabBtns = document.querySelectorAll('#platform-tabs .filter-btn');
 
     const loadMacFallback = async () => {
@@ -258,6 +280,16 @@ async function renderReleaseDetail(container, tagName) {
 
         assetsList.innerHTML = `
           <div style="grid-column: 1/-1; display: flex; flex-direction: column; gap: 1.25rem; padding: 0.5rem 0;">
+            <div class="mac-warning-banner" style="margin-bottom: 0;">
+              <div class="warning-header">
+                <i class="fas fa-info-circle"></i>
+                <span>macOS Build Availability</span>
+              </div>
+              <p style="margin: 0;">
+                macOS builds are not always shipped for every release. If you need it, feel free to
+                <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">send me a message on LinkedIn</a>.
+              </p>
+            </div>
             ${nearestOlder ? `
               <a href="/releases/${nearestOlder.tag_name}" class="download-btn" style="background: var(--bg-secondary); border: 1px solid var(--border-color); width: fit-content;">
                 <i class="fas fa-arrow-down"></i> Nearest older release with macOS: ${nearestOlder.tag_name}
@@ -268,10 +300,6 @@ async function renderReleaseDetail(container, tagName) {
                 <i class="fas fa-arrow-up"></i> Nearest newer release with macOS: ${nearestNewer.tag_name}
               </a>
             ` : ''}
-            <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0.25rem 0 0;">
-              macOS isn't always shipped for every release. If you need it, feel free to
-              <a href="https://www.linkedin.com/in/oriol-capdevila/" target="_blank" style="color: var(--accent-color);">send me a message on LinkedIn</a>.
-            </p>
           </div>
         `;
       } catch (err) {
@@ -280,6 +308,10 @@ async function renderReleaseDetail(container, tagName) {
     };
 
     const filterAssets = (platform) => {
+      if (macWarning) {
+        macWarning.style.display = (platform === 'mac' && hasMac) ? 'block' : 'none';
+      }
+
       if (platform === 'mac' && !hasMac) {
         assetsList.innerHTML = `<div style="padding: 1.5rem; color: var(--text-dim); grid-column: 1/-1;" class="loading">Looking for nearby macOS releases...</div>`;
         loadMacFallback();
@@ -321,9 +353,10 @@ async function renderReleaseDetail(container, tagName) {
 }
 
 function getDetectedOS() {
-  const platform = window.navigator.platform.toLowerCase();
-  if (platform.includes('win')) return 'windows';
-  if (platform.includes('linux')) return 'linux';
-  if (platform.includes('mac')) return 'mac';
+  const userAgent = (navigator.userAgent || '').toLowerCase();
+  const platform = (navigator.platform || navigator.userAgentData?.platform || '').toLowerCase();
+  if (platform.includes('mac') || platform.includes('darwin') || userAgent.includes('macintosh') || userAgent.includes('mac os')) return 'mac';
+  if (platform.includes('win') || userAgent.includes('windows')) return 'windows';
+  if (platform.includes('linux') || platform.includes('android') || userAgent.includes('linux')) return 'linux';
   return 'windows';
 }

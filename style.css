@@ -1866,10 +1866,16 @@ footer {
     gap: 1rem;
   }
 
-  /* Release list: single column on mobile */
-  #featured-releases {
+  /* Release list & CLI list: single column on mobile */
+  #featured-releases,
+  #cli-featured {
     grid-template-columns: 1fr !important;
     min-width: 0;
+  }
+
+  #releases-filter,
+  #cli-filter {
+    flex-wrap: wrap;
   }
 
   /* Prevent release cards from overflowing */
@@ -1965,6 +1971,21 @@ footer {
   #assets-list .download-btn span {
     word-break: break-all;
     white-space: normal;
+  }
+
+  /* macOS warning banner mobile */
+  .mac-warning-banner {
+    padding: 1rem;
+  }
+
+  .mac-warning-banner .command-box {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .mac-warning-banner .command-box > div {
+    min-width: 0;
+    word-break: break-all;
   }
 
   /* Release title on detail page */
@@ -2779,3 +2800,71 @@ footer {
   max-height: 260px;
   overflow-y: auto;
 }
+
+/* ─── macOS Gatekeeper Warning Banner ─── */
+.mac-warning-banner {
+  background: rgba(229, 192, 123, 0.08);
+  border: 1px solid rgba(229, 192, 123, 0.3);
+  border-left: 4px solid #e5c07b;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.mac-warning-banner .warning-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  color: #e5c07b;
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+}
+
+.mac-warning-banner p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 0.85rem 0;
+}
+
+.mac-warning-banner .command-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.92rem;
+}
+
+.mac-warning-banner .command-box code {
+  color: #f1fa8c;
+  background: transparent;
+  padding: 0;
+  user-select: all;
+}
+
+.mac-warning-banner .copy-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.mac-warning-banner .copy-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-color);
+  border-color: var(--accent-color);
+}
+

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="M:CometEngine::Native::Marshalls::IsSupported()">
+            <summary>Whether native library calls are supported on this platform/architecture (false on Web).</summary>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::GetOS()">
+            <summary>The operating system name native plugins see ("Windows", "Linux", "Android", "Web").</summary>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::GetArchitecture()">
+            <summary>The architecture plugin subfolder ("x86_64", "x86", "arm64-v8a", "armeabi-v7a").</summary>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadInt8(uint64)">
+            <summary>Reads a signed 8-bit value from a raw native address (0 when the address is null).</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadUInt8(uint64)">
+            <summary>Reads an unsigned 8-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadInt16(uint64)">
+            <summary>Reads a signed 16-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadUInt16(uint64)">
+            <summary>Reads an unsigned 16-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadInt32(uint64)">
+            <summary>Reads a signed 32-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadUInt32(uint64)">
+            <summary>Reads an unsigned 32-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadInt64(uint64)">
+            <summary>Reads a signed 64-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadUInt64(uint64)">
+            <summary>Reads an unsigned 64-bit value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadFloat(uint64)">
+            <summary>Reads a 32-bit float from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadDouble(uint64)">
+            <summary>Reads a 64-bit double from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadPtr(uint64)">
+            <summary>Reads a pointer-sized value from a raw native address.</summary>
+            <param name="address">The source address (null returns 0).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadBytes(uint64,uint)">
+            <summary>Copies a fixed number of bytes from a raw native address into a byte string.</summary>
+            <param name="address">The source address (null returns empty).</param>
+            <param name="length">The number of bytes to copy.</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::ReadCString(uint64)">
+            <summary>Reads a null-terminated UTF-8 C string from a raw native address (e.g. a returned const char*).</summary>
+            <param name="address">The source address (null returns empty).</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::WriteInt32(uint64,int)">
+            <summary>Writes a signed 32-bit value to a raw native address.</summary>
+            <param name="address">The destination address (null is a no-op).</param>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::WriteUInt64(uint64,uint64)">
+            <summary>Writes an unsigned 64-bit value to a raw native address.</summary>
+            <param name="address">The destination address (null is a no-op).</param>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::WriteFloat(uint64,float)">
+            <summary>Writes a 32-bit float to a raw native address.</summary>
+            <param name="address">The destination address (null is a no-op).</param>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:CometEngine::Native::Marshalls::WriteBytes(uint64,string)">
+            <summary>Copies a byte string to a raw native address.</summary>
+            <param name="address">The destination address (null is a no-op).</param>
+            <param name="bytes">The bytes to write.</param>
+        </member>
+    </members>
+</doc>

@@ -221,7 +221,7 @@ async function renderReleaseDetail(container, tagName) {
                   <span>macOS Security Notice (Gatekeeper)</span>
                 </div>
                 <p>
-                  Because Comet Engine is an open-source project without a paid Apple Developer subscription ($99/year), macOS Gatekeeper will block the downloaded application from opening.
+                  Because Comet Engine is a project without a paid Apple Developer subscription ($99/year), macOS Gatekeeper will block the downloaded application from opening.
                 </p>
                 <p style="margin-bottom: 0.5rem;">
                   Open your <strong>Terminal</strong>, navigate (<code>cd</code>) to the exact directory where your downloaded and extracted file is located (e.g. <code>cd ~/Downloads</code>), and run this command <strong>once</strong> replacing <code>&lt;filename&gt;</code> with the exact name of the file or folder you downloaded (e.g. <code>CometEngine.app</code>):

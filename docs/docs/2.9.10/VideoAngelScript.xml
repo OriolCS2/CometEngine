@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+    <members>
+        <member name="T:CometEngine::Video::AspectRatio">
+            <summary>
+            Specifies how a video is scaled to fit its target.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::NO_SCALING">
+            <summary>No scaling applied.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_VERTICALLY">
+            <summary>Fits the video vertically, cropping horizontally if needed.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_HORIZONTALLY">
+            <summary>Fits the video horizontally, cropping vertically if needed.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_INSIDE">
+            <summary>Fits the entire video inside the target area.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::FIT_OUTSIDE">
+            <summary>Scales to cover the entire target area.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AspectRatio::STRETCH">
+            <summary>Stretches the video to fill the target area.</summary>
+
+        </member>
+        <member name="T:CometEngine::Video::AudioOutputMode">
+            <summary>
+            Specifies how video audio is output.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::NONE">
+            <summary>No audio output.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::DIRECT">
+            <summary>Outputs audio directly to the system.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::AudioOutputMode::AUDIO_SOURCE">
+            <summary>Outputs audio through a BehaviourAudioSource.</summary>
+
+        </member>
+        <member name="T:CometEngine::Video::RenderMode">
+            <summary>
+            Specifies where a video is rendered.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::CAMERA_FAR_PLANE">
+            <summary>Renders on the camera's far plane.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::CAMERA_NEAR_PLANE">
+            <summary>Renders on the camera's near plane.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::RenderMode::RENDER_TEXTURE">
+            <summary>Renders to a specific RenderTexture.</summary>
+
+        </member>
+        <member name="T:CometEngine::Video::SourceType">
+            <summary>
+            Specifies the source of a video.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SourceType::VIDEO_CLIP">
+            <summary>Source is a VideoClip resource.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SourceType::URL">
+            <summary>Source is a URL.</summary>
+
+        </member>
+        <member name="T:CometEngine::Video::SubtitleTextDataFormat">
+            <summary>
+            Specifies the format of subtitle text data.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::UNDEFINED">
+            <summary>Undefined format.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::ASS">
+            <summary>Advanced SubStation Alpha format.</summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleTextDataFormat::STANDARD_TEXT">
+            <summary>Standard plain text format.</summary>
+
+        </member>
+        <member name="T:CometEngine::Video::SubtitleDataEvent">
+            <summary>
+            Struct that holds the subtitle data send by the videoplayer.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::textData">
+            <summary>
+            The subtitle text.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::formatData">
+            <summary>
+            The format of the data.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::durationMs">
+            <summary>
+            The duration of this text in ms.
+            </summary>
+
+        </member>
+        <member name="F:CometEngine::Video::SubtitleDataEvent::boxIndex">
+            <summary>
+            The box index where this texts belongs to.
+            </summary>
+
+        </member>
+        <member name="M:CometEngine::Video::SubtitleDataEvent::SubtitleDataEvent()">
+            <summary>
+
+            </summary>
+
+        </member>
+    </members>
+</doc>
